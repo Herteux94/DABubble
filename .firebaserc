@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "dabubble-c9340": {
+      "hosting": {
+        "da-bubble": [
+          "dabubble-c9340"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "dabubble-c9340"
+  }
+}
