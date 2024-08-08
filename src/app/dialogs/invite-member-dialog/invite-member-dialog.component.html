@@ -1,1 +1,24 @@
-<p>invite-member-dialog works!</p>
+<div class="dialogContainer">
+    <div class="dialogWrapper">
+
+        <div class="dialogHeader">
+            <h2>Leute hinzufügen</h2>
+            <img src="../../../assets/img/close.svg" alt="Schließen">
+        </div>
+
+        <form (ngSubmit)="onSubmit(contactForm)" autocomplete="off" #contactForm="ngForm">
+            <div class="inputContainer" [class.invalid]="!name.valid && name.touched">
+                <input class="input" #name="ngModel" [(ngModel)]="contactData.name" type="text" id="name" name="name"
+                    placeholder="Name eingeben" required autocomplete="new-password" />
+                @if (!name.valid && name.touched) {
+                <span class="error-message">Bitte gib einen Namen ein.</span>
+                }
+            </div>
+
+            <div class="btnWrapper">
+                <button class="addMemberBtn">Hinzufügen</button>
+            </div>
+
+        </form>
+    </div>
+</div>
