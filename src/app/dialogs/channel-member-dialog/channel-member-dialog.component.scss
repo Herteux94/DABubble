@@ -1,0 +1,52 @@
+@import "../../../variables.scss";
+
+.channelMemberDialogContainer {
+    background-color: rgb(255, 255, 255);
+    // display: flex;
+    // justify-content: center;
+    // align-items: center;
+    border-radius: 20px 0 20px 20px;
+    width: 100%;
+    padding: 12px;
+}
+
+.channelMemberDialogWrapper {
+    max-width: 400px;
+    gap: 20px;
+}
+
+.channelMemberDialogHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.memberList {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 4px 10px;
+}
+
+.member {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.addMemberContainer {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 12px 24px 0 24px;
+    cursor: pointer;
+
+    img {
+        max-width: 24px;
+        max-height: 24px;
+        background-color: $background-color;
+        border-radius: 50%;
+        padding: 2px;
+    }
+}
