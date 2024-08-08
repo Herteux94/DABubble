@@ -2,12 +2,9 @@
 
 .channelMemberDialogContainer {
     background-color: rgb(255, 255, 255);
-    // display: flex;
-    // justify-content: center;
-    // align-items: center;
     border-radius: 20px 0 20px 20px;
     width: 100%;
-    padding: 12px;
+    padding: 6%;
 }
 
 .channelMemberDialogWrapper {
@@ -25,8 +22,8 @@
 .memberList {
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    padding: 4px 10px;
+    gap: 12px;
+    padding: 1% 4%;
 }
 
 .member {
@@ -39,7 +36,7 @@
     display: flex;
     align-items: center;
     gap: 15px;
-    padding: 12px 24px 0 24px;
+    padding: 12px 20px 0 20px;
     cursor: pointer;
 
     img {

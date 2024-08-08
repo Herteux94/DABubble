@@ -1,0 +1,25 @@
+import { Component } from '@angular/core';
+import { ChannelMemberDialogComponent } from '../dialogs/channel-member-dialog/channel-member-dialog.component';
+import { CreateMemberDialogComponent } from '../dialogs/create-member-dialog/create-member-dialog.component';
+import { EditMemberDialogComponent } from '../dialogs/edit-member-dialog/edit-member-dialog.component';
+import { InviteMemberDialogComponent } from '../dialogs/invite-member-dialog/invite-member-dialog.component';
+import { MenuDialogComponent } from '../dialogs/menu-dialog/menu-dialog.component';
+import { ProfileDialogComponent } from '../dialogs/profile-dialog/profile-dialog.component';
+
+@Component({
+  selector: 'app-dialog-test',
+  standalone: true,
+  imports: [
+    ChannelMemberDialogComponent,
+    CreateMemberDialogComponent,
+    EditMemberDialogComponent,
+    InviteMemberDialogComponent,
+    MenuDialogComponent,
+    ProfileDialogComponent
+  ],
+  templateUrl: './dialog-test.component.html',
+  styleUrl: './dialog-test.component.scss'
+})
+export class DialogTestComponent {
+
+}
