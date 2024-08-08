@@ -13,22 +13,28 @@
 
         <form (ngSubmit)="onSubmit(contactForm)" autocomplete="off" #contactForm="ngForm">
             <div class="inputContainer">
-                <div>
-                    <input type="radio" id="addMemberRadio" value="allMember" checked>
-                    <label for="allMember">Alle Mitglieder von <span>OfficeTeam</span> hinzufügen</label><br>
-                </div>
-                
-                <div>
-                    <input type="radio" id="addMemberRadio" value="specificMember">
-                    <label for="specificMember">Bestimmte Leute hinzufügen</label><br>
 
+                <div>
+                    <input type="radio" id="allMemberRadio" name="memberType" value="allMember" ngModel checked>
+                    <label for="allMemberRadio">
+                        Alle Mitglieder von <a href="#">OfficeTeam</a> hinzufügen
+                    </label>
+                </div>
+
+                <div>
+                    <input type="radio" id="specificMemberRadio" name="memberType" value="specificMember" ngModel>
+                    <label for="specificMemberRadio">
+                        Bestimmte Leute hinzufügen
+                    </label>
                 </div>
             </div>
 
             <div class="btnWrapper">
-                <button class="addMemberBtn">Erstellen</button>
+                <button type="submit" class="addMemberBtn">
+                    Erstellen
+                </button>
             </div>
-
         </form>
+
     </div>
 </div>
