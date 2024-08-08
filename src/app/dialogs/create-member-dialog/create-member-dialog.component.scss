@@ -1,0 +1,76 @@
+@import "../../../variables.scss";
+
+.dialogContainer {
+    background-color: rgb(255, 255, 255);
+    border-radius: 20px 20px 0 0;
+    width: 100%;
+    min-width: 250px;
+    padding: 8% 6%;
+    box-shadow: 0px -3px 10px 0px #00000033;
+}
+
+.dialogWrapper {
+    max-width: 250px;
+    gap: 20px;
+}
+
+.swipeHandleContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.swipeHandle {
+    cursor: grab;
+    width: 62px;
+    height: 6px;
+    border-radius: 23px;
+    background-color: $light-grey;
+}
+
+.dialogHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    img {
+        cursor: pointer;
+    }
+}
+
+.inputContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+
+    div {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 12px;
+    }
+}
+
+.input {
+    border: 1px solid $outlines;
+    border-radius: 30px;
+    padding: 10px 20px;
+    width: 100%;
+}
+
+.btnWrapper {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 16px;
+}
+
+.addMemberBtn { 
+    border: unset;
+    background-color: $first-color;
+    color: white;
+    border-radius: 30px;
+    padding: 10px 20px;
+}

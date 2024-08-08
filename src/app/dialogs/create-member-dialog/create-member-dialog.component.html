@@ -1,1 +1,34 @@
-<p>create-member-dialog works!</p>
+<div class="dialogContainer">
+    <div class="dialogWrapper">
+
+        <div class="swipeHandleContainer">
+            <div class="swipeHandle"></div>
+        </div>
+
+
+        <div class="dialogHeader">
+            <h2>Leute hinzufügen</h2>
+            <img src="../../../assets/img/close.svg" alt="Schließen">
+        </div>
+
+        <form (ngSubmit)="onSubmit(contactForm)" autocomplete="off" #contactForm="ngForm">
+            <div class="inputContainer">
+                <div>
+                    <input type="radio" id="addMemberRadio" value="allMember" checked>
+                    <label for="allMember">Alle Mitglieder von <span>OfficeTeam</span> hinzufügen</label><br>
+                </div>
+                
+                <div>
+                    <input type="radio" id="addMemberRadio" value="specificMember">
+                    <label for="specificMember">Bestimmte Leute hinzufügen</label><br>
+
+                </div>
+            </div>
+
+            <div class="btnWrapper">
+                <button class="addMemberBtn">Erstellen</button>
+            </div>
+
+        </form>
+    </div>
+</div>
