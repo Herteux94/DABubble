@@ -1,5 +1,18 @@
 @import "variables";
 
+@font-face {
+  font-family: "Nunito";
+  src: url("./assets/font/Nunito-VariableFont_wght.ttf");
+  font-style: normal;
+}
+
+* {
+  transition: smooth;
+  scroll-behavior: smooth;
+  font-family: "Poppins";
+  font-weight: 400;
+}
+
 body{
   margin: 0;
 }
