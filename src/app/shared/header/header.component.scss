@@ -1,0 +1,19 @@
+@import '../../../variables.scss';
+
+header {
+    height: 80px;
+    background-color: $background-color;
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.logo {
+    height: 46px;
+}
+
+.profileImg {
+    height: 50px;
+}
