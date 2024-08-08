@@ -4,12 +4,12 @@
     background-color: rgb(255, 255, 255);
     border-radius: 20px 0 20px 20px;
     width: 100%;
-    min-width: 250px;
+    min-width: 260px;
     padding: 8% 6%;
 }
 
 .dialogWrapper {
-    max-width: 400px;
+    max-width: 260px;
     gap: 20px;
 }
 
@@ -33,7 +33,7 @@
 .member {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 16px;
     cursor: pointer;
 }
 
