@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { HeaderComponent } from '../shared/header/header.component';
+import { NavigationComponent } from '../shared/navigation/navigation.component';
 
 @Component({
   selector: 'app-main-content',
   standalone: true,
-  imports: [HeaderComponent],
+  imports: [HeaderComponent, NavigationComponent],
   templateUrl: './main-content.component.html',
   styleUrl: './main-content.component.scss'
 })

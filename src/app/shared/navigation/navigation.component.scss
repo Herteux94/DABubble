@@ -1,0 +1,95 @@
+@import '../../../variables.scss';
+
+nav {
+    margin-top: 80px;
+    padding: 24px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+input {
+    border: none;
+    border-radius: 42px;
+    height: 40px;
+    outline: 1px solid $outlines;
+    padding: 8px 24px;
+    box-sizing: border-box;
+    background-image: url(../../../assets/img/search-glass-icon.svg);
+    background-repeat: no-repeat;
+    background-position: calc(100% - 24px);
+    background-size: 20px;
+
+    &:focus {
+        outline: 1px solid $first-color;
+    }
+}
+
+.areaContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+.channelsHeader {
+    display: flex;
+    justify-content: space-between;
+}
+
+.dropDownAndH3 {
+    display: flex;
+    gap: 16px;
+}
+
+.iconAndH3 {
+    display: flex;
+    gap: 8px;
+}
+
+.contentList {
+    padding-left: 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    a {
+        display: flex;
+        gap: 8px;
+        color: black;
+        align-items: center;
+    }
+}
+
+.addChannel {
+    padding-left: 26px;
+    display: flex;
+    gap: 8px;
+
+    span {
+        color: $first-color;
+    }
+}
+
+.dmHeader {
+    display: flex;
+    gap: 16px;
+}
+
+.profileAndOnlineCircleImg {
+    position: relative;
+    height: 50px;
+}
+
+.avatarImg {
+    width: 50px;
+    border-radius: 100%;
+}
+
+.onlineStatusImg {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    z-index: 1;
+}
