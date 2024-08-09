@@ -12,8 +12,7 @@ import { ResetPwComponent } from './authentication/reset-pw/reset-pw.component';
 export const routes: Routes = [
     { path: '', component: WorkspaceComponent },
     { path: 'main-content', component: MainContentComponent },
-    { 
-        path: 'authentication', component: AuthenticationComponent, 
+    { path: 'authentication', component: AuthenticationComponent, 
         children: [
             { path: '', redirectTo: 'login', pathMatch: 'full' },  // Redirect to login
             { path: 'login', component: LoginComponent },  // Explicit login route
