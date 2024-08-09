@@ -5,11 +5,15 @@ import { EditMemberDialogComponent } from '../dialogs/edit-member-dialog/edit-me
 import { InviteMemberDialogComponent } from '../dialogs/invite-member-dialog/invite-member-dialog.component';
 import { MenuDialogComponent } from '../dialogs/menu-dialog/menu-dialog.component';
 import { ProfileDialogComponent } from '../dialogs/profile-dialog/profile-dialog.component';
+import { ChannelDialogComponent } from '../dialogs/channel-dialog/channel-dialog.component';
+import { CreateChannelDialogComponent } from '../dialogs/create-channel-dialog/create-channel-dialog.component';
 
 @Component({
   selector: 'app-dialog-test',
   standalone: true,
   imports: [
+    CreateChannelDialogComponent,
+    ChannelDialogComponent,
     ChannelMemberDialogComponent,
     CreateMemberDialogComponent,
     EditMemberDialogComponent,
