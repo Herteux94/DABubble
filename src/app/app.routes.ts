@@ -12,11 +12,19 @@ import { ResetPwComponent } from './authentication/reset-pw/reset-pw.component';
 export const routes: Routes = [
     { path: '', component: WorkspaceComponent },
     { path: 'main-content', component: MainContentComponent },
-    { path: 'authentication', component: AuthenticationComponent },
+    { 
+        path: 'authentication', component: AuthenticationComponent, 
+        children: [
+            { path: 'signUp', component: SignUpComponent },
+        { path: 'chooseAvatar', component: ChooseAvatarComponent },
+        { path: 'sendResetPWMail', component: SendResetPwMailComponent },
+        { path: 'resetPW', component: ResetPwComponent },
+        { path: '', component: LoginComponent },
+        ]
+
+
+    },
+
     { path: 'dialogs', component: DialogTestComponent },
-    { path: 'signUp', component: SignUpComponent },
-    { path: 'chooseAvatar', component: ChooseAvatarComponent },
-    { path: 'sendResetPWMail', component: SendResetPwMailComponent },
-    { path: 'resetPW', component: ResetPwComponent }
 
 ];

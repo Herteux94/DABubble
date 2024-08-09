@@ -50,6 +50,7 @@ nav {
 .channelsHeader {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .dropDownAndH3 {
@@ -59,6 +60,7 @@ nav {
 
 .iconAndH3 {
     display: flex;
+    align-items: center;
     gap: 8px;
 }
 
@@ -79,6 +81,7 @@ nav {
 .addChannel {
     padding-left: 26px;
     display: flex;
+    align-items: center;
     gap: 8px;
 
     span {
@@ -88,6 +91,7 @@ nav {
 
 .dmHeader {
     display: flex;
+    align-items: center;
     gap: 16px;
 }
 
