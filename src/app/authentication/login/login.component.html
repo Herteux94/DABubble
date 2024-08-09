@@ -13,7 +13,7 @@
       <img class="iconBlack" src="../../../assets/img/lock-black.svg" alt="lock icon">
       <input type="text" placeholder="Passwort" required>
     </div>
-    <a class="lostPW" href="/sendResetPWMail">Passwort vergessen?</a>
+    <a class="lostPW" [routerLink]="['/authentication/sendResetPWMail']">Passwort vergessen?</a>
     <div class="seperaterContainer">
       <div class="seperater"></div>
       <span>ODER</span>
@@ -29,5 +29,5 @@
   </div>
 
   <span class="newSpan">Neu bei DABubble?</span>
-  <button class="createAccBtn">Konto erstellen</button>
+  <button [routerLink]="['/authentication/signUp']" class="createAccBtn">Konto erstellen</button>
 </section>
