@@ -18,28 +18,38 @@ body{
   margin: 0;
 }
 
-h1 {
-  font-size: 32px;
-  font-weight: 700;
-  margin: 0;
-}
-
-h2 {
-  font-size: 24px;
-  font-weight: 700;
-  margin: 0;
-}
-
-h3 {
-  font-size: 20px;
-  font-weight: 700;
-  margin: 0;
-}
-
 a {
   text-decoration: none;
 }
 
 .dNone {
   display: none;
+}
+
+//////////////////////////////////////////// font-sizes ////////////////////////////////////////////
+
+h1 {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0;
+}
+
+h2 {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0;
+}
+
+h3 {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
+}
+
+p, span {
+  font-size: 16px;
+}
+
+.subText {
+  font-size: 12px;
 }

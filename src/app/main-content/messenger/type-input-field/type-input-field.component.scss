@@ -1,0 +1,46 @@
+@import '../../../../variables.scss';
+
+.wrapper {
+    background-color: white;
+    padding: 16px;
+}
+
+.textArea {
+    border: 1px solid $outlines;
+    border-radius: 20px;
+    padding: 16px 16px 8px 16px;
+    min-height: 100px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    textArea {
+        flex: 1;
+        font-size: 16px;
+        border: none;
+        outline: none;
+
+        &:focus {
+            border: none;
+        }
+    }
+
+    .btnArea {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .leftSide {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .divider {
+        height: 40px;
+        width: 1px;
+        background-color: $background-color;
+    }
+}

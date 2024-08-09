@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ThreadComponent } from './thread.component';
+import { TypeInputFieldComponent } from './type-input-field.component';
 
-describe('ThreadComponent', () => {
-  let component: ThreadComponent;
-  let fixture: ComponentFixture<ThreadComponent>;
+describe('TypeInputFieldComponent', () => {
+  let component: TypeInputFieldComponent;
+  let fixture: ComponentFixture<TypeInputFieldComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ThreadComponent]
+      imports: [TypeInputFieldComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(ThreadComponent);
+    fixture = TestBed.createComponent(TypeInputFieldComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

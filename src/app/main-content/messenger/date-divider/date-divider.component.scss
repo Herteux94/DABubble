@@ -1,0 +1,29 @@
+@import '../../../../variables.scss';
+
+.wrapper {
+    display: flex;
+    justify-content: center;
+    margin: 24px 0;
+}
+
+.content {
+    width: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.line {
+    background-color: $outlines;
+    height: 1px;
+    width: 100%;
+}
+
+.date {
+    position: absolute;
+    border-radius: 30px;
+    border: 1px solid $outlines;
+    padding: 5px 15px;
+    background-color: white;
+}

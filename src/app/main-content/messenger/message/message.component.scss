@@ -1,0 +1,49 @@
+@import '../../../../variables.scss';
+
+.wrapper {
+    padding: 8px 16px;
+    display: flex;
+    gap: 16px;
+
+    img {
+        width: 50px;
+        height: 50px;
+        border-radius: 100%;
+    }
+}
+
+.text {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.nameAndTime {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.name {
+    font-weight: bold;
+}
+
+.time {
+    color: $text-grey;
+}
+
+.messageText {
+    background-color: $background-color;
+    border-radius: 0 30px 30px 30px;
+    padding: 15px;
+}
+
+.responses {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    .count {
+        color: $first-color;
+    }
+}
