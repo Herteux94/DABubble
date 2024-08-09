@@ -21,26 +21,59 @@
   position: relative;
 }
 
-.arrowBackIcon{
+.arrowBackIcon {
   position: absolute;
   top: 35px;
   left: 20px;
   padding: 8px;
-  &:hover{
+  &:hover {
     border-radius: 100%;
     background-color: $background-color;
   }
 }
 
-h1 {
+.h1Top {
   color: $first-color;
-  margin: 0 0 30px 0;
+  margin: 0 0 20px 0;
+  text-align: center;
+}
+
+.h1Name {
+  color: black;
+  margin: 0 0 16px 0;
+}
+
+.chooseAvatarContainer{
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+
+}
+
+.infoText {
+  font-size: 20px;
+  font-weight: 400;
+  margin: 0 0 20px 0;
+}
+
+.infoTextUpload{
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.profileIcon {
+  margin: 0 0 20px 0;
+  border-radius: 100%;
+  border: 8px solid white;
+  &:hover{
+    border: 8px solid #E6E6E6
+  }
 }
 
 .createAccBtn {
   color: $first-color;
   border: 1px solid $first-color;
-  background-color: $background-color;
+  background-color: white;
   border-radius: 25px;
   padding: 7px 18px;
   font-size: 18px;
@@ -74,8 +107,29 @@ h1 {
   }
 }
 
-.nextBtnContainer{
+.nextBtnContainer {
   width: 100%;
   display: flex;
   justify-content: flex-end;
+}
+
+.profileImgContainer {
+  display: flex;
+  gap: 8px;
+  margin: 0 0 20px 0;
+  cursor: pointer;
+}
+
+.profileImg {
+  width: 48px;
+  border-radius: 100%;
+}
+
+.uploadContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 16px;
+  width: 100%;
+  margin: 0 0 20px 0;
 }
