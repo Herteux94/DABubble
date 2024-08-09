@@ -59,10 +59,14 @@
 }
 
 .input {
-    border: 1px solid $outlines;
+    border: none;
+    outline: 1px solid $outlines;
     border-radius: 30px;
     padding: 10px 20px;
     width: 100%;
+    &:focus {
+        outline: 1px solid $first-color;
+    }
 }
 
 .btnWrapper {
