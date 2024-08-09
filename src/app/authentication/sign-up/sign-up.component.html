@@ -1,6 +1,6 @@
 <section class="wrapper">
   <div class="card">
-    <a href="#"><img class="arrowBackIcon" src="../../../assets/img/arrow_back.svg" alt="arrow back icon"></a>
+    <a [routerLink]="['/authentication/login']"><img class="arrowBackIcon" src="../../../assets/img/arrow_back.svg" alt="arrow back icon"></a>
     <h1>Konto erstellen</h1>
     <span class="infoText">Mit deinem Namen und deriner E-Mail-<br>Adresse hast du dein neues DABubble-Konto.</span>
     <div class="inputContainer">
@@ -22,7 +22,7 @@
       <input type="text" placeholder="Passwort" required>
     </div>
     <div class="nextBtnContainer">
-      <button class="nextBtn">Weiter</button>
+      <button class="nextBtn" [routerLink]="['/authentication/chooseAvatar']">Weiter</button>
     </div>
 
   </div>
