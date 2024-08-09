@@ -64,21 +64,41 @@ h1 {
   &:hover {
     border: 1px solid $third-color;
   }
-  input {
-    background-color: $background-color;
-    border: none;
-    cursor: pointer;
-    &:focus {
-      outline: none;
-    }
-  }
-  img {
-    padding: 0 30px 0 0;
+  &:focus-within {
+    border: 1px solid $third-color;
   }
 }
 
-.inputContainer:focus-within {
-  border: 1px solid $third-color;
+.inputContainer input {
+  background-color: $background-color;
+  border: none;
+  cursor: pointer;
+  &:focus {
+    outline: none;
+  }
+}
+
+.iconGray {
+  display: block;
+  padding: 0 30px 0 0;
+}
+
+.iconBlack {
+  display: none;
+  width: 24px;
+  padding: 0 30px 0 0;
+}
+
+.inputContainer:focus-within .iconGray {
+  display: none;
+}
+
+.inputContainer:focus-within .iconBlack {
+  display: block;
+}
+
+.inputContainer input:focus::placeholder {
+  color: transparent;
 }
 
 .sendMailBtnContainer{

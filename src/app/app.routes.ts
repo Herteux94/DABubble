@@ -3,11 +3,20 @@ import { MainContentComponent } from './main-content/main-content.component';
 import { AuthenticationComponent } from './authentication/authentication.component';
 import { WorkspaceComponent } from './workspace/workspace.component';
 import { DialogTestComponent } from './dialog-test/dialog-test.component';
+import { LoginComponent } from './authentication/login/login.component';
+import { SignUpComponent } from './authentication/sign-up/sign-up.component';
+import { ChooseAvatarComponent } from './authentication/choose-avatar/choose-avatar.component';
+import { SendResetPwMailComponent } from './authentication/send-reset-pw-mail/send-reset-pw-mail.component';
+import { ResetPwComponent } from './authentication/reset-pw/reset-pw.component';
 
 export const routes: Routes = [
     { path: '', component: WorkspaceComponent },
     { path: 'main-content', component: MainContentComponent },
     { path: 'authentication', component: AuthenticationComponent },
-    { path: 'dialogs', component: DialogTestComponent }
+    { path: 'dialogs', component: DialogTestComponent },
+    { path: 'signUp', component: SignUpComponent },
+    { path: 'chooseAvatar', component: ChooseAvatarComponent },
+    { path: 'sendResetPWMail', component: SendResetPwMailComponent },
+    { path: 'resetPW', component: ResetPwComponent }
 
 ];
