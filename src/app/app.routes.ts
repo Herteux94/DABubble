@@ -15,16 +15,13 @@ export const routes: Routes = [
     { 
         path: 'authentication', component: AuthenticationComponent, 
         children: [
+            { path: '', redirectTo: 'login', pathMatch: 'full' },  // Redirect to login
+            { path: 'login', component: LoginComponent },  // Explicit login route
             { path: 'signUp', component: SignUpComponent },
-        { path: 'chooseAvatar', component: ChooseAvatarComponent },
-        { path: 'sendResetPWMail', component: SendResetPwMailComponent },
-        { path: 'resetPW', component: ResetPwComponent },
-        { path: '', component: LoginComponent },
+            { path: 'chooseAvatar', component: ChooseAvatarComponent },
+            { path: 'sendResetPWMail', component: SendResetPwMailComponent },
+            { path: 'resetPW', component: ResetPwComponent },
         ]
-
-
     },
-
     { path: 'dialogs', component: DialogTestComponent },
-
 ];

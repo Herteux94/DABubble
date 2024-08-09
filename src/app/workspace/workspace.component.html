@@ -1,4 +1,12 @@
 <a routerLink="main-content">Zum Main Content</a><br>
-<a routerLink="authentication">Zum Authentication/Login</a><br>
 <a routerLink="dialogs">Zur Dialog Ausstellung</a><br>
+<a routerLink="authentication">Zum Authentication/Login</a><br>
+<!-- Links to navigate between child routes -->
+<nav>
+    <a [routerLink]="['/authentication/signUp']">Sign Up</a><br>
+    <a [routerLink]="['/authentication/chooseAvatar']">Choose Avatar</a><br>
+    <a [routerLink]="['/authentication/sendResetPWMail']">Send Reset Password Mail</a><br>
+    <a [routerLink]="['/authentication/resetPW']">Reset Password</a><br>
+  </nav>
+  
 <router-outlet></router-outlet>
