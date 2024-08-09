@@ -8,10 +8,16 @@ import { SignUpComponent } from './authentication/sign-up/sign-up.component';
 import { ChooseAvatarComponent } from './authentication/choose-avatar/choose-avatar.component';
 import { SendResetPwMailComponent } from './authentication/send-reset-pw-mail/send-reset-pw-mail.component';
 import { ResetPwComponent } from './authentication/reset-pw/reset-pw.component';
+import { MessengerComponent } from './main-content/messenger/messenger.component';
+import { MessageComponent } from './main-content/messenger/message/message.component';
 
 export const routes: Routes = [
     { path: '', component: WorkspaceComponent },
-    { path: 'main-content', component: MainContentComponent },
+    { path: 'main-content', component: MainContentComponent,
+        children: [
+            { path: 'messenger', component: MessengerComponent},
+        ]
+    },
     { path: 'authentication', component: AuthenticationComponent, 
         children: [
             { path: '', redirectTo: 'login', pathMatch: 'full' },  // Redirect to login
