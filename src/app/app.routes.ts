@@ -9,7 +9,6 @@ import { ChooseAvatarComponent } from './authentication/choose-avatar/choose-ava
 import { SendResetPwMailComponent } from './authentication/send-reset-pw-mail/send-reset-pw-mail.component';
 import { ResetPwComponent } from './authentication/reset-pw/reset-pw.component';
 import { MessengerComponent } from './main-content/messenger/messenger.component';
-import { MessageComponent } from './main-content/messenger/message/message.component';
 
 export const routes: Routes = [
     { path: '', component: WorkspaceComponent },
