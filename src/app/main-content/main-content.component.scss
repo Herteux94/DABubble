@@ -1,0 +1,59 @@
+@import '../../variables.scss';
+
+section {
+    background-color: $background-color;
+    display: flex;
+    flex-direction: column;
+}
+
+.bodyArea {
+    display: flex;
+    gap: 16px;
+    max-height: calc(100vh - 80px);
+}
+
+app-header {
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
+}
+
+app-navigation {
+    position: absolute;
+    top: 80px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 199;
+}
+
+app-navigation.active {
+    display: none;
+}
+
+app-messenger {
+    position: absolute;
+    top: 80px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+@media(min-width: 1025px) {
+    .bodyArea {
+        margin: 16px;
+    }
+
+    app-navigation {
+        width: 350px;
+        position: static;
+    }
+
+    app-messenger {
+        position: static;
+        flex: 1;
+        max-height: 100%;
+    }
+}

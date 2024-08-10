@@ -1,11 +1,14 @@
 <header>
-    <img class="logo" src="../../../assets/img/logo-plus-text.svg" alt="main-logo">
-    <div class="inputContainer dNone">
-        <input placeholder="Gehe zu..." type="text">
+    <img [routerLink]="['/main-content']" class="logo" src="../../../assets/img/logo-plus-text.svg" alt="main-logo">
+    <div class="inputContainer">
+        <input placeholder="DevSpace durchsuchen" type="text">
     </div>
     <div class="nameAndProfileContainer">
-        <span class="dNone">Robin Westmeier</span>
-        <img class="profileImg" src="../../../assets/img/avatars/empty-profile.svg" alt="profile-image">
-        <img class="dNone" src="../../../assets/img/keyboard_arrow_down.svg" alt="arrow-down-icon">
+        <h2 class="name">Robin Westmeier</h2>
+        <div class="profileAndOnlineCircleImg">
+            <img class="avatarImg" src="../../../assets/img/avatars/avatar-4.svg" alt="hashtag-icon">
+            <img class="onlineStatusImg" src="../../../assets/img/green-online-circle.svg" alt="online-status">
+        </div>
+        <img class="arrowDown" src="../../../assets/img/keyboard_arrow_down.svg" alt="arrow-down-icon">
     </div>
 </header>

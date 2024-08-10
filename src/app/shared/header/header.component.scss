@@ -8,22 +8,76 @@ header {
     justify-content: space-between;
     align-items: center;
     box-sizing: border-box;
-    position: sticky;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 999;
 }
 
 .logo {
     height: 46px;
+    cursor: pointer;
 }
 
 .nameAndProfileContainer {
     display: flex;
     align-items: center;
+    gap: 16px;
 }
 
-.profileImg {
+.profileAndOnlineCircleImg {
+    position: relative;
     height: 50px;
+}
+
+.avatarImg {
+    width: 50px;
+    border-radius: 100%;
+}
+
+.onlineStatusImg {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    z-index: 1;
+}
+
+.name {
+    display: none;
+}
+
+.arrowDown {
+    display: none;
+}
+
+.inputContainer {
+    justify-content: center;
+    padding: 24px 0;
+    flex: 1;
+    display: none;
+
+    input {
+        border: none;
+        outline: none;
+        border-radius: 42px;
+        width: 100%;
+        max-width: 70%;
+        height: 40px;
+        padding: 8px 24px;
+        box-sizing: border-box;
+        background-image: url(../../../assets/img/search-glass-icon.svg);
+        background-repeat: no-repeat;
+        background-position: calc(100% - 24px);
+        background-size: 20px;
+    }
+}
+
+@media(min-width: 1025px) {
+    .inputContainer {
+        display: flex;
+    }
+
+    .name {
+        display: block;
+    }
+
+    .arrowDown {
+        display: block;
+    }
 }

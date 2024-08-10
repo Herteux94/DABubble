@@ -11,7 +11,13 @@
   scroll-behavior: smooth;
   font-family: "Nunito";
   font-weight: 400;
-  font-size: 18px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  box-sizing: border-box;
+}
+
+*::-webkit-scrollbar {
+  display: none;
 }
 
 body{
