@@ -46,3 +46,9 @@
         background-color: $background-color;
     }
 }
+
+@media(min-width: 1025px) {
+    .wrapper {
+        padding: 24px;
+    }
+}

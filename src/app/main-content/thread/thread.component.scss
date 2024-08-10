@@ -1,3 +1,5 @@
+@import '../../../variables.scss';
+
 section {
     background-color: white;
     height: 100%;
@@ -20,6 +22,23 @@ app-sub-header {
     overflow-y: scroll;
     display: flex;
     flex-direction: column;
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 16px;
+
+    span {
+        color: $text-grey;
+    }
+
+    .line {
+        height: 1px;
+        flex: 1;
+        background-color: $outlines;
+    }
 }
 
 app-type-input-field {

@@ -80,4 +80,12 @@ header {
     .arrowDown {
         display: block;
     }
+
+    .inputContainer {
+        padding: 0;
+
+        input {
+            height: 50px;
+        }
+    }
 }

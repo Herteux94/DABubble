@@ -14,3 +14,9 @@
     align-items: center;
     gap: 8px;
 }
+
+@media(min-width: 1025px) {
+    .wrapper {
+        padding: 16px 32px;
+    }
+}
