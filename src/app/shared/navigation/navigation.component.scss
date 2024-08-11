@@ -57,8 +57,6 @@ nav {
     display: flex;
     flex-direction: column;
     gap: 24px;
-    padding-left: 8px;
-    padding-right: 8px;
 }
 
 .channelsHeader {
@@ -100,10 +98,6 @@ nav {
     display: flex;
     align-items: center;
     gap: 8px;
-
-    span {
-        color: $first-color;
-    }
 }
 
 .dmHeader {
@@ -166,7 +160,7 @@ nav {
     nav {
         border-radius: 30px;
         height: calc(100vh - 80px - 32px);
-        padding: 32px;
+        padding: 32px 40px;
     }
 
     .inputContainer {
@@ -178,8 +172,18 @@ nav {
         align-items: center;
         justify-content: space-between;
 
-        .editBtn {
+        .editSquareContainer {
             cursor: pointer;
+            border-radius: 100%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            
+            &:hover {
+                background-color: $background-color;
+            }
         }
     }
 
@@ -195,6 +199,12 @@ nav {
 
     .addChannelBtn {
         cursor: pointer;
+        border-radius: 100%;
+        padding: 8px;
+
+        &:hover {
+            background-color: $background-color;
+        }
     }
 
     .contentList {
@@ -213,9 +223,15 @@ nav {
     .addChannel {
         cursor: pointer;
 
+        img {
+            width: 24px;
+            height: 24px;
+        }
+
         &:hover {
             span {
                 font-weight: bold;
+                color: $second-color;
             }
         }
     }

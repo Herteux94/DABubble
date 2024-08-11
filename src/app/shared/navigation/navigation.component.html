@@ -9,7 +9,7 @@
             <img src="../../../assets/img/workspace_logo.svg">
             <h3>DevSpace</h3>
         </div>
-        <img (mouseenter)="changeImage(true, 'editSquare')" (mouseleave)="changeImage(false, 'editSquare')" class="editBtn" [src]="this.imageSrcEditSquare">
+        <div (mouseenter)="changeImageEditSquare(true)" (mouseleave)="changeImageEditSquare(false)" class="editSquareContainer"><img class="editBtn" [src]="this.imageSrcEditSquare"></div>
     </div>
 
     <div class="areaContainer mt88">
@@ -21,7 +21,7 @@
                     <h3>Channels</h3>
                 </div>
             </div>
-            <img (mouseenter)="changeImage(true, 'plusIcon')" (mouseleave)="changeImage(false, 'plusIcon')" class="addChannelBtn" [src]="this.imageSrcPlusIcon" alt="add-channel">
+            <img (mouseenter)="changeImagePlus(true)" (mouseleave)="changeImagePlus(false)" class="addChannelBtn" [src]="this.imageSrcPlusIcon" alt="add-channel">
         </div>
         <div class="contentList">
             <a href="#">
@@ -33,8 +33,8 @@
                 <span>Brainstorming</span>
             </a>
         </div>
-        <div class="addChannel">
-            <img src="../../../assets/img/add-circle-plus-icon-purple.svg" alt="add-channel">
+        <div (mouseenter)="changeImageCirclePlus(true)" (mouseleave)="changeImageCirclePlus(false)" class="addChannel">
+            <img [src]="imageSrcCirclePlus" alt="add-channel">
             <span>Channel hinzufügen</span>
         </div>
     </div>

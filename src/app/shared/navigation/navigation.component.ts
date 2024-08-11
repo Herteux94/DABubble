@@ -11,17 +11,32 @@ export class NavigationComponent {
 
   imageSrcEditSquare: string = '../../../assets/img/edit_square_black.svg';
   imageSrcPlusIcon: string = '../../../assets/img/add_plus_black_icon.svg';
+  imageSrcCirclePlus: string = '../../../assets/img/add_circle_plus_icon_black.svg';
 
-  changeImage(isHovering: boolean, element: string): void {
-    if (isHovering && element == 'editSquare') {
+  changeImageEditSquare(isHovering: boolean): void {
+    if (isHovering) {
       this.imageSrcEditSquare = '../../../assets/img/edit_square_purple.svg';
-    } else if (isHovering && element == 'plusIcon') {
-      this.imageSrcPlusIcon = '../../../assets/img/add_plus_purple_icon.svg';
-    } else if (!isHovering && element == 'plusIcon') {
-      this.imageSrcPlusIcon = '../../../assets/img/add_plus_black_icon.svg';
     } else {
       this.imageSrcEditSquare = '../../../assets/img/edit_square_black.svg';
-    }
+    } 
   }
+
+  changeImagePlus(isHovering: boolean): void {
+    if (isHovering) {
+      this.imageSrcPlusIcon = '../../../assets/img/add_plus_purple_icon.svg';
+    } else {
+      this.imageSrcPlusIcon = '../../../assets/img/add_plus_black_icon.svg';
+    } 
+  }
+
+  changeImageCirclePlus(isHovering: boolean): void {
+    if (isHovering) {
+      this.imageSrcCirclePlus = '../../../assets/img/add_circle_plus_icon_purple.svg';
+    } else {
+      this.imageSrcCirclePlus = '../../../assets/img/add_circle_plus_icon_black.svg';
+    } 
+  }
+    
+
 
 }
