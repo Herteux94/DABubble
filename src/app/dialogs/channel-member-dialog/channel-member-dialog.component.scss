@@ -1,54 +1,5 @@
 @import "../../../variables.scss";
+@import "../../../app/shared/dialogs/dialog.component.scss";
 
-.dialogContainer {
-    background-color: rgb(255, 255, 255);
-    border-radius: 20px 0 20px 20px;
-    width: 100%;
-    min-width: 260px;
-    padding: 8% 6%;
-}
 
-.dialogWrapper {
-    max-width: 260px;
-    gap: 20px;
-}
 
-.dialogHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    img {
-        cursor: pointer;
-    }
-}
-
-.memberList {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    padding: 1% 4%;
-}
-
-.member {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    cursor: pointer;
-}
-
-.addMemberContainer {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding: 12px 20px 0 20px;
-    cursor: pointer;
-
-    img {
-        max-width: 24px;
-        max-height: 24px;
-        background-color: $background-color;
-        border-radius: 50%;
-        padding: 2px;
-    }
-}

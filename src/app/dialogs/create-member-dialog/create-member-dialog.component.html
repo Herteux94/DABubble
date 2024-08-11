@@ -1,4 +1,4 @@
-<div class="dialogContainer">
+<div class="dialogContainer swipeDialog">
     <div class="dialogWrapper">
 
         <div class="swipeHandleContainer">
@@ -14,14 +14,14 @@
         <form (ngSubmit)="onSubmit(contactForm)" autocomplete="off" #contactForm="ngForm">
             <div class="inputContainer">
 
-                <div>
+                <div class="radioField">
                     <input type="radio" id="allMemberRadio" name="memberType" value="allMember" ngModel checked>
                     <label for="allMemberRadio">
                         Alle Mitglieder von <a href="#">OfficeTeam</a> hinzufügen
                     </label>
                 </div>
 
-                <div>
+                <div class="radioField">
                     <input type="radio" id="specificMemberRadio" name="memberType" value="specificMember" ngModel>
                     <label for="specificMemberRadio">
                         Bestimmte Leute hinzufügen
@@ -30,7 +30,7 @@
             </div>
 
             <div class="btnWrapper">
-                <button type="submit" class="addMemberBtn">
+                <button type="submit" class="dialogBtn">
                     Erstellen
                 </button>
             </div>

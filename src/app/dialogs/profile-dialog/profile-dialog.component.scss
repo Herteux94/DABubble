@@ -1,26 +1,12 @@
 @import "../../../variables.scss";
+@import "../../../app/shared/dialogs/dialog.component.scss";
 
-.dialogContainer {
+.profileDialogContainer {
   background-color: rgb(255, 255, 255);
   border-radius: 20px;
-  min-width: 250px;
+  min-width: 280px;
   box-shadow: 0px 6px 10px 0px #00000033;
   padding: 8% 6%;
-}
-
-.dialogWrapper {
-  max-width: 400px;
-  gap: 20px;
-}
-
-.dialogHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  img {
-    cursor: pointer;
-  }
 }
 
 .statusContainer {
@@ -60,7 +46,7 @@
   flex-direction: column;
 }
 
-.emailAdress {
+.emailAddress {
   padding-left: 50px;
   color: #1381ff;
   margin-top: 0;
@@ -82,7 +68,7 @@
   }
 }
 
-.btnWrapper {
+.messageBtnWrapper {
   display: flex;
   justify-content: center;
   align-items: center;

@@ -1,7 +1,7 @@
 @import "../../../variables.scss";
-// @import "../../shared/dialog/dialog.component.scss";
+@import "../../../app/shared/dialogs/dialog.component.scss";
 
-.dialogContainer {
+.channelDialogContainer {
   background-color: rgb(255, 255, 255);
   position: absolute;
   top: 0;
@@ -9,22 +9,6 @@
   right: 0;
   display: flex;
   flex-direction: column;
-}
-
-.dialogWrapper {
-  padding: 8% 6%;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.dialogHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  img {
-    cursor: pointer;
-  }
 }
 
 .channelHeader {
@@ -65,69 +49,4 @@
 
 .channelCreator {
     color: $second-color;
-}
-
-.memberList {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    padding: 1% 4%;
-}
-
-.member {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    cursor: pointer;
-}
-
-.addMemberContainer {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding: 0 20px 0 20px;
-    cursor: pointer;
-
-    img {
-        max-width: 24px;
-        max-height: 24px;
-        background-color: $background-color;
-        border-radius: 50%;
-        padding: 2px;
-    }
-}
-
-.formWrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.inputContainer {
-  display: flex;
-  flex-direction: column;
-}
-
-.input {
-  border: none;
-  outline: 1px solid $outlines;
-  border-radius: 30px;
-  padding: 10px 20px;
-  &:focus {
-    outline: 1px solid $first-color;
-  }
-}
-
-.btnWrapper {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 16px;
-}
-
-.addMemberBtn {
-  border: unset;
-  background-color: $first-color;
-  color: white;
-  border-radius: 30px;
-  padding: 10px 20px;
 }

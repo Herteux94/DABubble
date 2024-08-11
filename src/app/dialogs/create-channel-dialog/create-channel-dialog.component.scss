@@ -1,6 +1,7 @@
 @import "../../../variables.scss";
+@import "../../../app/shared/dialogs/dialog.component.scss";
 
-.dialogContainer {
+.createChannelContainer {
     background-color: rgb(255, 255, 255);
     position: absolute;
     bottom: 0;
@@ -9,56 +10,4 @@
     right: 0;
     display: flex;
     flex-direction: column;
-    padding: 8% 6%;
-}
-
-.dialogWrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.dialogHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    img {
-        cursor: pointer;
-    }
-}
-
-.formWrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.inputContainer {
-    display: flex;
-    flex-direction: column;
-}
-
-.input {
-    border: none;
-    outline: 1px solid $outlines;
-    border-radius: 30px;
-    padding: 10px 20px;
-    &:focus {
-        outline: 1px solid $first-color;
-    }
-}
-
-
-.btnWrapper {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 16px;
-}
-
-.addMemberBtn { 
-    border: unset;
-    background-color: $first-color;
-    color: white;
-    border-radius: 30px;
-    padding: 10px 20px;
 }
