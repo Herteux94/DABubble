@@ -8,34 +8,10 @@
   align-items: center;
 }
 
-.card {
-  padding: 35px 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: white;
-  border-radius: 30px;
-  margin: 32px 16px;
-  max-width: 606px;
-  position: relative;
-}
-
 h1 {
   text-align: center;
   color: $first-color;
   margin: 0 0 30px 0;
-}
-
-.arrowBackIcon{
-  position: absolute;
-  top: 35px;
-  left: 20px;
-  padding: 8px;
-  &:hover{
-    border-radius: 100%;
-    background-color: $background-color;
-  }
 }
 
 .infoText {

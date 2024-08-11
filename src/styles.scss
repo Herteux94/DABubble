@@ -164,7 +164,7 @@ span {
   background-color: $background-color;
   display: flex;
   align-items: center;
-  padding: 13px 32px;
+  padding: 13px 20px;
   border-radius: 100px;
   margin: 0 0 30px 0;
   border: 1px solid $background-color;
@@ -199,12 +199,41 @@ span {
 
 .iconGray {
   display: block;
-  padding: 0 30px 0 0;
+  padding: 0 24px 0 0;
 }
 
 .iconBlack {
   display: none;
   width: 24px;
-  padding: 0 30px 0 0;
+  padding: 0 24px 0 0;
 }
 
+//////////////////////////////////////////// Icons ////////////////////////////////////////////
+
+
+.arrowBackIcon{
+  position: absolute;
+  top: 35px;
+  left: 20px;
+  padding: 8px;
+  &:hover{
+    border-radius: 100%;
+    background-color: $background-color;
+  }
+}
+
+//////////////////////////////////////////// card (maincontainer) authentication ////////////////////////////////////////////
+
+
+.card {
+  padding: 35px 20px;
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  border-radius: 30px;
+  margin: 32px 16px;
+  max-width: 606px;
+}

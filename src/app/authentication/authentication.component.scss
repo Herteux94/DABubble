@@ -1,4 +1,4 @@
-@import '../../variables.scss';
+@import "../../variables.scss";
 
 .wrapper {
   background-color: $background-color;
@@ -6,10 +6,23 @@
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  height: 100vh;
   width: 100%;
 }
 
-.logo{
+.logo {
   height: 56px;
+  margin: 64px 0 0 0;
+}
+
+@media (min-width: 1250px) {
+  .wrapper {
+    height: 100vh;
+  }
+
+  .logo {
+    position: absolute;
+    top: 60px;
+    left: 60px;
+    margin: 0;
+  }
 }
