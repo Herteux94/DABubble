@@ -82,13 +82,16 @@ nav {
     padding-left: 26px;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 8px;
 
     a {
         display: flex;
         gap: 8px;
         color: black;
         align-items: center;
+        width: fit-content;
+        padding: 4px 20px;
+        border-radius: 20px;
     }
 }
 
@@ -174,12 +177,51 @@ nav {
         display: flex;
         align-items: center;
         justify-content: space-between;
+
+        .editBtn {
+            cursor: pointer;
+        }
     }
 
     .logoAndText {
         display: flex;
         align-items: center;
         gap: 16px;
+    }
+
+    .dropDownAndH3 {
+        cursor: pointer;
+    }
+
+    .addChannelBtn {
+        cursor: pointer;
+    }
+
+    .contentList {
+        a {
+            &:hover {
+                color: $second-color;
+                background-color: $background-color;
+
+                span {
+                    font-weight: bold;
+                }
+            }
+        }
+    }
+
+    .addChannel {
+        cursor: pointer;
+
+        &:hover {
+            span {
+                font-weight: bold;
+            }
+        }
+    }
+
+    .dmHeader {
+        cursor: pointer;
     }
 
     .editFAB {

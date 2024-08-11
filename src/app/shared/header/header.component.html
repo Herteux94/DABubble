@@ -3,12 +3,12 @@
     <div class="inputContainer">
         <input placeholder="DevSpace durchsuchen" type="text">
     </div>
-    <div class="nameAndProfileContainer">
+    <div (mouseenter)="changeImage(true)" (mouseleave)="changeImage(false)" class="nameAndProfileContainer">
         <h2 class="name">Robin Westmeier</h2>
         <div class="profileAndOnlineCircleImg">
             <img class="avatarImg" src="../../../assets/img/avatars/avatar-4.svg" alt="hashtag-icon">
             <img class="onlineStatusImg" src="../../../assets/img/green-online-circle.svg" alt="online-status">
         </div>
-        <img class="arrowDown" src="../../../assets/img/keyboard_arrow_down.svg" alt="arrow-down-icon">
+        <img class="arrowDown" [src]="imageSrc" alt="arrow-down-icon">
     </div>
 </header>

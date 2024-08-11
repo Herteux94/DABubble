@@ -10,4 +10,14 @@ import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
 })
 export class HeaderComponent {
 
+  imageSrc: string = '../../../assets/img/keyboard_arrow_down.svg';
+
+  changeImage(isHovering: boolean): void {
+    if (isHovering) {
+      this.imageSrc = '../../../assets/img/arrow_down_purple.svg';
+    } else {
+      this.imageSrc = '../../../assets/img/keyboard_arrow_down.svg';
+    }
+  }
+
 }

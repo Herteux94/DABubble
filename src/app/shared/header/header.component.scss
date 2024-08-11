@@ -60,7 +60,7 @@ header {
         max-width: 70%;
         height: 40px;
         padding: 8px 24px;
-        box-sizing: border-box;
+        font-size: 16px;
         background-image: url(../../../assets/img/search-glass-icon.svg);
         background-repeat: no-repeat;
         background-position: calc(100% - 24px);
@@ -86,6 +86,13 @@ header {
 
         input {
             height: 50px;
+        }
+    }
+
+    .nameAndProfileContainer {
+        &:hover {
+            color: $second-color;
+            cursor: pointer;
         }
     }
 }

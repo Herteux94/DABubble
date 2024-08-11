@@ -9,7 +9,7 @@
             <img src="../../../assets/img/workspace_logo.svg">
             <h3>DevSpace</h3>
         </div>
-        <img src="../../../assets/img/edit_square_black.svg">
+        <img (mouseenter)="changeImage(true, 'editSquare')" (mouseleave)="changeImage(false, 'editSquare')" class="editBtn" [src]="this.imageSrcEditSquare">
     </div>
 
     <div class="areaContainer mt88">
@@ -21,7 +21,7 @@
                     <h3>Channels</h3>
                 </div>
             </div>
-            <img src="../../../assets/img/add-plus-purple-icon.svg" alt="add-channel">
+            <img (mouseenter)="changeImage(true, 'plusIcon')" (mouseleave)="changeImage(false, 'plusIcon')" class="addChannelBtn" [src]="this.imageSrcPlusIcon" alt="add-channel">
         </div>
         <div class="contentList">
             <a href="#">
