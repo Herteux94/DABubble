@@ -83,7 +83,7 @@ h1 {
   }
 }
 
-.newSpan {
+.newMemberSpan {
   font-size: 18px;
   font-weight: 400;
   margin: 0 0 20px 0;
@@ -106,10 +106,14 @@ h1 {
   display: none;
 }
 
-.newContainer {
+.newMemberContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+.legalContainer{
+  display: none;
 }
 
 @media (min-width: 420px) {
@@ -200,7 +204,7 @@ h1 {
     }
   }
 
-  .newSpan {
+  .newMemberSpan {
     font-size: 18px;
     font-weight: 400;
     margin: 0 0 20px 0;
@@ -217,7 +221,7 @@ h1 {
 }
 
 @media (min-width: 1250px) {
-  .newContainer {
+  .newMemberContainer {
     position: absolute;
     top: 60px;
     right: 60px;
