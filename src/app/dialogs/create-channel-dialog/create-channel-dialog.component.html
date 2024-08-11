@@ -1,1 +1,43 @@
-<p>create-channel-dialog works!</p>
+<div class="dialogContainer">
+    <div class="dialogWrapper">
+
+        <div class="dialogHeader">
+            <h2>Channel erstellen</h2>
+            <img src="../../../assets/img/close.svg" alt="Schließen">
+        </div>
+
+        <span>
+            Channel dienen deinem Team zur Kommunikation.
+            Am besten sollten sie themenbezogen sein - #marketing zum Beispiel.
+        </span>
+
+        <form (ngSubmit)="onSubmit(contactForm)" autocomplete="off" #contactForm="ngForm">
+            <div class="formWrapper">
+                <div class="h3Container">
+                    <h3>Channel-Name</h3>
+                </div>
+
+                <div class="inputContainer" [class.invalid]="!name.valid && name.touched">
+                    <input class="input" #name="ngModel" [(ngModel)]="contactData.name" type="text" id="name"
+                        name="name" placeholder="z.B. Kooperationsprojekte" required autocomplete="new-password" />
+                    @if (!name.valid && name.touched) {
+                    <span class="errorMessage">Bitte gib einen Namen ein.</span>
+                    }
+                </div>
+
+                <div class="h3Container">
+                    <h3>Beschreibung</h3>
+                </div>
+
+                <div class="inputContainer" [class.invalid]="!name.valid && name.touched">
+                    <input class="input" #description="ngModel" [(ngModel)]="contactData.name" type="text" id="description"
+                    description="description" placeholder="Dein Text hier" required autocomplete="new-password" />
+                </div>
+
+                <div class="btnWrapper">
+                    <button class="addMemberBtn">Erstellen</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
