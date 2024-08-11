@@ -92,24 +92,6 @@ h1 {
   color: transparent;
 }
 
-.nextBtn {
-  border: none;
-  color: white;
-  background-color: $first-color;
-  border-radius: 25px;
-  padding: 12px 25px;
-  font-size: 18px;
-  font-weight: 700;
-  margin: 0 20px 0 0;
-  cursor: pointer;
-  &:focus {
-    background-color: $second-color;
-  }
-  &:hover {
-    background-color: $second-color;
-  }
-}
-
 .nextBtnContainer{
   width: 100%;
   display: flex;
