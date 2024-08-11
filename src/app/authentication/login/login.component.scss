@@ -32,54 +32,6 @@ h1 {
   margin: 0 0 30px 0;
 }
 
-.inputContainer {
-  background-color: $background-color;
-  display: flex;
-  align-items: center;
-  padding: 13px 32px;
-  border-radius: 100px;
-  margin: 0 0 30px 0;
-  border: 1px solid $background-color;
-  &:hover {
-    border: 1px solid $third-color;
-  }
-  &:focus-within {
-    border: 1px solid $third-color;
-  }
-}
-
-.inputContainer input {
-  background-color: $background-color;
-  border: none;
-  cursor: pointer;
-  &:focus {
-    outline: none;
-  }
-}
-
-.iconGray {
-  display: block;
-  padding: 0 30px 0 0;
-}
-
-.iconBlack {
-  display: none;
-  width: 24px;
-  padding: 0 30px 0 0;
-}
-
-.inputContainer:focus-within .iconGray {
-  display: none;
-}
-
-.inputContainer:focus-within .iconBlack {
-  display: block;
-}
-
-.inputContainer input:focus::placeholder {
-  color: transparent;
-}
-
 .lostPW {
   color: $second-color;
   font-size: 17px;
@@ -142,21 +94,3 @@ h1 {
   margin: 0 0 20px 0;
 }
 
-.createAccBtn {
-  color: $first-color;
-  border: 1px solid $first-color;
-  background-color: $background-color;
-  border-radius: 25px;
-  padding: 7px 18px;
-  font-size: 18px;
-  font-weight: 700;
-  cursor: pointer;
-  &:focus {
-    color: white;
-    background-color: $first-color;
-  }
-  &:hover {
-    color: white;
-    background-color: $first-color;
-  }
-}
