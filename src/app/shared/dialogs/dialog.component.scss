@@ -96,8 +96,8 @@
   gap: 20px;
 }
 
-.channelName {
-  color: $second-color;
+.coloredText {
+  color: $first-color;
 }
 
 .inputContainer {
@@ -110,6 +110,7 @@
   outline: 1px solid $outlines;
   border-radius: 30px;
   padding: 10px 20px;
+  color: #686868;
   &:focus {
     outline: 1px solid $first-color;
   }

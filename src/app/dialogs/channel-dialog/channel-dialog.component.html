@@ -5,25 +5,71 @@
     </div>
 
     <div class="dialogWrapperBig">
-        <div class="channelContentWrapper">
+
+        <div class="channelContentWrapper" [class.no-outline]="isEditingName">
             <div class="channelNameContainer">
                 <h3>Channel-Name</h3>
-                <img src="../../../assets/img/pen.svg" alt="">
+                @if (mobile == true) {
+                <div>
+                    <img [src]="isEditingName ? '../../../assets/img/check_circle.svg' : '../../../assets/img/pen.svg'"
+                        alt="" (click)="toggleEdit()">
+                </div>
+
+                } @else {
+                <div>
+                    <span class="coloredText" (click)="toggleEdit()">Bearbeiten</span>
+                </div>
+                }
             </div>
-            <span># Entwicklerteam</span>
+
+            @if (!isEditingName == true) {
+            <div>
+                <span (click)="toggleEdit()" class="trigger">
+                    # {{ channelName }}
+                </span>
+            </div>
+            }
+
+            @if (isEditingName == true) {
+            <div class="inputContainer">
+                <input #channelNameInput class="input" type="text" [(ngModel)]="channelName" (blur)="toggleEdit()">
+            </div>}
         </div>
 
 
-        <div class="channelContentWrapper">
+
+
+
+
+        <div class="channelContentWrapper" [class.no-outline]="isEditingDescription">
             <div class="channelNameContainer">
                 <h3>Beschreibung</h3>
-                <img src="../../../assets/img/pen.svg" alt="">
+
+                @if (mobile == true) {
+                <div>
+                    <img [src]="isEditingDescription ? '../../../assets/img/check_circle.svg' : '../../../assets/img/pen.svg'"
+                        alt="" (click)="toggleEditDescription()">
+                </div>
+
+                } @else {
+                <div>
+                    <span class="coloredText" (click)="toggleEditDescription()">Bearbeiten</span>
+                </div>
+                }
             </div>
 
-            <span>
-                Dieser Channel ist für alles rund um #dsfdf vorgesehen. Hier kannst du zusammen mit deinem Team
-                Meetings abhalten, Dokumente teilen und Entscheidungen treffen.
-            </span>
+            @if (!isEditingDescription == true) {
+            <div>
+                <span (click)="toggleEditDescription()" class="trigger">
+                    {{ channelDescription }}
+                </span>
+            </div>
+            } @else if (isEditingDescription == true) {
+            <div class="inputContainer">
+                <!-- <input #channelDescriptionInput class="input" type="text" [(ngModel)]="channelDescription" (blur)="toggleEditDescription()"> -->
+                <textarea #channelDescriptionInput rows="1" class="input" type="text" [(ngModel)]="channelDescription" (blur)="toggleEditDescription()"></textarea>
+            </div>
+            }
 
             <div class="divider"></div>
 
@@ -31,12 +77,13 @@
                 <h3>Erstellt von</h3>
             </div>
 
-            <div >
-                <a class="channelCreator" href="">Noah Braun</a>
+            <div>
+                <a class="coloredText" href="">Noah Braun</a>
             </div>
         </div>
 
 
+        @if (mobile == true) {
         <div class="channelContentWrapper">
 
             <div class="channelNameContainer">
@@ -61,6 +108,7 @@
                 <p>Mitglieder hinzufügen</p>
             </div>
         </div>
+        }
 
 
         <div class="btnWrapper">
