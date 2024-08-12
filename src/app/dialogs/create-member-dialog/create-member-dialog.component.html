@@ -30,10 +30,10 @@
                     </label>
                 </div>
 
-                <!-- Textfeld, das nur angezeigt wird, wenn "specificMember" ausgewählt ist -->
-                <div class="inputContainer" *ngIf="selectedMemberType === 'specificMember'">
-                    <input type="text" placeholder="Namen eingeben" ngModel
-                        name="specificMembers" class="input">
+                <div class="inputContainer">
+                    @if (selectedMemberType === 'specificMember') {
+                        <input type="text" placeholder="Namen eingeben" ngModel name="specificMembers" class="input">
+                    }
                 </div>
 
             </div>
