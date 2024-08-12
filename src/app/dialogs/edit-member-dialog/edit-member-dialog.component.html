@@ -1,4 +1,4 @@
-<div class="dialogContainer swipeDialog">
+<div class="dialogContainer" [ngClass]="{'swipeDialog': mobile, 'roundedDialog': !mobile}">
     <div class="dialogWrapper">
 
         <div class="swipeHandleContainer">
@@ -8,6 +8,10 @@
         <div class="dialogHeader">
             <h2>Leute hinzufügen</h2>
             <img src="../../../assets/img/close.svg" alt="Schließen">
+        </div>
+
+        <div class="channelName" [ngClass]="{'dNone': mobile}">
+            # Entwicklerteam
         </div>
 
         <form (ngSubmit)="onSubmit(contactForm)" autocomplete="off" #contactForm="ngForm">
