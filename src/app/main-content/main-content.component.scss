@@ -28,29 +28,16 @@ app-header {
 
 app-navigation {
     width: 100%;
-    // position: absolute;
-    // top: 80px;
-    // left: 0;
-    // right: 0;
-    // bottom: 0;
 }
 
 app-messenger {
     width: 100%;
-    // position: absolute;
-    // top: 80px;
-    // left: 0;
-    // right: 0;
-    // bottom: 0;
+    display: none;
 }
 
 app-thread {
     width: 100%;
-    // position: absolute;
-    // top: 80px;
-    // left: 0;
-    // right: 0;
-    // bottom: 0;
+    display: none;
 }
 
 @media(min-width: 1025px) {
@@ -65,9 +52,11 @@ app-thread {
 
     app-messenger {
         flex: 1;
+        display: block;
     }
 
     app-thread {
         width: 350px;
+        display: block;
     }
 }
