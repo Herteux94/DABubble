@@ -15,7 +15,7 @@
                 <input class="input" #name="ngModel" [(ngModel)]="contactData.name" type="text" id="name" name="name"
                     placeholder="Name eingeben" required autocomplete="new-password" />
                 @if (!name.valid && name.touched) {
-                <span class="error-message">Bitte gib einen Namen ein.</span>
+                <span class="errorMessage">Bitte gib einen Namen ein.</span>
                 }
             </div>
 

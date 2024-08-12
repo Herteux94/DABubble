@@ -72,12 +72,25 @@
   padding: 0 20px 0 20px;
   cursor: pointer;
 
-  img {
-    max-width: 24px;
-    max-height: 24px;
+  div {
+    display: flex;
+    align-items: center;
+
+    svg {
+      background-color: $background-color;
+      // height: 28px;
+      border-radius: 100%;
+    }
+  }
+
+  &:active {
     background-color: $background-color;
-    border-radius: 50%;
-    padding: 2px;
+    border-radius: 100px;
+    color: $second-color;
+    
+    svg path{
+      fill: $second-color;
+    } 
   }
 }
 
@@ -116,6 +129,20 @@
   padding: 10px 20px;
 }
 
+@media(hover: hover) and (pointer: fine) {
+   
+    .addMemberContainer:hover {
+      background-color: $background-color;
+      border-radius: 100px;
+      color: $second-color;
+      
+      svg path{
+        fill: $second-color;
+      } 
+    
+  }
+}
+
 @media screen and (min-width: 400px) {
     .roundedDialog {
         width: 360px;
@@ -141,5 +168,19 @@
 
     .profileDialogContainer {
         width: 400px;
+      }
+}
+
+@media screen and (min-width: 1025px) {
+    .roundedDialog {
+        width: 400px;
+    }
+
+    .swipeDialog {
+        width: 430px;
+    }
+
+    .profileDialogContainer {
+        width: 500px;
       }
 }
