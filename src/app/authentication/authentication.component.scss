@@ -27,7 +27,7 @@
   max-width: 606px;
 }
 
-@media (min-width: 1250px) {
+@media (min-width: 1025px) {
   .wrapper {
     height: 100vh;
   }
@@ -37,5 +37,12 @@
     top: 60px;
     left: 60px;
     margin: 0;
+    height: 44px;
+  }
+}
+
+@media (min-width: 1250px) {
+  .logo {
+    height: 56px;
   }
 }

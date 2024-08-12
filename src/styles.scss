@@ -81,7 +81,7 @@ h3 {
   &:hover {
     background-color: $second-color;
   }
-  &:disabled{
+  &:disabled {
     background-color: RGB(104, 104, 104);
   }
 }
@@ -101,7 +101,7 @@ h3 {
     color: white;
     background-color: $first-color;
   }
-  &:disabled{
+  &:disabled {
     background-color: RGB(104, 104, 104);
   }
 }
@@ -121,27 +121,7 @@ h3 {
     color: white;
     background-color: $first-color;
   }
-  &:disabled{
-    background-color: RGB(104, 104, 104);
-  }
-}
-
-.fourthBtn{
-  color: $first-color;
-  border: 1px solid $first-color;
-  background-color: white;
-  border-radius: 25px;
-  padding: 7px 18px;
-  cursor: pointer;
-  &:focus {
-    color: white;
-    background-color: $first-color;
-  }
-  &:hover {
-    color: white;
-    background-color: $first-color;
-  }
-  &:disabled{
+  &:disabled {
     background-color: RGB(104, 104, 104);
   }
 }
@@ -161,6 +141,15 @@ h3 {
   }
   &:focus-within {
     border: 1px solid $third-color;
+    svg path {
+      fill: black;
+    }
+  }
+  svg {
+    margin: 0 20px 0 0;
+  }
+  input{
+    width: 100%;
   }
 }
 
@@ -168,6 +157,7 @@ h3 {
   background-color: $background-color;
   border: none;
   cursor: pointer;
+
   &:focus {
     outline: none;
   }
@@ -177,41 +167,33 @@ h3 {
   color: transparent;
 }
 
-.inputContainerAuth:focus-within .iconGrayAuth {
-  display: none;
+
+@media (min-width: 420px) {
+  .inputContainerAuth {
+    padding: 13px 40px;
+  }
 }
 
-.inputContainerAuth:focus-within .iconBlackAuth {
-  display: block;
-}
-
-.iconGrayAuth {
-  display: block;
-  padding: 0 24px 0 0;
-}
-
-.iconBlackAuth {
-  display: none;
-  width: 24px;
-  padding: 0 24px 0 0;
+@media (min-width: 1025px) {
+  .card {
+    width: 606px;
+  }
 }
 
 //////////////////////////////////////////// Icons authentication ////////////////////////////////////////////
 
-
-.arrowBackIcon{
+.arrowBackIcon {
   position: absolute;
   top: 35px;
   left: 20px;
   padding: 8px;
-  &:hover{
+  &:hover {
     border-radius: 100%;
     background-color: $background-color;
   }
 }
 
 //////////////////////////////////////////// card (maincontainer) authentication ////////////////////////////////////////////
-
 
 .card {
   padding: 35px 20px;

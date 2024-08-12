@@ -13,10 +13,19 @@ h1 {
   text-align: center;
   color: $first-color;
   margin: 0 0 30px 0;
+  white-space: pre;
 }
 
 .changePWBtnContainer{
   width: 100%;
   display: flex;
   justify-content: flex-end;
+}
+
+@media(min-width: 420px){
+  h1{
+    white-space: normal;
+  }
+
+  
 }
