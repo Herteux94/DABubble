@@ -9,6 +9,7 @@ import { ChooseAvatarComponent } from './authentication/choose-avatar/choose-ava
 import { SendResetPwMailComponent } from './authentication/send-reset-pw-mail/send-reset-pw-mail.component';
 import { ResetPwComponent } from './authentication/reset-pw/reset-pw.component';
 import { MessengerComponent } from './main-content/messenger/messenger.component';
+import { StartAnimationComponent } from './start-animation/start-animation.component';
 
 export const routes: Routes = [
     { path: '', component: WorkspaceComponent },
@@ -19,7 +20,8 @@ export const routes: Routes = [
     },
     { path: 'authentication', component: AuthenticationComponent,
         children: [
-            { path: '', redirectTo: 'login', pathMatch: 'full' },  // Redirect to login
+            { path: '', redirectTo: 'startAnimation', pathMatch: 'full' },  // Redirect to login
+            { path: 'startAnimation', component: StartAnimationComponent},
             { path: 'login', component: LoginComponent },  // Explicit login route
             { path: 'signUp', component: SignUpComponent },
             { path: 'createAccount', component: ChooseAvatarComponent },

@@ -1,1 +1,2 @@
-<router-outlet></router-outlet>
+<app-start-animation *ngIf="showAnimation"></app-start-animation>
+<router-outlet *ngIf="!showAnimation"></router-outlet>

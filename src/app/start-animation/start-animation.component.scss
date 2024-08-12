@@ -1,0 +1,73 @@
+.logoContainer {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center; /* Vertikale Zentrierung */
+  justify-content: center; /* Horizontale Zentrierung */
+  height: 100%; /* Stellt sicher, dass der Container den gesamten vertikalen Raum einnimmt */
+  width: 100%; /* Deckt die gesamte Breite des Bildschirms ab */
+  background: linear-gradient(to bottom, rgba(49, 58, 229, 1), rgba(121, 126, 243, 1)); /* Lineare Gradienten-Hintergrundfarbe */
+  animation: moveToCorner 2s forwards ease-in-out 4s, fadeOutBackground 5s forwards ease-in-out 4s; /* Bewegung in die Ecke und Hintergrund langsam transparent */
+}
+
+.logo-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+#logo {
+  z-index: 1; /* Stellt sicher, dass das Logo über dem Text bleibt */
+  animation: moveLogo 2s forwards ease-in-out;
+  background-color: white;
+}
+
+#textLogo {
+  opacity: 0; /* Anfangszustand unsichtbar */
+  transform: translateX(-100%); /* Startet komplett links außerhalb des Logos */
+  animation: slideInText 2s forwards ease-in-out;
+  animation-delay: 2s; /* Verzögerung, um die Bewegung des Logos abzuwarten */
+}
+
+@keyframes moveLogo {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%); /* Schiebt das Logo nach links */
+  }
+}
+
+@keyframes slideInText {
+  0% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(-48px); /* Text-Logo fährt nach rechts aus dem Logo heraus */
+  }
+}
+
+@keyframes moveToCorner {
+  0% {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  100% {
+    top: 0;
+    left: 0;
+    transform: translate(0, 0) scale(0.5); /* Verkleinert den Container und bewegt ihn in die Ecke */
+  }
+}
+
+@keyframes fadeOutBackground {
+  0% {
+    background-color: rgba(49, 58, 229, 1); /* Startet mit dem Farbverlauf */
+  }
+  100% {
+    background-color: rgba(255, 255, 255, 0); /* Endet mit Transparenz */
+  }
+}
