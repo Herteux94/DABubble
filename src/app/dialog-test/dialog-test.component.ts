@@ -25,5 +25,5 @@ import { CreateChannelDialogComponent } from '../dialogs/create-channel-dialog/c
   styleUrl: './dialog-test.component.scss'
 })
 export class DialogTestComponent {
-
+  mobile: any;
 }
