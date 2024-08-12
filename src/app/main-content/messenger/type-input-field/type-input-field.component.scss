@@ -37,7 +37,15 @@
     .leftSide {
         display: flex;
         align-items: center;
-        gap: 12px;
+        gap: 4px;
+
+        .svgContainer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 8px;
+            border-radius: 100%;
+        }
     }
 
     .divider {
@@ -45,10 +53,39 @@
         width: 1px;
         background-color: $background-color;
     }
+
+    .svgContainerSendIcon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 }
 
 @media(min-width: 1025px) {
     .wrapper {
         padding: 24px;
+    }
+
+    .leftSide {
+        .svgContainer {
+            &:hover {
+                cursor: pointer;
+                background-color: $background-color;
+
+                svg path {
+                    fill: $first-color;
+                }
+            }
+        }
+    }
+
+    .svgContainerSendIcon {
+        &:hover {
+            cursor: pointer;
+
+            svg path {
+                fill: $second-color;
+            }
+        }
     }
 }

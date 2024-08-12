@@ -141,34 +141,10 @@ nav {
     z-index: 99;
 }
 
-.toggleMenuButton {
-    display: none;
-    padding: 0 16px;
-    border-radius: 0 0 30px 30px;
-    width: 350px;
-    height: 60px;
-    position: fixed;
-    bottom: 260px;
-    left: -150px;
-    transform: rotate(-90deg);
-    gap: 8px;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 0 4px 2px rgba($color: #000000, $alpha: 0.2);
-    background-color: white;
-    cursor: pointer;
-
-    img {
-        width: 32px;
-        height: 32px;
-        transform: rotate(90deg);
-    }
-}
-
 @media(min-width: 1025px) {
     nav {
         border-radius: 30px;
-        height: calc(100vh - 80px - 32px);
+        height: calc(100vh - 80px);
         padding: 32px 40px;
     }
 
@@ -238,10 +214,10 @@ nav {
     .contentList {
         a {
             &:hover {
-                color: $second-color;
                 background-color: $background-color;
-
+                
                 span {
+                    color: $second-color;
                     font-weight: bold;
                 }
 
@@ -277,7 +253,7 @@ nav {
 
         &:hover {
             color: $first-color;
-            
+
             svg path {
                 fill: $first-color;
             }
@@ -286,10 +262,6 @@ nav {
 
     .editFAB {
         display: none;
-    }
-
-    .toggleMenuButton {
-        display: flex;
     }
 
     .mt88 {

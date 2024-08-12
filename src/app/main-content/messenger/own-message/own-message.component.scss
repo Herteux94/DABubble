@@ -51,3 +51,18 @@
         color: $first-color;
     }
 }
+
+@media(min-width: 1025px) {
+    .wrapper {
+        &:hover {
+            background-color: $background-color;
+        }
+    }
+
+    .count {
+        &:hover {
+            cursor: pointer;
+            font-weight: bold;
+        }
+    }
+}

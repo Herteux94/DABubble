@@ -15,6 +15,7 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
   box-sizing: border-box;
+  transition: all 150ms ease-in-out;
 }
 
 *::-webkit-scrollbar {

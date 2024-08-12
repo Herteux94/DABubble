@@ -2,9 +2,10 @@
   <div class="wrapper contentLimit">
     <app-header></app-header>
     <div class="bodyArea">
-      <app-navigation></app-navigation>
+      <app-navigation #nav [ngClass]="this.isMenuOpen ? '' : 'dNone'"></app-navigation>
       <app-messenger></app-messenger>
       <app-thread></app-thread>
     </div>
   </div>
+  <app-nav-toggle-btn (menuOpenChange)="onMenuOpenChange($event)"></app-nav-toggle-btn>
 </section>
