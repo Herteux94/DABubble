@@ -38,6 +38,20 @@
             h3 {
                 color: $second-color;
             }
+
+            svg path {
+                fill: $first-color;
+            }
+        }
+    }
+
+    .personAddImgContainer {
+        &:hover {
+            cursor: pointer;
+            
+            svg path {
+                fill: $first-color;
+            }
         }
     }
 }

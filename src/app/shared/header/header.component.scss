@@ -93,6 +93,10 @@ header {
         &:hover {
             color: $second-color;
             cursor: pointer;
+
+            svg path {
+                fill: $first-color;
+            }
         }
     }
 }

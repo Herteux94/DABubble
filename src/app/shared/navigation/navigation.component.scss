@@ -67,6 +67,7 @@ nav {
 
 .dropDownAndH3 {
     display: flex;
+    align-items: center;
     gap: 16px;
 }
 
@@ -98,6 +99,14 @@ nav {
     display: flex;
     align-items: center;
     gap: 8px;
+}
+
+.addChannelBtnContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px;
+    border-radius: 100%;
 }
 
 .dmHeader {
@@ -183,7 +192,12 @@ nav {
             
             &:hover {
                 background-color: $background-color;
+
+                svg path{
+                    fill: $first-color;
+                }
             }
+
         }
     }
 
@@ -195,15 +209,29 @@ nav {
 
     .dropDownAndH3 {
         cursor: pointer;
+
+        &:hover {
+            svg path {
+                fill: $first-color
+            }
+
+            h3 {
+                color: $first-color;
+            }
+        }
     }
 
-    .addChannelBtn {
+
+
+    .addChannelBtnContainer {
         cursor: pointer;
-        border-radius: 100%;
-        padding: 8px;
 
         &:hover {
             background-color: $background-color;
+
+            svg path {
+                fill: $first-color;
+            }
         }
     }
 
@@ -215,6 +243,10 @@ nav {
 
                 span {
                     font-weight: bold;
+                }
+
+                svg path {
+                    fill: $first-color;
                 }
             }
         }
@@ -233,11 +265,23 @@ nav {
                 font-weight: bold;
                 color: $second-color;
             }
+
+            svg path {
+                fill: $first-color;
+            }
         }
     }
 
     .dmHeader {
         cursor: pointer;
+
+        &:hover {
+            color: $first-color;
+            
+            svg path {
+                fill: $first-color;
+            }
+        }
     }
 
     .editFAB {

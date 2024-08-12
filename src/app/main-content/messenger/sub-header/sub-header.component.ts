@@ -9,17 +9,4 @@ import { Component } from '@angular/core';
 })
 export class SubHeaderComponent {
 
-  imageSrcArrow: string = '../../../../assets/img/keyboard_arrow_down.svg';
-  imageSrcHashtag: string = '../../../../assets/img/hashtag-icon.svg';
-
-  changeImageArrowHashtag(isHovering: boolean): void {
-    if (isHovering) {
-      this.imageSrcArrow = '../../../../assets/img/arrow_down_purple.svg';
-      this.imageSrcHashtag = '../../../../assets/img/hashtag_purple.svg';
-    } else {
-      this.imageSrcArrow = '../../../../assets/img/keyboard_arrow_down.svg';
-      this.imageSrcHashtag = '../../../../assets/img/hashtag-icon.svg';
-    }
-  }
-
 }
