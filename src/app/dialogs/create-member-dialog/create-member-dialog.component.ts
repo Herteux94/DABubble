@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
+import { ScreenSizeService } from '../../services/screen-size-service.service';
 
 @Component({
   selector: 'app-create-member-dialog',
@@ -9,12 +10,21 @@ import { FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
   templateUrl: './create-member-dialog.component.html',
   styleUrl: './create-member-dialog.component.scss'
 })
-export class CreateMemberDialogComponent {
+export class CreateMemberDialogComponent implements OnInit {
 
   contactData = {
     name: ''
   };
+  
+  mobile: boolean = false;
 
+  constructor(private screenSizeService: ScreenSizeService) {}
+
+  ngOnInit() {
+    this.screenSizeService.isMobile().subscribe(isMobile => {
+      this.mobile = isMobile;
+    });
+  }
   onSubmit(ngForm: NgForm) {
     
   }

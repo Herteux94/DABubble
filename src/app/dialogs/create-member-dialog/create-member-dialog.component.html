@@ -1,4 +1,4 @@
-<div class="dialogContainer swipeDialog">
+<div class="dialogContainer" [ngClass]="{'swipeDialog': mobile, 'roundedDialog': !mobile}">
     <div class="dialogWrapper">
 
         <div class="swipeHandleContainer">
@@ -30,7 +30,7 @@
             </div>
 
             <div class="btnWrapper">
-                <button type="submit" class="dialogBtn">
+                <button type="submit" class="firstBtn">
                     Erstellen
                 </button>
             </div>

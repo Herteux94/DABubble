@@ -100,6 +100,10 @@
   gap: 20px;
 }
 
+.channelName {
+  color: $second-color;
+}
+
 .inputContainer {
   display: flex;
   flex-direction: column;
@@ -170,13 +174,6 @@
 }
 
 @media screen and (min-width: 1025px) {
-  .roundedDialog {
-    width: 400px;
-  }
-
-  .swipeDialog {
-    width: 430px;
-  }
 
   .profileDialogContainer {
     width: 500px;

@@ -1,2 +1,16 @@
 @import "../../../variables.scss";
 @import "../../../app/shared/dialogs/dialog.component.scss";
+
+@media screen and (min-width: 1025px) {
+  .roundedDialog {
+    width: 514px;
+  }
+
+  .dialogWrapper {
+    gap: 10px;
+  }
+
+  .channelName {
+    margin-bottom: 8px;
+  }
+}
