@@ -1,38 +1,38 @@
 .dialogContainer {
-    background-color: rgb(255, 255, 255);
-    padding: 8% 6%;
+  background-color: rgb(255, 255, 255);
+  padding: 8% 6%;
 }
 
 .roundedDialog {
-    width: 280px;
-    border-radius: 20px 0 20px 20px;
-    box-shadow: 0px 6px 10px 0px #00000033;   
+  width: 280px;
+  border-radius: 20px 0 20px 20px;
+  box-shadow: 0px 6px 10px 0px #00000033;
 }
 
-.swipeDialog{
-    width: 280px;
-    border-radius: 20px 20px 0 0;
-    box-shadow: 0px -3px 10px 0px #00000033;
+.swipeDialog {
+  width: 280px;
+  border-radius: 20px 20px 0 0;
+  box-shadow: 0px -3px 10px 0px #00000033;
 }
 
 .swipeHandleContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .swipeHandle {
-    cursor: grab;
-    width: 62px;
-    height: 6px;
-    border-radius: 23px;
-    background-color: $light-grey;
+  cursor: grab;
+  width: 62px;
+  height: 6px;
+  border-radius: 23px;
+  background-color: $light-grey;
 }
 
 .dialogWrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .dialogWrapperBig {
@@ -87,10 +87,10 @@
     background-color: $background-color;
     border-radius: 100px;
     color: $second-color;
-    
-    svg path{
+
+    svg path {
       fill: $second-color;
-    } 
+    }
   }
 }
 
@@ -129,58 +129,60 @@
   padding: 10px 20px;
 }
 
-@media(hover: hover) and (pointer: fine) {
-   
-    .addMemberContainer:hover {
-      background-color: $background-color;
-      border-radius: 100px;
-      color: $second-color;
-      
-      svg path{
-        fill: $second-color;
-      } 
-    
+@media (hover: hover) and (pointer: fine) {
+  .addMemberContainer:hover {
+    background-color: $background-color;
+    border-radius: 100px;
+    color: $second-color;
+
+    svg path {
+      fill: $second-color;
+    }
   }
 }
 
 @media screen and (min-width: 400px) {
-    .roundedDialog {
-        width: 360px;
-    }
+  .roundedDialog {
+    width: 360px;
+  }
 
-    .swipeDialog {
-        width: 360px;
-    }
+  .swipeDialog {
+    width: 360px;
+  }
 
-    .profileDialogContainer {
-        width: 360px;
-      }
+  .profileDialogContainer {
+    width: 360px;
+  }
 }
 
 @media screen and (min-width: 500px) {
-    .roundedDialog {
-        width: 400px;
-    }
+  .roundedDialog {
+    width: 400px;
+  }
 
-    .swipeDialog {
-        width: 430px;
-    }
+  .swipeDialog {
+    width: 430px;
+  }
 
-    .profileDialogContainer {
-        width: 400px;
-      }
+  .profileDialogContainer {
+    width: 400px;
+  }
 }
 
 @media screen and (min-width: 1025px) {
-    .roundedDialog {
-        width: 400px;
-    }
+  .roundedDialog {
+    width: 400px;
+  }
 
-    .swipeDialog {
-        width: 430px;
-    }
+  .swipeDialog {
+    width: 430px;
+  }
 
-    .profileDialogContainer {
-        width: 500px;
-      }
+  .profileDialogContainer {
+    width: 500px;
+  }
+
+  .swipeHandleContainer {
+    display: none;
+  }
 }
