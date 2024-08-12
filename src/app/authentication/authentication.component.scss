@@ -14,6 +14,19 @@
   margin: 64px 0 0 0;
 }
 
+.card {
+  padding: 35px 20px;
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  border-radius: 30px;
+  margin: 32px 16px;
+  max-width: 606px;
+}
+
 @media (min-width: 1250px) {
   .wrapper {
     height: 100vh;
