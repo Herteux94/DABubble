@@ -9,9 +9,14 @@
   height: 100vh;
 }
 
+.arrowBackIcon {
+  left: 10px;
+}
+
 h1 {
   color: $first-color;
   margin: 0 0 30px 0;
+  text-align: center;
 }
 
 .infoText {
@@ -21,6 +26,12 @@ h1 {
   margin: 0 0 30px 0;
 }
 
-.inputContainer{
+.inputContainerAuth {
   width: 100%;
+}
+
+@media (min-width: 420px) {
+  .arrowBackIcon {
+    left: 20px;
+  }
 }
