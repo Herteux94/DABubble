@@ -1,4 +1,4 @@
-<div class="dialogContainer"  [ngClass]="{'swipeDialog': !mobile, 'roundedDialog': mobile}"> 
+<div class="dialogContainer roundedDialog"> 
     <div class="dialogWrapper">
         <div class="dialogHeader">
             <h2>Mitglieder</h2>
@@ -6,18 +6,18 @@
         </div>
 
         <div class="memberList">
-            <div class="member">
+            <div class="member"  [ngClass]="{'hover': !mobile, 'active': mobile}">
                 <img src="../../../assets/img/dummyAvatar.svg" alt="Schließen">
                 <p>Frederik Beck</p>
             </div>
 
-            <div class="member">
+            <div class="member"  [ngClass]="{'hover': !mobile, 'active': mobile}">
                 <img src="../../../assets/img/dummyAvatarFem.svg" alt="Schließen">
                 <p>Sofia Müller</p>
             </div>
         </div>
 
-        <div class="addMemberContainer">
+        <div class="addMemberContainer" [ngClass]="{'hover': !mobile, 'active': mobile}">
 
             <div>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">

@@ -19,12 +19,12 @@
                 <input class="input" #name="ngModel" [(ngModel)]="contactData.name" type="text" id="name" name="name"
                     placeholder="Name eingeben" required autocomplete="new-password" />
                 @if (!name.valid && name.touched) {
-                <span class="errorMessage">Bitte gib einen Namen ein.</span>
+                <span class="errorMessage subText">Bitte gib einen Namen ein.</span>
                 }
             </div>
 
             <div class="btnWrapper">
-                <button class="dialogBtn">Hinzufügen</button>
+                <button class="firstBtn">Hinzufügen</button>
             </div>
 
         </form>

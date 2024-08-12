@@ -15,7 +15,7 @@ export class CreateMemberDialogComponent implements OnInit {
   contactData = {
     name: ''
   };
-  
+  selectedMemberType: string = 'allMember';
   mobile: boolean = false;
 
   constructor(private screenSizeService: ScreenSizeService) {}
