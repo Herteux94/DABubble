@@ -15,18 +15,27 @@
             <div class="inputContainer">
 
                 <div class="radioField">
-                    <input type="radio" id="allMemberRadio" name="memberType" value="allMember" ngModel checked>
+                    <input type="radio" id="allMemberRadio" name="memberType" value="allMember" ngModel
+                        [(ngModel)]="selectedMemberType" checked>
                     <label for="allMemberRadio">
                         Alle Mitglieder von <a href="#">OfficeTeam</a> hinzufügen
                     </label>
                 </div>
 
                 <div class="radioField">
-                    <input type="radio" id="specificMemberRadio" name="memberType" value="specificMember" ngModel>
+                    <input type="radio" id="specificMemberRadio" name="memberType" value="specificMember" ngModel
+                        [(ngModel)]="selectedMemberType">
                     <label for="specificMemberRadio">
                         Bestimmte Leute hinzufügen
                     </label>
                 </div>
+
+                <div class="inputContainer">
+                    @if (selectedMemberType === 'specificMember') {
+                        <input type="text" placeholder="Namen eingeben" ngModel name="specificMembers" class="input">
+                    }
+                </div>
+
             </div>
 
             <div class="btnWrapper">
@@ -35,6 +44,8 @@
                 </button>
             </div>
         </form>
+
+
 
     </div>
 </div>

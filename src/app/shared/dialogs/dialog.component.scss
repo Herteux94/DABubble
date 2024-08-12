@@ -56,13 +56,20 @@
   flex-direction: column;
   gap: 12px;
   padding: 1% 4%;
+
+  :active {
+    background-color: $background-color;
+    border-radius: 100px;
+  }
 }
 
 .member {
   display: flex;
   align-items: center;
+  width: fit-content;
   gap: 16px;
   cursor: pointer;
+  padding: 4px 20px;
 }
 
 .addMemberContainer {
@@ -78,18 +85,7 @@
 
     svg {
       background-color: $background-color;
-      // height: 28px;
       border-radius: 100%;
-    }
-  }
-
-  &:active {
-    background-color: $background-color;
-    border-radius: 100px;
-    color: $second-color;
-
-    svg path {
-      fill: $second-color;
     }
   }
 }
@@ -133,8 +129,8 @@
   padding: 10px 20px;
 }
 
-@media (hover: hover) and (pointer: fine) {
-  .addMemberContainer:hover {
+.hover {
+  &:hover {
     background-color: $background-color;
     border-radius: 100px;
     color: $second-color;
@@ -144,6 +140,30 @@
     }
   }
 }
+
+.active {
+  &:active {
+    background-color: $background-color;
+    border-radius: 100px;
+    color: $second-color;
+
+    svg path {
+      fill: $second-color;
+    }
+  }
+}
+
+// @media (hover: hover) and (pointer: fine) {
+//   .addMemberContainer:hover {
+//     background-color: $background-color;
+//     border-radius: 100px;
+//     color: $second-color;
+
+//     svg path {
+//       fill: $second-color;
+//     }
+//   }
+// }
 
 @media screen and (min-width: 400px) {
   .roundedDialog {
@@ -174,7 +194,6 @@
 }
 
 @media screen and (min-width: 1025px) {
-
   .profileDialogContainer {
     width: 500px;
   }

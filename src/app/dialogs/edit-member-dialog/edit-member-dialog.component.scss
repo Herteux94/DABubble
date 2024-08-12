@@ -1,6 +1,10 @@
 @import "../../../variables.scss";
 @import "../../../app/shared/dialogs/dialog.component.scss";
 
+.errorMessage {
+  padding-left: 20px;
+}
+
 @media screen and (min-width: 1025px) {
   .roundedDialog {
     width: 514px;

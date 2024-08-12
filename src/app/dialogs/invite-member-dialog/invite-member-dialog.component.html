@@ -1,4 +1,4 @@
-<div class="dialogContainer" [ngClass]="{'swipeDialog': !mobile, 'roundedDialog': mobile}">
+<div class="dialogContainer roundedDialog">
     <div class="dialogWrapper">
 
         <div class="dialogHeader">
@@ -15,7 +15,7 @@
                 <input class="input" #name="ngModel" [(ngModel)]="contactData.name" type="text" id="name" name="name"
                     placeholder="Name eingeben" required autocomplete="new-password" />
                 @if (!name.valid && name.touched) {
-                <span class="errorMessage">Bitte gib einen Namen ein.</span>
+                <span class="errorMessage subText">Bitte gib einen Namen ein.</span>
                 }
             </div>
 

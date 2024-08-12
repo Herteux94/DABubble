@@ -58,7 +58,7 @@
   align-items: center;
   gap: 20px;
 
-  img {
+  svg {
     width: 30px;
     height: 30px;
   }
@@ -79,14 +79,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border: unset;
-  background-color: $first-color;
-  color: white;
-  border-radius: 30px;
-  padding: 10px 20px;
   gap: 10px;
 
-  img {
+  svg {
     width: 24px;
     height: 24px;
   }
