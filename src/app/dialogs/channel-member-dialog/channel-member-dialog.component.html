@@ -17,7 +17,7 @@
             </div>
         </div>
 
-        <div class="addMemberContainer" [ngClass]="{'hover': !mobile, 'active': mobile}">
+        <div class="addMemberContainer" (click)="openInviteMemberDialog()" [ngClass]="{'hover': !mobile, 'active': mobile}">
 
             <div>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">

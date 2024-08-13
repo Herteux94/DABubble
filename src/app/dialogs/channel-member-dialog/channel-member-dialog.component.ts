@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ScreenSizeService } from '../../services/screen-size-service.service';
 import { CommonModule } from '@angular/common';
+import { DialogsService } from '../../services/dialogs.service';
+import { InviteMemberDialogComponent } from '../invite-member-dialog/invite-member-dialog.component';
 
 @Component({
   selector: 'app-channel-member-dialog',
@@ -13,11 +15,15 @@ export class ChannelMemberDialogComponent implements OnInit {
 
   mobile: boolean = false;
 
-  constructor(private screenSizeService: ScreenSizeService) {}
+  constructor(private screenSizeService: ScreenSizeService, private dialogService: DialogsService) {}
 
   ngOnInit() {
     this.screenSizeService.isMobile().subscribe(isMobile => {
       this.mobile = isMobile;
     });
+  }
+
+  openInviteMemberDialog() {
+    this.dialogService.openDialog(InviteMemberDialogComponent);
   }
 }

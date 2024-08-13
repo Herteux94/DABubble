@@ -6,68 +6,86 @@
 
     <div class="dialogWrapperBig">
 
-        <div class="channelContentWrapper" [class.no-outline]="isEditingName">
+        <div class="channelContentWrapper" [ngClass]="isEditingName ? 'noOutline' : 'outline'">
             <div class="channelNameContainer">
                 <h3>Channel-Name</h3>
-                @if (mobile == true) {
-                <div>
-                    <img [src]="isEditingName ? '../../../assets/img/check_circle.svg' : '../../../assets/img/pen.svg'"
-                        alt="" (click)="toggleEdit()">
-                </div>
+                @if (mobile) {
+                    @if (isEditingName) {
+                        <div>
+                            <img src="../../../assets/img/check_circle.svg" alt=""
+                                (click)="saveNewName(); onEvent($event)">
+                        </div>
+                        } @else {
+                        <div>
+                            <img src="../../../assets/img/pen.svg" alt="" (click)="toggleEditName()">
+                        </div>
+                        }
 
                 } @else {
-                <div>
-                    <span class="coloredText" (click)="toggleEdit()">Bearbeiten</span>
-                </div>
+                    @if (isEditingName) {
+                        <div>
+                            <span class="coloredText" (click)="saveNewName(); onEvent($event)">Speichern</span>
+                        </div>
+                        } @else {
+                        <div>
+                            <span class="coloredText" (click)="toggleEditName()">Bearbeiten</span>
+                        </div>
+                        }
                 }
             </div>
 
-            @if (!isEditingName == true) {
+            @if (!isEditingName) {
             <div>
-                <span (click)="toggleEdit()" class="trigger">
+                <span class="trigger">
                     # {{ channelName }}
                 </span>
             </div>
-            }
-
-            @if (isEditingName == true) {
+            } @else if (isEditingName) {
             <div class="inputContainer">
-                <input #channelNameInput class="input" type="text" [(ngModel)]="channelName" (blur)="toggleEdit()">
+                <input #channelNameInput [ngClass]="isEditingName ? 'noOutline' : 'outline'" class="input inputBackground" type="text" [(ngModel)]="channelName"
+                    (blur)="toggleEditName()">
             </div>}
         </div>
 
-
-
-
-
-
-        <div class="channelContentWrapper" [class.no-outline]="isEditingDescription">
+        <div class="channelContentWrapper" [class.noOutline]="isEditingDescription">
             <div class="channelNameContainer">
                 <h3>Beschreibung</h3>
 
-                @if (mobile == true) {
+                @if (mobile) {
+                @if (isEditingDescription) {
                 <div>
-                    <img [src]="isEditingDescription ? '../../../assets/img/check_circle.svg' : '../../../assets/img/pen.svg'"
-                        alt="" (click)="toggleEditDescription()">
+                    <img src="../../../assets/img/check_circle.svg" alt=""
+                        (click)="saveNewDescription(); onEvent($event)">
                 </div>
+                } @else {
+                <div>
+                    <img src="../../../assets/img/pen.svg" alt="" (click)="toggleEditDescription()">
+                </div>
+                }
 
+                } @else {
+                @if (isEditingDescription) {
+                <div>
+                    <span class="coloredText" (click)="saveNewDescription(); onEvent($event)">Speichern</span>
+                </div>
                 } @else {
                 <div>
                     <span class="coloredText" (click)="toggleEditDescription()">Bearbeiten</span>
                 </div>
                 }
+                }
             </div>
 
-            @if (!isEditingDescription == true) {
+            @if (!isEditingDescription) {
             <div>
-                <span (click)="toggleEditDescription()" class="trigger">
+                <span class="trigger">
                     {{ channelDescription }}
                 </span>
             </div>
-            } @else if (isEditingDescription == true) {
+            } @else if (isEditingDescription) {
             <div class="inputContainer">
-                <!-- <input #channelDescriptionInput class="input" type="text" [(ngModel)]="channelDescription" (blur)="toggleEditDescription()"> -->
-                <textarea #channelDescriptionInput rows="1" class="input" type="text" [(ngModel)]="channelDescription" (blur)="toggleEditDescription()"></textarea>
+                <textarea class="input" #channelDescriptionInput rows="dynamic" type="text"
+                    [(ngModel)]="channelDescription" (blur)="toggleEditDescription()"></textarea>
             </div>
             }
 
@@ -83,12 +101,11 @@
         </div>
 
 
-        @if (mobile == true) {
+        @if (mobile) {
         <div class="channelContentWrapper">
 
             <div class="channelNameContainer">
                 <h3>Mitglieder</h3>
-                <img src="../../../assets/img/pen.svg" alt="">
             </div>
 
             <div class="memberList">
@@ -103,7 +120,7 @@
                 </div>
             </div>
 
-            <div class="addMemberContainer">
+            <div class="addMemberContainer" (click)="openInviteMemberDialog()">
                 <img src="../../../assets/img/person_add.svg" alt="Person hinzufügen">
                 <p>Mitglieder hinzufügen</p>
             </div>
@@ -112,7 +129,7 @@
 
 
         <div class="btnWrapper">
-            <button class="dialogBtn">Channel verlassen</button>
+            <button class="firstBtn">Channel verlassen</button>
         </div>
     </div>
 </div>

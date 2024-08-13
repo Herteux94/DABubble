@@ -7,6 +7,7 @@ import { MenuDialogComponent } from '../dialogs/menu-dialog/menu-dialog.componen
 import { ProfileDialogComponent } from '../dialogs/profile-dialog/profile-dialog.component';
 import { ChannelDialogComponent } from '../dialogs/channel-dialog/channel-dialog.component';
 import { CreateChannelDialogComponent } from '../dialogs/create-channel-dialog/create-channel-dialog.component';
+import { DialogsService } from '../services/dialogs.service';
 
 @Component({
   selector: 'app-dialog-test',
@@ -25,5 +26,11 @@ import { CreateChannelDialogComponent } from '../dialogs/create-channel-dialog/c
   styleUrl: './dialog-test.component.scss'
 })
 export class DialogTestComponent {
+
+  constructor(private dialogService: DialogsService) { }
   mobile: any;
+
+  openInviteMemberDialog() {
+    this.dialogService.openDialog(InviteMemberDialogComponent);
+  }
 }

@@ -21,14 +21,17 @@
   flex-direction: column;
   gap: 16px;
   border: none;
-  outline: 1px solid $outlines;
+  transition: all 350ms ease;
   border-radius: 20px;
   padding: 20px;
   &:focus {
     outline: 1px solid $first-color;
   }
-  &.no-outline {
-    outline: none;
+  &.outline {
+    outline: 1px solid $outlines;
+  }
+  &.noOutline {
+    outline: 1px solid rgba(#ffffff00,0);
   }
 }
 
@@ -54,7 +57,7 @@
 }
 
 .channelCreator {
-    color: $second-color;
+  color: $second-color;
 }
 
 .memberList {
@@ -63,6 +66,18 @@
 
 .addMemberContainer {
   padding: 0 20px 0 30px;
+}
+
+.inputBackground {
+  background-image: url("../../../assets/img/hashtag.svg");
+  background-repeat: no-repeat;
+  background-position: 10px 10px;
+  background-size: 20px;
+  padding-left: 40px;
+  animation: outline 200ms ease-in-out;
+  animation-fill-mode: forwards;
+  outline: transparent;
+  transition: all 350ms ease;
 }
 
 @media screen and (min-width: 1025px) {
