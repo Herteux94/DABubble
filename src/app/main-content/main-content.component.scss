@@ -30,7 +30,7 @@ app-navigation {
     width: 100%;
 }
 
-app-messenger {
+.routerContainer {
     width: 100%;
     display: none;
 }
@@ -42,6 +42,7 @@ app-thread {
 
 app-nav-toggle-btn {
     z-index: 999;
+    display: none;
 }
 
 // .show {
@@ -87,13 +88,17 @@ app-nav-toggle-btn {
         width: 350px;
     }
 
-    app-messenger {
+    .routerContainer {
         flex: 1;
         display: block;
     }
 
     app-thread {
         width: 350px;
+        display: block;
+    }
+
+    app-nav-toggle-btn {
         display: block;
     }
 }

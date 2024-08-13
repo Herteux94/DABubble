@@ -1,73 +1,73 @@
-.logoContainer {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(to bottom, rgba(49, 58, 229, 1), rgba(121, 126, 243, 1));
-}
+// .logoContainer {
+//   position: fixed;
+//   top: 0;
+//   left: 0;
+//   width: 100%;
+//   height: 100%;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   background: linear-gradient(to bottom, rgba(49, 58, 229, 1), rgba(121, 126, 243, 1));
+// }
 
-.logo-wrapper {
-  display: flex;
-  align-items: center;
-  position: relative;
-  animation: moveToCorner 2s forwards ease-in-out 4s, fadeOutBackground 4s forwards ease-in-out 4s;
-}
+// .logo-wrapper {
+//   display: flex;
+//   align-items: center;
+//   position: relative;
+//   animation: moveToCorner 2s forwards ease-in-out 4s, fadeOutBackground 4s forwards ease-in-out 4s;
+// }
 
-#logo {
-  z-index: 1;
-  animation: moveLogo 2s forwards ease-in-out;
-  background-color: white;
-}
+// #logo {
+//   z-index: 1;
+//   animation: moveLogo 2s forwards ease-in-out;
+//   background-color: white;
+// }
 
-#textLogo {
-  opacity: 0;
-  transform: translateX(-100%);
-  animation: slideInText 2s forwards ease-in-out;
-  animation-delay: 2s;
-}
+// #textLogo {
+//   opacity: 0;
+//   transform: translateX(-100%);
+//   animation: slideInText 2s forwards ease-in-out;
+//   animation-delay: 2s;
+// }
 
-@keyframes moveLogo {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-48px); /* Schiebt das Logo nach links */
-  }
-}
+// @keyframes moveLogo {
+//   0% {
+//     transform: translateX(0);
+//   }
+//   100% {
+//     transform: translateX(-48px); /* Schiebt das Logo nach links */
+//   }
+// }
 
-@keyframes slideInText {
-  0% {
-    opacity: 0;
-    transform: translateX(-100%);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0); /* Text-Logo fährt nach rechts aus dem Logo heraus */
-  }
-}
+// @keyframes slideInText {
+//   0% {
+//     opacity: 0;
+//     transform: translateX(-100%);
+//   }
+//   100% {
+//     opacity: 1;
+//     transform: translateX(0); /* Text-Logo fährt nach rechts aus dem Logo heraus */
+//   }
+// }
 
-@keyframes moveToCorner {
-  0% {
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(1);
-  }
-  100% {
-    top: 0;
-    left: 0;
-    transform: translate(0, 0) scale(0.5);
-  }
-}
+// @keyframes moveToCorner {
+//   0% {
+//     top: 50%;
+//     left: 50%;
+//     transform: translate(-50%, -50%) scale(1);
+//   }
+//   100% {
+//     top: 0;
+//     left: 0;
+//     transform: translate(0, 0) scale(0.5);
+//   }
+// }
 
-@keyframes fadeOutBackground {
-  0% {
-    background-color: rgba(49, 58, 229, 1);
-  }
-  100% {
-    background-color: rgba(255, 255, 255, 0);
-  }
-}
+// @keyframes fadeOutBackground {
+//   0% {
+//     background-color: rgba(49, 58, 229, 1);
+//   }
+//   100% {
+//     background-color: rgba(255, 255, 255, 0);
+//   }
+// }

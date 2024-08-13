@@ -2,10 +2,12 @@
   <div class="wrapper contentLimit">
     <app-header></app-header>
     <div class="bodyArea">
-      <app-navigation [ngClass]="this.isMenuOpen ? '' : 'dNone'"></app-navigation>
-      <app-messenger></app-messenger>
-      <app-thread></app-thread>
+      <app-navigation [ngClass]="this.navOpen ? '' : 'dNone'"></app-navigation>
+      <div class="routerContainer">
+        <router-outlet></router-outlet>
+      </div>
+      <app-thread [ngClass]="this.threadService.threadOpen ? '' : 'dNone'"></app-thread>
     </div>
   </div>
-  <app-nav-toggle-btn (menuOpenChange)="toggleMenu($event)"></app-nav-toggle-btn>
+  <app-nav-toggle-btn [menuOpen]="navOpen" (click)="toggleMenu()"></app-nav-toggle-btn>
 </section>

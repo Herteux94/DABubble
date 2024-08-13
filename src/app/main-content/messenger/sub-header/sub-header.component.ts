@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ThreadServiceService } from '../../../services/thread-service.service';
 
 @Component({
   selector: 'app-sub-header',
@@ -8,5 +9,9 @@ import { Component } from '@angular/core';
   styleUrl: './sub-header.component.scss'
 })
 export class SubHeaderComponent {
+
+  constructor(public threadService: ThreadServiceService) {}
+
+  
 
 }

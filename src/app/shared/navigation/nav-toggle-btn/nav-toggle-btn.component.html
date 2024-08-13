@@ -1,4 +1,8 @@
-<div (click)="toggleMenuBtn()" class="toggleMenuButton">
-    <h3>{{ text }}</h3>
+<div class="toggleMenuButton">
+    @if(this.menuOpen) {
+        <h3>{{ navBtnTextopen }}</h3>
+    } @else {
+        <h3>{{ navBtnTextclosed }}</h3>
+    }
     <img [ngStyle]="{'transform': this.menuOpen ? '' : 'rotate(270deg)'}" src="../../../assets/img/hide-nav.png">
 </div>

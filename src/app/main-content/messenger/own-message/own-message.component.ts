@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ThreadServiceService } from '../../../services/thread-service.service';
 
 @Component({
   selector: 'app-own-message',
@@ -8,5 +9,7 @@ import { Component } from '@angular/core';
   styleUrl: './own-message.component.scss'
 })
 export class OwnMessageComponent {
+
+  constructor(public threadService: ThreadServiceService) {}
 
 }
