@@ -1,5 +1,6 @@
 import { ApplicationConfig, importProvidersFrom } from '@angular/core';
 import { provideRouter } from '@angular/router';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // Hier hinzufügen
 
 import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
@@ -15,6 +16,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideClientHydration(),
     provideHttpClient(), // Füge provideHttpClient hinzu
+    importProvidersFrom(BrowserAnimationsModule),
     importProvidersFrom(
       provideFirebaseApp(() =>
         initializeApp({

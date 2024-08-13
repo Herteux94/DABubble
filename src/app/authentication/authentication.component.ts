@@ -5,6 +5,7 @@ import { ChooseAvatarComponent } from './choose-avatar/choose-avatar.component';
 import { SendResetPwMailComponent } from './send-reset-pw-mail/send-reset-pw-mail.component';
 import { ResetPwComponent } from './reset-pw/reset-pw.component';
 import { RouterModule, Routes } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-authentication',
@@ -15,7 +16,8 @@ import { RouterModule, Routes } from '@angular/router';
     ChooseAvatarComponent,
     SendResetPwMailComponent,
     ResetPwComponent,
-    RouterModule
+    RouterModule,
+    CommonModule
 
   ],
   templateUrl: './authentication.component.html',
