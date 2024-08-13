@@ -23,7 +23,7 @@ app-header {
     top: 0;
     left: 0;
     right: 0;
-    z-index: 998;
+    z-index: 898;
 }
 
 app-navigation {
@@ -45,37 +45,38 @@ app-nav-toggle-btn {
     display: none;
 }
 
-// .show {
-//     transition: 350ms all ease-in-out !important;
-//     animation: slideFromLeft 350ms ease-in-out;
-//     transform: translateX(0);
-// }
+.showComponentOnMobile {
+    display: block !important;
+    z-index: 899;
+}
 
-// .hide {
-//     transition: 350ms all ease-in-out !important;
-//     animation: slideAway 350ms ease-in-out;
-//     transform: translateX(-300%);
-// }
-
-// @keyframes slideFromLeft {
-//     from {
-//         transform: translateX(-300%);
-//     }
+@keyframes slideFromLeft {
+    0% {
+        transform: translateY(100%);
+        width: 0px;
+        display: none;
+    }
     
-//     to {
-//         transform: translateX();
-//     }
-// }
+    100% {
+        transform: translateY(0);
+        display: block;
+        width: 350px;
+    }
+}
 
-// @keyframes slideAway {
-//     from {
-//         transform: translateX(0);
-//     }
+@keyframes slideAway {
+    0% {
+        transform: translateY(0);
+        width: 350px;
+        display: block;
+    }
     
-//     to {
-//         transform: translateX(-300%);
-//     }
-// }
+    100% {
+        transform: translateY(100%);
+        width: 0;
+        display: none;
+    }
+}
 
 @media(min-width: 1025px) {
     .bodyArea {
@@ -100,5 +101,17 @@ app-nav-toggle-btn {
 
     app-nav-toggle-btn {
         display: block;
+    }
+
+    .show {
+        transition: 350ms all ease-in-out !important;
+        animation: slideFromLeft 350ms ease-in-out;
+        animation-fill-mode: forwards;
+    }
+    
+    .hide {
+        transition: 350ms all ease-in-out !important;
+        animation: slideAway 350ms ease-in-out;
+        animation-fill-mode: forwards;
     }
 }

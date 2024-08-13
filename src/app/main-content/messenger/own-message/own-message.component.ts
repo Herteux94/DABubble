@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ThreadServiceService } from '../../../services/thread-service.service';
+import { ToggleMobileComponentsService } from '../../../services/toggle-mobile-components.service';
 
 @Component({
   selector: 'app-own-message',
@@ -10,6 +11,6 @@ import { ThreadServiceService } from '../../../services/thread-service.service';
 })
 export class OwnMessageComponent {
 
-  constructor(public threadService: ThreadServiceService) {}
+  constructor(public threadService: ThreadServiceService, public toggleMobileComService: ToggleMobileComponentsService) {}
 
 }
