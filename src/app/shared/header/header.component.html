@@ -1,5 +1,5 @@
 <header>
-    <img [routerLink]="['/main-content']" class="logo" src="../../../assets/img/logo-plus-text.svg" alt="main-logo">
+    <img [routerLink]="['/main-content']" (click)="this.mobile ? this.toggleMobileComService.showNavCom() : ''" class="logo" src="../../../assets/img/logo-plus-text.svg" alt="main-logo">
     <div class="rightSide">
     <div class="inputContainer">
         <input placeholder="DevSpace durchsuchen" type="text">
