@@ -17,7 +17,7 @@ export class MainContentComponent {
 
   isMenuOpen: boolean = true;
 
-  onMenuOpenChange(isOpen: boolean) {
+  toggleMenu(isOpen: boolean) {
     this.isMenuOpen = isOpen;
   }
 }
