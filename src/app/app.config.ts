@@ -8,11 +8,13 @@ import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getDatabase, provideDatabase } from '@angular/fire/database';
 import { getStorage, provideStorage } from '@angular/fire/storage';
+import { provideHttpClient } from '@angular/common/http'; // Importiere provideHttpClient
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideClientHydration(),
+    provideHttpClient(), // Füge provideHttpClient hinzu
     importProvidersFrom(
       provideFirebaseApp(() =>
         initializeApp({

@@ -1,14 +1,14 @@
-<form action="reset-password.php" method="POST">
+<form (ngSubmit)="sendResetEmail()" action="#">
   <section class="wrapper">
     <div class="card">
-      <a [routerLink]="['/authentication/login']"><img class="arrowBackIcon" src="../../../assets/img/arrow_back.svg"
-          alt="arrow back icon"></a>
+      <a [routerLink]="['/authentication/login']">
+        <img class="arrowBackIcon" src="../../../assets/img/arrow_back.svg" alt="arrow back icon">
+      </a>
       <h1>Passwort Zurücksetzen</h1>
       <span class="infoText">Bitte geben Sie Ihre E-Mail-Adresse ein.</span>
       <div class="inputContainerAuth">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <mask id="mask0_69757_5585" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
-            height="24">
+          <mask id="mask0_69757_5585" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
             <rect width="24" height="24" fill="#D9D9D9" />
           </mask>
           <g mask="url(#mask0_69757_5585)">
@@ -17,12 +17,18 @@
               fill="#686868" />
           </g>
         </svg>
-        <input class="inputFieldAuth" type="email" pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}" placeholder="beispielname@email.com" required
-          [(ngModel)]="inputValue">
+        <!-- E-Mail Eingabefeld -->
+        <input class="inputFieldAuth"
+               type="email"
+               pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}"
+               placeholder="beispielname@email.com"
+               required
+               [(ngModel)]="inputValue"
+               name="email">
       </div>
       <span class="infoTextGray">Wir senden Ihnen eine E-Mail, über die Sie Ihr Passwort ändern können.</span>
       <div class="sendMailBtnContainer">
-        <button class="firstBtn" [disabled]="!inputValue">E-Mail senden</button>
+        <button class="firstBtn" type="submit" [disabled]="!inputValue">E-Mail senden</button>
       </div>
     </div>
   </section>
