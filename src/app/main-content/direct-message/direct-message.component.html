@@ -1,12 +1,9 @@
 <section>
     <div class="content">
-      <app-sub-header [isThread]="true"></app-sub-header>
+      <app-sub-header [isDM]="true"></app-sub-header>
       <div class="messagesContent">
         <app-message></app-message>
-        <div class="divider">
-            <span class="subText">2 Antworten</span>
-            <div class="line"></div>
-        </div>
+        <app-date-divider></app-date-divider>
         <app-own-message></app-own-message>
         <app-message></app-message>
       </div>

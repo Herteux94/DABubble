@@ -8,14 +8,18 @@ import { SignUpComponent } from './authentication/sign-up/sign-up.component';
 import { ChooseAvatarComponent } from './authentication/choose-avatar/choose-avatar.component';
 import { SendResetPwMailComponent } from './authentication/send-reset-pw-mail/send-reset-pw-mail.component';
 import { ResetPwComponent } from './authentication/reset-pw/reset-pw.component';
-import { MessengerComponent } from './main-content/messenger/messenger.component';
 import { StartAnimationComponent } from './start-animation/start-animation.component';
+import { ChannelComponent } from './main-content/channel/channel.component';
+import { DirectMessageComponent } from './main-content/direct-message/direct-message.component';
+import { NewMessageComponent } from './main-content/new-message/new-message.component';
 
 export const routes: Routes = [
     { path: '', component: WorkspaceComponent },
-    { path: 'main-content', component: MainContentComponent,
+    { path: 'messenger', component: MainContentComponent,
         children: [
-            { path: 'messenger', component: MessengerComponent},
+            { path: 'channel', component: ChannelComponent},
+            { path: 'directMessage', component: DirectMessageComponent},
+            { path: 'newMessage', component: NewMessageComponent},
         ]
     },
     { path: 'authentication', component: AuthenticationComponent,

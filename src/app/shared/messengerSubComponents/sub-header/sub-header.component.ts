@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ThreadServiceService } from '../../../services/thread-service.service';
 
 @Component({
@@ -9,6 +9,12 @@ import { ThreadServiceService } from '../../../services/thread-service.service';
   styleUrl: './sub-header.component.scss'
 })
 export class SubHeaderComponent {
+
+  @Input() isChannel!: boolean;
+  @Input() isThread!: boolean;
+  @Input() isDM!: boolean;
+  @Input() isNewMsg!: boolean;
+
 
   constructor(public threadService: ThreadServiceService) {}
 
