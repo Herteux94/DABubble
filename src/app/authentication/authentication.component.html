@@ -1,4 +1,8 @@
 <div class="wrapper">
-  <img src="../../assets/img/logo-plus-text.svg" class="logo" alt="Logo with text">
+  <div class="overlay" [@fadeOutOverlay]="overlayState"></div>
+  <div class="logoContainer" [@logoAppear]="logoState" [@moveToCorner]="containerPosition">
+    <img id="logo" src="../../assets/img/logo-no-text.svg" alt="logo" [@slideLogo]="logoSlideState" style="opacity: 0;">
+    <img id="textLogo" src="../../assets/img/text-logo.svg" alt="text logo" [@slideText]="textLogoState" [ngClass]="textLogoClass" style="opacity: 0;">
+  </div>
   <router-outlet></router-outlet>
 </div>

@@ -8,7 +8,6 @@ import { SignUpComponent } from './authentication/sign-up/sign-up.component';
 import { ChooseAvatarComponent } from './authentication/choose-avatar/choose-avatar.component';
 import { SendResetPwMailComponent } from './authentication/send-reset-pw-mail/send-reset-pw-mail.component';
 import { ResetPwComponent } from './authentication/reset-pw/reset-pw.component';
-import { StartAnimationComponent } from './start-animation/start-animation.component';
 import { ChannelComponent } from './main-content/channel/channel.component';
 import { DirectMessageComponent } from './main-content/direct-message/direct-message.component';
 import { NewMessageComponent } from './main-content/new-message/new-message.component';
@@ -24,8 +23,7 @@ export const routes: Routes = [
     },
     { path: 'authentication', component: AuthenticationComponent,
         children: [
-            { path: '', redirectTo: 'startAnimation', pathMatch: 'full' },  // Redirect to login
-            { path: 'startAnimation', component: StartAnimationComponent},
+            { path: '', redirectTo: 'login', pathMatch: 'full' },  // Redirect to login
             { path: 'login', component: LoginComponent },  // Explicit login route
             { path: 'signUp', component: SignUpComponent },
             { path: 'createAccount', component: ChooseAvatarComponent },

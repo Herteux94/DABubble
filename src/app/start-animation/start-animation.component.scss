@@ -24,17 +24,3 @@
   overflow: hidden; /* Verhindert, dass der Text außerhalb des Logos sichtbar ist */
 }
 
-#logo {
-  width: 70px;
-  height: 70px;
-  z-index: 1; /* Sicherstellen, dass es über anderen Elementen liegt */
-}
-
-#textLogo {
-  width: 150px;
-  height: 24px;
-  opacity: 0; /* Initial unsichtbar */
-  transform: translateX(-60px); /* Positioniert es hinter dem Logo */
-  z-index: 0; /* Sicherstellen, dass es unter dem Logo liegt */
-  transition: opacity 1s ease-out, transform 1s ease-out; /* Glatter Übergang für sowohl Sichtbarkeit als auch Position */
-}
