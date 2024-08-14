@@ -1,3 +1,4 @@
+import { FocusInputDirective } from '../../directives/focus-input.directive';
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AuthenticationComponent } from '../authentication.component';

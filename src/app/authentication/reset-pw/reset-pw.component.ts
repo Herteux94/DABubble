@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { FocusInputDirective } from '../../directives/focus-input.directive';
 
 @Component({
   selector: 'app-reset-pw',
   standalone: true,
   imports: [
-    FormsModule
+    FormsModule,
+    FocusInputDirective
   ],
   templateUrl: './reset-pw.component.html',
   styleUrl: './reset-pw.component.scss'

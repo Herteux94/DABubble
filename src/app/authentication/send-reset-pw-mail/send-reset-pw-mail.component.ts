@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ResetPasswordService } from '../../services/reset-password.service';
+import { FocusInputDirective } from '../../directives/focus-input.directive';
 
 @Component({
   selector: 'app-send-reset-pw-mail',
@@ -10,7 +11,8 @@ import { ResetPasswordService } from '../../services/reset-password.service';
   imports: [
     RouterModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    FocusInputDirective
   ],
   templateUrl: './send-reset-pw-mail.component.html',
   styleUrls: ['./send-reset-pw-mail.component.scss']
