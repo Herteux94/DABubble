@@ -1,7 +1,7 @@
 @import '../../../../variables.scss';
 
 .wrapper {
-    padding: 10px 16px;
+    padding: 0 16px;
     margin-bottom: 16px;
     display: flex;
     align-items: center;
@@ -9,6 +9,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     z-index: 98;
     background-color: white;
+    height: 72px;
 }
 
 .leftSide {
@@ -27,7 +28,9 @@
 .rightSide {
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     gap: 16px;
+    flex: 1;
 }
 
 .member {
@@ -53,6 +56,53 @@
 
     span {
         color: $second-color;
+    }
+}
+
+.closeSvgContainer {
+    padding: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+}
+
+.profileAndOnlineCircleImg {
+    position: relative;
+    height: 50px;
+}
+
+.avatarImg {
+    width: 50px;
+    border-radius: 100%;
+}
+
+.onlineStatusImg {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    z-index: 1;
+}
+
+.inputContainer {
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+
+    input {
+        border: none;
+        border-radius: 42px;
+        height: 40px;
+        width: 100%;
+        max-width: 90%;
+        outline: 1px solid $outlines;
+        padding: 8px 24px;
+        box-sizing: border-box;
+    
+        &:focus {
+            outline: 1px solid $first-color;
+        }
     }
 }
 
@@ -113,6 +163,17 @@
         &:hover {
             cursor: pointer;
             
+            svg path {
+                fill: $first-color;
+            }
+        }
+    }
+
+    .closeSvgContainer {
+        &:hover {
+            background-color: $background-color;
+            cursor: pointer;
+
             svg path {
                 fill: $first-color;
             }

@@ -11,9 +11,25 @@
             <span>Welche Version ist aktuell von Angular?</span>
         </div>
 
+        <div class="reactionsArea">
+            <div class="reactions">
+                <div class="reactionContainer">
+                    <img src="../../../../assets/img/close.svg">
+                    <span class="reactionsCount">1</span>
+                </div>
+                <div class="reactionContainer">
+                    <img src="../../../../assets/img/google-icon.svg">
+                    <span class="reactionsCount">2</span>
+                </div>
+            </div>
+        </div>
+
+        @if(this.isChannel) {
         <div class="responses">
             <span (click)="this.threadService.openThread(); this.toggleMobileComService.showThreadCom()" class="count">2 Antworten</span>
             <span class="time subText">Letzte Antwort 14:56</span>
         </div>
+        }
+
     </div>
 </div>

@@ -16,13 +16,15 @@
             </div>
         } @else if(isDM) {
             <div class="leftSide">
-            <h3>DM</h3>
-            <span>Tolle DM</span>
+                <div class="profileAndOnlineCircleImg">
+                    <img class="avatarImg" src="../../../assets/img/avatars/avatar-4.svg" alt="hashtag-icon">
+                    <img class="onlineStatusImg" src="../../../assets/img/green-online-circle.svg" alt="online-status">
+                </div>
+                <h3>Sofia Müller</h3>
             </div>
         } @else if(isNewMsg) {
             <div class="leftSide">
-            <h3>New Message</h3>
-            <span>Tolle neue Nachricht</span>
+            <h3>Neue Nachricht</h3>
             </div>
         }
         @else {
@@ -50,16 +52,21 @@
 
     <div class="rightSide">
         @if(isThread) {
-            <h3>Thread Rechts</h3>
+            <div (click)="(this.mobile ? this.toggleMobileCompService.showNavCom() : ''); this.threadService.closeThread()" class="closeSvgContainer">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <mask id="mask0_69747_3226" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                <rect width="24" height="24" fill="#D9D9D9"/>
+                </mask>
+                <g mask="url(#mask0_69747_3226)">
+                <path d="M12 13.3998L7.10005 18.2998C6.91672 18.4831 6.68338 18.5748 6.40005 18.5748C6.11672 18.5748 5.88338 18.4831 5.70005 18.2998C5.51672 18.1165 5.42505 17.8831 5.42505 17.5998C5.42505 17.3165 5.51672 17.0831 5.70005 16.8998L10.6 11.9998L5.70005 7.0998C5.51672 6.91647 5.42505 6.68314 5.42505 6.3998C5.42505 6.11647 5.51672 5.88314 5.70005 5.6998C5.88338 5.51647 6.11672 5.4248 6.40005 5.4248C6.68338 5.4248 6.91672 5.51647 7.10005 5.6998L12 10.5998L16.9 5.6998C17.0834 5.51647 17.3167 5.4248 17.6 5.4248C17.8834 5.4248 18.1167 5.51647 18.3 5.6998C18.4834 5.88314 18.575 6.11647 18.575 6.3998C18.575 6.68314 18.4834 6.91647 18.3 7.0998L13.4 11.9998L18.3 16.8998C18.4834 17.0831 18.575 17.3165 18.575 17.5998C18.575 17.8831 18.4834 18.1165 18.3 18.2998C18.1167 18.4831 17.8834 18.5748 17.6 18.5748C17.3167 18.5748 17.0834 18.4831 16.9 18.2998L12 13.3998Z" fill="black"/>
+                </g>
+            </svg>
+        </div>
         } @else if(isDM) {
-            <div class="leftSide">
-            <h3>DM rechts</h3>
-            <span>Tolle DM</span>
-            </div>
+            <div></div>
         } @else if(isNewMsg) {
-            <div class="leftSide">
-            <h3>New Meessage rechts</h3>
-            <span>Tolle neue Nachricht</span>
+            <div class="inputContainer">
+                <input type="text" placeholder="An: #channel oder @person">
             </div>
         } @else {
             <div class="member">
@@ -76,7 +83,7 @@
                 </div>
                 <h3>3</h3>
             </div>
-            <div (click)="this.threadService.closeThread()" class="personAddImgContainer">
+            <div class="personAddImgContainer">
                 <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect width="34" height="34" rx="17" fill="#ECEEFE"/>
                     <mask id="mask0_678_13872" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="8" y="8" width="18" height="18">

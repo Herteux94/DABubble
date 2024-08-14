@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ThreadServiceService } from '../../../services/thread-service.service';
 import { ToggleMobileComponentsService } from '../../../services/toggle-mobile-components.service';
 
@@ -10,6 +10,8 @@ import { ToggleMobileComponentsService } from '../../../services/toggle-mobile-c
   styleUrl: './own-message.component.scss'
 })
 export class OwnMessageComponent {
+
+  @Input() isChannel!: boolean;
 
   constructor(public threadService: ThreadServiceService, public toggleMobileComService: ToggleMobileComponentsService) {}
 
