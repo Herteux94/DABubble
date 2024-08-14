@@ -42,7 +42,7 @@ export class ChannelDialogComponent implements OnInit {
     if (this.isEditingName) {
       setTimeout(() => {
         this.channelNameInput.nativeElement.focus();
-      }, 100);
+      }, 10);
     } else if (!this.isEditingName) {
       this.saveNewName();
     }
