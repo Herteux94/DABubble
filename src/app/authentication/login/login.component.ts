@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AuthenticationComponent } from '../authentication.component';
 import { FocusInputDirective } from '../../directives/focus-input.directive';
-import { Auth, signInWithEmailAndPassword } from '@angular/fire/auth';
+import { Auth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
@@ -25,6 +25,7 @@ export class LoginComponent {
 
   constructor(private auth: Auth, private router: Router) {}
 
+  // Methode für E-Mail/Passwort-Login
   login(email: string, password: string) {
     if (!email) {
       this.errorMessage = 'Bitte geben Sie Ihre E-Mail-Adresse ein.';
@@ -59,6 +60,23 @@ export class LoginComponent {
           this.errorMessage = 'Fehler bei der Anmeldung. Bitte versuchen Sie es erneut.';
           this.errorType = null;
         }
+      });
+  }
+
+  // Methode für Google-Login
+  loginWithGoogle() {
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(this.auth, provider)
+      .then((result) => {
+        console.log('User signed in with Google:', result.user);
+        this.errorMessage = null;
+        this.errorType = null;
+        this.router.navigate(['/messenger']);
+      })
+      .catch((error) => {
+        console.error('Error during Google sign-in:', error);
+        this.errorMessage = 'Fehler bei der Anmeldung mit Google. Bitte versuchen Sie es erneut.';
+        this.errorType = null;
       });
   }
 }
