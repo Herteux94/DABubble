@@ -6,7 +6,10 @@
       <div [ngClass]="(this.toggleMobileComService.showMessageOnMobile ? 'showComponentOnMobile' : '') + ' ' + (this.mobile ? 'dNone' : '')" class="routerContainer">
         <router-outlet></router-outlet>
       </div>
-      <app-thread [ngClass]="(this.threadService.threadOpen ? 'show' : 'hide') + ' ' + (this.toggleMobileComService.showThreadOnMobile ? 'showComponentOnMobile' : '') + ' ' + (this.mobile ? 'dNone' : '')"></app-thread>
+      <div class="threadRouterContainer">
+        <router-outlet name="thread"></router-outlet>
+      </div>
+      <!-- <app-thread [ngClass]="(this.toggleMobileComService.showThreadOnMobile ? 'showComponentOnMobile' : '') + ' ' + (this.mobile ? 'dNone' : '')"></app-thread> -->
     </div>
   </div>
   <app-nav-toggle-btn [menuOpen]="navOpenDesktop" (click)="toggleMenu()"></app-nav-toggle-btn>

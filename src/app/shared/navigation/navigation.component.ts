@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
 import { ScreenSizeService } from '../../services/screen-size-service.service';
 import { ToggleMobileComponentsService } from '../../services/toggle-mobile-components.service';
-import { ThreadServiceService } from '../../services/thread-service.service';
 
 @Component({
   selector: 'app-navigation',
@@ -16,7 +15,7 @@ export class NavigationComponent implements OnInit {
 
   mobile!: boolean;
 
-  constructor(private screenSizeService: ScreenSizeService, public toggleMobileComService: ToggleMobileComponentsService, public threadService: ThreadServiceService) {}
+  constructor(private screenSizeService: ScreenSizeService, public toggleMobileComService: ToggleMobileComponentsService) {}
 
   ngOnInit() {
     this.screenSizeService.isMobile().subscribe((isMobile) => {

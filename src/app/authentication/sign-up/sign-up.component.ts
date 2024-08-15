@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FocusInputDirective } from '../../directives/focus-input.directive';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-sign-up',

@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ThreadServiceService } from '../../../services/thread-service.service';
 import { ToggleMobileComponentsService } from '../../../services/toggle-mobile-components.service';
 import { ScreenSizeService } from '../../../services/screen-size-service.service';
 
@@ -20,7 +19,7 @@ export class SubHeaderComponent implements OnInit {
   mobile!: boolean;
 
 
-  constructor(public threadService: ThreadServiceService, public toggleMobileCompService: ToggleMobileComponentsService, public screenSizeService: ScreenSizeService) {}
+  constructor(public toggleMobileCompService: ToggleMobileComponentsService, public screenSizeService: ScreenSizeService) {}
 
   ngOnInit() {
     this.screenSizeService.isMobile().subscribe((isMobile) => {

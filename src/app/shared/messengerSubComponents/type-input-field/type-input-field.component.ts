@@ -14,15 +14,12 @@ import { ActiveUserService } from '../../../services/active-user.service';
 export class TypeInputFieldComponent {
 
   message = new Message();
-  creationTime!: number;
-  senderID = this.activeUserService.activeUser;
 
   constructor(private firestoreService: FirestoreService, private activeUserService: ActiveUserService) { }
 
   sendMessage() {
-    this.creationTime = Date.now();
-    this.message.creationTime = this.creationTime;
-    this.message.senderID = this.senderID;
+    this.message.creationTime = Date.now();
+    this.message.senderID = this.activeUserService.activeUser;
     this.firestoreService.addMessage(this.message.toJSON());
     this.message.content = '';
   }

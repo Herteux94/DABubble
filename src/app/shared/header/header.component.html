@@ -1,5 +1,5 @@
 <header>
-    <img [routerLink]="['/messenger']" (click)="(this.mobile ? this.toggleMobileComService.showNavCom() : ''); this.threadService.closeThread()" class="logo" [src]="this.mobile && !this.toggleMobileComService.showNavOnMobile ? '../../../assets/img/header_logo_devspace.svg' : '../../../assets/img/logo-plus-text.svg'" alt="main-logo">
+    <img [routerLink]="['/messenger']" (click)="(this.mobile ? this.toggleMobileComService.showNavCom() : '')" class="logo" [src]="this.mobile && !this.toggleMobileComService.showNavOnMobile ? '../../../assets/img/header_logo_devspace.svg' : '../../../assets/img/logo-plus-text.svg'" alt="main-logo">
     <div class="rightSide">
     <div class="inputContainer">
         <input placeholder="DevSpace durchsuchen" type="text">

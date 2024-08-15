@@ -35,10 +35,15 @@ app-navigation {
     display: none;
 }
 
-app-thread {
+.threadRouterContainer {
     width: 100%;
     display: none;
 }
+
+// app-thread {
+//     width: 100%;
+//     display: none;
+// }
 
 app-nav-toggle-btn {
     z-index: 999;
@@ -94,10 +99,15 @@ app-nav-toggle-btn {
         display: block;
     }
 
-    app-thread {
+    .threadRouterContainer {
         width: 350px;
         display: block;
     }
+
+    // app-thread {
+    //     width: 350px;
+    //     display: block;
+    // }
 
     app-nav-toggle-btn {
         display: block;

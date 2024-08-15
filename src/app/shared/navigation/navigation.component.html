@@ -9,7 +9,7 @@
             <img src="../../../assets/img/workspace_logo.svg">
             <h3>DevSpace</h3>
         </div>
-         <div [routerLink]="['/messenger/newMessage']" class="editSquareContainer">
+         <div [routerLink]="['newMessage']" class="editSquareContainer">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <mask id="mask0_70273_4893" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
                 <rect width="24" height="24" fill="#D9D9D9"/>
@@ -58,7 +58,7 @@
              </div>
         </div>
         <div class="contentList">
-            <a [routerLink]="['/messenger/channel']" (click)="this.mobile ? this.toggleMobileComService.showMessageCom() : ''; this.threadService.closeThread()">
+            <a [routerLink]="['channel']" (click)="this.mobile ? this.toggleMobileComService.showMessageCom() : ''">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <mask id="mask0_813_12093" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
                     <rect width="24" height="24" fill="#D9D9D9"/>
@@ -69,7 +69,7 @@
                 </svg>
                 <span>Entwicklerteam</span>
             </a>
-            <a [routerLink]="['/messenger/channel']" (click)="this.mobile ? this.toggleMobileComService.showMessageCom() : ''; this.threadService.closeThread()">
+            <a [routerLink]="['channel']" (click)="this.mobile ? this.toggleMobileComService.showMessageCom() : ''">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <mask id="mask0_813_12093" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
                     <rect width="24" height="24" fill="#D9D9D9"/>
@@ -107,28 +107,28 @@
             </div>
         </div>
         <div class="contentList">
-            <a [routerLink]="['/messenger/directMessage']" (click)="this.mobile ? this.toggleMobileComService.showMessageCom() : ''; this.threadService.closeThread()">
+            <a [routerLink]="['directMessage']" (click)="this.mobile ? this.toggleMobileComService.showMessageCom() : ''">
                 <div class="profileAndOnlineCircleImg">
                     <img class="avatarImg" src="../../../assets/img/avatars/avatar-3.svg" alt="hashtag-icon">
                     <img class="onlineStatusImg" src="../../../assets/img/green-online-circle.svg" alt="online-status">
                 </div>
                 <span>Robin Westmeier</span>
             </a>
-            <a [routerLink]="['/messenger/directMessage']" (click)="this.mobile ? this.toggleMobileComService.showMessageCom() : ''; this.threadService.closeThread()">
+            <a [routerLink]="['directMessage']" (click)="this.mobile ? this.toggleMobileComService.showMessageCom() : ''">
                 <div class="profileAndOnlineCircleImg">
                     <img class="avatarImg" src="../../../assets/img/avatars/avatar-4.svg" alt="hashtag-icon">
                     <img class="onlineStatusImg" src="../../../assets/img/green-online-circle.svg" alt="online-status">
                 </div>
                 <span>Laurin Herteux</span>
             </a>
-            <a [routerLink]="['/messenger/directMessage']" (click)="this.mobile ? this.toggleMobileComService.showMessageCom() : ''; this.threadService.closeThread()">
+            <a [routerLink]="['directMessage']" (click)="this.mobile ? this.toggleMobileComService.showMessageCom() : ''">
                 <div class="profileAndOnlineCircleImg">
                     <img class="avatarImg" src="../../../assets/img/avatars/avatar-5.svg" alt="hashtag-icon">
                     <img class="onlineStatusImg" src="../../../assets/img/green-online-circle.svg" alt="online-status">
                 </div>
                 <span>Marcel Luwinski</span>
             </a>
-            <a [routerLink]="['/messenger/directMessage']" (click)="this.mobile ? this.toggleMobileComService.showMessageCom() : ''; this.threadService.closeThread()">
+            <a [routerLink]="['directMessage']" (click)="this.mobile ? this.toggleMobileComService.showMessageCom() : ''">
                 <div class="profileAndOnlineCircleImg">
                     <img class="avatarImg" src="../../../assets/img/avatars/avatar-4.svg" alt="hashtag-icon">
                     <img class="onlineStatusImg" src="../../../assets/img/green-online-circle.svg" alt="online-status">
