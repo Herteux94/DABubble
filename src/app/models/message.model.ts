@@ -1,11 +1,28 @@
 export class Message {
+  senderID!: string;
+  creationTime!: number | undefined;
+  content?: string;
+  attachments?: any; //pdf, png, jpg, jpeg
+  reactions?: any[];
+  responses?: string[];
 
-    // name: string;
-    // profileImg: string;
-    // creationTime: string;
-    // text: string;
-    // file: any; (Bild oder Datei)
-    // reactions: {img: '',  count: ''}
-    // responses: {count: '', repsonseMsg: {wieder eine komplette Nachricht als JSON verschachteln?}};
-    // lastResponseTime: string;
+  constructor() {
+    this.senderID = '';
+    this.creationTime = undefined;
+    this.content = '';
+    this.attachments = '';
+    this.reactions = [];
+    this.responses = [];
+  }
+
+  public toJSON() {
+    return {
+      senderID: this.senderID,
+      creationTime: this.creationTime,
+      content: this.content,
+      attachments: this.attachments,
+      reactions: this.reactions,
+      responses: this.responses,
+    };
+  }
 }
