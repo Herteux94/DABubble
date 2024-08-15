@@ -90,11 +90,21 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
         top: '60px',
         left: '60px',
         transform: 'translate(0, 0) scale(1)', // Normale Größe in der Ecke
-        filter: 'invert(0)', // Setzt den Filter auf invert(0), um das Logo schwarz zu machen
       })),
       transition('center => corner', [
         animate('800ms ease-in-out')
       ]),
+    ]),
+    trigger('invertTextLogo', [
+      state('normal', style({
+        filter: 'invert(1)' // Textlogo bleibt invertiert
+      })),
+      state('inverted', style({
+        filter: 'invert(0)' // Textlogo wird nicht invertiert
+      })),
+      transition('normal => inverted', [
+        animate('800ms ease-in-out')
+      ])
     ]),
   ]
 })
@@ -105,6 +115,7 @@ export class AuthenticationComponent implements OnInit {
   containerPosition = 'center';
   textLogoClass = 'whiteFill'; // Start mit weißer Schrift
   overlayState = 'visible'; // Startet mit sichtbarem Overlay
+  textLogoInvertState = 'normal'; // Initialzustand des Textlogos
 
   constructor(private renderer: Renderer2, private el: ElementRef) {}
 
@@ -125,6 +136,7 @@ export class AuthenticationComponent implements OnInit {
       this.containerPosition = 'corner';
       this.logoSlideState = 'reset';
       this.textLogoState = 'reset';
+      this.textLogoInvertState = 'inverted'; // Startet die Invertierung des Textlogos
       this.renderer.addClass(this.el.nativeElement.querySelector('.overlay'), 'hidden-overlay');
     }, 3000);
   }
