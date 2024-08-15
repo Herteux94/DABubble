@@ -14,7 +14,7 @@
             fill="#686868" />
         </g>
       </svg>
-      <input class="inputFieldAuth" type="email" pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}" placeholder="beispielname@email.com" required>
+      <input class="inputFieldAuth" #emailInput type="email" pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}" placeholder="beispielname@email.com" required>
     </div>
     <div class="inputContainerAuth" appFocusInput>
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -28,7 +28,7 @@
             fill="#686868" />
         </g>
       </svg>
-      <input class="inputFieldAuth" type="text" placeholder="Passwort" required>
+      <input class="inputFieldAuth" #passwordInput type="text" placeholder="Passwort" required>
     </div>
     <a class="lostPW" [routerLink]="['/authentication/sendResetPWMail']">Passwort vergessen?</a>
     <div class="seperaterContainer">
@@ -40,7 +40,7 @@
       <img src="assets/img/google-icon.svg" alt="google icon">Anmelden mit Google
     </button>
     <div class="btnContainer">
-      <button class="firstBtn">Anmelden</button>
+      <button class="firstBtn" (click)="login(emailInput.value, passwordInput.value)">Anmelden</button>
       <button class="secondBtn">Gäste-Login</button>
     </div>
   </div>
