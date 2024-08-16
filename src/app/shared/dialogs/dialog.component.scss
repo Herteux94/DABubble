@@ -1,6 +1,6 @@
 .dialogContainer {
   background-color: rgb(255, 255, 255);
-  padding: 8% 6%;
+  padding: 25px 20px;
 }
 
 .roundedDialog {
@@ -10,7 +10,7 @@
 }
 
 .swipeDialog {
-  width: 280px;
+  // width: 280px;
   border-radius: 20px 20px 0 0;
   box-shadow: 0px -3px 10px 0px #00000033;
 }
@@ -40,6 +40,7 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+  height: 100%;
 }
 
 .dialogHeader {
@@ -82,6 +83,7 @@
   div {
     display: flex;
     align-items: center;
+    gap: 20px;
 
     svg {
       background-color: $background-color;
@@ -172,9 +174,9 @@
     width: 360px;
   }
 
-  .swipeDialog {
-    width: 360px;
-  }
+  // .swipeDialog {
+  //   width: 360px;
+  // }
 
   .profileDialogContainer {
     width: 360px;
@@ -186,9 +188,9 @@
     width: 400px;
   }
 
-  .swipeDialog {
-    width: 430px;
-  }
+  // .swipeDialog {
+  //   width: 430px;
+  // }
 
   .profileDialogContainer {
     width: 400px;
@@ -202,5 +204,9 @@
 
   .swipeHandleContainer {
     display: none;
+  }
+
+  .dialogContainer {
+    padding: 35px 30px;
   }
 }

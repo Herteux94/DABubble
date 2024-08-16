@@ -7,14 +7,14 @@ import { MenuDialogComponent } from '../dialogs/menu-dialog/menu-dialog.componen
 import { ProfileDialogComponent } from '../dialogs/profile-dialog/profile-dialog.component';
 import { ChannelDialogComponent } from '../dialogs/channel-dialog/channel-dialog.component';
 import { CreateChannelDialogComponent } from '../dialogs/create-channel-dialog/create-channel-dialog.component';
-import { DialogsService } from '../services/dialogs.service';
+// import { DialogsService } from '../services/dialogs.service';
 
 @Component({
   selector: 'app-dialog-test',
   standalone: true,
   imports: [
-    CreateChannelDialogComponent,
     ChannelDialogComponent,
+    CreateChannelDialogComponent,
     ChannelMemberDialogComponent,
     CreateMemberDialogComponent,
     EditMemberDialogComponent,
@@ -27,10 +27,6 @@ import { DialogsService } from '../services/dialogs.service';
 })
 export class DialogTestComponent {
 
-  constructor(private dialogService: DialogsService) { }
+  constructor() { }
   mobile: any;
-
-  openInviteMemberDialog() {
-    this.dialogService.openDialog(InviteMemberDialogComponent);
-  }
 }

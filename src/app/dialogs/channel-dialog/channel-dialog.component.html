@@ -1,7 +1,7 @@
 <div class="channelDialogContainer">
     <div class="dialogHeader channelHeader">
         <h2># Entwicklerteam</h2>
-        <img src="../../../assets/img/close.svg" alt="Schließen">
+        <img (click)="dialogRef.close()" src="../../../assets/img/close.svg" alt="Schließen">
     </div>
 
     <div class="dialogWrapperBig">
@@ -120,7 +120,7 @@
                 </div>
             </div>
 
-            <div class="addMemberContainer" (click)="openInviteMemberDialog()">
+            <div class="addMemberContainer">
                 <img src="../../../assets/img/person_add.svg" alt="Person hinzufügen">
                 <p>Mitglieder hinzufügen</p>
             </div>

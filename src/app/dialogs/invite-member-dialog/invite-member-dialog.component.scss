@@ -1,6 +1,17 @@
 @import "../../../variables.scss";
 @import "../../../app/shared/dialogs/dialog.component.scss";
 
+:host {
+  display: block;
+  background: none;
+  border-radius: 30px;
+  padding: 8px 16px;
+  position: fixed;
+  top: 129px;
+  right: 20px;
+  animation: slide-from-right  0.6s ease-in-out;
+}
+
 .errorMessage {
   padding-left: 20px;
 }
@@ -16,6 +27,17 @@
   
     .channelName {
       margin-bottom: 8px;
+    }
+
+    :host {
+      display: block;
+      background: none;
+      border-radius: 30px;
+      padding: 8px 16px;
+      position: fixed;
+      top: 128px;
+      right: 50px;
+      animation: slide-from-right  0.6s ease-in-out;
     }
   }
   

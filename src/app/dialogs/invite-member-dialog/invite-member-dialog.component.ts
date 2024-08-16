@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
 import { ScreenSizeService } from '../../services/screen-size-service.service';
-import { DialogsService } from '../../services/dialogs.service';
+import { Dialog, DIALOG_DATA, DialogModule } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'app-invite-member-dialog',
@@ -12,23 +12,21 @@ import { DialogsService } from '../../services/dialogs.service';
   styleUrl: './invite-member-dialog.component.scss',
 })
 export class InviteMemberDialogComponent implements OnInit {
+  data = inject(DIALOG_DATA);
+
   contactData = {
     name: '',
   };
 
   mobile: boolean = false;
 
-  constructor(private screenSizeService: ScreenSizeService, private dialogService: DialogsService) {}
+  constructor(private screenSizeService: ScreenSizeService) {}
 
   ngOnInit() {
     this.screenSizeService.isMobile().subscribe((isMobile) => {
       this.mobile = isMobile;
     });
   }
-
-  close() {
-    this.dialogService.closeDialog();
-  }
-  
   onSubmit(ngForm: NgForm) {}
+
 }

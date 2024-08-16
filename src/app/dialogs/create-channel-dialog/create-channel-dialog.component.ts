@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
 import { ScreenSizeService } from '../../services/screen-size-service.service';
+import { DialogRef } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'app-create-channel-dialog',
@@ -11,6 +12,8 @@ import { ScreenSizeService } from '../../services/screen-size-service.service';
   styleUrl: './create-channel-dialog.component.scss'
 })
 export class CreateChannelDialogComponent implements OnInit {
+
+  dialogRef = inject(DialogRef);
   contactData = {
     name: ''
   };

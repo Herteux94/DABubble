@@ -1,17 +1,20 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
 import { ScreenSizeService } from '../../services/screen-size-service.service';
 import { ToggleMobileComponentsService } from '../../services/toggle-mobile-components.service';
+import { CreateChannelDialogComponent } from '../../dialogs/create-channel-dialog/create-channel-dialog.component';
+import { Dialog, DIALOG_DATA, DialogModule } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'app-navigation',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterLinkActive, RouterModule],
+  imports: [CommonModule, RouterLink, RouterLinkActive, RouterModule, CreateChannelDialogComponent],
   templateUrl: './navigation.component.html',
   styleUrl: './navigation.component.scss',
 })
 export class NavigationComponent implements OnInit {
+  dialog = inject(Dialog);
 
   mobile!: boolean;
 
@@ -23,4 +26,13 @@ export class NavigationComponent implements OnInit {
     });
   }
 
+  openNewChannelDialog() {
+    this.dialog.open(CreateChannelDialogComponent, {
+      // minWidth: '300px',
+      // data: {
+      //   animal: 'panda',
+      // },
+    });
+  }
+  
 }

@@ -1,4 +1,5 @@
 @import "variables";
+@import "dialog-animations";
 
 @font-face {
   font-family: "Nunito";
@@ -9,7 +10,7 @@
 * {
   transition: smooth;
   scroll-behavior: smooth;
-  font-family: "Nunito";
+  font-family: "Nunito" !important;
   font-weight: 400;
   font-size: 16px;
   -ms-overflow-style: none;
@@ -211,3 +212,6 @@ h3 {
   margin: 32px 16px;
   max-width: 606px;
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

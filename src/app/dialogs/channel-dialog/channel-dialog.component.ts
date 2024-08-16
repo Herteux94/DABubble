@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
 import { FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
 import { ScreenSizeService } from '../../services/screen-size-service.service';
-import { DialogsService } from '../../services/dialogs.service';
 import { InviteMemberDialogComponent } from '../invite-member-dialog/invite-member-dialog.component';
+import { DialogRef } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'app-channel-dialog',
@@ -13,6 +13,8 @@ import { InviteMemberDialogComponent } from '../invite-member-dialog/invite-memb
   styleUrl: './channel-dialog.component.scss',
 })
 export class ChannelDialogComponent implements OnInit {
+  dialogRef = inject(DialogRef);
+
   contactData = {
     name: '',
   };
@@ -24,10 +26,7 @@ export class ChannelDialogComponent implements OnInit {
     'Dieser Channel ist für alles rund um #dsfdf vorgesehen. Hier kannst du zusammen mit deinem Team Meetings abhalten, Dokumente teilen und Entscheidungen treffen.';
   mobile: boolean = false;
 
-  constructor(
-    private screenSizeService: ScreenSizeService,
-    public dialogService: DialogsService
-  ) {}
+  constructor(private screenSizeService: ScreenSizeService) {}
 
   ngOnInit() {
     this.screenSizeService.isMobile().subscribe((isMobile) => {
@@ -71,9 +70,5 @@ export class ChannelDialogComponent implements OnInit {
 
   onEvent(event: any) {
     event.stopPropagation();
-  }
-
-  openInviteMemberDialog() {
-    this.dialogService.openDialog(InviteMemberDialogComponent);
   }
 }

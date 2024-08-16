@@ -1,6 +1,10 @@
 @import "../../../variables.scss";
 @import "../../../app/shared/dialogs/dialog.component.scss";
 
+:host {
+  animation: slide-from-bottom  0.6s ease-in-out;
+}
+
 .createChannelContainer {
   background-color: rgb(255, 255, 255);
   position: absolute;
@@ -23,5 +27,12 @@
 
   .dialogWrapperBig {
     padding: unset;
+  }
+
+  :host {
+    display: block;
+    background: none;
+    border-radius: 30px;
+    animation: scale-up  0.5s ease-out;
   }
 }

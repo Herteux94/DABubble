@@ -100,8 +100,9 @@ app-nav-toggle-btn {
     }
 
     .threadRouterContainer {
-        width: 350px;
-        display: block;
+        // width: 350px;
+        // display: block;
+        display: none;
     }
 
     app-thread {

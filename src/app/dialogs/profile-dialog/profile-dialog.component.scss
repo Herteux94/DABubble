@@ -1,6 +1,15 @@
 @import "../../../variables.scss";
 @import "../../../app/shared/dialogs/dialog.component.scss";
 
+
+:host {
+  display: block;
+  background: none;
+  border-radius: 30px;
+  width: 100%;
+  animation: slide-from-bottom  0.8s ease-in-out;
+}
+
 .profileDialogContainer {
   background-color: rgb(255, 255, 255);
   border-radius: 20px;

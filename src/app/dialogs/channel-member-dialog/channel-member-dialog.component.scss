@@ -1,6 +1,17 @@
 @import "../../../variables.scss";
 @import "../../../app/shared/dialogs/dialog.component.scss";
 
+:host {
+  display: block;
+  background: none;
+  border-radius: 30px;
+  padding: 8px 16px;
+  position: fixed;
+  top: 130px;
+  right: 108px;
+  animation: slide-from-right  0.5s ease-out;
+}
+
 @media screen and (min-width: 1025px) {
     .roundedDialog {
       width: 415px;

@@ -9,7 +9,8 @@ import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getDatabase, provideDatabase } from '@angular/fire/database';
 import { getStorage, provideStorage } from '@angular/fire/storage';
-import { provideHttpClient } from '@angular/common/http'; // Importiere provideHttpClient
+import { provideHttpClient } from '@angular/common/http';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async'; // Importiere provideHttpClient
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -32,6 +33,6 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(provideAuth(() => getAuth())),
     importProvidersFrom(provideFirestore(() => getFirestore())),
     importProvidersFrom(provideDatabase(() => getDatabase())),
-    importProvidersFrom(provideStorage(() => getStorage())),
+    importProvidersFrom(provideStorage(() => getStorage())), provideAnimationsAsync(),
   ],
 };
