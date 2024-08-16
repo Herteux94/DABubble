@@ -11,19 +11,16 @@ import { ResetPwComponent } from './authentication/reset-pw/reset-pw.component';
 import { ChannelComponent } from './main-content/channel/channel.component';
 import { DirectMessageComponent } from './main-content/direct-message/direct-message.component';
 import { NewMessageComponent } from './main-content/new-message/new-message.component';
-import { ThreadComponent } from './main-content/channel/thread/thread.component';
+import { ThreadComponent } from './main-content/thread/thread.component';
 
 export const routes: Routes = [
     { path: '', component: WorkspaceComponent },
     { path: 'messenger', component: MainContentComponent,
         children: [
-            { path: 'channel', component: ChannelComponent,
-                children: [
-                    { path: 'thread', component: ThreadComponent }
-                ]
-            },
+            { path: 'channel', component: ChannelComponent },
             { path: 'directMessage', component: DirectMessageComponent},
             { path: 'newMessage', component: NewMessageComponent},
+            { path: 'thread', component: ThreadComponent, outlet: 'thread' }
         ]
     },
     { path: 'authentication', component: AuthenticationComponent,

@@ -7,9 +7,9 @@
         <router-outlet></router-outlet>
       </div>
       <div class="threadRouterContainer">
-        <router-outlet name="thread"></router-outlet>
+        <router-outlet name="thread" #thread></router-outlet>
       </div>
-      <!-- <app-thread [ngClass]="(this.toggleMobileComService.showThreadOnMobile ? 'showComponentOnMobile' : '') + ' ' + (this.mobile ? 'dNone' : '')"></app-thread> -->
+      <!-- <app-thread></app-thread> -->
     </div>
   </div>
   <app-nav-toggle-btn [menuOpen]="navOpenDesktop" (click)="toggleMenu()"></app-nav-toggle-btn>

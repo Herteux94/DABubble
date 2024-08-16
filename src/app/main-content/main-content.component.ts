@@ -7,7 +7,7 @@ import { RouterModule, RouterOutlet, Routes } from '@angular/router';
 import { ScreenSizeService } from '../services/screen-size-service.service';
 import { ToggleMobileComponentsService } from '../services/toggle-mobile-components.service';
 import { NewMessageComponent } from './new-message/new-message.component';
-import { ThreadComponent } from './channel/thread/thread.component';
+import { ThreadComponent } from './thread/thread.component';
 
 @Component({
   selector: 'app-main-content',

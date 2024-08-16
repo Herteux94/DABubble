@@ -4,11 +4,12 @@ import { MessageComponent } from '../../shared/messengerSubComponents/message/me
 import { OwnMessageComponent } from '../../shared/messengerSubComponents/own-message/own-message.component';
 import { SubHeaderComponent } from '../../shared/messengerSubComponents/sub-header/sub-header.component';
 import { TypeInputFieldComponent } from '../../shared/messengerSubComponents/type-input-field/type-input-field.component';
+import { ThreadComponent } from '../thread/thread.component';
 
 @Component({
   selector: 'app-channel',
   standalone: true,
-  imports: [DateDividerComponent, MessageComponent, OwnMessageComponent, SubHeaderComponent, TypeInputFieldComponent],
+  imports: [DateDividerComponent, MessageComponent, OwnMessageComponent, SubHeaderComponent, TypeInputFieldComponent, ThreadComponent],
   templateUrl: './channel.component.html',
   styleUrl: './channel.component.scss'
 })
