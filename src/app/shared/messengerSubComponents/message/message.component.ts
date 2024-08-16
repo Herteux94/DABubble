@@ -1,8 +1,8 @@
 import { Component, inject, Input } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
-import { ToggleMobileComponentsService } from '../../../services/toggle-mobile-components.service';
 import { ProfileDialogComponent } from '../../../dialogs/profile-dialog/profile-dialog.component';
 import { Dialog, DIALOG_DATA, DialogModule } from '@angular/cdk/dialog';
+import { RoutingThreadOutletService } from '../../../services/routing-thread-outlet.service';
 
 @Component({
   selector: 'app-message',
@@ -16,7 +16,7 @@ export class MessageComponent {
   
   @Input() isChannel!: boolean;
 
-  constructor(public toggleMobileComService: ToggleMobileComponentsService) {}
+  constructor(public threadRoutingService: RoutingThreadOutletService) {}
 
   openInviteDialog() {
     this.dialog.open(ProfileDialogComponent, {

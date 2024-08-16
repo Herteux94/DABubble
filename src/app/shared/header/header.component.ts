@@ -1,7 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
 import { ScreenSizeService } from '../../services/screen-size-service.service';
-import { ToggleMobileComponentsService } from '../../services/toggle-mobile-components.service';
 import { Dialog, DIALOG_DATA, DialogModule } from '@angular/cdk/dialog';
 import { MenuDialogComponent } from '../../dialogs/menu-dialog/menu-dialog.component';
 
@@ -16,7 +15,7 @@ export class HeaderComponent {
   dialog = inject(Dialog);
   mobile!: boolean;
 
-  constructor(private screenSizeService: ScreenSizeService, public toggleMobileComService: ToggleMobileComponentsService) {}
+  constructor(private screenSizeService: ScreenSizeService) {}
 
   ngOnInit() {
     this.screenSizeService.isMobile().subscribe((isMobile) => {

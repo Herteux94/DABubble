@@ -2,15 +2,24 @@
   <div class="wrapper contentLimit">
     <app-header></app-header>
     <div class="bodyArea">
-      <app-navigation [ngClass]="(this.navOpenDesktop ? 'show' : 'hide') + ' ' + (this.toggleMobileComService.showNavOnMobile ? 'showComponentOnMobile' : '') + ' ' + (!this.toggleMobileComService.showNavOnMobile && this.mobile ? 'dNone' : '')"></app-navigation>
-      <div [ngClass]="(this.toggleMobileComService.showMessageOnMobile ? 'showComponentOnMobile' : '') + ' ' + (this.mobile ? 'dNone' : '')" class="routerContainer">
+      <app-navigation [ngClass]="this.navOpenDesktop ? 'show' : 'hide'"></app-navigation>
+      <div class="routerContainer">
         <router-outlet></router-outlet>
       </div>
-      <div class="threadRouterContainer">
-        <router-outlet name="thread" #thread></router-outlet>
+      <div [ngClass]="this.threadRoutingService.threadOpenDesktop ? 'show' : 'hide'" class="threadRouterContainer">
+        <router-outlet name="thread"></router-outlet>
       </div>
-      <!-- <app-thread></app-thread> -->
     </div>
   </div>
   <app-nav-toggle-btn [menuOpen]="navOpenDesktop" (click)="toggleMenu()"></app-nav-toggle-btn>
 </section>
+
+
+<!-- 
+header
+/body
+router-outlet
+/
+
+
+-->

@@ -2,9 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
 import { ScreenSizeService } from '../../services/screen-size-service.service';
-import { ToggleMobileComponentsService } from '../../services/toggle-mobile-components.service';
 import { CreateChannelDialogComponent } from '../../dialogs/create-channel-dialog/create-channel-dialog.component';
 import { Dialog, DIALOG_DATA, DialogModule } from '@angular/cdk/dialog';
+import { RoutingThreadOutletService } from '../../services/routing-thread-outlet.service';
 
 @Component({
   selector: 'app-navigation',
@@ -18,7 +18,10 @@ export class NavigationComponent implements OnInit {
 
   mobile!: boolean;
 
-  constructor(private screenSizeService: ScreenSizeService, public toggleMobileComService: ToggleMobileComponentsService) {}
+  constructor(
+    private screenSizeService: ScreenSizeService,
+    public threadRoutingService: RoutingThreadOutletService
+  ) {}
 
   ngOnInit() {
     this.screenSizeService.isMobile().subscribe((isMobile) => {

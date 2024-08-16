@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { ToggleMobileComponentsService } from '../../../services/toggle-mobile-components.service';
 
 @Component({
   selector: 'app-own-message',
@@ -12,6 +11,6 @@ export class OwnMessageComponent {
 
   @Input() isChannel!: boolean;
 
-  constructor(public toggleMobileComService: ToggleMobileComponentsService) {}
+  constructor() {}
 
 }

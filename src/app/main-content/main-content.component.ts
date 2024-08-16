@@ -5,9 +5,9 @@ import { NavToggleBtnComponent } from '../shared/navigation/nav-toggle-btn/nav-t
 import { CommonModule } from '@angular/common';
 import { RouterModule, RouterOutlet, Routes } from '@angular/router';
 import { ScreenSizeService } from '../services/screen-size-service.service';
-import { ToggleMobileComponentsService } from '../services/toggle-mobile-components.service';
 import { NewMessageComponent } from './new-message/new-message.component';
 import { ThreadComponent } from './thread/thread.component';
+import { RoutingThreadOutletService } from '../services/routing-thread-outlet.service';
 
 @Component({
   selector: 'app-main-content',
@@ -32,7 +32,7 @@ export class MainContentComponent implements OnInit {
 
   constructor(
     private screenSizeService: ScreenSizeService,
-    public toggleMobileComService: ToggleMobileComponentsService
+    public threadRoutingService: RoutingThreadOutletService
   ) {}
 
   ngOnInit() {
