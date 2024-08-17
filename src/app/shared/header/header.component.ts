@@ -1,8 +1,9 @@
 import { Component, inject } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
 import { ScreenSizeService } from '../../services/screen-size-service.service';
 import { Dialog, DIALOG_DATA, DialogModule } from '@angular/cdk/dialog';
 import { MenuDialogComponent } from '../../dialogs/menu-dialog/menu-dialog.component';
+import { log } from 'console';
 
 @Component({
   selector: 'app-header',
@@ -14,17 +15,43 @@ import { MenuDialogComponent } from '../../dialogs/menu-dialog/menu-dialog.compo
 export class HeaderComponent {
   dialog = inject(Dialog);
   mobile!: boolean;
+  navigationCompActive: boolean = true;
 
-  constructor(private screenSizeService: ScreenSizeService) {}
+  constructor(
+    private screenSizeService: ScreenSizeService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
+  ) {}
 
   ngOnInit() {
     this.screenSizeService.isMobile().subscribe((isMobile) => {
       this.mobile = isMobile;
+    });
+
+    this.router.events.subscribe(() => {
+      this.checkIfNavigationActive();
     });
   }
 
   openMenuDialog() {
     this.dialog.open(MenuDialogComponent, {  
     });
+  }
+
+  navigateToStart() {
+    if(this.mobile) {
+      this.router.navigate(['/messenger/navigation']);
+    } else {
+      this.router.navigate(['/messenger/hello']);
+    }
+  }
+
+  checkIfNavigationActive() {
+    const currentUrl = this.router.url;
+    if (currentUrl.endsWith('/navigation')) {
+      this.navigationCompActive = true;      
+    } else {
+      this.navigationCompActive = false;
+    }
   }
 }

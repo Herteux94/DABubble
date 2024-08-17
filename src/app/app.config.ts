@@ -12,6 +12,8 @@ import { getStorage, provideStorage } from '@angular/fire/storage';
 import { provideHttpClient } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async'; // Importiere provideHttpClient
 
+
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),

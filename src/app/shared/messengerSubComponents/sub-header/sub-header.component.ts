@@ -6,6 +6,8 @@ import { ChannelMemberDialogComponent } from '../../../dialogs/channel-member-di
 import { ProfileDialogComponent } from '../../../dialogs/profile-dialog/profile-dialog.component';
 import { ChannelDialogComponent } from '../../../dialogs/channel-dialog/channel-dialog.component';
 import { RoutingThreadOutletService } from '../../../services/routing-thread-outlet.service';
+import { Router } from '@angular/router';
+import { ActiveChannelService } from '../../../services/active-channel.service';
 
 export interface DialogData {
   animal: 'panda' | 'unicorn' | 'lion'; // Natürlich noch brauchbare daten anlegen
@@ -25,12 +27,13 @@ export class SubHeaderComponent implements OnInit {
   @Input() isThread!: boolean;
   @Input() isDM!: boolean;
   @Input() isNewMsg!: boolean;
-
+  
   mobile!: boolean;
 
   constructor(
     public screenSizeService: ScreenSizeService,
-    public threadRoutingService: RoutingThreadOutletService
+    public threadRoutingService: RoutingThreadOutletService,
+    public activeChannelService: ActiveChannelService
   ) {}
 
   ngOnInit() {
@@ -60,5 +63,13 @@ export class SubHeaderComponent implements OnInit {
   openChannelDialog() {
     this.dialog.open(ChannelDialogComponent, {
     });
+  }
+
+  closeThread() {
+    if(this.mobile) {
+      history.back();
+    } else {
+      this.threadRoutingService.closeThread();
+    }
   }
 }

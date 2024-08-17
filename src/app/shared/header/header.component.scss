@@ -71,11 +71,13 @@ header {
     }
 }
 
-@media(min-width: 1025px) {
+@media(min-width: 650px) {
     .name {
         display: block;
     }
+}
 
+@media(min-width: 1025px) {
     .arrowDown {
         display: block;
     }

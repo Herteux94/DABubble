@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ScreenSizeService } from './screen-size-service.service';
+import { ActiveChannelService } from './active-channel.service';
 
-describe('ScreenSizeServiceService', () => {
-  let service: ScreenSizeService;
+describe('ActiveChannelService', () => {
+  let service: ActiveChannelService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(ScreenSizeService);
+    service = TestBed.inject(ActiveChannelService);
   });
 
   it('should be created', () => {

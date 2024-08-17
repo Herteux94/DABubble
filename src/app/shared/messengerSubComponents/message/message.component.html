@@ -26,7 +26,7 @@
 
         @if(this.isChannel) {
         <div class="responses">
-            <span [routerLink]="['/messenger', { outlets: { thread: ['thread'] } }]" (click)="this.threadRoutingService.openThread()" class="count">2 Antworten</span>
+            <span (click)="navigateToThread()" class="count">2 Antworten</span>
             <span class="time subText">Letzte Antwort 14:56</span>
         </div>
         }

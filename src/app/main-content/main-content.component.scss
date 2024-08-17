@@ -32,27 +32,19 @@ app-navigation {
 
 .routerContainer {
     width: 100%;
-    display: none;
 }
 
 .threadRouterContainer {
     width: 100%;
-    display: none;
 }
 
-// app-thread {
-//     width: 100%;
-//     display: none;
-// }
+app-thread {
+    width: 100%;
+}
 
 app-nav-toggle-btn {
     z-index: 999;
     display: none;
-}
-
-.showComponentOnMobile {
-    display: block !important;
-    z-index: 899;
 }
 
 @keyframes slideFromLeft {

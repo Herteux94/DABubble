@@ -35,6 +35,8 @@
 
 .member {
     display: none;
+    padding: 4px 20px 4px 32px;
+    border-radius: 32px;
 }
 
 .personAddImgContainer {
@@ -130,6 +132,15 @@
     .member {
         display: flex;
         gap: 8px;
+        cursor: pointer;
+
+        &:hover {
+            background-color: $background-color;
+
+            h3 {
+                color: $second-color;
+            }
+        }
 
         h3 {
             display: flex;
