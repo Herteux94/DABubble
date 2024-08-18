@@ -47,7 +47,7 @@ app-nav-toggle-btn {
     display: none;
 }
 
-@keyframes slideFromLeft {
+@keyframes slideIn {
     0% {
         transform: translateY(100%);
         width: 0px;
@@ -107,7 +107,7 @@ app-nav-toggle-btn {
 
     .show {
         transition: 350ms all ease-in-out !important;
-        animation: slideFromLeft 350ms ease-in-out;
+        animation: slideIn 350ms ease-in-out;
         animation-fill-mode: forwards;
     }
     

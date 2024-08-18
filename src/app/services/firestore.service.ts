@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import {
   Firestore,
   collection,
@@ -15,14 +15,14 @@ import {
 @Injectable({
   providedIn: 'root'
 })
-export class FirestoreService {
+export class FirestoreService implements OnDestroy {
   userCol = collection(this.firestore, 'users');
   channelCol = collection(this.firestore, 'channels');
   messageCol = collection(this.firestore, 'messages');
 
-  allUsers: any;
-  allChannels: any;
-  allMessages: any;
+  allUsers: any[] = [];
+  allChannels: any[] = [];
+  allMessages: any[] = [];
 
   unsubUserList: any;
   unsubChannelList: any;

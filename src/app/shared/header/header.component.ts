@@ -3,7 +3,6 @@ import { ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterModule } fr
 import { ScreenSizeService } from '../../services/screen-size-service.service';
 import { Dialog, DIALOG_DATA, DialogModule } from '@angular/cdk/dialog';
 import { MenuDialogComponent } from '../../dialogs/menu-dialog/menu-dialog.component';
-import { log } from 'console';
 
 @Component({
   selector: 'app-header',

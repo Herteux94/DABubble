@@ -19,17 +19,66 @@ import { FirestoreService } from '../../services/firestore.service';
 export class ChannelComponent implements OnInit {
 
   activeChannel!: any;
+  memberList!: any;
+  messages!: any;
 
   constructor(private route: ActivatedRoute, private firestoreService: FirestoreService) {}
 
-  ngOnInit() {
-    this.route.paramMap.subscribe((paramMap) => {
-      const activeChannelID = paramMap.get('id');
-      if (activeChannelID) {
-            let channel = this.firestoreService.allChannels.find((channel: any) => channel.channelID == activeChannelID);
-            this.activeChannel = channel;
-      }
+  async ngOnInit() {
+    await this.loadActiveChannel();
+    this.loadMemberList();
+    this.loadMessages()
+  }
+  
+  // loadActiveChannel() {
+  //   this.route.paramMap.subscribe((paramMap) => {
+  //     const activeChannelID = paramMap.get('id');
+  //     if (activeChannelID) {
+  //           let channel = this.firestoreService.allChannels.find((channel: any) => channel.channelID == activeChannelID);
+  //           this.activeChannel = channel;
+  //     }
+  //   });
+  // }
+
+  // loadMemberList() {
+  //   this.activeChannel.member.forEach((member: any) => {
+  //     this.memberList.push(member);
+  //   });
+  //   console.log(this.memberList);
+    
+  // }
+
+  loadActiveChannel(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.route.paramMap.subscribe((paramMap) => {
+        const activeChannelID = paramMap.get('id');
+        if (activeChannelID) {
+          let channel = this.firestoreService.allChannels.find((channel: any) => channel.channelID == activeChannelID);
+          this.activeChannel = channel;
+          resolve();  // Promise wird aufgelöst, sobald der Kanal gesetzt wurde
+        } else {
+          reject('No channel ID found');
+        }
+      });
     });
+  }
+
+  loadMemberList() {
+    if (this.activeChannel && this.activeChannel.member) {
+      this.memberList = this.activeChannel.member.map((member: any) => member);
+      console.log(this.memberList);
+    } else {
+      console.error('Active channel or members not found');
+    }
+  }
+
+  loadMessages() {
+    if (this.activeChannel && this.activeChannel.messages) {
+      this.messages = this.activeChannel.messages.map((message: any) => message);
+      console.log(this.messages);
+    } else {
+      console.error('Active channel or messages not found');
+    }
   }
 
   }

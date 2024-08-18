@@ -6,9 +6,6 @@
         <app-date-divider></app-date-divider>
         <app-own-message [isChannel]="true"></app-own-message>
         <app-message [isChannel]="true"></app-message>
-        @if(this.activeChannel) {
-        <span>{{ this.activeChannel.name }}</span>
-        }
       </div>
     </div>
     <app-type-input-field></app-type-input-field>
