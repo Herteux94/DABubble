@@ -11,8 +11,6 @@ import {
   RouterOutlet,
   RouterLink,
   RouterLinkActive,
-  Router,
-  NavigationEnd,
   ActivatedRoute,
 } from '@angular/router';
 import { ScreenSizeService } from '../services/screen-size-service.service';
@@ -46,7 +44,8 @@ export class MainContentComponent implements OnInit {
 
   constructor(
     private screenSizeService: ScreenSizeService,
-    public threadRoutingService: RoutingThreadOutletService
+    public threadRoutingService: RoutingThreadOutletService,
+    protected route: ActivatedRoute,
   ) {}
 
   ngOnInit() {
@@ -58,4 +57,5 @@ export class MainContentComponent implements OnInit {
   toggleMenu() {
     this.navOpenDesktop = !this.navOpenDesktop;
   }
+
 }

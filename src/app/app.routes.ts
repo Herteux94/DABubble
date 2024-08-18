@@ -17,7 +17,7 @@ import { HelloComponent } from './main-content/hello/hello.component';
 
 export const routes: Routes = [
     { path: '', component: WorkspaceComponent },
-    { path: 'messenger', component: MainContentComponent,
+    { path: 'messenger', component: MainContentComponent, data: { animation: 'routerTransitions' },
         children: [
             { path: '', redirectTo: 'hello', pathMatch: 'full' },
             { path: 'channel/:id', component: ChannelComponent },

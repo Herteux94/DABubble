@@ -20,9 +20,9 @@ export class FirestoreService {
   channelCol = collection(this.firestore, 'channels');
   messageCol = collection(this.firestore, 'messages');
 
-  allUsers!: any[];
-  allChannels!: any[];
-  allMessages!: any[];
+  allUsers: any;
+  allChannels: any;
+  allMessages: any;
 
   unsubUserList: any;
   unsubChannelList: any;
@@ -31,7 +31,7 @@ export class FirestoreService {
   constructor(private firestore: Firestore) { 
     this.getUsers();
     this.getChannels();
-    this.getMessages();
+    this.getMessages();    
   }
 
   getUsers() {

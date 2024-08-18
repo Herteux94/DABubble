@@ -1,5 +1,5 @@
 import { ApplicationConfig, importProvidersFrom } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withViewTransitions } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // Hier hinzufügen
 
 import { routes } from './app.routes';
@@ -9,16 +9,16 @@ import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getDatabase, provideDatabase } from '@angular/fire/database';
 import { getStorage, provideStorage } from '@angular/fire/storage';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withFetch } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async'; // Importiere provideHttpClient
 
 
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideRouter(routes),
+    provideRouter(routes, withViewTransitions()),
     provideClientHydration(),
-    provideHttpClient(), // Füge provideHttpClient hinzu
+    provideHttpClient(withFetch()), // Füge provideHttpClient hinzu
     importProvidersFrom(BrowserAnimationsModule),
     importProvidersFrom(
       provideFirebaseApp(() =>

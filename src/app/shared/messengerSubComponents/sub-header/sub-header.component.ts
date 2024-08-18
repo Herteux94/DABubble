@@ -7,7 +7,7 @@ import { ProfileDialogComponent } from '../../../dialogs/profile-dialog/profile-
 import { ChannelDialogComponent } from '../../../dialogs/channel-dialog/channel-dialog.component';
 import { RoutingThreadOutletService } from '../../../services/routing-thread-outlet.service';
 import { Router } from '@angular/router';
-import { ActiveChannelService } from '../../../services/active-channel.service';
+// import { ActiveChannelService } from '../../../services/active-channel.service';
 
 export interface DialogData {
   animal: 'panda' | 'unicorn' | 'lion'; // Natürlich noch brauchbare daten anlegen
@@ -27,14 +27,19 @@ export class SubHeaderComponent implements OnInit {
   @Input() isThread!: boolean;
   @Input() isDM!: boolean;
   @Input() isNewMsg!: boolean;
+
+  @Input() activeChannel!: any;
   
   mobile!: boolean;
 
   constructor(
     public screenSizeService: ScreenSizeService,
     public threadRoutingService: RoutingThreadOutletService,
-    public activeChannelService: ActiveChannelService
-  ) {}
+    // public activeChannelService: ActiveChannelService
+  ) {
+    
+    
+  }
 
   ngOnInit() {
     this.screenSizeService.isMobile().subscribe((isMobile) => {

@@ -5,9 +5,9 @@ import { OwnMessageComponent } from '../../shared/messengerSubComponents/own-mes
 import { SubHeaderComponent } from '../../shared/messengerSubComponents/sub-header/sub-header.component';
 import { TypeInputFieldComponent } from '../../shared/messengerSubComponents/type-input-field/type-input-field.component';
 import { ThreadComponent } from '../thread/thread.component';
-import { ActiveChannelService } from '../../services/active-channel.service';
 import { ActivatedRoute } from '@angular/router';
 import { FirestoreService } from '../../services/firestore.service';
+
 
 @Component({
   selector: 'app-channel',
@@ -16,26 +16,22 @@ import { FirestoreService } from '../../services/firestore.service';
   templateUrl: './channel.component.html',
   styleUrl: './channel.component.scss'
 })
-export class ChannelComponent {
+export class ChannelComponent implements OnInit {
 
-  activeChannelID: any;
-  activeChannelObject: any;
+  activeChannel!: any;
 
-  // constructor(private route: ActivatedRoute, private firestoreService: FirestoreService) {
-  //   this.route.paramMap.subscribe((paramMap) => {
-  //     this.activeChannelID = paramMap.get('id')      
-  //   });
-  //   console.log(this.activeChannelID);
+  constructor(private route: ActivatedRoute, private firestoreService: FirestoreService) {}
 
-  //   this.loadActiveChannel(this.activeChannelID);
-  //   }
+  ngOnInit() {
+    this.route.paramMap.subscribe((paramMap) => {
+      const activeChannelID = paramMap.get('id');
+      if (activeChannelID) {
+            let channel = this.firestoreService.allChannels.find((channel: any) => channel.channelID == activeChannelID);
+            this.activeChannel = channel;
+      }
+    });
+  }
 
-  //   async loadActiveChannel(id: string) {
-  //     let channel = await this.firestoreService.getChannel(id);
-  //     this.activeChannelObject = channel.data();
-  //     console.log(this.activeChannelObject);
-  //   }
-    
   }
 
 
