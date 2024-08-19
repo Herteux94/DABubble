@@ -53,9 +53,12 @@ export class ChannelComponent implements OnInit {
       this.route.paramMap.subscribe((paramMap) => {
         const activeChannelID = paramMap.get('id');
         if (activeChannelID) {
-          let channel = this.firestoreService.allChannels.find((channel: any) => channel.channelID == activeChannelID);
-          this.activeChannel = channel;
-          resolve();  // Promise wird aufgelöst, sobald der Kanal gesetzt wurde
+          setTimeout(() => {
+            let channel = this.firestoreService.allChannels.find((channel: any) => channel.channelID == activeChannelID);
+            this.activeChannel = channel;
+            resolve();  // Promise wird aufgelöst, sobald der Kanal gesetzt wurde
+
+          }, 1000)
         } else {
           reject('No channel ID found');
         }
