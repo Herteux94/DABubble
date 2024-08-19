@@ -19,8 +19,8 @@ import { FirestoreService } from '../../services/firestore.service';
 export class ChannelComponent implements OnInit {
 
   activeChannel!: any;
-  memberList!: any;
-  messages!: any;
+  memberList: any[] = [];
+  messages: any[] = [];
 
   constructor(private route: ActivatedRoute, private firestoreService: FirestoreService) {}
 
@@ -57,7 +57,6 @@ export class ChannelComponent implements OnInit {
             let channel = this.firestoreService.allChannels.find((channel: any) => channel.channelID == activeChannelID);
             this.activeChannel = channel;
             resolve();  // Promise wird aufgelöst, sobald der Kanal gesetzt wurde
-
           }, 1000)
         } else {
           reject('No channel ID found');
@@ -68,7 +67,10 @@ export class ChannelComponent implements OnInit {
 
   loadMemberList() {
     if (this.activeChannel && this.activeChannel.member) {
-      this.memberList = this.activeChannel.member.map((member: any) => member);
+      this.memberList = [];
+      this.activeChannel.member.forEach((member: any) => {
+        this.memberList.push(member);
+      });
       console.log(this.memberList);
     } else {
       console.error('Active channel or members not found');
@@ -77,7 +79,10 @@ export class ChannelComponent implements OnInit {
 
   loadMessages() {
     if (this.activeChannel && this.activeChannel.messages) {
-      this.messages = this.activeChannel.messages.map((message: any) => message);
+      this.messages = [];
+      this.activeChannel.messages.forEach((message: any) => {
+        this.messages.push(message);
+      });
       console.log(this.messages);
     } else {
       console.error('Active channel or messages not found');
