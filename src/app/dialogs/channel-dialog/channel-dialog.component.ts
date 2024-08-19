@@ -25,6 +25,16 @@ import { EditMemberDialogComponent } from '../edit-member-dialog/edit-member-dia
         animate('200ms ease-in')
       ])
     ]),
+    trigger('inputAnimationFadeIn', [
+      state('void', style({ opacity: 0 })),
+      state('*', style({ opacity: 1 })),
+      transition('void => *', [
+        animate('300ms ease-out')
+      ]),
+      transition('* => void', [
+        animate('200ms ease-in')
+      ])
+    ]),
     trigger('dialogAnimationFadeInSlideUp', [
       state('void', style({ opacity: 0, transform: 'translateY(100px)' })),
       state('*', style({ opacity: 1, transform: 'translateY(0)' })),
