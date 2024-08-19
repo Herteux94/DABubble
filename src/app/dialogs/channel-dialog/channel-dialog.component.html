@@ -42,7 +42,7 @@
             </div>
             } @else if (isEditingName) {
             <div class="inputContainer">
-                <input #channelNameInput [ngClass]="isEditingName ? 'noOutline' : 'outline'" class="input inputBackground" type="text" [(ngModel)]="channelName"
+                <input [@inputAnimationFadeIn] #channelNameInput [ngClass]="isEditingName ? 'noOutline' : 'outline'" class="input inputBackground" type="text" [(ngModel)]="channelName"
                     (blur)="toggleEditName()">
             </div>}
         </div>
@@ -84,7 +84,7 @@
             </div>
             } @else if (isEditingDescription) {
             <div class="inputContainer">
-                <textarea class="input" #channelDescriptionInput rows="dynamic" type="text"
+                <textarea [@inputAnimationFadeIn] class="input" #channelDescriptionInput rows="dynamic" type="text"
                     [(ngModel)]="channelDescription" (blur)="toggleEditDescription()"></textarea>
             </div>
             }
@@ -102,7 +102,7 @@
 
 
         @if (mobile) {
-        <div class="channelContentWrapper">
+        <div class="channelContentWrapper outline">
 
             <div class="channelNameContainer">
                 <h3>Mitglieder</h3>
