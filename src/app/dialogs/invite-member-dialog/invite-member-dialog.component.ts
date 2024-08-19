@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
 import { ScreenSizeService } from '../../services/screen-size-service.service';
-import { Dialog, DIALOG_DATA, DialogModule } from '@angular/cdk/dialog';
+import { Dialog, DIALOG_DATA, DialogModule, DialogRef } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'app-invite-member-dialog',
@@ -12,6 +12,7 @@ import { Dialog, DIALOG_DATA, DialogModule } from '@angular/cdk/dialog';
   styleUrl: './invite-member-dialog.component.scss',
 })
 export class InviteMemberDialogComponent implements OnInit {
+  dialogRef = inject(DialogRef);
   data = inject(DIALOG_DATA);
 
   contactData = {

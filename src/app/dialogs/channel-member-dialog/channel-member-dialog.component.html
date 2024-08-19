@@ -1,4 +1,4 @@
-<div class="dialogContainer roundedDialog">
+<div class="dialogContainer roundedDialog" [@dialogAnimationSlideInRight]>
 
     <ng-template [ngIf]="!invite">
 
@@ -6,7 +6,7 @@
 
             <div class="dialogHeader">
                 <h2>Mitglieder</h2>
-                <img src="../../../assets/img/close.svg" alt="Schließen">
+                <img (click)="dialogRef.close()" src="../../../assets/img/close.svg" alt="Schließen">
             </div>
 
             <div class="memberList">

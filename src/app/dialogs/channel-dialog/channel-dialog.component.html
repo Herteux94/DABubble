@@ -1,4 +1,4 @@
-<div class="channelDialogContainer">
+<div class="channelDialogContainer" [@dialogAnimationFadeIn]>
     <div class="dialogHeader channelHeader">
         <h2># Entwicklerteam</h2>
         <img (click)="dialogRef.close()" src="../../../assets/img/close.svg" alt="Schließen">
@@ -120,7 +120,7 @@
                 </div>
             </div>
 
-            <div class="addMemberContainer">
+            <div class="addMemberContainer" (click)="openEditMemberDialog()">
                 <img src="../../../assets/img/person_add.svg" alt="Person hinzufügen">
                 <p>Mitglieder hinzufügen</p>
             </div>

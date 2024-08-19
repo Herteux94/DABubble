@@ -1,6 +1,17 @@
 @import "../../../variables.scss";
 @import "../../../app/shared/dialogs/dialog.component.scss";
 
+:host {
+  display: block;
+  background: none;
+  border-radius: 30px;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  animation: slide-from-bottom  0.3s ease-in-out;
+}
+
 .errorMessage {
   padding-left: 20px;
 }

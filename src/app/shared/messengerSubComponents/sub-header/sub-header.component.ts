@@ -45,6 +45,7 @@ export class SubHeaderComponent implements OnInit {
       // minWidth: '300px',
       // data: {
       //   animal: 'panda',
+      //  panelClass: 'custom-dialog-container'
       // },
     });
   }

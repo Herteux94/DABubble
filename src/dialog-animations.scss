@@ -40,6 +40,16 @@
   }
 }
 
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
 @keyframes spinning-entry {
   from {
     transform: scale(0) rotate(360deg);

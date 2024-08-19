@@ -16,7 +16,7 @@ import { NavigationComponent } from './shared/navigation/navigation.component';
 import { HelloComponent } from './main-content/hello/hello.component';
 
 export const routes: Routes = [
-    { path: '', component: WorkspaceComponent },
+    // { path: '', component: WorkspaceComponent },
     { path: 'messenger', component: MainContentComponent, data: { animation: 'routerTransitions' },
         children: [
             { path: '', redirectTo: 'hello', pathMatch: 'full' },
@@ -29,7 +29,7 @@ export const routes: Routes = [
             { path: 'hello', component: HelloComponent },
         ]
     },
-    { path: 'authentication', component: AuthenticationComponent,
+    { path: '', component: AuthenticationComponent,
         children: [
             { path: '', redirectTo: 'login', pathMatch: 'full' },  // Redirect to login
             { path: 'login', component: LoginComponent },  // Explicit login route

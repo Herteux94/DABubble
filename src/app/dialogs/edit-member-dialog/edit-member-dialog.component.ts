@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
 import { ScreenSizeService } from '../../services/screen-size-service.service';
+import { DialogRef } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'app-edit-member-dialog',
@@ -11,6 +12,7 @@ import { ScreenSizeService } from '../../services/screen-size-service.service';
   styleUrl: './edit-member-dialog.component.scss',
 })
 export class EditMemberDialogComponent implements OnInit {
+  dialogRef = inject(DialogRef);
   contactData = {
     name: '',
   };

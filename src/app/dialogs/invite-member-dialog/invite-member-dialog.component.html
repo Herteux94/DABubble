@@ -3,7 +3,7 @@
 
         <div class="dialogHeader" >
             <h2>Leute hinzufügen</h2>
-            <img src="../../../assets/img/close.svg" alt="Schließen">
+            <img (click)="dialogRef.close()" src="../../../assets/img/close.svg" alt="Schließen">
         </div>
         
         <div class="coloredText" [ngClass]="{'dNone': mobile}">

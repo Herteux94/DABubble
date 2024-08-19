@@ -9,7 +9,7 @@
   bottom: 0;
   right: 0;
   width: 100%;
-  animation: slide-from-bottom  0.6s ease-in-out;
+  animation: slide-from-bottom  0.3s ease-in-out;
 }
 
 .dialogContent {
@@ -38,8 +38,6 @@
 
 @media screen and (min-width: 1025px) {
   .roundedDialog {
-    //   width: 282px;
-    //   height: 181px;
     width: 260px;
     height: 150px;
     display: flex;
@@ -55,7 +53,8 @@
     position: fixed;
     top: 70px;
     right: 30px;
-    animation: slide-from-right  0.5s ease-out;
+    animation: slide-from-right  0.3s ease-out;
     width: 260px;
+    height: 150px;
   }
 }
