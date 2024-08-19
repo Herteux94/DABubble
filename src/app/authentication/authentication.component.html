@@ -1,7 +1,7 @@
-<div class="wrapper">
+<div id="wrapper" class="wrapper animationWrapper">
   <div class="overlay"></div>
   <div class="logoContainer" [@logoAppear]="logoState" [@moveToCorner]="containerPosition">
-    <img id="logo" src="../../assets/img/logo-no-text.svg" alt="logo" [@slideLogo]="logoSlideState" style="opacity: 0;">
+    <img id="logo" src="../../assets/img/logo-no-text.svg" alt="logo" [@slideLogo]="logoSlideState">
     <img id="textLogo" src="../../assets/img/text-logo.svg" alt="text logo"
          [@slideText]="textLogoState"
          [ngClass]="textLogoClass"

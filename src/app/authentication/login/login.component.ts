@@ -5,6 +5,8 @@ import { FocusInputDirective } from '../../directives/focus-input.directive';
 import { Auth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { getAuth, signInAnonymously } from "firebase/auth";
+
 
 @Component({
   selector: 'app-login',
