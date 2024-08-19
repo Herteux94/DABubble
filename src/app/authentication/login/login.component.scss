@@ -36,6 +36,7 @@ h1 {
 }
 
 .lostPW {
+  font-family: "Figtree";
   color: $second-color;
   font-size: 17px;
   font-weight: 400;
@@ -112,6 +113,7 @@ h1 {
 
 .newMemberLink {
   display: none;
+  font-family: "Figtree";
 }
 
 .newMemberContainer {
@@ -145,6 +147,7 @@ h1 {
 
   .legalContainer{
     display: flex;
+    font-family: "Figtree";
     .imprint {
       font-size: 18px;
       color: rgba(121, 126, 243, 1);
