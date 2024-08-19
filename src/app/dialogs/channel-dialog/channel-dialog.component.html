@@ -6,7 +6,7 @@
 
     <div class="dialogWrapperBig">
 
-        <div class="channelContentWrapper" [ngClass]="isEditingName ? 'noOutline' : 'outline'">
+        <div [@inputAnimationFadeIn] class="channelContentWrapper" [ngClass]="isEditingName ? 'noOutline' : 'outline'">
             <div class="channelNameContainer">
                 <h3>Channel-Name</h3>
                 @if (mobile) {
@@ -42,7 +42,7 @@
             </div>
             } @else if (isEditingName) {
             <div class="inputContainer">
-                <input [@inputAnimationFadeIn] #channelNameInput [ngClass]="isEditingName ? 'noOutline' : 'outline'" class="input inputBackground" type="text" [(ngModel)]="channelName"
+                <input  #channelNameInput [ngClass]="isEditingName ? 'noOutline' : 'outline'" class="input inputBackground" type="text" [(ngModel)]="channelName"
                     (blur)="toggleEditName()">
             </div>}
         </div>
@@ -84,7 +84,7 @@
             </div>
             } @else if (isEditingDescription) {
             <div class="inputContainer">
-                <textarea [@inputAnimationFadeIn] class="input" #channelDescriptionInput rows="dynamic" type="text"
+                <textarea class="input" #channelDescriptionInput rows="1" type="text" (input)="adjustTextareaRows(channelDescriptionInput)"
                     [(ngModel)]="channelDescription" (blur)="toggleEditDescription()"></textarea>
             </div>
             }

@@ -134,6 +134,18 @@ export class ChannelDialogComponent implements OnInit {
     }
   }
 
+  adjustTextareaRows(textarea: HTMLTextAreaElement): void {
+    // Setze die Anzahl der Zeilen zurück, um die korrekte Höhe zu berechnen
+    textarea.rows = 1;
+
+    // Berechne die Anzahl der benötigten Zeilen basierend auf der Scrollhöhe
+    const lineHeight = 24; // Die Höhe einer Zeile in px (kann je nach Schriftgröße variieren)
+    const currentRows = Math.floor(textarea.scrollHeight / lineHeight);
+
+    // Setze die Anzahl der Zeilen auf die aktuelle Höhe, begrenzt auf maximal 4 Zeilen
+    textarea.rows = currentRows <= 4 ? currentRows : 4;
+  }
+
   onSubmit(ngForm: NgForm) {}
 
   saveNewName() {

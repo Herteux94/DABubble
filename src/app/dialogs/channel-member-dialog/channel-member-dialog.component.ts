@@ -1,7 +1,6 @@
 import { Component, OnInit, Inject, inject } from '@angular/core';
 import { ScreenSizeService } from '../../services/screen-size-service.service';
 import { CommonModule } from '@angular/common';
-import { InviteMemberDialogComponent } from '../invite-member-dialog/invite-member-dialog.component';
 import { FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { DialogRef } from '@angular/cdk/dialog';

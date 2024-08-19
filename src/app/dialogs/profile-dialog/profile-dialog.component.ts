@@ -1,5 +1,6 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component } from '@angular/core';
+import { DialogRef } from '@angular/cdk/dialog';
+import { Component, inject } from '@angular/core';
 
 @Component({
   selector: 'app-profile-dialog',
@@ -21,5 +22,12 @@ import { Component } from '@angular/core';
   ]
 })
 export class ProfileDialogComponent {
+  dialogRef = inject(DialogRef);
+  ownProfile: boolean = false;
 
+  ngOnInit(): void {
+    if (this.ownProfile) {
+      console.log('This is the own profile view');
+    }
+  }
 }
