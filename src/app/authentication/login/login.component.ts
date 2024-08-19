@@ -50,12 +50,9 @@ export class LoginComponent {
         console.error('Error logging in:', error);
 
         // Fehlercode-Abfrage
-        if (error.code === 'auth/wrong-password') {
+        if (error.code === 'auth/invalid-credential') {
           this.errorMessage = 'E-Mail-Adresse und Passwort stimmen nicht überein.';
           this.errorType = 'password';
-        } else if (error.code === 'auth/user-not-found') {
-          this.errorMessage = 'Kein Konto mit dieser E-Mail-Adresse gefunden.';
-          this.errorType = 'email';
         } else {
           this.errorMessage = 'Fehler bei der Anmeldung. Bitte versuchen Sie es erneut.';
           this.errorType = null;
