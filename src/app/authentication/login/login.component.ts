@@ -1,12 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AuthenticationComponent } from '../authentication.component';
 import { FocusInputDirective } from '../../directives/focus-input.directive';
 import { Auth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { getAuth, signInAnonymously } from "firebase/auth";
-
 
 @Component({
   selector: 'app-login',
@@ -22,13 +20,19 @@ import { getAuth, signInAnonymously } from "firebase/auth";
 })
 export class LoginComponent {
 
+  @ViewChild('emailInput', { static: true }) emailInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('passwordInput', { static: true }) passwordInput!: ElementRef<HTMLInputElement>;
+
   errorMessage: string | null = null;
   errorType: 'email' | 'password' | null = null;
 
   constructor(private auth: Auth, private router: Router) {}
 
   // Methode für E-Mail/Passwort-Login
-  login(email: string, password: string) {
+  login() {
+    const email = this.emailInput.nativeElement.value;
+    const password = this.passwordInput.nativeElement.value;
+
     if (!email) {
       this.errorMessage = 'Bitte geben Sie Ihre E-Mail-Adresse ein.';
       this.errorType = 'email';
@@ -77,5 +81,11 @@ export class LoginComponent {
         this.errorMessage = 'Fehler bei der Anmeldung mit Google. Bitte versuchen Sie es erneut.';
         this.errorType = null;
       });
+  }
+
+  @HostListener('document:keydown.enter', ['$event'])
+  handleEnterKey(event: KeyboardEvent) {
+    event.preventDefault();
+    this.login();
   }
 }
