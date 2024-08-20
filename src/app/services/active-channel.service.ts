@@ -31,7 +31,8 @@ export class ActiveChannelService {
   async loadActiveChannelFromBackend(channelID: string) {    
     let activeChannel = await this.firestoreService.getActiveChannel(channelID);
     this.activeChannel = activeChannel;
-    let messages = await this.firestoreService.getMessagesFromActiveChannel(this.activeChannel.messages)
+    // let messages = await this.firestoreService.getMessagesFromActiveChannel(this.activeChannel.messages);
+    // this.messages = messages;
   }
 
 

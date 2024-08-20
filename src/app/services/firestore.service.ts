@@ -67,7 +67,7 @@ export class FirestoreService implements OnDestroy {
   ngOnDestroy() {
     this.unsubUserList();
     this.unsubChannelList();
-    // this.unsubMessageList();
+    this.unsubMessageList();
   }
 
   addUser(userData: any) {
@@ -137,15 +137,15 @@ export class FirestoreService implements OnDestroy {
     return activeChannel.data();
   }
 
-  async getMessagesFromActiveChannel(messageIDs: any) {
-    let messages: any = [];
-    messageIDs.forEach((messageID: string) => {
-      let message = await getDoc(doc(this.messageCol, messageID));
-      messages.push(message);
-      console.log(message);
-    });
-    console.log(messages);
-    return messages;
-  }
+  // async getMessagesFromActiveChannel(messageIDs: any) {
+  //   let messages: any = [];
+  //   messageIDs.forEach((messageID: string) => {
+  //     let message = await getDoc(doc(this.messageCol, messageID));
+  //     messages.push(message);
+  //     console.log(message);
+  //   });
+  //   console.log(messages);
+  //   return messages;
+  // }
 
 }

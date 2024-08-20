@@ -2,16 +2,12 @@ export class Channel {
   name!: string;
   creator!: string;
   description!: string;
-  member!: any[];
-  messages?: string[];
   createdAt!: string;
 
   constructor() {
     this.name = '';
     this.creator = '';
     this.description = '';
-    this.member = [];
-    this.messages = [];
     this.createdAt = '';
   }
 
@@ -20,9 +16,7 @@ export class Channel {
       name: this.name,
       creator: this.creator,
       description: this.description,
-      member: this.member,
-      messages: this.messages,
-      createdAt: this.createdAt,
+      createdAt: this.createdAt
     };
   }
 }
