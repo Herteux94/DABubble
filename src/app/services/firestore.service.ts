@@ -27,13 +27,15 @@ export class FirestoreService implements OnDestroy {
   allChannels: any[] = [];
   allMessages: any[] = [];
 
+  allChannels$!: Observable<any[]>;
+
   unsubUserList: any;
   unsubChannelList: any;
   unsubMessageList: any;
 
   constructor(private firestore: Firestore) { 
     this.getUsers();
-    this.getChannels();
+    this.loadChannelList();
     this.getMessages();        
   }
 
@@ -46,13 +48,26 @@ export class FirestoreService implements OnDestroy {
     })
   }
 
-  getChannels() {
-    this.unsubChannelList = onSnapshot(this.channelCol, (channelList) => {
-      this.allChannels = [];
-      channelList.forEach(channel => {
-        this.allChannels.push(channel.data());
-      });
-    })
+  // getChannels() {
+  //   this.unsubChannelList = onSnapshot(this.channelCol, (channelList) => {
+  //     this.allChannels = [];
+  //     channelList.forEach(channel => {
+  //       this.allChannels.push(channel.data());
+  //     });
+  //   })
+  // }
+
+  loadChannelList() {
+    this.allChannels$ = this.getChannels();
+    this.allChannels$.subscribe((channels) => {
+      this.allChannels = channels;
+    });
+    console.log(this.allChannels);
+    
+  }
+
+  getChannels(): Observable<any[]> {
+    return collectionData(this.channelCol);
   }
 
   getMessages() {

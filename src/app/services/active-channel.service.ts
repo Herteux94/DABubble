@@ -14,23 +14,32 @@ export class ActiveChannelService {
     private route: ActivatedRoute
   ) {}
 
-  loadActiveChannelFromFirestoreService(channelID: string): Promise<void> {
-    return new Promise((resolve, reject) => {
-      try {
-          let channel = this.firestoreService.allChannels.find(
-            (channel: any) => channel.channelID == channelID
-          );
-          this.activeChannel = channel;
-          resolve();
-      } catch {        
-        reject('No channel ID found');
+  // loadActiveChannelFromFirestoreService(channelID: string): Promise<void> {
+  //   return new Promise((resolve, reject) => {
+  //     try {
+  //         let channel = this.firestoreService.allChannels.find(
+  //           (channel: any) => channel.channelID == channelID
+  //         );
+  //         this.activeChannel = channel;
+  //         resolve();
+  //     } catch {        
+  //       reject('No channel ID found');
+  //     }
+  //   });
+  // }
+
+  async loadActiveChannelFromBackend(channelID: string) { 
+    this.firestoreService.allChannels$.subscribe((channels) => {
+      if(channels.length > 0) {
+        this.activeChannel = this.firestoreService.allChannels.find(
+          (channel: any) => channel.channelID == channelID
+        );
       }
     });
-  }
+    
 
-  async loadActiveChannelFromBackend(channelID: string) {    
-    let activeChannel = await this.firestoreService.getActiveChannel(channelID);
-    this.activeChannel = activeChannel;
+    // let activeChannel = await this.firestoreService.getActiveChannel(channelID);
+    // this.activeChannel = activeChannel;
     // let messages = await this.firestoreService.getMessagesFromActiveChannel(this.activeChannel.messages);
     // this.messages = messages;
   }

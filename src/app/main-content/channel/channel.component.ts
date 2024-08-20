@@ -23,7 +23,7 @@ import { ActiveChannelService } from '../../services/active-channel.service';
   templateUrl: './channel.component.html',
   styleUrl: './channel.component.scss',
 })
-export class ChannelComponent {
+export class ChannelComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     public activeChannelService: ActiveChannelService
