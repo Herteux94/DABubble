@@ -5,6 +5,7 @@ export class Message {
   attachments?: any; //pdf, png, jpg, jpeg
   reactions?: any[];
   responses?: string[];
+  messageID!: string;
 
   constructor() {
     this.senderID = '';
@@ -13,10 +14,12 @@ export class Message {
     this.attachments = '';
     this.reactions = [];
     this.responses = [];
+    this.messageID = '';
   }
 
   public toJSON() {
     return {
+      messageID: this.messageID,
       senderID: this.senderID,
       creationTime: this.creationTime,
       content: this.content,
@@ -25,4 +28,6 @@ export class Message {
       responses: this.responses,
     };
   }
+
+
 }

@@ -7,6 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ActiveChannelService {
   activeChannel: any;
+  messages: any;
 
   constructor(
     private firestoreService: FirestoreService,
@@ -19,7 +20,7 @@ export class ActiveChannelService {
           let channel = this.firestoreService.allChannels.find(
             (channel: any) => channel.channelID == channelID
           );
-          this.activeChannel = channel;          
+          this.activeChannel = channel;
           resolve();
       } catch {        
         reject('No channel ID found');
@@ -30,6 +31,7 @@ export class ActiveChannelService {
   async loadActiveChannelFromBackend(channelID: string) {    
     let activeChannel = await this.firestoreService.getActiveChannel(channelID);
     this.activeChannel = activeChannel;
+    let messages = await this.firestoreService.getMessagesFromActiveChannel(this.activeChannel.messages)
   }
 
 

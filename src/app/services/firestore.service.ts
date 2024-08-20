@@ -21,20 +21,20 @@ import { Message } from '../models/message.model';
 export class FirestoreService implements OnDestroy {
   userCol = collection(this.firestore, 'users');
   channelCol = collection(this.firestore, 'channels');
-  // messageCol = collection(this.firestore, 'messages');
+  messageCol = collection(this.firestore, 'messages');
 
   allUsers: any[] = [];
   allChannels: any[] = [];
-  // allMessages: any[] = [];
+  allMessages: any[] = [];
 
   unsubUserList: any;
   unsubChannelList: any;
-  // unsubMessageList: any;
+  unsubMessageList: any;
 
   constructor(private firestore: Firestore) { 
     this.getUsers();
     this.getChannels();
-    // this.getMessages();        
+    this.getMessages();        
   }
 
   getUsers() {
@@ -55,14 +55,14 @@ export class FirestoreService implements OnDestroy {
     })
   }
 
-  // getMessages() {
-  //   this.unsubMessageList = onSnapshot(this.messageCol, (messageList) => {
-  //     this.allMessages = [];
-  //     messageList.forEach(message => {
-  //       this.allMessages.push(message.data());
-  //     });
-  //   })
-  // }
+  getMessages() {
+    this.unsubMessageList = onSnapshot(this.messageCol, (messageList) => {
+      this.allMessages = [];
+      messageList.forEach(message => {
+        this.allMessages.push(message.data());
+      });
+    })
+  }
   
   ngOnDestroy() {
     this.unsubUserList();
@@ -88,29 +88,27 @@ export class FirestoreService implements OnDestroy {
     });
   }
 
-  // addMessage(messageData: any) {
-  //   addDoc(this.messageCol, messageData)
-  //   .then((docRef) => {
-  //     updateDoc(doc(this.messageCol, docRef.id), {
-  //       messageID: docRef.id
-  //     });
-  //   });
-  // }
+  addChannelMessage(messageData: any, channelID: string) {
+    let message = {[messageData.messageID]: messageData}
+    updateDoc(doc(this.channelCol, channelID), {
+      messages: message
+    })
+  }
 
   deleteChannel(channelID: string) {
     deleteDoc(doc(this.channelCol, channelID));
   }
 
-  // deleteMessage(messageID: string) {
-  //   deleteDoc(doc(this.messageCol, messageID));
-  // }
+  deleteMessage(messageID: string) {
+    deleteDoc(doc(this.messageCol, messageID));
+  }
 
-  // updateMessage(messageData: any, messageID: string) {
-  //   updateDoc(doc(this.messageCol, messageID), {
-  //     content: messageData.content,
-  //     attachments: messageData.attachments
-  //   });
-  // }
+  updateMessage(messageData: any, messageID: string) {
+    updateDoc(doc(this.messageCol, messageID), {
+      content: messageData.content,
+      attachments: messageData.attachments
+    });
+  }
 
   updateUser(userData: any, userID: string) {
     updateDoc(doc(this.userCol, userID), {
@@ -139,6 +137,15 @@ export class FirestoreService implements OnDestroy {
     return activeChannel.data();
   }
 
-
+  async getMessagesFromActiveChannel(messageIDs: any) {
+    let messages: any = [];
+    messageIDs.forEach((messageID: string) => {
+      let message = await getDoc(doc(this.messageCol, messageID));
+      messages.push(message);
+      console.log(message);
+    });
+    console.log(messages);
+    return messages;
+  }
 
 }

@@ -3,6 +3,7 @@ import { Message } from '../../../models/message.model';
 import { FormsModule } from '@angular/forms';
 import { FirestoreService } from '../../../services/firestore.service';
 import { ActiveUserService } from '../../../services/active-user.service';
+import { ActiveChannelService } from '../../../services/active-channel.service';
 
 @Component({
   selector: 'app-type-input-field',
@@ -15,15 +16,22 @@ export class TypeInputFieldComponent {
 
   message = new Message();
 
-  constructor(private firestoreService: FirestoreService, private activeUserService: ActiveUserService) { }
+  constructor(private firestoreService: FirestoreService, private activeUserService: ActiveUserService, private activeChannelService: ActiveChannelService) { }
 
   sendMessage() {
-  //   this.message.creationTime = Date.now();
-  //   this.message.senderID = this.activeUserService.activeUser;
-  //   this.firestoreService.addMessage(this.message.toJSON());
-  //   // this.firestoreService.pushMessageToChannel('VfidlPx9GWzscN0zrgFv', 'bdgCJJieGfDDi4Jc0bSt');
-  //   this.message.content = '';
+    this.message.creationTime = Date.now();
+    this.message.messageID = this.generateRandomId();
+    this.message.senderID = this.activeUserService.activeUser;
+    this.firestoreService.addChannelMessage(this.message.toJSON(), this.activeChannelService.activeChannel.channelID);    
+    this.message.content = '';
   }
+
+  generateRandomId(): string {
+    return (
+        Date.now().toString(36) + // Zeitstempel als Basis
+        Math.random().toString(7)
+    );
+}
 
 
 

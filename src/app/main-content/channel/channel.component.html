@@ -2,9 +2,11 @@
     <div class="content">
       <app-sub-header [isChannel]="true"></app-sub-header>
       <div class="messagesContent">
+        @if(this.activeChannelService.activeChannel.messages) {
         @for(message of this.activeChannelService.activeChannel.messages; track message) {
           <app-message [isChannel]="true"></app-message>
         }
+      }
         <app-date-divider></app-date-divider>
         <app-own-message [isChannel]="true"></app-own-message>
       </div>
