@@ -26,8 +26,6 @@ export class SubHeaderComponent implements OnInit {
   @Input() isThread!: boolean;
   @Input() isDM!: boolean;
   @Input() isNewMsg!: boolean;
-
-  // @Input() activeChannel!: any;
   
   mobile!: boolean;
 

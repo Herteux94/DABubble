@@ -27,17 +27,9 @@ export class ActiveChannelService {
     });
   }
 
-  loadActiveChannelFromBackend() {
-    let channelID: any;
-    debugger;
-    this.route.paramMap.subscribe((paramMap) => {
-      channelID = paramMap.get('id');
-    });    
-    console.log(channelID);
-    
-    this.activeChannel = this.firestoreService.getActiveChannel(channelID);
-
-    console.log(this.activeChannel);
+  async loadActiveChannelFromBackend(channelID: string) {    
+    let activeChannel = await this.firestoreService.getActiveChannel(channelID);
+    this.activeChannel = activeChannel;
   }
 
 

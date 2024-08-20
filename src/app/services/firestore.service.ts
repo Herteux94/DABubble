@@ -134,8 +134,9 @@ export class FirestoreService implements OnDestroy {
     });
   }
 
-  getActiveChannel(channelID: string) {
-    getDoc(doc(this.channelCol, channelID));
+  async getActiveChannel(channelID: string) {
+    let activeChannel = await getDoc(doc(this.channelCol, channelID));
+    return activeChannel.data();
   }
 
 
