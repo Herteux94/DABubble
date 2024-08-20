@@ -6,6 +6,7 @@ import { CreateChannelDialogComponent } from '../../dialogs/create-channel-dialo
 import { Dialog, DIALOG_DATA, DialogModule } from '@angular/cdk/dialog';
 import { RoutingThreadOutletService } from '../../services/routing-thread-outlet.service';
 import { FirestoreService } from '../../services/firestore.service';
+import { ActiveChannelService } from '../../services/active-channel.service';
 
 @Component({
   selector: 'app-navigation',
@@ -16,14 +17,14 @@ import { FirestoreService } from '../../services/firestore.service';
 })
 export class NavigationComponent implements OnInit {
   dialog = inject(Dialog);
-
   mobile!: boolean;
 
   constructor(
     public screenSizeService: ScreenSizeService,
     public threadRoutingService: RoutingThreadOutletService,
     public firestoreService: FirestoreService,
-    private router: Router
+    private router: Router,
+    public activeChannelService: ActiveChannelService
   ) {}
 
   ngOnInit() {

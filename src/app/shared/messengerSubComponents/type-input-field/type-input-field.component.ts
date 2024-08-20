@@ -18,10 +18,11 @@ export class TypeInputFieldComponent {
   constructor(private firestoreService: FirestoreService, private activeUserService: ActiveUserService) { }
 
   sendMessage() {
-    this.message.creationTime = Date.now();
-    this.message.senderID = this.activeUserService.activeUser;
-    this.firestoreService.addMessage(this.message.toJSON());
-    this.message.content = '';
+  //   this.message.creationTime = Date.now();
+  //   this.message.senderID = this.activeUserService.activeUser;
+  //   this.firestoreService.addMessage(this.message.toJSON());
+  //   // this.firestoreService.pushMessageToChannel('VfidlPx9GWzscN0zrgFv', 'bdgCJJieGfDDi4Jc0bSt');
+  //   this.message.content = '';
   }
 
 

@@ -7,6 +7,8 @@ import { TypeInputFieldComponent } from '../../shared/messengerSubComponents/typ
 import { ThreadComponent } from '../thread/thread.component';
 import { ActivatedRoute } from '@angular/router';
 import { FirestoreService } from '../../services/firestore.service';
+import { ActiveChannelService } from '../../services/active-channel.service';
+import { log } from 'node:console';
 
 
 @Component({
@@ -16,20 +18,33 @@ import { FirestoreService } from '../../services/firestore.service';
   templateUrl: './channel.component.html',
   styleUrl: './channel.component.scss'
 })
-export class ChannelComponent implements OnInit {
+export class ChannelComponent {
 
-  activeChannel!: any;
-  memberList: any[] = [];
-  messages: any[] = [];
+  // activeChannel!: any;
+  // memberList: any[] = [];
+  // messages: any[] = [];
 
-  constructor(private route: ActivatedRoute, private firestoreService: FirestoreService) {}
+  constructor(private route: ActivatedRoute, private firestoreService: FirestoreService, public activeChannelService: ActiveChannelService) {}
 
-  async ngOnInit() {
-    await this.loadActiveChannel();
-    this.loadMemberList();
-    this.loadMessages()
+  ngOnInit() {
+    let channelID: any;
+    this.route.paramMap.subscribe((paramMap) => {
+      channelID = paramMap.get('id');
+    });   
+    console.log(channelID);
+     
+    this.activeChannelService.loadActiveChannelFromBackend();
+    
   }
   
+  // getChannelID() {
+  //   let channelID: any;
+  //   this.route.paramMap.subscribe((paramMap) => {
+  //     channelID = paramMap.get('id');
+  //   });    
+  //   this.activeChannelService.loadActiveChannel();    
+  // }
+
   // loadActiveChannel() {
   //   this.route.paramMap.subscribe((paramMap) => {
   //     const activeChannelID = paramMap.get('id');
@@ -39,7 +54,7 @@ export class ChannelComponent implements OnInit {
   //     }
   //   });
   // }
-
+  
   // loadMemberList() {
   //   this.activeChannel.member.forEach((member: any) => {
   //     this.memberList.push(member);
@@ -48,46 +63,46 @@ export class ChannelComponent implements OnInit {
     
   // }
 
-  loadActiveChannel(): Promise<void> {
-    return new Promise((resolve, reject) => {
-      this.route.paramMap.subscribe((paramMap) => {
-        const activeChannelID = paramMap.get('id');
-        if (activeChannelID) {
-          setTimeout(() => {
-            let channel = this.firestoreService.allChannels.find((channel: any) => channel.channelID == activeChannelID);
-            this.activeChannel = channel;
-            resolve();  // Promise wird aufgelöst, sobald der Kanal gesetzt wurde
-          }, 1000)
-        } else {
-          reject('No channel ID found');
-        }
-      });
-    });
-  }
+  // loadActiveChannel(): Promise<void> {
+  //   return new Promise((resolve, reject) => {
+  //     this.route.paramMap.subscribe((paramMap) => {
+  //       const activeChannelID = paramMap.get('id');
+  //       if (activeChannelID) {
+  //         setTimeout(() => {
+  //           let channel = this.firestoreService.allChannels.find((channel: any) => channel.channelID == activeChannelID);
+  //           this.activeChannel = channel;
+  //           resolve();  // Promise wird aufgelöst, sobald der Kanal gesetzt wurde
+  //         }, 1000)
+  //       } else {
+  //         reject('No channel ID found');
+  //       }
+  //     });
+  //   });
+  // }
 
-  loadMemberList() {
-    if (this.activeChannel && this.activeChannel.member) {
-      this.memberList = [];
-      this.activeChannel.member.forEach((member: any) => {
-        this.memberList.push(member);
-      });
-      console.log(this.memberList);
-    } else {
-      console.error('Active channel or members not found');
-    }
-  }
+  // loadMemberList() {
+  //   if (this.activeChannel && this.activeChannel.member) {
+  //     this.memberList = [];
+  //     this.activeChannel.member.forEach((member: any) => {
+  //       this.memberList.push(member);
+  //     });
+  //     console.log(this.memberList);
+  //   } else {
+  //     console.error('Active channel or members not found');
+  //   }
+  // }
 
-  loadMessages() {
-    if (this.activeChannel && this.activeChannel.messages) {
-      this.messages = [];
-      this.activeChannel.messages.forEach((message: any) => {
-        this.messages.push(message);
-      });
-      console.log(this.messages);
-    } else {
-      console.error('Active channel or messages not found');
-    }
-  }
+  // loadMessages() {
+  //   if (this.activeChannel && this.activeChannel.messages) {
+  //     this.messages = [];
+  //     this.activeChannel.messages.forEach((message: any) => {
+  //       this.messages.push(message);
+  //     });
+  //     console.log(this.messages);
+  //   } else {
+  //     console.error('Active channel or messages not found');
+  //   }
+  // }
 
   }
 
