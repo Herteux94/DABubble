@@ -28,7 +28,7 @@ export class ActiveChannelService {
   //   });
   // }
 
-  async loadActiveChannelFromBackend(channelID: string) { 
+  async loadActiveChannel(channelID: string) { 
     this.firestoreService.allChannels$.subscribe((channels) => {
       if(channels.length > 0) {
         this.activeChannel = this.firestoreService.allChannels.find(

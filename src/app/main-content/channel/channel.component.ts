@@ -35,7 +35,7 @@ export class ChannelComponent implements OnInit {
       this.route.paramMap.subscribe((paramMap) => {
         channelID = paramMap.get('id');
       });
-      this.activeChannelService.loadActiveChannelFromBackend(channelID);
+      this.activeChannelService.loadActiveChannel(channelID);
     }
   }
 }
