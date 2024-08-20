@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, ElementRef, Renderer2, HostListener } from '@angular/core';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { LoginComponent } from './login/login.component';
 import { ChooseAvatarComponent } from './choose-avatar/choose-avatar.component';
@@ -23,16 +23,17 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
   templateUrl: './authentication.component.html',
   styleUrls: ['./authentication.component.scss'],
   animations: [
+    // Gemeinsame Animationen für große und kleine Bildschirme
     trigger('logoAppear', [
       state('hidden', style({
         opacity: 0,
         visibility: 'hidden',
-        transform: 'translate(-50%, -50%) scale(1.5)' // Start mit 1,5-facher Größe
+        transform: 'translate(-50%, -50%) scale(1)'
       })),
       state('visible', style({
         opacity: 1,
         visibility: 'visible',
-        transform: 'translate(-50%, -50%) scale(1.5)' // Bleibt zunächst vergrößert
+        transform: 'translate(-50%, -50%) scale(1)'
       })),
       transition('hidden => visible', [
         animate('500ms ease-in-out')
@@ -41,14 +42,14 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
     trigger('slideLogo', [
       state('start', style({
         opacity: 0,
-        transform: 'translateX(0) scale(1.5)' // Vergrößert
+        transform: 'translateX(0) scale(1)'
       })),
       state('end', style({
         opacity: 1,
-        transform: 'translateX(-60px) scale(1.5)' // Vergrößert während des Slides
+        transform: 'translateX(0) scale(1)'
       })),
       state('reset', style({
-        transform: 'translateX(0) scale(1)' // Zurück auf normale Größe
+        transform: 'translateX(0) scale(1)'
       })),
       transition('start => end', [
         animate('500ms ease-in-out')
@@ -60,14 +61,14 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
     trigger('slideText', [
       state('hidden', style({
         opacity: 0,
-        transform: 'translateX(-100px) scale(1.5)' // Vergrößert
+        transform: 'translateX(-100px) scale(1)'
       })),
       state('visible', style({
         opacity: 1,
-        transform: 'translateX(0px) scale(1.5)' // Vergrößert während des Slides
+        transform: 'translateX(0px) scale(1)'
       })),
       state('reset', style({
-        transform: 'translateX(0) scale(1)', // Zurück auf normale Größe
+        transform: 'translateX(0) scale(1)',
         opacity: 1
       })),
       transition('hidden => visible', [
@@ -84,23 +85,31 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
       state('center', style({
         top: '50%',
         left: '50%',
-        transform: 'translate(-50%, -50%) scale(1.5)', // Vergrößert in der Mitte
+        transform: 'translate(-50%, -50%) scale(1)',
       })),
-      state('corner', style({
+      state('cornerLarge', style({
         top: '60px',
         left: '60px',
-        transform: 'translate(0, 0) scale(1)', // Normale Größe in der Ecke
+        transform: 'translate(0, 0) scale(1)',
       })),
-      transition('center => corner', [
+      state('cornerSmall', style({
+        top: '60px',
+        left: '50%',
+        transform: 'translate(-50%, 0) scale(1)',
+      })),
+      transition('center => cornerLarge', [
+        animate('800ms ease-in-out')
+      ]),
+      transition('center => cornerSmall', [
         animate('800ms ease-in-out')
       ]),
     ]),
     trigger('invertTextLogo', [
       state('normal', style({
-        filter: 'invert(1)' // Textlogo bleibt invertiert
+        filter: 'invert(1)'
       })),
       state('inverted', style({
-        filter: 'invert(0)' // Textlogo wird nicht invertiert
+        filter: 'invert(0)'
       })),
       transition('normal => inverted', [
         animate('800ms ease-in-out')
@@ -116,10 +125,13 @@ export class AuthenticationComponent implements OnInit {
   textLogoClass = 'whiteFill'; // Start mit weißer Schrift
   overlayState = 'visible'; // Startet mit sichtbarem Overlay
   textLogoInvertState = 'normal'; // Initialzustand des Textlogos
+  isSmallScreen = false;
 
   constructor(private renderer: Renderer2, private el: ElementRef) {}
 
   ngOnInit() {
+    this.checkScreenSize();
+
     setTimeout(() => {
       this.logoState = 'visible';
     }, 1000);
@@ -133,11 +145,40 @@ export class AuthenticationComponent implements OnInit {
     }, 2000);
 
     setTimeout(() => {
-      this.containerPosition = 'corner';
+      this.containerPosition = this.isSmallScreen ? 'cornerSmall' : 'cornerLarge';
       this.logoSlideState = 'reset';
       this.textLogoState = 'reset';
-      this.textLogoInvertState = 'inverted'; // Startet die Invertierung des Textlogos
-      this.renderer.addClass(this.el.nativeElement.querySelector('.overlay'), 'hidden-overlay');
+      this.textLogoInvertState = 'inverted';
+
+
+      // Dynamisch die CSS-Eigenschaften setzen
+
+
+      if (this.isSmallScreen) {
+        this.enableScroll();
+      }
     }, 3000);
+
+    setTimeout(() => {
+      const wrapperElement = this.el.nativeElement.querySelector('.wrapper');
+      if (wrapperElement) {
+        this.renderer.setStyle(wrapperElement, 'height', 'auto');
+        this.renderer.setStyle(wrapperElement, 'overflow', 'auto');
+        this.renderer.addClass(this.el.nativeElement.querySelector('.overlay'), 'hiddenOverlay');
+      }
+    }, 3700)
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.checkScreenSize();
+  }
+
+  checkScreenSize() {
+    this.isSmallScreen = window.innerWidth < 1025;
+  }
+
+  enableScroll() {
+    this.renderer.setStyle(document.body, 'overflow', 'auto');
   }
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AuthenticationComponent } from '../authentication.component';
 import { FocusInputDirective } from '../../directives/focus-input.directive';
@@ -20,13 +20,19 @@ import { CommonModule } from '@angular/common';
 })
 export class LoginComponent {
 
+  @ViewChild('emailInput', { static: true }) emailInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('passwordInput', { static: true }) passwordInput!: ElementRef<HTMLInputElement>;
+
   errorMessage: string | null = null;
   errorType: 'email' | 'password' | null = null;
 
   constructor(private auth: Auth, private router: Router) {}
 
   // Methode für E-Mail/Passwort-Login
-  login(email: string, password: string) {
+  login() {
+    const email = this.emailInput.nativeElement.value;
+    const password = this.passwordInput.nativeElement.value;
+
     if (!email) {
       this.errorMessage = 'Bitte geben Sie Ihre E-Mail-Adresse ein.';
       this.errorType = 'email';
@@ -50,12 +56,9 @@ export class LoginComponent {
         console.error('Error logging in:', error);
 
         // Fehlercode-Abfrage
-        if (error.code === 'auth/wrong-password') {
+        if (error.code === 'auth/invalid-credential') {
           this.errorMessage = 'E-Mail-Adresse und Passwort stimmen nicht überein.';
           this.errorType = 'password';
-        } else if (error.code === 'auth/user-not-found') {
-          this.errorMessage = 'Kein Konto mit dieser E-Mail-Adresse gefunden.';
-          this.errorType = 'email';
         } else {
           this.errorMessage = 'Fehler bei der Anmeldung. Bitte versuchen Sie es erneut.';
           this.errorType = null;
@@ -78,5 +81,11 @@ export class LoginComponent {
         this.errorMessage = 'Fehler bei der Anmeldung mit Google. Bitte versuchen Sie es erneut.';
         this.errorType = null;
       });
+  }
+
+  @HostListener('document:keydown.enter', ['$event'])
+  handleEnterKey(event: KeyboardEvent) {
+    event.preventDefault();
+    this.login();
   }
 }
