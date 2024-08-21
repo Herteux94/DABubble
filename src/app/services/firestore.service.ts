@@ -14,7 +14,6 @@ import {
 import { Observable } from 'rxjs';
 import { Channel } from '../models/channel.model';
 import { User } from '../models/user.model';
-import { Message } from '../models/message.model';
 import { DirectMessage } from '../models/directMessages.model';
 
 @Injectable({
@@ -102,7 +101,7 @@ export class FirestoreService {
     });
   }
   
-  addMessage(messageData: Message, messengerType: string , messengerID: string) {
+  addMessage(messageData: any, messengerType: string , messengerID: string) {
     updateDoc(doc(collection(this.firestore, `${messengerType}/${messengerID}/messages`)), {
       messages: arrayUnion(messageData)
     })
@@ -113,7 +112,7 @@ export class FirestoreService {
     });
   }
 
-  addThreadMessage(messageData: Message, channelID: string, messageID: string) {
+  addThreadMessage(messageData: any, channelID: string, messageID: string) {
     updateDoc(doc(collection(this.firestore, `channels/${channelID}/messages/${messageID}`)), {
       messages: arrayUnion(messageData)
     })
@@ -133,16 +132,16 @@ export class FirestoreService {
     deleteDoc(doc(this.channelCol, channelID));
   }
   
-  deleteMessage(messageID: string) {
-    deleteDoc(doc(this.messageCol, messageID));
-  }
+  // deleteMessage(messageID: string) {
+  //   deleteDoc(doc(this.messageCol, messageID));
+  // }
   
-  updateMessage(messageData: any, messageID: string) {
-    updateDoc(doc(this.messageCol, messageID), {
-      content: messageData.content,
-      attachments: messageData.attachments
-    });
-  }
+  // updateMessage(messageData: any, messageID: string) {
+  //   updateDoc(doc(this.messageCol, messageID), {
+  //     content: messageData.content,
+  //     attachments: messageData.attachments
+  //   });
+  // }
   
   updateUser(userData: any, userID: string) {
     updateDoc(doc(this.userCol, userID), {
