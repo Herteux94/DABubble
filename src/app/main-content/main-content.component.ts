@@ -1,3 +1,4 @@
+import { ActiveUserService } from './../services/active-user.service';
 import {
   Component,
   OnInit
@@ -17,6 +18,7 @@ import { ScreenSizeService } from '../services/screen-size-service.service';
 import { NewMessageComponent } from './new-message/new-message.component';
 import { ThreadComponent } from './thread/thread.component';
 import { RoutingThreadOutletService } from '../services/routing-thread-outlet.service';
+
 
 @Component({
   selector: 'app-main-content',

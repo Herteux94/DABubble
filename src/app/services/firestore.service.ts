@@ -22,9 +22,10 @@ export class FirestoreService implements OnDestroy {
   userCol = collection(this.firestore, 'users');
   channelCol = collection(this.firestore, 'channels');
   messageCol = collection(this.firestore, 'messages');
-  
+
   allChannels$!: Observable<any[]>;
-  
+  allUsers$!: Observable<any[]>;
+
   allUsers: any[] = [];
   allChannels: any[] = [];
   allMessages: any[] = [];
@@ -34,10 +35,10 @@ export class FirestoreService implements OnDestroy {
   // unsubChannelList: any;
   unsubMessageList: any;
 
-  constructor(private firestore: Firestore) { 
+  constructor(private firestore: Firestore) {
     this.getUsers();
     this.loadChannelList();
-    this.getMessages();        
+    this.getMessages();
   }
 
   getUsers() {
@@ -62,7 +63,7 @@ export class FirestoreService implements OnDestroy {
     this.allChannels$ = this.getChannels();
     this.allChannels$.subscribe((channels) => {
       this.allChannels = channels;
-    });    
+    });
   }
 
   getChannels(): Observable<any[]> {
@@ -77,7 +78,7 @@ export class FirestoreService implements OnDestroy {
       });
     })
   }
-  
+
   ngOnDestroy() {
     this.unsubUserList();
     // this.unsubChannelList();

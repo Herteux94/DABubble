@@ -1,20 +1,14 @@
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { FocusInputDirective } from '../../directives/focus-input.directive';
-import { Auth, createUserWithEmailAndPassword } from '@angular/fire/auth';
 import { Router } from '@angular/router';
+import { Auth, createUserWithEmailAndPassword } from '@angular/fire/auth';
+import { Firestore, doc, setDoc } from '@angular/fire/firestore';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-sign-up',
   standalone: true,
-  imports: [
-    RouterModule,
-    FocusInputDirective,
-    CommonModule,
-    FormsModule 
-  ],
+  imports: [CommonModule, FormsModule],
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.scss']
 })
@@ -24,7 +18,11 @@ export class SignUpComponent {
   password: string = '';
   errorMessage: string | null = null;
 
-  constructor(private auth: Auth, private router: Router) {}
+  constructor(
+    private auth: Auth,
+    private firestore: Firestore,
+    private router: Router
+  ) {}
 
   signUp() {
     if (!this.name) {
@@ -43,23 +41,35 @@ export class SignUpComponent {
     }
 
     createUserWithEmailAndPassword(this.auth, this.email, this.password)
-      .then((userCredential) => {
-        // Benutzer erfolgreich erstellt
-        console.log('User signed up:', userCredential.user);
-
-        // Optionale zusätzliche Logik (z.B. Speichern des Namens)
-        // userCredential.user.updateProfile({
-        //   displayName: this.name
-        // });
-
-        this.errorMessage = null;
-        this.router.navigate(['/messenger']);
+      .then(async (userCredential) => {
+        const activeUserID = userCredential.user.uid;
+        try {
+          await this.createUserProfile(activeUserID, this.name, this.email);
+          this.errorMessage = null;
+          console.log('User successfully signed up and profile created.');
+          this.router.navigate(['/messenger']);
+        } catch (error) {
+          console.error('Error saving user profile to Firestore:', error);
+          this.errorMessage = 'Fehler beim Speichern des Benutzerprofils. Bitte versuchen Sie es erneut.';
+        }
       })
       .catch((error) => {
         console.error('Error during sign-up:', error);
-
-        // Fehlerbehandlung
         this.errorMessage = 'Fehler bei der Kontoerstellung. Bitte versuchen Sie es erneut.';
       });
+  }
+
+  private async createUserProfile(activeUserID: string, name: string, email: string) {
+    const userRef = doc(this.firestore, `users/${activeUserID}`);
+    await setDoc(userRef, {
+      name: name,
+      profileImg: '',
+      email: email,
+      active: true,
+      lastOnline: new Date().toISOString(),
+      channels: [],
+      directMessages: []
+    });
+    console.log('New user profile created in Firestore with activeUserID:', activeUserID);
   }
 }

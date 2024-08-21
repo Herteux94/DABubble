@@ -32,7 +32,7 @@
       <input class="inputFieldAuth" #passwordInput type="password" placeholder="Passwort" required>
     </div>
     <div *ngIf="errorMessage && errorType === 'password'" class="errorMessage">{{ errorMessage }}</div>
-    <a class="lostPW" [routerLink]="['/authentication/sendResetPWMail']">Passwort vergessen?</a>
+    <a class="lostPW">Passwort vergessen?</a>
     <div class="seperaterContainer">
       <div class="seperater"></div>
       <span>ODER</span>
@@ -49,7 +49,7 @@
   <div class="newMemberContainer">
     <span class="newMemberSpan">Neu bei DABubble?</span>
     <a class="newMemberLink" href="">Konto erstellen</a>
-    <button [routerLink]="['/authentication/signUp']" class="thirdBtn">Konto erstellen</button>
+    <button class="thirdBtn">Konto erstellen</button>
   </div>
   <div class="legalContainer">
     <a class="imprint" href="">Impressum</a>

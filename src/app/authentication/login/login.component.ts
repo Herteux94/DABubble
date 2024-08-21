@@ -1,20 +1,14 @@
 import { Component, ViewChild, ElementRef, HostListener } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { AuthenticationComponent } from '../authentication.component';
-import { FocusInputDirective } from '../../directives/focus-input.directive';
-import { Auth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from '@angular/fire/auth';
 import { Router } from '@angular/router';
+import { Auth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from '@angular/fire/auth';
+import { Firestore, doc, getDoc, setDoc } from '@angular/fire/firestore';
 import { CommonModule } from '@angular/common';
+import { ActiveUserService } from '../../services/active-user.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [
-    RouterModule,
-    AuthenticationComponent,
-    FocusInputDirective,
-    CommonModule
-  ],
+  imports: [CommonModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
@@ -26,7 +20,12 @@ export class LoginComponent {
   errorMessage: string | null = null;
   errorType: 'email' | 'password' | null = null;
 
-  constructor(private auth: Auth, private router: Router) {}
+  constructor(
+    private auth: Auth,
+    private firestore: Firestore,
+    private router: Router,
+    public activeUserService: ActiveUserService
+  ) {}
 
   // Methode für E-Mail/Passwort-Login
   login() {
@@ -46,16 +45,17 @@ export class LoginComponent {
     }
 
     signInWithEmailAndPassword(this.auth, email, password)
-      .then((userCredential) => {
-        console.log('User logged in:', userCredential.user);
+      .then(async (userCredential) => {
+        const activeUserID = userCredential.user.uid;
+        await this.checkOrCreateUserProfile(activeUserID, userCredential.user.email);
         this.errorMessage = null;
         this.errorType = null;
+        this.activeUserService.loadActiveUser(activeUserID);  // Setze den aktiven Benutzer
         this.router.navigate(['/messenger']);
       })
       .catch((error) => {
         console.error('Error logging in:', error);
 
-        // Fehlercode-Abfrage
         if (error.code === 'auth/invalid-credential') {
           this.errorMessage = 'E-Mail-Adresse und Passwort stimmen nicht überein.';
           this.errorType = 'password';
@@ -70,10 +70,12 @@ export class LoginComponent {
   loginWithGoogle() {
     const provider = new GoogleAuthProvider();
     signInWithPopup(this.auth, provider)
-      .then((result) => {
-        console.log('User signed in with Google:', result.user);
+      .then(async (result) => {
+        const activeUserID = result.user.uid;
+        await this.checkOrCreateUserProfile(activeUserID, result.user.email);
         this.errorMessage = null;
         this.errorType = null;
+        this.activeUserService.loadActiveUser(activeUserID);  // Setze den aktiven Benutzer
         this.router.navigate(['/messenger']);
       })
       .catch((error) => {
@@ -81,6 +83,30 @@ export class LoginComponent {
         this.errorMessage = 'Fehler bei der Anmeldung mit Google. Bitte versuchen Sie es erneut.';
         this.errorType = null;
       });
+  }
+
+  private async checkOrCreateUserProfile(activeUserID: string, email: string | null) {
+    const userRef = doc(this.firestore, `users/${activeUserID}`);
+    const userSnap = await getDoc(userRef);
+
+    if (!userSnap.exists()) {
+      try {
+        await setDoc(userRef, {
+          name: '',
+          profileImg: '',
+          email: email,
+          active: true,
+          lastOnline: new Date().toISOString(),
+          channels: [],
+          directMessages: []
+        });
+        console.log('Neues Benutzerprofil in Firestore erstellt');
+      } catch (error) {
+        console.error('Fehler beim Erstellen des Benutzerprofils in Firestore:', error);
+      }
+    } else {
+      console.log('Benutzerprofil existiert bereits:', userSnap.data());
+    }
   }
 
   @HostListener('document:keydown.enter', ['$event'])
