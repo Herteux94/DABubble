@@ -2,13 +2,15 @@ export class Channel {
   name!: string;
   creator!: string;
   description!: string;
-  createdAt!: string;
+  creationTime!: number;
+  member!: string[];
 
   constructor() {
     this.name = '';
     this.creator = '';
     this.description = '';
-    this.createdAt = '';
+    this.creationTime;
+    this.member = [];
   }
 
   public toJSON() {
@@ -16,7 +18,8 @@ export class Channel {
       name: this.name,
       creator: this.creator,
       description: this.description,
-      createdAt: this.createdAt
+      createdAt: this.creationTime,
+      member: this.member
     };
   }
 }

@@ -1,19 +1,17 @@
 export class Message {
   senderID!: string;
-  creationTime!: number | undefined;
+  creationTime!: number;
   content?: string;
-  attachments?: any; //pdf, png, jpg, jpeg
-  reactions?: any[];
-  responses?: string[];
+  attachments?: string[]; //pdf, png, jpg, jpeg
+  reactions?: string[];
   messageID!: string;
 
   constructor() {
     this.senderID = '';
-    this.creationTime = undefined;
+    this.creationTime;
     this.content = '';
-    this.attachments = '';
+    this.attachments = [];
     this.reactions = [];
-    this.responses = [];
     this.messageID = '';
   }
 
@@ -25,7 +23,6 @@ export class Message {
       content: this.content,
       attachments: this.attachments,
       reactions: this.reactions,
-      responses: this.responses,
     };
   }
 

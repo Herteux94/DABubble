@@ -79,7 +79,7 @@
                         </div>
                     }
                 </div>
-                @if(this.activeChannelService.activeChannel.member) {
+                @if(this.activeChannelService.activeChannel) {
                     <h3>{{ this.activeChannelService.activeChannel.member.length }}</h3>
                 } @else {
                     <span>loading...</span>

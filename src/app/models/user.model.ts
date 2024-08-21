@@ -1,3 +1,6 @@
+import { Channel } from "./channel.model";
+import { Message } from "./message.model";
+
 export class User {
   name!: string;
   profileImg!: string;
@@ -6,8 +9,8 @@ export class User {
   lastOnline!: string;
   passwordResetToken?: string;
   passwordResetExpires?: string;
-  channels?: any[];
-  directMessages?: any[];
+  channels?: Channel[];
+  directMessages?: Message[];
 
   constructor() {
     this.name = '';
