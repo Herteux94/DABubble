@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Firestore, doc, getDoc, DocumentSnapshot } from '@angular/fire/firestore';
 import { FirestoreService } from './firestore.service';
+import { User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ActiveUserService {
 
-  activeUser: any;
+  activeUser!: User;
 
   constructor(
     private firestore: Firestore,

@@ -4,6 +4,7 @@ import { Auth, createUserWithEmailAndPassword } from '@angular/fire/auth';
 import { Firestore, doc, setDoc } from '@angular/fire/firestore';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-sign-up',
@@ -17,6 +18,7 @@ export class SignUpComponent {
   email: string = '';
   password: string = '';
   errorMessage: string | null = null;
+  user = new User;
 
   constructor(
     private auth: Auth,
@@ -40,7 +42,7 @@ export class SignUpComponent {
       return;
     }
 
-    createUserWithEmailAndPassword(this.auth, this.email, this.password)
+    createUserWithEmailAndPassword(this.auth, this.user.email, this.password)
       .then(async (userCredential) => {
         const activeUserID = userCredential.user.uid;
         try {
