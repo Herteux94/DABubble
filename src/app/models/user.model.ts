@@ -9,7 +9,7 @@ export class User {
   lastOnline!: string;
   passwordResetToken!: string;
   passwordResetExpires!: string;
-  channels!: Channel[];
+  channels!: string[];
   directMessages!: Message[];
   userID!: string;
 

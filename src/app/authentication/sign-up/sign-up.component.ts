@@ -5,6 +5,7 @@ import { Firestore, doc, setDoc } from '@angular/fire/firestore';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { User } from '../../models/user.model';
+import { ActiveUserService } from '../../services/active-user.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -14,25 +15,24 @@ import { User } from '../../models/user.model';
   styleUrls: ['./sign-up.component.scss']
 })
 export class SignUpComponent {
-  name: string = '';
-  email: string = '';
-  password: string = '';
   errorMessage: string | null = null;
+  password: string = '';
   user = new User;
 
   constructor(
     private auth: Auth,
     private firestore: Firestore,
-    private router: Router
+    private router: Router,
+    private activeUserService: ActiveUserService
   ) {}
 
   signUp() {
-    if (!this.name) {
+    if (!this.user.name) {
       this.errorMessage = 'Bitte geben Sie Ihren Namen ein.';
       return;
     }
 
-    if (!this.email) {
+    if (!this.user.email) {
       this.errorMessage = 'Bitte geben Sie Ihre E-Mail-Adresse ein.';
       return;
     }
@@ -46,10 +46,14 @@ export class SignUpComponent {
       .then(async (userCredential) => {
         const activeUserID = userCredential.user.uid;
         try {
-          await this.createUserProfile(activeUserID, this.name, this.email);
+          await this.createUserProfile(activeUserID);
+          this.user.userID = activeUserID;
+          this.activeUserService.activeUser = this.user;
           this.errorMessage = null;
           console.log('User successfully signed up and profile created.');
           this.router.navigate(['/messenger']);
+          console.log(this.activeUserService.activeUser);
+          
         } catch (error) {
           console.error('Error saving user profile to Firestore:', error);
           this.errorMessage = 'Fehler beim Speichern des Benutzerprofils. Bitte versuchen Sie es erneut.';
@@ -61,17 +65,10 @@ export class SignUpComponent {
       });
   }
 
-  private async createUserProfile(activeUserID: string, name: string, email: string) {
+  private async createUserProfile(activeUserID: string) {
     const userRef = doc(this.firestore, `users/${activeUserID}`);
-    await setDoc(userRef, {
-      name: name,
-      profileImg: '',
-      email: email,
-      active: true,
-      lastOnline: new Date().toISOString(),
-      channels: [],
-      directMessages: []
-    });
+    this.user.lastOnline = new Date().toISOString();
+      await setDoc(userRef, this.user.toJSON());
     console.log('New user profile created in Firestore with activeUserID:', activeUserID);
   }
 }

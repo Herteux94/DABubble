@@ -6,8 +6,8 @@ import { SubHeaderComponent } from '../../shared/messengerSubComponents/sub-head
 import { TypeInputFieldComponent } from '../../shared/messengerSubComponents/type-input-field/type-input-field.component';
 import { ThreadComponent } from '../thread/thread.component';
 import { ActivatedRoute } from '@angular/router';
-import { FirestoreService } from '../../services/firestore.service';
 import { ActiveChannelService } from '../../services/active-channel.service';
+import { ActiveUserService } from '../../services/active-user.service';
 
 @Component({
   selector: 'app-channel',
