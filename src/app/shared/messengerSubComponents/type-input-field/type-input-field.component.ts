@@ -20,18 +20,10 @@ export class TypeInputFieldComponent {
 
   sendMessage() {
     this.message.creationTime = Date.now();
-    this.message.messageID = this.generateRandomId();
-    this.message.senderID = this.activeUserService.activeUser;
-    this.firestoreService.addChannelMessage(this.message.toJSON(), this.activeChannelService.activeChannel.channelID);    
+    this.message.senderID = this.activeUserService.activeUser.userID;
+    this.firestoreService.addMessage(this.message.toJSON(), 'channels', this.activeChannelService.activeChannel.channelID);    
     this.message.content = '';
   }
-
-  generateRandomId(): string {
-    return (
-        Date.now().toString(36) + // Zeitstempel als Basis
-        Math.random().toString(7)
-    );
-}
 
 
 

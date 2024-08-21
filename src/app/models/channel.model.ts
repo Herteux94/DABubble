@@ -4,6 +4,7 @@ export class Channel {
   description!: string;
   creationTime!: number;
   member!: string[];
+  channelID!: string;
 
   constructor() {
     this.name = '';
@@ -11,6 +12,7 @@ export class Channel {
     this.description = '';
     this.creationTime;
     this.member = [];
+    this.channelID = '';
   }
 
   public toJSON() {
@@ -19,7 +21,8 @@ export class Channel {
       creator: this.creator,
       description: this.description,
       createdAt: this.creationTime,
-      member: this.member
+      member: this.member,
+      channelID: this.channelID
     };
   }
 }

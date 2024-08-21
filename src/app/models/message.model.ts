@@ -1,9 +1,9 @@
 export class Message {
   senderID!: string;
   creationTime!: number;
-  content?: string;
-  attachments?: string[]; //pdf, png, jpg, jpeg
-  reactions?: string[];
+  content!: string;
+  attachments!: string[]; //pdf, png, jpg, jpeg
+  reactions!: string[];
   messageID!: string;
 
   constructor() {
@@ -17,12 +17,12 @@ export class Message {
 
   public toJSON() {
     return {
-      messageID: this.messageID,
       senderID: this.senderID,
       creationTime: this.creationTime,
       content: this.content,
       attachments: this.attachments,
       reactions: this.reactions,
+      messageID: this.messageID
     };
   }
 

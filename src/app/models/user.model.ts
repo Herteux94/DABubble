@@ -7,10 +7,11 @@ export class User {
   email!: string;
   active!: boolean;
   lastOnline!: string;
-  passwordResetToken?: string;
-  passwordResetExpires?: string;
-  channels?: Channel[];
-  directMessages?: Message[];
+  passwordResetToken!: string;
+  passwordResetExpires!: string;
+  channels!: Channel[];
+  directMessages!: Message[];
+  userID!: string;
 
   constructor() {
     this.name = '';
@@ -22,6 +23,7 @@ export class User {
     this.passwordResetExpires = '';
     this.channels = [];
     this.directMessages = [];
+    this.userID = '';
   }
 
   public toJSON() {
@@ -35,6 +37,7 @@ export class User {
       passwordResetExpires: this.passwordResetExpires,
       channels: this.channels,
       directMessages: this.directMessages,
+      userID: this.userID
     };
   }
 }

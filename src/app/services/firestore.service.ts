@@ -12,10 +12,10 @@ import {
   arrayUnion
 } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import { DirectMessage } from '../models/directMessages.model';
 import { Channel } from '../models/channel.model';
 import { User } from '../models/user.model';
 import { Message } from '../models/message.model';
+import { DirectMessage } from '../models/directMessages.model';
 
 @Injectable({
   providedIn: 'root'
