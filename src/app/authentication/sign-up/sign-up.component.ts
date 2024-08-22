@@ -49,9 +49,9 @@ export class SignUpComponent {
         try {
           this.user.userID = activeUserID;
           this.user.lastOnline = new Date().toISOString();
+          this.activeUserService.setActiveUserToLocalStorage(this.user.userID);
           await this.firestoreService.addUser(this.user.toJSON());
           this.activeUserService.activeUser = this.user;
-          this.activeUserService.setActiveUserToLocalStorage(this.user.userID);
           this.errorMessage = null;
           console.log('User successfully signed up and profile created.');
           this.router.navigate(['/createAccount']);

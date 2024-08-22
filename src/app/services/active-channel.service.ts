@@ -18,9 +18,7 @@ export class ActiveChannelService {
           (channel: any) => channel.channelID == channelID
         );
       }
-    });
-    console.log(this.activeChannel);
-    
+    });    
   }
 
 

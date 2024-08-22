@@ -7,6 +7,7 @@ import { Dialog, DIALOG_DATA, DialogModule } from '@angular/cdk/dialog';
 import { RoutingThreadOutletService } from '../../services/routing-thread-outlet.service';
 import { FirestoreService } from '../../services/firestore.service';
 import { ActiveChannelService } from '../../services/active-channel.service';
+import { ActiveUserService } from '../../services/active-user.service';
 
 @Component({
   selector: 'app-navigation',
@@ -24,7 +25,8 @@ export class NavigationComponent implements OnInit {
     public threadRoutingService: RoutingThreadOutletService,
     public firestoreService: FirestoreService,
     private router: Router,
-    public activeChannelService: ActiveChannelService
+    public activeChannelService: ActiveChannelService,
+    public activeUserService: ActiveUserService
   ) {}
 
   ngOnInit() {

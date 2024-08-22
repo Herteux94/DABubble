@@ -25,9 +25,9 @@ export class AppComponent implements OnInit {
   constructor(private activeUserService: ActiveUserService) {}
   
   ngOnInit(): void {
-    if(!this.activeUserService.activeUser) {
-      this.activeUserService.loadActiveUser();
-    }
+      if(!this.activeUserService.activeUser) {
+        this.activeUserService.loadActiveUser();
+      };
   }
   
 }

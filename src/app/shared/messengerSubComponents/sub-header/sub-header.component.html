@@ -73,10 +73,12 @@
         } @else {
             <div class="member" (click)="openMemberDialog()">
                 <div class="memberImages">
-                    @for(member of this.activeChannelService.activeChannel.member; track member) {
-                        <div class="profileImgContainer">
-                            <img src="../../../../assets/img/avatars/avatar-1.svg">
-                        </div>
+                    @if(this.activeChannelService.activeChannel) {
+                        @for(member of this.activeChannelService.activeChannel.member; track member) {
+                            <div class="profileImgContainer">
+                                <img src="../../../../assets/img/avatars/avatar-1.svg">
+                            </div>
+                        }
                     }
                 </div>
                 @if(this.activeChannelService.activeChannel) {
