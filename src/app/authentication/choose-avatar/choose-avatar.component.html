@@ -1,12 +1,10 @@
 <section class="wrapper">
   <div class="card">
-    <button class="backButton">
+    <a class="backButton">
       <img class="arrowBackIcon" src="../../../assets/img/arrow_back.svg" alt="arrow back icon">
-    </button>
+    </a>
     <h1 class="h1Top">Wähle deinen<br> Avatar</h1>
-  <img class="profileIcon"
-         [src]="avatarUrl || '../../../assets/img/Profile.svg'"
-         alt="Profile Icon">
+    <img class="profileIcon" [src]="avatarUrl || '../../../assets/img/Profile.svg'" alt="Profile Icon">
     <h1 class="h1Name">Frederick Beck</h1>
     <div class="chooseAvatarContainer">
       <span class="infoText">Choose your avatar....</span>
@@ -26,7 +24,7 @@
     </div>
 
     <div class="nextBtnContainer">
-      <button class="firstBtn">Weiter</button>
+      <button (click)="routingMessenger()" class="firstBtn">Weiter</button>
     </div>
   </div>
 </section>

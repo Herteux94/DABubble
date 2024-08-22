@@ -162,7 +162,7 @@ export class AuthenticationComponent implements OnInit {
     setTimeout(() => {
       const wrapperElement = this.el.nativeElement.querySelector('.wrapper');
       if (wrapperElement) {
-        this.renderer.setStyle(wrapperElement, 'height', 'auto');
+        this.renderer.setStyle(wrapperElement, 'height', '100%');
         this.renderer.setStyle(wrapperElement, 'overflow', 'auto');
         this.renderer.addClass(this.el.nativeElement.querySelector('.overlay'), 'hiddenOverlay');
       }
