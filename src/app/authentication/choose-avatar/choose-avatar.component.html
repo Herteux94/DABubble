@@ -1,27 +1,32 @@
-  <section class="wrapper">
-    <div class="card">
-      <a [routerLink]="['/authentication/login']"><img class="arrowBackIcon" src="../../../assets/img/arrow_back.svg" alt="arrow back icon"></a>
-      <h1 class="h1Top">Wähle deinen<br> Avatar</h1>
-      <img class="profileIcon" src="../../../assets/img/Profile.svg" alt="Profile Icon">
-
-      <h1 class="h1Name">Frederick Beck</h1>
-      <div class="chooseAvatarContainer">
-        <span class="infoText">Choose your avatar....</span>
-      </div>
-      <div class="profileImgContainer">
-        <img src="../../../assets/img/avatars/avatar-1.svg" alt="Profile Image Small" class="profileImg">
-        <img src="../../../assets/img/avatars/avatar-2.svg" alt="Profile Image Small" class="profileImg">
-        <img src="../../../assets/img/avatars/avatar-3.svg" alt="Profile Image Small" class="profileImg">
-        <img src="../../../assets/img/avatars/avatar-4.svg" alt="Profile Image Small" class="profileImg">
-        <img src="../../../assets/img/avatars/avatar-5.svg" alt="Profile Image Small" class="profileImg">
-        <img src="../../../assets/img/avatars/avatar-6.svg" alt="Profile Image Small" class="profileImg">
-      </div>
-      <div class="uploadContainer">
-        <span class="infoTextUpload">Or you can</span>
-        <button class="thirdBtn">Upload foto</button>
-      </div>
-      <div class="nextBtnContainer">
-        <button class="firstBtn">Weiter</button>
-      </div>
+<section class="wrapper">
+  <div class="card">
+    <button class="backButton">
+      <img class="arrowBackIcon" src="../../../assets/img/arrow_back.svg" alt="arrow back icon">
+    </button>
+    <h1 class="h1Top">Wähle deinen<br> Avatar</h1>
+  <img class="profileIcon"
+         [src]="avatarUrl || '../../../assets/img/Profile.svg'"
+         alt="Profile Icon">
+    <h1 class="h1Name">Frederick Beck</h1>
+    <div class="chooseAvatarContainer">
+      <span class="infoText">Choose your avatar....</span>
     </div>
-  </section>
+    <div class="profileImgContainer">
+      <img src="../../../assets/img/avatars/avatar-1.svg" alt="Profile Image Small" class="profileImg">
+      <img src="../../../assets/img/avatars/avatar-2.svg" alt="Profile Image Small" class="profileImg">
+      <img src="../../../assets/img/avatars/avatar-3.svg" alt="Profile Image Small" class="profileImg">
+      <img src="../../../assets/img/avatars/avatar-4.svg" alt="Profile Image Small" class="profileImg">
+      <img src="../../../assets/img/avatars/avatar-5.svg" alt="Profile Image Small" class="profileImg">
+      <img src="../../../assets/img/avatars/avatar-6.svg" alt="Profile Image Small" class="profileImg">
+    </div>
+    <div class="uploadContainer">
+      <span class="infoTextUpload">Or you can</span>
+      <input type="file" (change)="uploadAvatar($event)" accept="image/*" hidden #fileInput>
+      <button class="thirdBtn" (click)="triggerFileInput()">Upload foto</button>
+    </div>
+
+    <div class="nextBtnContainer">
+      <button class="firstBtn">Weiter</button>
+    </div>
+  </div>
+</section>

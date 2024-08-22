@@ -54,7 +54,7 @@ export class SignUpComponent {
           this.activeUserService.activeUser = this.user;
           this.errorMessage = null;
           console.log('User successfully signed up and profile created.');
-          this.router.navigate(['/messenger']);          
+          this.router.navigate(['/createAccount']);
         } catch (error) {
           console.error('Error saving user profile to Firestore:', error);
           this.errorMessage = 'Fehler beim Speichern des Benutzerprofils. Bitte versuchen Sie es erneut.';

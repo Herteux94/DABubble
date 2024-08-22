@@ -37,11 +37,15 @@
 }
 
 .profileIcon {
+  width: 160px;  /* Setze die Breite des Bildes */
+  height: 160px; /* Setze die Höhe des Bildes */
   margin: 0 0 20px 0;
   border-radius: 100%;
   border: 8px solid white;
-  &:hover{
-    border: 8px solid #E6E6E6
+  object-fit: cover; /* Stellt sicher, dass das Bild das Element ohne Verzerrung füllt */
+
+  &:hover {
+    border: 8px solid #E6E6E6;
   }
 }
 
