@@ -3,6 +3,7 @@ import { ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterModule } fr
 import { ScreenSizeService } from '../../services/screen-size-service.service';
 import { Dialog } from '@angular/cdk/dialog';
 import { MenuDialogComponent } from '../../dialogs/menu-dialog/menu-dialog.component';
+import { ActiveUserService } from '../../services/active-user.service';
 import { UserProfileService } from '../../services/user-profile.service';
 
 @Component({
@@ -22,7 +23,8 @@ export class HeaderComponent implements OnInit {
     private screenSizeService: ScreenSizeService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private userProfileService: UserProfileService // UserProfileService hinzufügen
+    public activeUserService: ActiveUserService,
+    public userProfileService: UserProfileService
   ) {}
 
   ngOnInit() {

@@ -51,7 +51,8 @@ export class LoginComponent {
         await this.checkOrCreateUserProfile(activeUserID, userCredential.user.email);
         this.errorMessage = null;
         this.errorType = null;
-        this.activeUserService.loadActiveUser(activeUserID);  // Setze den aktiven Benutzer
+        this.activeUserService.loadActiveUser();  // Setze den aktiven Benutzer
+        this.activeUserService.setActiveUserToLocalStorage(activeUserID);
         this.router.navigate(['/messenger']);
       })
       .catch((error) => {
@@ -76,7 +77,7 @@ export class LoginComponent {
         await this.checkOrCreateUserProfile(activeUserID, result.user.email);
         this.errorMessage = null;
         this.errorType = null;
-        this.activeUserService.loadActiveUser(activeUserID);  // Setze den aktiven Benutzer
+        this.activeUserService.loadActiveUser();  // Setze den aktiven Benutzer
         this.router.navigate(['/messenger']);
       })
       .catch((error) => {

@@ -52,6 +52,7 @@ export class SignUpComponent {
           // await this.createUserProfile(activeUserID);
           await this.firestoreService.addUser(this.user.toJSON());
           this.activeUserService.activeUser = this.user;
+          this.activeUserService.setActiveUserToLocalStorage(this.user.userID);
           this.errorMessage = null;
           console.log('User successfully signed up and profile created.');
           this.router.navigate(['/createAccount']);
@@ -64,6 +65,10 @@ export class SignUpComponent {
         console.error('Error during sign-up:', error);
         this.errorMessage = 'Fehler bei der Kontoerstellung. Bitte versuchen Sie es erneut.';
       });
+  }
+
+  goBack() {
+    history.back();
   }
 
   // private async createUserProfile(activeUserID: string) {
