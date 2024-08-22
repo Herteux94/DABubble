@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Firestore, doc, getDoc, DocumentSnapshot } from '@angular/fire/firestore';
 import { FirestoreService } from './firestore.service';
 import { User } from '../models/user.model';
+import { Channel } from '../models/channel.model';
+import { DirectMessage } from '../models/directMessages.model';
 
 @Injectable({
   providedIn: 'root'
@@ -9,11 +11,12 @@ import { User } from '../models/user.model';
 export class ActiveUserService {
 
   activeUser!: User;
-  activeUserChannels = [];
+  activeUserChannels!: Channel[];
+  activeUserDirectMessages!: DirectMessage[];
 
   constructor(
     private firestore: Firestore,
-    private firestoreService: FirestoreService,
+    private firestoreService: FirestoreService
   ) {}
 
 
@@ -34,7 +37,7 @@ export class ActiveUserService {
 
           // Weitere Logik, z.B. das Laden von Channels und Nachrichten
           this.loadUserChannels(this.activeUser.channels);
-          this.loadUserMessages();
+          this.loadUserDirectMessages(this.activeUser.directMessages);
         }
       } else {
         console.error('Benutzer nicht gefunden');
@@ -44,26 +47,27 @@ export class ActiveUserService {
     }
   }
 
-  // Beispielmethode zum Laden der Channels des aktiven Benutzers
-  private loadUserChannels(activeUserChannelsIDs: any[]) {
+  private loadUserChannels(activeUserChannelIDs: any[]) {
     this.firestoreService.allChannels$.subscribe((channels) => {
       if (channels && channels.length > 0) {
-        // Filtert die Channels, deren IDs in activeUserChannelsIDs enthalten sind
-        const activeUserChannels = channels.filter((channel: any) => 
-          activeUserChannelsIDs.includes(channel.channelID)
+        this.activeUserChannels = channels.filter((channel: any) => 
+          activeUserChannelIDs.includes(channel.channelID)
         );
   
-        // Hier kannst du dann das Ergebnis (activeUserChannels) weiterverarbeiten
-        console.log(activeUserChannels);
+        console.log(this.activeUserChannels);
       }
     });
   }
 
-  // Beispielmethode zum Laden der Nachrichten des aktiven Benutzers
-  private loadUserMessages() {
-    if (this.activeUser && this.activeUser.directMessages) {
-      console.log('Benutzernachrichten laden:', this.activeUser.directMessages);
-      // Weitere Logik hier
-    }
+  private loadUserDirectMessages(activeUserDirectMessageIDs: any[]) {
+    this.firestoreService.allChannels$.subscribe((directMessages) => {
+      if (directMessages && directMessages.length > 0) {
+        this.activeUserDirectMessages = directMessages.filter((channel: any) => 
+          activeUserDirectMessageIDs.includes(channel.channelID)
+        );
+  
+        console.log(this.activeUserDirectMessages);
+      }
+    });
   }
 }

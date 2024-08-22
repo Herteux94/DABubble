@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Message } from '../../../models/message.model';
 import { FormsModule } from '@angular/forms';
 import { FirestoreService } from '../../../services/firestore.service';
@@ -14,14 +14,22 @@ import { ActiveChannelService } from '../../../services/active-channel.service';
 })
 export class TypeInputFieldComponent {
 
+  @Input() messengerType: string = '';
   message = new Message();
+
 
   constructor(private firestoreService: FirestoreService, private activeUserService: ActiveUserService, private activeChannelService: ActiveChannelService) { }
 
-  sendMessage() {
+  sendMessage(messageType: string) {
     this.message.creationTime = Date.now();
     this.message.senderID = this.activeUserService.activeUser.userID;
-    this.firestoreService.addMessage(this.message.toJSON(), 'channels', this.activeChannelService.activeChannel.channelID);    
+
+    if(this.messengerType == 'thread') {
+      this.firestoreService.addThreadMessage(this.message.toJSON(), messageType, this.activeChannelService.activeChannel.channelID); //activeThreadID fehlt noch nach ChnannelID
+    } else{
+      this.firestoreService.addMessage(this.message.toJSON(), messageType, this.activeChannelService.activeChannel.channelID);    
+    }
+
     this.message.content = '';
   }
 
