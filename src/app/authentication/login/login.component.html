@@ -14,9 +14,11 @@
             fill="#686868" />
         </g>
       </svg>
-      <input class="inputFieldAuth" #emailInput type="email" pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}" placeholder="beispielname@email.com" required>
+      <input [(ngModel)]="email" class="inputFieldAuth" #emailInput type="email" pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}" placeholder="beispielname@email.com" required>
     </div>
-    <span *ngIf="errorMessage && errorType === 'email'" class="errorMessage">{{ errorMessage }}</span>
+    @if(errorMessage && errorType == 'email') {
+      <span class="errorMessage">{{ errorMessage }}</span>
+    }
     <div class="inputContainerAuth" appFocusInput>
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <mask id="mask0_69757_5614" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
@@ -29,9 +31,11 @@
             fill="#686868" />
         </g>
       </svg>
-      <input class="inputFieldAuth" #passwordInput type="password" placeholder="Passwort" required>
+      <input [(ngModel)]="password" class="inputFieldAuth" #passwordInput type="password" placeholder="Passwort" required>
     </div>
-    <div *ngIf="errorMessage && errorType === 'password'" class="errorMessage">{{ errorMessage }}</div>
+    @if(errorMessage && errorType == 'password') {
+      <span class="errorMessage">{{ errorMessage }}</span>
+    }
     <a class="lostPW">Passwort vergessen?</a>
     <div class="seperaterContainer">
       <div class="seperater"></div>

@@ -51,8 +51,8 @@
     <div class="nextBtnContainer">
       <button class="firstBtn" (click)="signUp()">Konto erstellen</button>
     </div>
-    <div *ngIf="errorMessage" class="error-message">
-      {{ errorMessage }}
-    </div>
+    @if(errorMessage) {
+      <span class="errorMessage">{{ errorMessage }}</span>
+    }
   </div>
 </section>

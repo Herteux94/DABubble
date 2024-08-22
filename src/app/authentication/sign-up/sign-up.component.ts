@@ -16,7 +16,7 @@ import { FirestoreService } from '../../services/firestore.service';
   styleUrls: ['./sign-up.component.scss']
 })
 export class SignUpComponent {
-  errorMessage: string | null = null;
+  errorMessage: string = '';
   password: string = '';
   user = new User;
 
@@ -29,17 +29,17 @@ export class SignUpComponent {
 
   signUp() {
     if (!this.user.name) {
-      this.errorMessage = 'Bitte geben Sie Ihren Namen ein.';
+      this.errorMessage = 'Bitte gin deinen Namen ein.';
       return;
     }
 
     if (!this.user.email) {
-      this.errorMessage = 'Bitte geben Sie Ihre E-Mail-Adresse ein.';
+      this.errorMessage = 'Bitte deine E-Mail-Adresse ein.';
       return;
     }
 
     if (!this.password) {
-      this.errorMessage = 'Bitte geben Sie Ihr Passwort ein.';
+      this.errorMessage = 'Bitte geben ein Passwort ein.';
       return;
     }
 
@@ -48,12 +48,12 @@ export class SignUpComponent {
         const activeUserID = userCredential.user.uid;
         try {
           this.user.userID = activeUserID;
-          this.user.lastOnline = new Date().toISOString();
+          this.user.lastOnline = Date.now();
           this.activeUserService.setActiveUserToLocalStorage(this.user.userID);
           await this.firestoreService.addUser(this.user.toJSON());
           this.activeUserService.activeUser = this.user;
-          this.errorMessage = null;
-          console.log('User successfully signed up and profile created.');
+          this.errorMessage = '';
+          console.log('User successfully signed up and profile created. ActiveUser: ');
           this.router.navigate(['/createAccount']);
         } catch (error) {
           console.error('Error saving user profile to Firestore:', error);

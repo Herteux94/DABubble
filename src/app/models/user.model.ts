@@ -6,7 +6,7 @@ export class User {
   profileImg!: string;
   email!: string;
   active!: boolean;
-  lastOnline!: string;
+  lastOnline!: number | undefined;
   passwordResetToken!: string;
   passwordResetExpires!: string;
   channels!: string[];
@@ -18,7 +18,7 @@ export class User {
     this.profileImg = '';
     this.email = '';
     this.active = false;
-    this.lastOnline = '';
+    this.lastOnline = undefined;
     this.passwordResetToken = '';
     this.passwordResetExpires = '';
     this.channels = [];

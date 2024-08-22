@@ -1,24 +1,24 @@
-import { Component, ViewChild, ElementRef, HostListener } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
 import { Auth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from '@angular/fire/auth';
 import { Firestore, doc, getDoc, setDoc } from '@angular/fire/firestore';
 import { CommonModule } from '@angular/common';
 import { ActiveUserService } from '../../services/active-user.service';
+import { FormsModule } from '@angular/forms';
 
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterLinkActive, RouterModule],
+  imports: [CommonModule, RouterLink, RouterLinkActive, RouterModule, FormsModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
+  email: string = '';
+  password: string = '';
 
-  @ViewChild('emailInput', { static: true }) emailInput!: ElementRef<HTMLInputElement>;
-  @ViewChild('passwordInput', { static: true }) passwordInput!: ElementRef<HTMLInputElement>;
-
-  errorMessage: string | null = null;
+  errorMessage: string = '';
   errorType: 'email' | 'password' | null = null;
 
   constructor(
@@ -30,27 +30,24 @@ export class LoginComponent {
 
   // Methode für E-Mail/Passwort-Login
   login() {
-    const email = this.emailInput.nativeElement.value;
-    const password = this.passwordInput.nativeElement.value;
-
-    if (!email) {
-      this.errorMessage = 'Bitte geben Sie Ihre E-Mail-Adresse ein.';
+    if (!this.email) {
+      this.errorMessage = 'Bitte deine E-Mail-Adresse ein.';
       this.errorType = 'email';
       return;
     }
 
-    if (!password) {
-      this.errorMessage = 'Bitte geben Sie Ihr Passwort ein.';
+    if (!this.password) {
+      this.errorMessage = 'Bitte gib dein Passwort ein.';
       this.errorType = 'password';
       return;
     }
 
-    signInWithEmailAndPassword(this.auth, email, password)
+    signInWithEmailAndPassword(this.auth, this.email, this.password)
       .then(async (userCredential) => {
         const activeUserID = userCredential.user.uid;
         this.activeUserService.setActiveUserToLocalStorage(activeUserID);
         await this.checkOrCreateUserProfile(activeUserID, userCredential.user.email);
-        this.errorMessage = null;
+        this.errorMessage = '';
         this.errorType = null;
         this.activeUserService.loadActiveUser(activeUserID);  // Setze den aktiven Benutzer
         this.router.navigate(['/messenger']);
@@ -75,7 +72,7 @@ export class LoginComponent {
       .then(async (result) => {
         const activeUserID = result.user.uid;
         await this.checkOrCreateUserProfile(activeUserID, result.user.email);
-        this.errorMessage = null;
+        this.errorMessage = '';
         this.errorType = null;
         this.activeUserService.loadActiveUser();  // Setze den aktiven Benutzer
         this.router.navigate(['/messenger']);
@@ -87,7 +84,7 @@ export class LoginComponent {
       });
   }
 
-  private async checkOrCreateUserProfile(activeUserID: string, email: string | null) {
+  async checkOrCreateUserProfile(activeUserID: string, email: string | null) {
     const userRef = doc(this.firestore, `users/${activeUserID}`);
     const userSnap = await getDoc(userRef);
 
