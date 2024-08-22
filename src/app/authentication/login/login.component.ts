@@ -1,14 +1,15 @@
 import { Component, ViewChild, ElementRef, HostListener } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
 import { Auth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from '@angular/fire/auth';
 import { Firestore, doc, getDoc, setDoc } from '@angular/fire/firestore';
 import { CommonModule } from '@angular/common';
 import { ActiveUserService } from '../../services/active-user.service';
 
+
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink, RouterLinkActive, RouterModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
