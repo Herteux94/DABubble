@@ -24,35 +24,14 @@ export class ActiveUserService {
     private firestoreService: FirestoreService
   ) {}
 
-  // async loadActiveUser(activeUserID: string) {
-  //   console.log('Lade aktiven Benutzer mit activeUserID:', activeUserID); // Debugging
-
-  //   try {
-  //     const userRef = doc(this.firestore, `users/${activeUserID}`);
-  //     const userSnap: DocumentSnapshot = await getDoc(userRef);
-
-  //     if (userSnap.exists()) {
-  //       const userData = userSnap.data();
-  //       if (userData) {
-  //         // Erstellt eine Instanz des User-Modells und überträgt die Daten
-  //         this.activeUser = Object.assign(new User(), userData);
-
-  //         console.log('Aktiver Benutzer geladen:', this.activeUser);
-
-  //         // Weitere Logik, z.B. das Laden von Channels und Nachrichten
-  //         this.loadUserChannels(this.activeUser.channels);
-  //         this.loadUserDirectMessages(this.activeUser.directMessages);
-  //       }
-  //     } else {
-  //       console.error('Benutzer nicht gefunden');
-  //     }
-  //   } catch (error) {
-  //     console.error('Fehler beim Laden des aktiven Benutzers:', error);
-  //   }
-  // }
-
-  async loadActiveUser() {
-    const userID = this.getActiveUserFromLocalStorage();
+  async loadActiveUser(activeUserID?: string) { // testen ob if else langsamer ist als localstorage Anfrage
+    let userID: any = '';
+    
+    if(!activeUserID) {
+      userID = this.getActiveUserFromLocalStorage();
+    } else {
+      userID = activeUserID;
+    }
 
     this.firestoreService.allUsers$.subscribe((users) => {
       if (users.length > 0) {
@@ -92,7 +71,7 @@ export class ActiveUserService {
   }
 
   private loadUserDirectMessages(activeUserDirectMessageIDs: any[]) {
-    this.firestoreService.allChannels$.subscribe((directMessages) => {
+    this.firestoreService.allDirectMessages$.subscribe((directMessages) => {
       if (directMessages && directMessages.length > 0) {
         this.activeUserDirectMessages = directMessages.filter((channel: any) =>
           activeUserDirectMessageIDs.includes(channel.channelID)

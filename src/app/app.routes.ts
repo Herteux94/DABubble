@@ -16,7 +16,16 @@ import { NavigationComponent } from './shared/navigation/navigation.component';
 import { HelloComponent } from './main-content/hello/hello.component';
 
 export const routes: Routes = [
-    // { path: '', component: WorkspaceComponent },
+    { path: '', component: AuthenticationComponent,
+        children: [
+            { path: '', redirectTo: 'login', pathMatch: 'full' },  // Redirect to login
+            { path: 'login', component: LoginComponent },  // Explicit login route
+            { path: 'signUp', component: SignUpComponent },
+            { path: 'createAccount', component: ChooseAvatarComponent },
+            { path: 'sendResetPWMail', component: SendResetPwMailComponent },
+            { path: 'resetPW', component: ResetPwComponent },
+        ]
+    },
     { path: 'messenger', component: MainContentComponent, data: { animation: 'routerTransitions' },
         children: [
             { path: '', redirectTo: 'hello', pathMatch: 'full' },
@@ -27,16 +36,6 @@ export const routes: Routes = [
             { path: 'thread', component: ThreadComponent, outlet: 'thread' },
             { path: 'navigation', component: NavigationComponent },
             { path: 'hello', component: HelloComponent },
-        ]
-    },
-    { path: '', component: AuthenticationComponent,
-        children: [
-            { path: '', redirectTo: 'login', pathMatch: 'full' },  // Redirect to login
-            { path: 'login', component: LoginComponent },  // Explicit login route
-            { path: 'signUp', component: SignUpComponent },
-            { path: 'createAccount', component: ChooseAvatarComponent },
-            { path: 'sendResetPWMail', component: SendResetPwMailComponent },
-            { path: 'resetPW', component: ResetPwComponent },
         ]
     },
     { path: 'dialogs', component: DialogTestComponent },

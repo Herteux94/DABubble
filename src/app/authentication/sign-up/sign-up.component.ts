@@ -49,7 +49,6 @@ export class SignUpComponent {
         try {
           this.user.userID = activeUserID;
           this.user.lastOnline = new Date().toISOString();
-          // await this.createUserProfile(activeUserID);
           await this.firestoreService.addUser(this.user.toJSON());
           this.activeUserService.activeUser = this.user;
           this.activeUserService.setActiveUserToLocalStorage(this.user.userID);
@@ -71,10 +70,4 @@ export class SignUpComponent {
     history.back();
   }
 
-  // private async createUserProfile(activeUserID: string) {
-  //   const userRef = doc(this.firestore, `users/${activeUserID}`);
-  //   this.user.lastOnline = new Date().toISOString();
-  //     await setDoc(userRef, this.user.toJSON());
-  //   console.log('New user profile created in Firestore with activeUserID:', activeUserID);
-  // }
 }

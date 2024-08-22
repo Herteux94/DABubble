@@ -48,11 +48,11 @@ export class LoginComponent {
     signInWithEmailAndPassword(this.auth, email, password)
       .then(async (userCredential) => {
         const activeUserID = userCredential.user.uid;
+        this.activeUserService.setActiveUserToLocalStorage(activeUserID);
         await this.checkOrCreateUserProfile(activeUserID, userCredential.user.email);
         this.errorMessage = null;
         this.errorType = null;
-        this.activeUserService.loadActiveUser();  // Setze den aktiven Benutzer
-        this.activeUserService.setActiveUserToLocalStorage(activeUserID);
+        this.activeUserService.loadActiveUser(activeUserID);  // Setze den aktiven Benutzer
         this.router.navigate(['/messenger']);
       })
       .catch((error) => {
