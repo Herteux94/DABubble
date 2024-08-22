@@ -5,6 +5,8 @@ import { Firestore, doc, getDoc, setDoc } from '@angular/fire/firestore';
 import { CommonModule } from '@angular/common';
 import { ActiveUserService } from '../../services/active-user.service';
 import { FormsModule } from '@angular/forms';
+import { User } from '../../models/user.model';
+import { FirestoreService } from '../../services/firestore.service';
 
 
 @Component({
@@ -25,7 +27,8 @@ export class LoginComponent {
     private auth: Auth,
     private firestore: Firestore,
     private router: Router,
-    public activeUserService: ActiveUserService
+    public activeUserService: ActiveUserService,
+    private firestoreService: FirestoreService
   ) {}
 
   // Methode für E-Mail/Passwort-Login
@@ -46,7 +49,7 @@ export class LoginComponent {
       .then(async (userCredential) => {
         const activeUserID = userCredential.user.uid;
         this.activeUserService.setActiveUserToLocalStorage(activeUserID);
-        await this.checkOrCreateUserProfile(activeUserID, userCredential.user.email);
+        await this.checkOrCreateUserProfile(activeUserID);
         this.errorMessage = '';
         this.errorType = null;
         this.activeUserService.loadActiveUser(activeUserID);  // Setze den aktiven Benutzer
@@ -71,10 +74,10 @@ export class LoginComponent {
     signInWithPopup(this.auth, provider)
       .then(async (result) => {
         const activeUserID = result.user.uid;
-        await this.checkOrCreateUserProfile(activeUserID, result.user.email);
+        await this.checkOrCreateUserProfile(activeUserID);
         this.errorMessage = '';
         this.errorType = null;
-        this.activeUserService.loadActiveUser();  // Setze den aktiven Benutzer
+        this.activeUserService.loadActiveUser(activeUserID);  // Setze den aktiven Benutzer
         this.router.navigate(['/messenger']);
       })
       .catch((error) => {
@@ -84,22 +87,18 @@ export class LoginComponent {
       });
   }
 
-  async checkOrCreateUserProfile(activeUserID: string, email: string | null) {
+  async checkOrCreateUserProfile(activeUserID: string) {
     const userRef = doc(this.firestore, `users/${activeUserID}`);
     const userSnap = await getDoc(userRef);
 
     if (!userSnap.exists()) {
+      let user = new User;
+      user.userID = activeUserID;
+      user.email = this.email;
+      user.lastOnline = Date.now();
       try {
-        await setDoc(userRef, {
-          name: '',
-          profileImg: '',
-          email: email,
-          active: true,
-          lastOnline: new Date().toISOString(),
-          channels: [],
-          directMessages: []
-        });
-        console.log('Neues Benutzerprofil in Firestore erstellt');
+        await this.firestoreService.addUser(user.toJSON());
+        console.log('Neues Benutzerprofil in Firestore erstellt: ', user);
       } catch (error) {
         console.error('Fehler beim Erstellen des Benutzerprofils in Firestore:', error);
       }

@@ -9,57 +9,61 @@ import { firstValueFrom } from 'rxjs';
 })
 export class ActiveUserService {
   activeUser!: any;
-  activeUserChannels!: Channel[];
+  activeUserChannels!: Channel[]; // muss abonnieren für immer aktuellen for loop
   activeUserDirectMessages!: DirectMessage[];
 
-  constructor(
-    private firestoreService: FirestoreService
-  ) {}
+  constructor(private firestoreService: FirestoreService) {}
 
   async loadActiveUser(activeUserID?: string) {
-    let userID: any = '';
+    let userID: string | null = '';
 
     if (!activeUserID) {
-      userID = this.getActiveUserFromLocalStorage();
+      userID = this.getActiveUserIDFromLocalStorage();
+      console.log('Active User ID über Local Storage geladen: ', userID);
     } else {
       userID = activeUserID;
     }
 
+    await this.getActiveUser(userID);
+    this.loadUserChannels(this.activeUser.channels);
+    this.loadUserDirectMessages(this.activeUser.directMessages);
+
+    console.log('Active User: ', this.activeUser);
+  }
+
+  async getActiveUser(userID: string | null) {
     const users = await firstValueFrom(this.firestoreService.allUsers$);
     if (users.length > 0) {
       this.activeUser = users.find((user: any) => user.userID == userID);
     }
-
-    this.loadUserChannels(this.activeUser.channels);
-    this.loadUserDirectMessages(this.activeUser.directMessages);    
   }
 
   setActiveUserToLocalStorage(userID: string) {
     localStorage.setItem('activeUser', userID);
   }
 
-  getActiveUserFromLocalStorage() {
-    const userID = localStorage.getItem('activeUser');
-    return userID;
+  getActiveUserIDFromLocalStorage() {
+    return localStorage.getItem('activeUser');
   }
 
-  loadUserChannels(activeUserChannelIDs: any[]) {
-    this.firestoreService.allChannels$.subscribe((channels) => {
-      if (channels.length > 0) {
-        this.activeUserChannels = this.firestoreService.allChannels.filter(
-          (channel: any) => activeUserChannelIDs.includes(channel.channelID)
+  async loadUserChannels(activeUserChannelIDs: string[]) {
+    const channels = await firstValueFrom(this.firestoreService.allChannels$);    
+    if (channels.length > 0) {
+      this.activeUserChannels = this.firestoreService.allChannels.filter(
+        (channel: any) => activeUserChannelIDs.includes(channel.channelID)
+      );
+    }
+    console.log('Active User Channels: ', this.activeUserChannels);
+  }
+
+  async loadUserDirectMessages(activeUserDirectMessageIDs: any[]) {
+    const directMessages = await firstValueFrom(this.firestoreService.allDirectMessages$);
+    if (directMessages.length > 0) {
+      this.activeUserDirectMessages =
+        this.firestoreService.allDirectMessages.filter((directMessage: any) =>
+          activeUserDirectMessageIDs.includes(directMessage.directMessageID)
         );
-      }
-    });
-  }
-
-  loadUserDirectMessages(activeUserDirectMessageIDs: any[]) {
-    this.firestoreService.allDirectMessages$.subscribe((directMessages) => {
-      if (directMessages.length > 0) {
-        this.activeUserDirectMessages = this.firestoreService.allDirectMessages.filter(
-            (directMessage: any) => activeUserDirectMessageIDs.includes(directMessage.directMessageID)
-          );
-      }
-    });
+    }
+    console.log('Active User DMs: ', this.activeUserDirectMessages);
   }
 }
