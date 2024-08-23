@@ -1,6 +1,6 @@
 <div class="channelDialogContainer" [@dialogAnimationFadeIn]>
     <div class="dialogHeader channelHeader">
-        <h2># Entwicklerteam</h2>
+        <h2>{{ this.activeChannelService.activeChannel.name }}</h2>
         <img (click)="dialogRef.close()" src="../../../assets/img/close.svg" alt="Schließen">
     </div>
 

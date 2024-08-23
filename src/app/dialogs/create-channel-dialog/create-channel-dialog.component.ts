@@ -52,10 +52,10 @@ export class CreateChannelDialogComponent implements OnInit {
     if (form.valid) {
       const newChannel = new Channel();
       newChannel.name = this.createdChannel.name!;
-      newChannel.creator = "currentUser"; // Ersetze durch den aktuellen Benutzer
+      newChannel.creator = this.activeUserService.activeUser.name;
       newChannel.description = this.createdChannel.description!;
       newChannel.creationTime = Date.now();
-      newChannel.member = [this.activeUserService.activeUser.userID]; // Kann später mit Mitgliedern gefüllt werden
+      newChannel.member = [this.activeUserService.activeUser.userID];
 
       try {
         const channelID = await this.firestoreService.addChannel(newChannel);

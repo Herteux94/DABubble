@@ -6,6 +6,8 @@ import { InviteMemberDialogComponent } from '../invite-member-dialog/invite-memb
 import { Dialog, DialogRef } from '@angular/cdk/dialog';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { EditMemberDialogComponent } from '../edit-member-dialog/edit-member-dialog.component';
+import { Channel } from '../../models/channel.model';
+import { ActiveChannelService } from '../../services/active-channel.service';
 
 
 @Component({
@@ -89,20 +91,16 @@ import { EditMemberDialogComponent } from '../edit-member-dialog/edit-member-dia
 })
 export class ChannelDialogComponent implements OnInit {
   dialogRef = inject(DialogRef);
-  
   dialog = inject(Dialog);
-  contactData = {
-    name: '',
-  };
+  channel!: Channel;
   isTriggered: boolean = false;
   isEditingName: boolean = false;
   isEditingDescription: boolean = false;
-  channelName: string = 'Entwicklerteam';
-  channelDescription: string =
-    'Dieser Channel ist für alles rund um #dsfdf vorgesehen. Hier kannst du zusammen mit deinem Team Meetings abhalten, Dokumente teilen und Entscheidungen treffen.';
+  channelName: string = this.activeChannelService.activeChannel.name;
+  channelDescription: string = this.activeChannelService.activeChannel.description;
   mobile: boolean = false;
 
-  constructor(private screenSizeService: ScreenSizeService) {}
+  constructor(private screenSizeService: ScreenSizeService, public activeChannelService: ActiveChannelService) {}
 
   ngOnInit() {
     this.screenSizeService.isMobile().subscribe((isMobile) => {
