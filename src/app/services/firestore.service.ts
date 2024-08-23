@@ -108,11 +108,9 @@ export class FirestoreService {
   }
   
   addMessage(messageData: any, messengerType: string , messengerID: string) {
-    updateDoc(doc(collection(this.firestore, `${messengerType}/${messengerID}/messages`)), {
-      messages: arrayUnion(messageData)
-    })
+    addDoc(collection(this.firestore, `${messengerType}/${messengerID}/messages`), messageData)
     .then((docRef: any) => {
-      updateDoc(doc(collection(this.firestore, `${messengerType}/${messengerID}/messages`)), {
+      updateDoc(doc(collection(this.firestore, `${messengerType}/${messengerID}/messages`), docRef.id), {
         messageID: docRef.id
       });
     });

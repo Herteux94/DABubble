@@ -20,15 +20,22 @@ export class TypeInputFieldComponent {
 
   constructor(private firestoreService: FirestoreService, private activeUserService: ActiveUserService, private activeChannelService: ActiveChannelService) { }
 
-  sendMessage(messageType: string) {
+  sendMessage(messengerType: string) {
+    console.log(this.messengerType);
+    
     this.message.creationTime = Date.now();
     this.message.senderID = this.activeUserService.activeUser.userID;
 
     if(this.messengerType == 'thread') {
-      this.firestoreService.addThreadMessage(this.message.toJSON(), messageType, this.activeChannelService.activeChannel.channelID); //activeThreadID fehlt noch nach ChnannelID
+      this.firestoreService.addThreadMessage(this.message.toJSON(), messengerType, this.activeChannelService.activeChannel.channelID); //activeThreadID fehlt noch nach ChnannelID
     } else{
-      this.firestoreService.addMessage(this.message.toJSON(), messageType, this.activeChannelService.activeChannel.channelID);    
+      this.firestoreService.addMessage(this.message.toJSON(), messengerType, this.activeChannelService.activeChannel.channelID);    
     }
+
+    console.log(this.activeChannelService.activeChannel.channelID);
+    
+    console.log(this.message);
+    
 
     this.message.content = '';
   }
