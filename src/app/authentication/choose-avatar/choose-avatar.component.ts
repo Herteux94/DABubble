@@ -34,6 +34,11 @@ export class ChooseAvatarComponent {
     }
   }
 
+  selectAvatar(url: string) {
+    this.avatarUrl = url; // Lokale Variable aktualisieren
+    this.userProfileService.setAvatarUrl(url); // URL im UserProfileService setzen
+  }
+
   triggerFileInput() {
     this.fileInput.nativeElement.click();
   }
