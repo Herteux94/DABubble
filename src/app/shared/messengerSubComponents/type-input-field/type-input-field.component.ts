@@ -25,6 +25,7 @@ export class TypeInputFieldComponent {
     
     this.message.creationTime = Date.now();
     this.message.senderID = this.activeUserService.activeUser.userID;
+    this.message.senderName = this.activeUserService.activeUser.name;
 
     if(this.messengerType == 'thread') {
       this.firestoreService.addThreadMessage(this.message.toJSON(), messengerType, this.activeChannelService.activeChannel.channelID); //activeThreadID fehlt noch nach ChnannelID
