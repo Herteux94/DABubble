@@ -1,4 +1,5 @@
-import { Component, OnInit, ElementRef, Renderer2, HostListener } from '@angular/core';
+import { Component, OnInit, ElementRef, Renderer2, HostListener, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { LoginComponent } from './login/login.component';
 import { ChooseAvatarComponent } from './choose-avatar/choose-avatar.component';
@@ -127,58 +128,66 @@ export class AuthenticationComponent implements OnInit {
   textLogoInvertState = 'normal'; // Initialzustand des Textlogos
   isSmallScreen = false;
 
-  constructor(private renderer: Renderer2, private el: ElementRef) {}
+  constructor(
+    private renderer: Renderer2,
+    private el: ElementRef,
+    @Inject(PLATFORM_ID) private platformId: Object // PLATFORM_ID wird injiziert
+  ) {}
 
   ngOnInit() {
-    this.checkScreenSize();
+    if (isPlatformBrowser(this.platformId)) {
+      this.checkScreenSize();
 
-    setTimeout(() => {
-      this.logoState = 'visible';
-    }, 1000);
+      setTimeout(() => {
+        this.logoState = 'visible';
+      }, 1000);
 
-    setTimeout(() => {
-      this.logoSlideState = 'end';
-    }, 1500);
+      setTimeout(() => {
+        this.logoSlideState = 'end';
+      }, 1500);
 
-    setTimeout(() => {
-      this.textLogoState = 'visible';
-    }, 2000);
+      setTimeout(() => {
+        this.textLogoState = 'visible';
+      }, 2000);
 
-    setTimeout(() => {
-      this.containerPosition = this.isSmallScreen ? 'cornerSmall' : 'cornerLarge';
-      this.logoSlideState = 'reset';
-      this.textLogoState = 'reset';
-      this.textLogoInvertState = 'inverted';
+      setTimeout(() => {
+        this.containerPosition = this.isSmallScreen ? 'cornerSmall' : 'cornerLarge';
+        this.logoSlideState = 'reset';
+        this.textLogoState = 'reset';
+        this.textLogoInvertState = 'inverted';
 
+        if (this.isSmallScreen) {
+          this.enableScroll();
+        }
+      }, 3000);
 
-      // Dynamisch die CSS-Eigenschaften setzen
-
-
-      if (this.isSmallScreen) {
-        this.enableScroll();
-      }
-    }, 3000);
-
-    setTimeout(() => {
-      const wrapperElement = this.el.nativeElement.querySelector('.wrapper');
-      if (wrapperElement) {
-        this.renderer.setStyle(wrapperElement, 'height', '100%');
-        this.renderer.setStyle(wrapperElement, 'overflow', 'auto');
-        this.renderer.addClass(this.el.nativeElement.querySelector('.overlay'), 'hiddenOverlay');
-      }
-    }, 3700)
+      setTimeout(() => {
+        const wrapperElement = this.el.nativeElement.querySelector('.wrapper');
+        if (wrapperElement) {
+          this.renderer.setStyle(wrapperElement, 'height', '100%');
+          this.renderer.setStyle(wrapperElement, 'overflow', 'auto');
+          this.renderer.addClass(this.el.nativeElement.querySelector('.overlay'), 'hiddenOverlay');
+        }
+      }, 3700)
+    }
   }
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
-    this.checkScreenSize();
+    if (isPlatformBrowser(this.platformId)) {
+      this.checkScreenSize();
+    }
   }
 
   checkScreenSize() {
-    this.isSmallScreen = window.innerWidth < 1025;
+    if (isPlatformBrowser(this.platformId)) {
+      this.isSmallScreen = window.innerWidth < 1025;
+    }
   }
 
   enableScroll() {
-    this.renderer.setStyle(document.body, 'overflow', 'auto');
+    if (isPlatformBrowser(this.platformId)) {
+      this.renderer.setStyle(document.body, 'overflow', 'auto');
+    }
   }
 }
