@@ -4,7 +4,7 @@
     <div class="text">
         <div class="nameAndTime">
             <span (click)="openProfileDialog()" class="name">{{ message.senderName }}</span>
-            <span class="time subText">14:25 Uhr</span>
+            <span class="time subText">{{ message.creationTime.valueOf() | date:'HH:mm' }}</span>
         </div>
 
         <div class="messageText">

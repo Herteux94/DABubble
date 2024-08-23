@@ -4,11 +4,12 @@ import { ProfileDialogComponent } from '../../../dialogs/profile-dialog/profile-
 import { Dialog, DIALOG_DATA, DialogModule } from '@angular/cdk/dialog';
 import { RoutingThreadOutletService } from '../../../services/routing-thread-outlet.service';
 import { ScreenSizeService } from '../../../services/screen-size-service.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-message',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, RouterModule],
+  imports: [RouterLink, RouterLinkActive, RouterModule, CommonModule],
   templateUrl: './message.component.html',
   styleUrl: './message.component.scss'
 })
@@ -49,4 +50,5 @@ export class MessageComponent {
 
     this.threadRoutingService.openThread();
   }
+
 }
