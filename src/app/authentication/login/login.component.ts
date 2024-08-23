@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, ViewChild, ElementRef } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
 import { Auth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from '@angular/fire/auth';
 import { Firestore, doc, getDoc, setDoc } from '@angular/fire/firestore';
@@ -7,12 +7,12 @@ import { ActiveUserService } from '../../services/active-user.service';
 import { FormsModule } from '@angular/forms';
 import { User } from '../../models/user.model';
 import { FirestoreService } from '../../services/firestore.service';
-
+import { FocusInputDirective } from '../../directives/focus-input.directive';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterLinkActive, RouterModule, FormsModule],
+  imports: [CommonModule, RouterLink, RouterLinkActive, RouterModule, FormsModule, FocusInputDirective],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
@@ -92,7 +92,7 @@ export class LoginComponent {
     const userSnap = await getDoc(userRef);
 
     if (!userSnap.exists()) {
-      let user = new User;
+      let user = new User();
       user.userID = activeUserID;
       user.email = this.email;
       user.lastOnline = Date.now();
