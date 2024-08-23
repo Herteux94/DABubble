@@ -1,13 +1,11 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, } from '@angular/core';
 import {
   Firestore,
   collection,
   collectionData,
   addDoc,
   doc,
-  getDoc,
   updateDoc,
-  onSnapshot,
   deleteDoc,
   arrayUnion,
   setDoc
@@ -16,6 +14,7 @@ import { Observable } from 'rxjs';
 import { Channel } from '../models/channel.model';
 import { User } from '../models/user.model';
 import { DirectMessage } from '../models/directMessages.model';
+import { ActiveChannelService } from './active-channel.service';
 
 @Injectable({
   providedIn: 'root'
@@ -73,6 +72,15 @@ export class FirestoreService {
   getDirectMessages(): Observable<any[]> {
     return collectionData(this.directMessageCol);
   }
+
+  getMessages(messengerType: string, messengerID: string): Observable<any[]> {
+    console.log(messengerType, messengerID);
+    
+    return collectionData(collection(this.firestore, `${messengerType}/${messengerID}/messages`));
+  }
+
+  // getThreadMessages(): Observable<any[]> {
+  // }
 
   ///////////////////////////////////////// addFunctions /////////////////////////////////////////
 

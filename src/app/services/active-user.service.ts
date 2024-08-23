@@ -45,7 +45,6 @@ export class ActiveUserService {
   }
 
   async getActiveUser(userID: string | null) {
-    // Setzt den Stream für den aktiven Benutzer auf
     this.activeUser$ = this.firestoreService.allUsers$
       .pipe(
         map(users => users.find((user: any) => user.userID === userID))

@@ -2,18 +2,13 @@
     <div class="content">
       <app-sub-header [isChannel]="true"></app-sub-header>
       <div class="messagesContent">
-        @if(this.activeChannelService.activeChannel) {
-        @for(message of this.activeChannelService.activeChannel.messages; track message) {
+        @if(this.activeChannelService.channelMessages && this.activeChannelService.channelMessages > 0) {
+        @for(message of this.activeChannelService.channelMessages; track message) {
           <app-message [isChannel]="true"></app-message>
-        }
-      }
-        <app-date-divider></app-date-divider>
-        <app-own-message [isChannel]="true"></app-own-message>
-        @if(this.firestoreService.allUsers && this.firestoreService.allUsers.length > 0) {
-          @for(user of this.firestoreService.allUsers; track user) {
-            <span>{{ user.name }}</span>
           }
         }
+        <app-date-divider></app-date-divider>
+        <app-own-message [isChannel]="true"></app-own-message>
       </div>
     </div>
     <app-type-input-field [messengerType]="'channels'"></app-type-input-field>

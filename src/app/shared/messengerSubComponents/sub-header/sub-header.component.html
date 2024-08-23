@@ -83,8 +83,6 @@
                 </div>
                 @if(this.activeChannelService.activeChannel) {
                     <h3>{{ this.activeChannelService.activeChannel.member.length }}</h3>
-                } @else {
-                    <span>loading...</span>
                 }
             </div>
             <div class="personAddImgContainer" (click)="!mobile ? openInviteDialog() : openMemberDialog()">

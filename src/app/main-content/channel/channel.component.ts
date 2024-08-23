@@ -9,6 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ActiveChannelService } from '../../services/active-channel.service';
 import { ActiveUserService } from '../../services/active-user.service';
 import { FirestoreService } from '../../services/firestore.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-channel',
@@ -20,6 +21,7 @@ import { FirestoreService } from '../../services/firestore.service';
     SubHeaderComponent,
     TypeInputFieldComponent,
     ThreadComponent,
+    CommonModule
   ],
   templateUrl: './channel.component.html',
   styleUrl: './channel.component.scss',
@@ -37,7 +39,7 @@ export class ChannelComponent implements OnInit {
       this.route.paramMap.subscribe((paramMap) => {
         channelID = paramMap.get('id');
       });
-      this.activeChannelService.loadActiveChannel(channelID);
+        this.activeChannelService.loadActiveChannelAndMessages(channelID);
     }
   }
 }
