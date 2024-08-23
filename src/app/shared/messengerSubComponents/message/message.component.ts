@@ -19,6 +19,7 @@ export class MessageComponent {
   @Input() isChannel!: boolean;
   @Input() message!: {
     senderID: string;
+    senderName: string;
     creationTime: Number;
     content: string;
     attachments: string[];
