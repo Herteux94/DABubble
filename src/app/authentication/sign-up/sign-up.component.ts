@@ -1,24 +1,25 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Auth, createUserWithEmailAndPassword } from '@angular/fire/auth';
-import { Firestore, doc, setDoc } from '@angular/fire/firestore';
+import { Firestore } from '@angular/fire/firestore';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { User } from '../../models/user.model';
 import { ActiveUserService } from '../../services/active-user.service';
 import { FirestoreService } from '../../services/firestore.service';
+import { FocusInputDirective } from '../../directives/focus-input.directive'; // Import der Directive
 
 @Component({
   selector: 'app-sign-up',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, FocusInputDirective], // Hinzufügen der Directive zu den Imports
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.scss']
 })
 export class SignUpComponent {
   errorMessage: string = '';
   password: string = '';
-  user = new User;
+  user = new User();
 
   constructor(
     private auth: Auth,
@@ -29,17 +30,17 @@ export class SignUpComponent {
 
   signUp() {
     if (!this.user.name) {
-      this.errorMessage = 'Bitte gin deinen Namen ein.';
+      this.errorMessage = 'Bitte gib deinen Namen ein.';
       return;
     }
 
     if (!this.user.email) {
-      this.errorMessage = 'Bitte deine E-Mail-Adresse ein.';
+      this.errorMessage = 'Bitte gib deine E-Mail-Adresse ein.';
       return;
     }
 
     if (!this.password) {
-      this.errorMessage = 'Bitte geben ein Passwort ein.';
+      this.errorMessage = 'Bitte gib ein Passwort ein.';
       return;
     }
 
@@ -69,5 +70,4 @@ export class SignUpComponent {
   goBack() {
     history.back();
   }
-
 }
