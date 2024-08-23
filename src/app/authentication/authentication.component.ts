@@ -30,74 +30,121 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
         visibility: 'hidden',
         transform: 'translate(-50%, -50%) scale(1.5)'
       })),
+      state('hiddenMobile', style({
+        opacity: 0,
+        visibility: 'hidden',
+        transform: 'translate(-50%, -50%) scale(1)'
+      })),
       state('visible', style({
         opacity: 1,
         visibility: 'visible',
         transform: 'translate(-50%, -50%) scale(1.5)'
       })),
+      state('visibleMobile', style({
+        opacity: 1,
+        visibility: 'visible',
+        transform: 'translate(-50%, -50%) scale(1)'
+      })),
       transition('hidden => visible', [
+        animate('500ms ease-in-out')
+      ]),
+      transition('hiddenMobile => visibleMobile', [
         animate('500ms ease-in-out')
       ]),
     ]),
     trigger('slideLogo', [
       state('start', style({
         opacity: 0,
-        transform: 'translateX(0) scale(1.5)' // Leichte Verschiebung nach links, mit scale 1.5
+        transform: 'translateX(0) scale(1.5)' // Für Desktop, bleibt unverändert
+      })),
+      state('startMobile', style({
+        opacity: 0,
+        transform: 'translateX(0) scale(1)' // Für Desktop, bleibt unverändert
       })),
       state('end', style({
         opacity: 1,
-        transform: 'translateX(-50px) scale(1.5)' // Zurück in die Mitte, mit scale 1.5
+        transform: 'translateX(-50px) scale(1.5)' // Für Desktop, bleibt unverändert
       })),
       state('reset', style({
-        transform: 'translateX(0) scale(1)' // Zurück zur normalen Größe, keine Verschiebung
+        transform: 'translateX(0) scale(1)' // Für Desktop, bleibt unverändert
+      })),
+      state('mobileEnd', style({
+        opacity: 1,
+        transform: 'translateX(0) scale(1)' // Für Mobile, Text bleibt neben dem Logo
       })),
       transition('start => end', [
         animate('500ms ease-in-out')
       ]),
       transition('end => reset', [
         animate('800ms ease-in-out')
+      ]),
+      transition('startMobile => mobileEnd', [ // Mobile Animation
+        animate('500ms ease-in-out')
       ])
     ]),
     trigger('slideText', [
       state('hidden', style({
         opacity: 0,
-        transform: 'translateX(-100px) scale(1.5)' // Text beginnt mit scale 1.5
+        transform: 'translateX(-100px) scale(1.5)' // Für Desktop, bleibt unverändert
+      })),
+      state('hiddenMobile', style({
+        transform: 'translateX(-100px) scale(1)', // Abstand für Mobile, nach dem Herausfliegen
+        opacity: 0
       })),
       state('visible', style({
         opacity: 1,
-        transform: 'translateX(0) scale(1.5)' // Text bewegt sich nach rechts, bleibt in scale 1.5
+        transform: 'translateX(0) scale(1.5)' // Für Desktop, bleibt unverändert
+      })),
+      state('visibleMobile', style({
+        opacity: 1,
+        transform: 'translateX(0) scale(1)' // Für Desktop, bleibt unverändert
       })),
       state('reset', style({
-        transform: 'translateX(0) scale(1)', // Text kehrt zur normalen Größe zurück
+        transform: 'translateX(0) scale(1)', // Für Desktop, bleibt unverändert
+        opacity: 1
+      })),
+      state('mobileEnd', style({
+        transform: 'translateX(0) scale(1)', // Abstand für Mobile, nach dem Herausfliegen
         opacity: 1
       })),
       transition('hidden => visible', [
         animate('500ms ease-in-out')
       ]),
+      transition('hiddenMobile => visibleMobile', [
+        animate('500ms ease-in-out')
+      ]),
       transition('visible => reset', [
         animate('800ms ease-in-out')
+      ]),
+      transition('hiddenMobile => mobileEnd', [ // Mobile Animation
+        animate('500ms ease-in-out')
       ])
     ]),
     trigger('moveToCorner', [
       state('center', style({
         top: '50%',
         left: '50%',
-        transform: 'translate(-50%, -50%) scale(1.5)', // Start mit scale 1.5
+        transform: 'translate(-50%, -50%) scale(1.5)', // Für Desktop, bleibt unverändert
+      })),
+      state('centerMobile', style({
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%) scale(1)', // Für Desktop, bleibt unverändert
       })),
       state('cornerLarge', style({
         top: '60px',
         left: '60px',
-        transform: 'translate(0, 0) scale(1)', // In die Ecke, reduziert auf scale 1
+        transform: 'translate(0, 0) scale(1)', // In die Ecke, bleibt auf scale 1 für Desktop
       })),
       state('cornerSmall', style({
-        top: '60px',
+        top: '20px',
         left: '50%',
-        transform: 'translate(-50%, 0) scale(1)', // Für kleine Bildschirme
+        transform: 'translate(-50%, 0) scale(1)', // Für kleine Bildschirme, bleibt auf scale 1
       })),
       transition('center => cornerLarge', [
         animate('800ms ease-in-out')
       ]),
-      transition('center => cornerSmall', [
+      transition('centerMobile => cornerSmall', [
         animate('800ms ease-in-out')
       ]),
     ]),
@@ -128,22 +175,42 @@ export class AuthenticationComponent implements OnInit {
     private renderer: Renderer2,
     private el: ElementRef,
     @Inject(PLATFORM_ID) private platformId: Object // PLATFORM_ID wird injiziert
-  ) {}
+  ) { }
 
   ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
       this.checkScreenSize();
 
+      if (this.isSmallScreen) {
+        // Mobile Version
+        this.logoState = 'hiddenMobile';
+        this.textLogoState = 'hiddenMobile';
+        this.logoSlideState = 'startMobile';
+        this.containerPosition = 'centerMobile';
+        this.textLogoClass = 'whiteFill'; // Start mit weißer Schrift
+        this.overlayState = 'visible'; // Startet mit sichtbarem Overlay
+        this.textLogoInvertState = 'normal'; // Initialzustand des Textlogos
+      } else {
+        // Desktop Version
+        this.logoState = 'hidden';
+        this.textLogoState = 'hidden';
+        this.logoSlideState = 'start';
+        this.containerPosition = 'center';
+        this.textLogoClass = 'whiteFill'; // Start mit weißer Schrift
+        this.overlayState = 'visible'; // Startet mit sichtbarem Overlay
+        this.textLogoInvertState = 'normal'; // Initialzustand des Textlogos
+      }
+
       setTimeout(() => {
-        this.logoState = 'visible';
+        this.logoState = this.isSmallScreen ? 'visibleMobile' : 'visible';
       }, 1000);
 
       setTimeout(() => {
-        this.logoSlideState = 'end';
+        this.logoSlideState = this.isSmallScreen ? 'mobileEnd' : 'end'; // Unterschiedliche Animation je nach Bildschirmgröße
       }, 1500);
 
       setTimeout(() => {
-        this.textLogoState = 'visible';
+        this.textLogoState = this.isSmallScreen ? 'mobileEnd' : 'visible'; // Unterschiedliche Animation je nach Bildschirmgröße
       }, 2000);
 
       setTimeout(() => {
