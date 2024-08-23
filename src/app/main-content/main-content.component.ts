@@ -48,6 +48,7 @@ export class MainContentComponent implements OnInit {
     private screenSizeService: ScreenSizeService,
     public threadRoutingService: RoutingThreadOutletService,
     protected route: ActivatedRoute,
+    private activeUserService: ActiveUserService
   ) {}
 
   ngOnInit() {

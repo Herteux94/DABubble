@@ -19,15 +19,9 @@ import { ActiveUserService } from './services/active-user.service';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'da-bubble';
 
-  constructor(private activeUserService: ActiveUserService) {}
-  
-  ngOnInit(): void {
-      if(!this.activeUserService.activeUser) {
-        this.activeUserService.loadActiveUser();
-      };
-  }
+  constructor() {}
   
 }

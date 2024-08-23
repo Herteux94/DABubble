@@ -2,17 +2,32 @@ import { Injectable } from '@angular/core';
 import { FirestoreService } from './firestore.service';
 import { Channel } from '../models/channel.model';
 import { DirectMessage } from '../models/directMessages.model';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, map, Observable } from 'rxjs';
+import { User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root',
 })
+
 export class ActiveUserService {
-  activeUser!: any;
+  activeUser$!: Observable<any>;
   activeUserChannels!: Channel[]; // muss abonnieren für immer aktuellen for loop
   activeUserDirectMessages!: DirectMessage[];
+  activeUser!: User;
 
-  constructor(private firestoreService: FirestoreService) {}
+  constructor(private firestoreService: FirestoreService) {
+    this.loadActiveUser();
+
+    // Abonniere den activeUser$-Stream, um Channels und DirectMessages zu laden, wenn sich der User ändert
+    this.activeUser$.subscribe((user) => {
+      if (user) {
+        this.activeUser = user;
+        // Lade die Channels und Direct Messages für den aktiven Benutzer
+        this.loadUserChannels(this.activeUser.channels);
+        this.loadUserDirectMessages(this.activeUser.directMessages);
+      }
+    });
+  }
 
   async loadActiveUser(activeUserID?: string) {
     let userID: string | null = '';
@@ -24,18 +39,17 @@ export class ActiveUserService {
       userID = activeUserID;
     }
 
-    await this.getActiveUser(userID);
-    this.loadUserChannels(this.activeUser.channels);
-    this.loadUserDirectMessages(this.activeUser.directMessages);
+    await this.getActiveUser(userID); // Stellt sicher, dass der activeUser$ aktualisiert wird
 
-    console.log('Active User: ', this.activeUser);
+    console.log('Active User: ', this.activeUser$);
   }
 
   async getActiveUser(userID: string | null) {
-    const users = await firstValueFrom(this.firestoreService.allUsers$);
-    if (users.length > 0) {
-      this.activeUser = users.find((user: any) => user.userID == userID);
-    }
+    // Setzt den Stream für den aktiven Benutzer auf
+    this.activeUser$ = this.firestoreService.allUsers$
+      .pipe(
+        map(users => users.find((user: any) => user.userID === userID))
+      );
   }
 
   setActiveUserToLocalStorage(userID: string) {
@@ -47,7 +61,7 @@ export class ActiveUserService {
   }
 
   async loadUserChannels(activeUserChannelIDs: string[]) {
-    const channels = await firstValueFrom(this.firestoreService.allChannels$);    
+    const channels = await firstValueFrom(this.firestoreService.allChannels$);
     if (channels.length > 0) {
       this.activeUserChannels = this.firestoreService.allChannels.filter(
         (channel: any) => activeUserChannelIDs.includes(channel.channelID)

@@ -9,6 +9,11 @@
       }
         <app-date-divider></app-date-divider>
         <app-own-message [isChannel]="true"></app-own-message>
+        @if(this.firestoreService.allUsers && this.firestoreService.allUsers.length > 0) {
+          @for(user of this.firestoreService.allUsers; track user) {
+            <span>{{ user.name }}</span>
+          }
+        }
       </div>
     </div>
     <app-type-input-field [messengerType]="'channels'"></app-type-input-field>

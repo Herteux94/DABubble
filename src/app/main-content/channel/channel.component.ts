@@ -8,6 +8,7 @@ import { ThreadComponent } from '../thread/thread.component';
 import { ActivatedRoute } from '@angular/router';
 import { ActiveChannelService } from '../../services/active-channel.service';
 import { ActiveUserService } from '../../services/active-user.service';
+import { FirestoreService } from '../../services/firestore.service';
 
 @Component({
   selector: 'app-channel',
@@ -26,7 +27,8 @@ import { ActiveUserService } from '../../services/active-user.service';
 export class ChannelComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
-    public activeChannelService: ActiveChannelService
+    public activeChannelService: ActiveChannelService,
+    public firestoreService: FirestoreService
   ) {}
 
   ngOnInit() {

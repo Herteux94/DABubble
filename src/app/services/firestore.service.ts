@@ -25,7 +25,7 @@ export class FirestoreService {
   channelCol = collection(this.firestore, 'channels');
   directMessageCol = collection(this.firestore, 'directMessages');
   
-  allUsers$!: Observable<User[]>;
+  allUsers$!: Observable<any[]>;
   allChannels$!: Observable<Channel[]>;
   allDirectMessages$!: Observable<DirectMessage[]>;
   
@@ -46,7 +46,6 @@ export class FirestoreService {
     this.allUsers$.subscribe((users) => {
       this.allUsers = users;
     });
-    console.log(this.allUsers);  
   }
 
   getUsers(): Observable<any[]> {
