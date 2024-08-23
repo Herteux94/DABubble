@@ -132,7 +132,7 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
         transform: 'translate(-50%, -50%) scale(1)', // Für Desktop, bleibt unverändert
       })),
       state('cornerLarge', style({
-        top: '60px',
+        top: '20px',
         left: '60px',
         transform: 'translate(0, 0) scale(1)', // In die Ecke, bleibt auf scale 1 für Desktop
       })),
@@ -170,6 +170,7 @@ export class AuthenticationComponent implements OnInit {
   overlayState = 'visible'; // Startet mit sichtbarem Overlay
   textLogoInvertState = 'normal'; // Initialzustand des Textlogos
   isSmallScreen = false;
+  animationDuration = '500ms'; // Standard-Animationsdauer
 
   constructor(
     private renderer: Renderer2,
@@ -181,6 +182,23 @@ export class AuthenticationComponent implements OnInit {
     if (isPlatformBrowser(this.platformId)) {
       this.checkScreenSize();
 
+      // Überprüfen, ob die Animation bereits ausgeführt wurde
+      const hasAnimated = sessionStorage.getItem('hasAnimated');
+
+      if (hasAnimated) {
+        // Wenn die Animation bereits abgespielt wurde, setze die Animationsdauer auf 1ms
+        this.animationDuration = '1ms';
+      } else {
+        // Animation das erste Mal abspielen und Zustand speichern
+        sessionStorage.setItem('hasAnimated', 'true');
+      }
+
+      this.startAnimation();
+    }
+  }
+
+  startAnimation() {
+    if (isPlatformBrowser(this.platformId)) {
       if (this.isSmallScreen) {
         // Mobile Version
         this.logoState = 'hiddenMobile';
@@ -203,15 +221,15 @@ export class AuthenticationComponent implements OnInit {
 
       setTimeout(() => {
         this.logoState = this.isSmallScreen ? 'visibleMobile' : 'visible';
-      }, 1000);
+      }, this.animationDuration === '1ms' ? 0.1 : 1000);
 
       setTimeout(() => {
         this.logoSlideState = this.isSmallScreen ? 'mobileEnd' : 'end'; // Unterschiedliche Animation je nach Bildschirmgröße
-      }, 1500);
+      }, this.animationDuration === '1ms' ? 0.2 : 1500);
 
       setTimeout(() => {
         this.textLogoState = this.isSmallScreen ? 'mobileEnd' : 'visible'; // Unterschiedliche Animation je nach Bildschirmgröße
-      }, 2000);
+      }, this.animationDuration === '1ms' ? 0.3 : 2000);
 
       setTimeout(() => {
         this.containerPosition = this.isSmallScreen ? 'cornerSmall' : 'cornerLarge';
@@ -222,7 +240,7 @@ export class AuthenticationComponent implements OnInit {
         if (this.isSmallScreen) {
           this.enableScroll();
         }
-      }, 3000);
+      }, this.animationDuration === '1ms' ? 0.4 : 3000);
 
       setTimeout(() => {
         const wrapperElement = this.el.nativeElement.querySelector('.wrapper');
@@ -231,7 +249,7 @@ export class AuthenticationComponent implements OnInit {
           this.renderer.setStyle(wrapperElement, 'overflow', 'auto');
           this.renderer.addClass(this.el.nativeElement.querySelector('.overlay'), 'hiddenOverlay');
         }
-      }, 3700);
+      }, this.animationDuration === '1ms' ? 0.5 : 3700);
     }
   }
 

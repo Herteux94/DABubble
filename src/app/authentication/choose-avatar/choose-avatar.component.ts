@@ -46,4 +46,8 @@ export class ChooseAvatarComponent {
   routingMessenger(){
     this.router.navigate(['/messenger']);
   }
+
+  goBack() {
+    history.back();
+  }
 }
