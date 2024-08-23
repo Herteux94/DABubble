@@ -4,7 +4,7 @@
       <div class="messagesContent">
         @if(this.activeChannelService.channelMessages && this.activeChannelService.channelMessages.length > 0) {
         @for(message of this.activeChannelService.channelMessages; track message) {
-          <app-message [isChannel]="true"></app-message>
+          <app-message [message]="message" [isChannel]="true"></app-message>
           }
         }
         <app-date-divider></app-date-divider>

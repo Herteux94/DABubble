@@ -1,14 +1,14 @@
 <div class="wrapper">
-    <img (click)="openInviteDialog()" src="../../../../assets/img/avatars/avatar-1.svg">
+    <img (click)="openProfileDialog()" src="../../../../assets/img/avatars/avatar-1.svg">
 
     <div class="text">
         <div class="nameAndTime">
-            <span (click)="openInviteDialog()" class="name">Noah Braun</span>
+            <span (click)="openProfileDialog()" class="name">Noah Braun</span>
             <span class="time subText">14:25 Uhr</span>
         </div>
 
         <div class="messageText">
-            <span>Welche Version ist aktuell von Angular?</span>
+            <span>{{ message.content }}</span>
         </div>
 
         <div class="reactionsArea">

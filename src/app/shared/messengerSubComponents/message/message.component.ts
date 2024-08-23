@@ -17,10 +17,18 @@ export class MessageComponent {
   dialog = inject(Dialog);
   
   @Input() isChannel!: boolean;
+  @Input() message!: {
+    senderID: string;
+    creationTime: Number;
+    content: string;
+    attachments: string[];
+    reactions: string[];
+    messageID: string;
+  };
 
   constructor(public threadRoutingService: RoutingThreadOutletService, private screenSizeService: ScreenSizeService, private router: Router) {}
 
-  openInviteDialog() {
+  openProfileDialog() {
     this.dialog.open(ProfileDialogComponent, {
     });
   }
