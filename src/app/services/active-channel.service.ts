@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { FirestoreService } from './firestore.service';
 import { first, map, Observable } from 'rxjs';
 import { channel } from 'diagnostics_channel';
+import { Message } from '../models/message.model';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +11,7 @@ export class ActiveChannelService {
   activeChannel: any;
   channelMessages$!: Observable<any[]>;
 
-  channelMessages: any[] = [];
+  channelMessages: Message[] = [];
 
   constructor(
     private firestoreService: FirestoreService,
@@ -31,8 +32,6 @@ export class ActiveChannelService {
         next: (channel) => {
           if (channel) {
             this.activeChannel = channel; 
-            console.log(this.activeChannel);
-
           } else {
             console.error('Channel nicht gefunden');
           }
@@ -50,12 +49,8 @@ export class ActiveChannelService {
     this.channelMessages$ = this.firestoreService.getMessages('channels', channelID);
     this.channelMessages$.subscribe({
       next: (messages) => {
-        if (messages) {
-          console.log(messages);
-          
+        if (messages) {          
           this.channelMessages = messages; 
-          console.log(this.channelMessages);
-
         } else {
           console.error('Messages nicht gefunden');
         }
