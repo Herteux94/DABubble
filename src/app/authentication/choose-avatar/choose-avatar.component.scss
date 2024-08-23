@@ -59,6 +59,9 @@
 .profileImg {
   width: 48px;
   border-radius: 100%;
+  &:hover{
+    transform: scale(1.1) ;
+  }
 }
 
 .uploadContainer {
