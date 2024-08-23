@@ -24,17 +24,16 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
   templateUrl: './authentication.component.html',
   styleUrls: ['./authentication.component.scss'],
   animations: [
-    // Gemeinsame Animationen für große und kleine Bildschirme
     trigger('logoAppear', [
       state('hidden', style({
         opacity: 0,
         visibility: 'hidden',
-        transform: 'translate(-50%, -50%) scale(1)'
+        transform: 'translate(-50%, -50%) scale(1.5)'
       })),
       state('visible', style({
         opacity: 1,
         visibility: 'visible',
-        transform: 'translate(-50%, -50%) scale(1)'
+        transform: 'translate(-50%, -50%) scale(1.5)'
       })),
       transition('hidden => visible', [
         animate('500ms ease-in-out')
@@ -43,14 +42,14 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
     trigger('slideLogo', [
       state('start', style({
         opacity: 0,
-        transform: 'translateX(0) scale(1)'
+        transform: 'translateX(0) scale(1.5)' // Leichte Verschiebung nach links, mit scale 1.5
       })),
       state('end', style({
         opacity: 1,
-        transform: 'translateX(0) scale(1)'
+        transform: 'translateX(-50px) scale(1.5)' // Zurück in die Mitte, mit scale 1.5
       })),
       state('reset', style({
-        transform: 'translateX(0) scale(1)'
+        transform: 'translateX(0) scale(1)' // Zurück zur normalen Größe, keine Verschiebung
       })),
       transition('start => end', [
         animate('500ms ease-in-out')
@@ -62,41 +61,38 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
     trigger('slideText', [
       state('hidden', style({
         opacity: 0,
-        transform: 'translateX(-100px) scale(1)'
+        transform: 'translateX(-100px) scale(1.5)' // Text beginnt mit scale 1.5
       })),
       state('visible', style({
         opacity: 1,
-        transform: 'translateX(0px) scale(1)'
+        transform: 'translateX(0) scale(1.5)' // Text bewegt sich nach rechts, bleibt in scale 1.5
       })),
       state('reset', style({
-        transform: 'translateX(0) scale(1)',
+        transform: 'translateX(0) scale(1)', // Text kehrt zur normalen Größe zurück
         opacity: 1
       })),
       transition('hidden => visible', [
         animate('500ms ease-in-out')
       ]),
       transition('visible => reset', [
-        animate('800ms ease-in-out', style({
-          transform: 'translateX(0) scale(1)',
-          opacity: 1
-        }))
+        animate('800ms ease-in-out')
       ])
     ]),
     trigger('moveToCorner', [
       state('center', style({
         top: '50%',
         left: '50%',
-        transform: 'translate(-50%, -50%) scale(1)',
+        transform: 'translate(-50%, -50%) scale(1.5)', // Start mit scale 1.5
       })),
       state('cornerLarge', style({
         top: '60px',
         left: '60px',
-        transform: 'translate(0, 0) scale(1)',
+        transform: 'translate(0, 0) scale(1)', // In die Ecke, reduziert auf scale 1
       })),
       state('cornerSmall', style({
         top: '60px',
         left: '50%',
-        transform: 'translate(-50%, 0) scale(1)',
+        transform: 'translate(-50%, 0) scale(1)', // Für kleine Bildschirme
       })),
       transition('center => cornerLarge', [
         animate('800ms ease-in-out')
@@ -168,7 +164,7 @@ export class AuthenticationComponent implements OnInit {
           this.renderer.setStyle(wrapperElement, 'overflow', 'auto');
           this.renderer.addClass(this.el.nativeElement.querySelector('.overlay'), 'hiddenOverlay');
         }
-      }, 3700)
+      }, 3700);
     }
   }
 
