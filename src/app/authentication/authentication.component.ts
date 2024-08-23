@@ -137,7 +137,7 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
         transform: 'translate(0, 0) scale(1)', // In die Ecke, bleibt auf scale 1 für Desktop
       })),
       state('cornerSmall', style({
-        top: '60px',
+        top: '20px',
         left: '50%',
         transform: 'translate(-50%, 0) scale(1)', // Für kleine Bildschirme, bleibt auf scale 1
       })),
