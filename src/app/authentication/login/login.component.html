@@ -36,7 +36,7 @@
     @if(errorMessage && errorType == 'password') {
       <span class="errorMessage">{{ errorMessage }}</span>
     }
-    <a class="lostPW">Passwort vergessen?</a>
+    <a class="lostPW" [routerLink]="['../sendResetPWMail']">Passwort vergessen?</a>
     <div class="seperaterContainer">
       <div class="seperater"></div>
       <span>ODER</span>
