@@ -34,7 +34,7 @@ export class ChooseAvatarComponent {
     }
   }
 
-  selectAvatar(url: string) {
+  selectAvatar(url: string) { //////////// UserID mitgeben
     this.avatarUrl = url; // Lokale Variable aktualisieren
     this.userProfileService.setAvatarUrl(url); // URL im UserProfileService setzen
   }

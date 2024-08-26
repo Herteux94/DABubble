@@ -13,8 +13,10 @@
             </div>
 
             <div class="nameContainer">
-                <h1>Frederik Beck</h1>
-                <!-- <img src="../../../assets/img/pen.svg" alt=""> Nur bei eigenem Profil-->
+                <h1>{{  this.user.name  }}</h1>
+                @if (ownProfile) {
+                    <img src="../../../assets/img/pen.svg" alt="">
+                }
             </div>
 
             <div class="statusContainer">
@@ -37,7 +39,7 @@
                     </svg>
                     <p>E-Mail-Adresse</p>
                 </div>
-                <p class="emailAddress">F.Beck&#64;email.com</p>
+                <p class="emailAddress">{{  this.user.email  }}</p>
             </div>
 
             <div class="messageBtnWrapper">
