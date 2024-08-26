@@ -1,35 +1,45 @@
 <div [ngClass]="ownMessage ? 'fdRowRev' : ''" class="wrapper">
-    <img (click)="openProfileDialog()" src="../../../../assets/img/avatars/avatar-1.svg">
+  <img (click)="openProfileDialog()" src="../../../../assets/img/avatars/avatar-1.svg">
 
-    <div class="text">
-        <div [ngClass]="ownMessage ? 'fdRowRev' : ''" class="nameAndTime">
-            <span (click)="openProfileDialog()" class="name">{{ message.senderName }}</span>
-            <span class="time subText">{{ message.creationTime.valueOf() | date:'HH:mm' }}</span>
-        </div>
-
-        <div [ngClass]="ownMessage ? 'messageTextOwnMsg' : 'messageText'">
-            <span>{{ message.content }}</span>
-        </div>
-
-        <div class="reactionsArea">
-            <div [ngClass]="ownMessage ? 'fdRowRev' : ''" class="reactions">
-                <div class="reactionContainer">
-                    <img src="../../../../assets/img/close.svg">
-                    <span class="reactionsCount">1</span>
-                </div>
-                <div class="reactionContainer">
-                    <img src="../../../../assets/img/google-icon.svg">
-                    <span class="reactionsCount">2</span>
-                </div>
-            </div>
-        </div>
-
-        @if(this.isChannel) {
-        <div class="responses">
-            <span (click)="navigateToThread()" class="count">2 Antworten</span>
-            <span class="time subText">Letzte Antwort 14:56</span>
-        </div>
-        }
-
+  <div class="text">
+    <div [ngClass]="ownMessage ? 'fdRowRev' : ''" class="nameAndTime">
+      <span (click)="openProfileDialog()" class="name">{{ message.senderName }}</span>
+      <span class="time subText">{{ message.creationTime.valueOf() | date:'HH:mm' }}</span>
     </div>
+
+    <div [ngClass]="ownMessage ? 'messageTextOwnMsg' : 'messageText'">
+      <span>{{ message.content }}</span>
+      <div *ngIf="message.attachments && message.attachments.length > 0" class="fileContainer">
+        <div *ngFor="let attachment of message.attachments" class="filePreviewContainer">
+          <a [href]="attachment" download class="download-link"><img [src]="attachment" alt="img file preview"
+              class="filePreview">
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Neue Struktur für die Anhänge -->
+
+
+    <div class="reactionsArea">
+      <div [ngClass]="ownMessage ? 'fdRowRev' : ''" class="reactions">
+        <div class="reactionContainer">
+          <img src="../../../../assets/img/close.svg">
+          <span class="reactionsCount">1</span>
+        </div>
+        <div class="reactionContainer">
+          <img src="../../../../assets/img/google-icon.svg">
+          <span class="reactionsCount">2</span>
+        </div>
+      </div>
+    </div>
+
+    @if(this.isChannel) {
+    <div class="responses">
+      <span (click)="navigateToThread()" class="count">2 Antworten</span>
+      <span class="time subText">Letzte Antwort 14:56</span>
+    </div>
+    }
+
+  </div>
 </div>
