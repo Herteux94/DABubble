@@ -5,11 +5,12 @@ import { Dialog, DIALOG_DATA, DialogModule } from '@angular/cdk/dialog';
 import { RoutingThreadOutletService } from '../../../services/routing-thread-outlet.service';
 import { ScreenSizeService } from '../../../services/screen-size-service.service';
 import { CommonModule } from '@angular/common';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-message',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, RouterModule, CommonModule],
+  imports: [RouterLink, RouterLinkActive, RouterModule, CommonModule, MatDialogModule, DialogModule],
   templateUrl: './message.component.html',
   styleUrl: './message.component.scss'
 })
@@ -28,10 +29,14 @@ export class MessageComponent {
     messageID: string;
   };
 
-  constructor(public threadRoutingService: RoutingThreadOutletService, private screenSizeService: ScreenSizeService, private router: Router) {}
+  constructor(
+    public threadRoutingService: RoutingThreadOutletService, 
+    private screenSizeService: ScreenSizeService, private router: Router
+  ) {}
 
   openProfileDialog() {
     this.dialog.open(ProfileDialogComponent, {
+      data: { userID: this.message.senderID  }
     });
   }
 
