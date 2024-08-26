@@ -1,7 +1,10 @@
 <div class="wrapper">
   <div class="textArea">
     <div *ngIf="uploadedImageUrl" class="uploadContainer">
-      <img [src]="uploadedImageUrl" alt="img upload preview" class="uploadPreview">
+      <div class="uploadPreviewContainer">
+        <img class="closeBtn" src="../../../assets/img/close.svg" alt="close btn" (click)="closePreview()">
+        <img [src]="uploadedImageUrl" alt="img upload preview" class="uploadPreview">
+      </div>
     </div>
     <textarea [(ngModel)]="this.message.content"></textarea>
     <div class="btnArea">

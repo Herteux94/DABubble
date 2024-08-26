@@ -31,14 +31,14 @@ export class TypeInputFieldComponent {
   ) {}
 
   sendMessage(messengerType: string) {
-    this.uploadFileToFirestore()
+    this.uploadFileToFirestore();
     console.log(this.messengerType);
 
     this.message.creationTime = Date.now();
     this.message.senderID = this.activeUserService.activeUser.userID;
     this.message.senderName = this.activeUserService.activeUser.name;
 
-    if(this.messengerType === 'thread') {
+    if (this.messengerType === 'thread') {
       this.firestoreService.addThreadMessage(this.message.toJSON(), messengerType, this.activeChannelService.activeChannel.channelID);
     } else {
       this.firestoreService.addMessage(this.message.toJSON(), messengerType, this.activeChannelService.activeChannel.channelID);
@@ -86,5 +86,11 @@ export class TypeInputFieldComponent {
     } else {
       console.error('No file selected for upload.');
     }
+  }
+
+  // Methode zum Schließen der Vorschau
+  closePreview() {
+    this.uploadedImageUrl = '';  // Entferne die URL aus der Vorschau
+    this.fileToUpload = null;  // Setze die Datei-Variable zurück
   }
 }

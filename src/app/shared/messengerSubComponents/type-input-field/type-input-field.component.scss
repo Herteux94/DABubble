@@ -1,20 +1,45 @@
-@import '../../../../variables.scss';
+@import "../../../../variables.scss";
 
 .wrapper {
-    background-color: white;
-    padding: 8px;
-    z-index: 99;
+  background-color: white;
+  padding: 8px;
+  z-index: 99;
 }
 
 .uploadContainer {
   display: block; /* Standardmäßiges Verhalten, wenn sichtbar */
 }
 
-.uploadPreview{
+.uploadPreviewContainer{
+  position: relative;
+  display: inline-block;
+}
+
+.uploadPreview {
   width: 80px;
   height: 80px;
   border-radius: 15%;
   object-fit: cover;
+  transition: filter 0.3s ease;
+  &:hover {
+    filter: brightness(50%);
+    cursor: pointer;
+  }
+}
+
+.closeBtn{
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  z-index: 10;
+  height: 16px;
+  width: 16px;
+  background-color: white;
+  border-radius: 100%;
+  &:hover{
+    filter: brightness(70%);
+    cursor: pointer;
+  }
 }
 
 .hidden {
@@ -22,85 +47,85 @@
 }
 
 .textArea {
-    border: 1px solid $outlines;
-    border-radius: 20px;
-    padding: 16px 16px 8px 16px;
-    min-height: 100px;
-    background-color: white;
+  border: 1px solid $outlines;
+  border-radius: 20px;
+  padding: 16px 16px 8px 16px;
+  min-height: 100px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  textArea {
+    flex: 1;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    resize: none;
+
+    &:focus {
+      border: none;
+    }
+  }
+
+  .btnArea {
     display: flex;
-    flex-direction: column;
+    align-items: center;
     justify-content: space-between;
+  }
 
-    textArea {
-        flex: 1;
-        font-size: 16px;
-        border: none;
-        outline: none;
-        resize: none;
+  .leftSide {
+    display: flex;
+    align-items: center;
+    gap: 4px;
 
-        &:focus {
-            border: none;
-        }
+    .svgContainer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 8px;
+      border-radius: 100%;
     }
+  }
 
-    .btnArea {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
+  .divider {
+    height: 40px;
+    width: 1px;
+    background-color: $background-color;
+  }
 
-    .leftSide {
-        display: flex;
-        align-items: center;
-        gap: 4px;
-
-        .svgContainer {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 8px;
-            border-radius: 100%;
-        }
-    }
-
-    .divider {
-        height: 40px;
-        width: 1px;
-        background-color: $background-color;
-    }
-
-    .svgContainerSendIcon {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+  .svgContainerSendIcon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
-@media(min-width: 1025px) {
-    .wrapper {
-        padding: 24px;
-    }
+@media (min-width: 1025px) {
+  .wrapper {
+    padding: 24px;
+  }
 
-    .leftSide {
-        .svgContainer {
-            &:hover {
-                cursor: pointer;
-                background-color: $background-color;
+  .leftSide {
+    .svgContainer {
+      &:hover {
+        cursor: pointer;
+        background-color: $background-color;
 
-                svg path {
-                    fill: $first-color;
-                }
-            }
+        svg path {
+          fill: $first-color;
         }
+      }
     }
+  }
 
-    .svgContainerSendIcon {
-        &:hover {
-            cursor: pointer;
+  .svgContainerSendIcon {
+    &:hover {
+      cursor: pointer;
 
-            svg path {
-                fill: $second-color;
-            }
-        }
+      svg path {
+        fill: $second-color;
+      }
     }
+  }
 }
