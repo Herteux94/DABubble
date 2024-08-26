@@ -3,6 +3,7 @@ import { SubHeaderComponent } from '../../shared/messengerSubComponents/sub-head
 import { MessageComponent } from '../../shared/messengerSubComponents/message/message.component';
 import { OwnMessageComponent } from '../../shared/messengerSubComponents/own-message/own-message.component';
 import { TypeInputFieldComponent } from '../../shared/messengerSubComponents/type-input-field/type-input-field.component';
+import { ActiveChannelService } from '../../services/active-channel.service';
 
 @Component({
   selector: 'app-thread',
@@ -13,4 +14,5 @@ import { TypeInputFieldComponent } from '../../shared/messengerSubComponents/typ
 })
 export class ThreadComponent {
 
+  constructor(public activeChannelService: ActiveChannelService) {}
 }
