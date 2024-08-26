@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL, FirebaseStorage } from 'firebase/storage';
 import { getAuth, Auth } from 'firebase/auth';
-import { FirebaseApp } from '@angular/fire/app'; // Importiere FirebaseApp
+import { FirebaseApp } from '@angular/fire/app';
 import { inject } from '@angular/core';
 
 @Injectable({
@@ -12,31 +12,58 @@ export class StorageService {
   private auth: Auth;
 
   constructor() {
-    const app = inject(FirebaseApp); // Hole die existierende Firebase-App-Instanz
-    this.storage = getStorage(app);  // Initialisiere Firebase Storage mit der App-Instanz
-    this.auth = getAuth(app);        // Initialisiere Firebase Auth mit der App-Instanz
+    const app = inject(FirebaseApp);
+    this.storage = getStorage(app);
+    this.auth = getAuth(app);
   }
 
   uploadAvatar(file: File): Promise<string> {
     return new Promise((resolve, reject) => {
       const user = this.auth.currentUser;
       if (user) {
-        const storageRef = ref(this.storage, `avatars/${user.uid}/${file.name}`); // Verwende ref korrekt
+        const storageRef = ref(this.storage, `avatars/${user.uid}/${file.name}`);
         const uploadTask = uploadBytesResumable(storageRef, file);
 
         uploadTask.on('state_changed',
-          (snapshot: any) => { // Typ für snapshot hinzufügen
-            // Optional: Fortschrittsanzeige
+          (snapshot: any) => {
             const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
             console.log('Upload is ' + progress + '% done');
           },
-          (error: any) => { // Typ für error hinzufügen
-            // Fehlerbehandlung
+          (error: any) => {
             console.error("Upload failed", error);
             reject(error);
           },
           () => {
-            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL: string) => { // Typ für downloadURL hinzufügen
+            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL: string) => {
+              resolve(downloadURL);
+            }).catch(reject);
+          }
+        );
+      } else {
+        reject("No user is signed in.");
+      }
+    });
+  }
+
+  // Neue Methode zum Hochladen von Dateien in einen Channel
+  uploadFileToChannel(channelId: string, file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const user = this.auth.currentUser;
+      if (user) {
+        const storageRef = ref(this.storage, `channels/${channelId}/${file.name}`);
+        const uploadTask = uploadBytesResumable(storageRef, file);
+
+        uploadTask.on('state_changed',
+          (snapshot: any) => {
+            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log('Upload is ' + progress + '% done');
+          },
+          (error: any) => {
+            console.error("Upload failed", error);
+            reject(error);
+          },
+          () => {
+            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL: string) => {
               resolve(downloadURL);
             }).catch(reject);
           }
