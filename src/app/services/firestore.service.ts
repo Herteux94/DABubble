@@ -89,29 +89,14 @@ export class FirestoreService {
     setDoc(userRef, userData);
   }
 
-  // addChannel(channelData: any) {
-  //   addDoc(this.channelCol, channelData)
-  //   .then((docRef) => {
-  //     updateDoc(doc(this.channelCol, docRef.id), {
-  //       channelID: docRef.id
-  //     });
-  //   });
-  // }
-
-  // addChannel(channelData: Channel) {
-  //   return addDoc(this.channelCol, channelData.toJSON())
-  //   .then((docRef) => {
-  //     return updateDoc(doc(this.channelCol, docRef.id), {
-  //       channelID: docRef.id
-  //     });
-  //   });
-  // }
-
-  async addChannel(channelData: Channel): Promise<string> {
-    const docRef = await addDoc(this.channelCol, channelData.toJSON());
-    const channelID = docRef.id;
-    await updateDoc(doc(this.channelCol, channelID), { channelID });
-    return channelID; // Rückgabe der Channel-ID
+  addChannel(channelData: any, userID: string) {
+    addDoc(this.channelCol, channelData)
+    .then((docRef) => {
+      updateDoc(doc(this.channelCol, docRef.id), {
+        channelID: docRef.id
+      });
+      this.updateUserWithChannelOrDirectMessage(userID, 'channels', docRef.id);
+    });
   }
 
   addDirectMessage(directMessageData: any) {
@@ -145,38 +130,26 @@ export class FirestoreService {
 
     ///////////////////////////////////////// updateFunctions /////////////////////////////////////////
 
-    updateUser(channelID: string, userID: string) {
-      // Erstelle einen Verweis auf das Dokument des Benutzers
-      const userDocRef = doc(this.userCol, userID);
-  
-      // Hole das Dokument
-      return getDoc(userDocRef).then(userDocSnapshot => {
-        if (userDocSnapshot.exists()) {
-          const userData = userDocSnapshot.data() as User; // Typisiere die Benutzerdaten
-  
-          // Füge die Channel-ID zu den Channels des Benutzers hinzu
-          const updatedChannels = [...(userData.channels || []), channelID];
-          
-          // Aktualisiere das Dokument
-          return updateDoc(userDocRef, {
-            channels: updatedChannels
-          });
-        } else {
-          console.error('Benutzer nicht gefunden');
-          return Promise.reject('Benutzer nicht gefunden');
-        }
-      });
+    async updateUserWithChannelOrDirectMessage(userID: string, messengerType: string, channelID: string) {
+      try {
+        await updateDoc(doc(this.userCol, userID), {
+          [messengerType]: arrayUnion(channelID),
+        });
+        console.log('Channel successfully added');
+      } catch (error) {
+        console.error('Error updating channel: ', channelID, ' in User: ', userID, ' : ', error);
+      }
     }
 
-    // updateUser(userData: any, userID: string) {
-    //   updateDoc(doc(this.userCol, userID), {
-    //     name: userData.name,
-    //     profileImg: userData.profileImg,
-    //     email: userData.email,
-    //     channels: userData.channels,
-    //     directMessages: userData.directMessages
-    //   });
-    // }
+    updateUser(userData: any, userID: string) {
+      updateDoc(doc(this.userCol, userID), {
+        name: userData.name,
+        profileImg: userData.profileImg,
+        email: userData.email,
+        channels: userData.channels,
+        directMessages: userData.directMessages
+      });
+    }
     
     updateChannel(channelData: any, channelID: string) {
       updateDoc(doc(this.channelCol, channelID), {

@@ -58,10 +58,19 @@ export class CreateChannelDialogComponent implements OnInit {
       newChannel.member = [this.activeUserService.activeUser.userID];
 
       try {
-        const channelID = await this.firestoreService.addChannel(newChannel);
+        // const channelID = await this.firestoreService.addChannel(newChannel);
         
         // Füge den Channel zur Benutzer-Sammlung hinzu
-        await this.updateUserWithNewChannel(channelID);
+        // await this.updateUserWithNewChannel(channelID);
+
+        this.firestoreService.addChannel(newChannel.toJSON(), this.activeUserService.activeUser.userID);
+
+        setTimeout(() => {
+          console.log('channel: ', newChannel);
+          console.log('active User: ', this.activeUserService.activeUser.userID);
+          
+        },1000)
+
         
         this.dialogRef.close();
       } catch (error) {
@@ -70,14 +79,14 @@ export class CreateChannelDialogComponent implements OnInit {
     }
   }
 
-  private async updateUserWithNewChannel(channelID: string) {
-    const userID = this.activeUserService.activeUser.userID;
-    try {
-      await this.firestoreService.updateUser(channelID, userID);
-    } catch (error) {
-      console.error('Fehler beim Aktualisieren des Benutzers:', error);
-    }
-  }
+  // private async updateUserWithNewChannel(channelID: string) {
+  //   const userID = this.activeUserService.activeUser.userID;
+  //   try {
+  //     await this.firestoreService.updateUser(channelID, userID);
+  //   } catch (error) {
+  //     console.error('Fehler beim Aktualisieren des Benutzers:', error);
+  //   }
+  // }
   
   // onSubmit(form: NgForm) {
   //   if (form.valid) {

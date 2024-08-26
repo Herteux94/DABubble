@@ -4,6 +4,7 @@ import { MessageComponent } from '../../shared/messengerSubComponents/message/me
 import { OwnMessageComponent } from '../../shared/messengerSubComponents/own-message/own-message.component';
 import { SubHeaderComponent } from '../../shared/messengerSubComponents/sub-header/sub-header.component';
 import { TypeInputFieldComponent } from '../../shared/messengerSubComponents/type-input-field/type-input-field.component';
+import { ActiveChannelService } from '../../services/active-channel.service';
 
 @Component({
   selector: 'app-direct-message',
@@ -14,4 +15,5 @@ import { TypeInputFieldComponent } from '../../shared/messengerSubComponents/typ
 })
 export class DirectMessageComponent {
 
+  constructor(public activeChannelService: ActiveChannelService) {}
 }
