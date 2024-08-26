@@ -1,7 +1,7 @@
 <form (ngSubmit)="sendResetEmail()" action="#">
   <section class="wrapper">
     <div class="card">
-      <a [routerLink]="['/authentication/login']">
+      <a (click)="goBack()" id="arrowBackLink">
         <img class="arrowBackIcon" src="../../../assets/img/arrow_back.svg" alt="arrow back icon">
       </a>
       <h1>Passwort Zurücksetzen</h1>

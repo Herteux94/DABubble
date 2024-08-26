@@ -34,4 +34,8 @@ export class SendResetPwMailComponent {
       console.error('E-Mail-Adresse ist leer.');
     }
   }
+
+  goBack() {
+    history.back();
+  }
 }
