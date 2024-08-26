@@ -20,9 +20,7 @@ export class TypeInputFieldComponent {
 
   @Input() messengerType: string = '';
   message = new Message();
-  uploadedImageUrl: string = '';  // Variable für die Bild-URL
-  fileToUpload: File | null = null;  // Variable, um die ausgewählte Datei zu speichern
-  fileToUploadURL: string = '';
+  uploadedFiles: { file: File, url: string }[] = [];  // Liste der hochgeladenen Dateien und deren URLs
 
   constructor(
     private firestoreService: FirestoreService,
@@ -37,8 +35,10 @@ export class TypeInputFieldComponent {
     this.message.creationTime = Date.now();
     this.message.senderID = this.activeUserService.activeUser.userID;
     this.message.senderName = this.activeUserService.activeUser.name;
-    console.error('fileToUpload:', this.fileToUpload);
-    this.message.attachments.push(this.fileToUploadURL);
+
+    this.uploadedFiles.forEach(uploadedFile => {
+      this.message.attachments.push(uploadedFile.url);
+    });
 
     if (this.messengerType === 'thread') {
       this.firestoreService.addThreadMessage(this.message.toJSON(), messengerType, this.activeChannelService.activeChannel.channelID);
@@ -51,7 +51,6 @@ export class TypeInputFieldComponent {
 
     this.message.content = '';
     this.uploadFileToFirestore();
-
   }
 
   triggerFileInput() {
@@ -61,41 +60,37 @@ export class TypeInputFieldComponent {
     }
   }
 
-  // Methode zum Anzeigen der Datei in der Vorschau
-  previewFile(event: any) {
-    const file: File = event.target.files[0];
-    this.fileToUpload = file;
-    this.fileToUploadURL = file.name;
+  // Methode zum Anzeigen der ausgewählten Dateien in der Vorschau
+  previewFiles(event: any) {
+    const files: File[] = Array.from(event.target.files);
 
-    if (file) {
+    files.forEach(file => {
       const reader = new FileReader();
       reader.onload = () => {
-        this.uploadedImageUrl = reader.result as string;
+        this.uploadedFiles.push({ file, url: reader.result as string });
       };
       reader.readAsDataURL(file);
-    }
+    });
   }
 
-  // Methode zum Hochladen der Datei in Firestore
+  // Methode zum Hochladen der Dateien in Firestore
   uploadFileToFirestore() {
-    if (this.fileToUpload) {
+    this.uploadedFiles.forEach(uploadedFile => {
       const channelId = this.activeChannelService.activeChannel.channelID;
-      this.storageService.uploadFileToChannel(channelId, this.fileToUpload).then((downloadURL) => {
+      this.storageService.uploadFileToChannel(channelId, uploadedFile.file).then((downloadURL) => {
         console.log('File uploaded successfully:', downloadURL);
-        // Weiterverarbeitung des downloadURL falls notwendig
-        this.fileToUpload = null;  // Reset der Datei nach dem Hochladen
-        this.uploadedImageUrl = '';  // Reset der Vorschau nach dem Hochladen
+        // Aktualisiere die URL nach dem Hochladen, falls notwendig
+        uploadedFile.url = downloadURL;
       }).catch((error) => {
         console.error('Error uploading file:', error);
       });
-    } else {
-      console.error('No file selected for upload.');
-    }
+    });
+
+    this.uploadedFiles = [];  // Reset der Liste nach dem Hochladen
   }
 
-  // Methode zum Schließen der Vorschau
-  closePreview() {
-    this.uploadedImageUrl = '';  // Entferne die URL aus der Vorschau
-    this.fileToUpload = null;  // Setze die Datei-Variable zurück
+  // Methode zum Entfernen einer Datei aus der Vorschau
+  closePreview(fileToRemove: { file: File, url: string }) {
+    this.uploadedFiles = this.uploadedFiles.filter(file => file !== fileToRemove);
   }
 }
