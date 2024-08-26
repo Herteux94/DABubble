@@ -139,15 +139,20 @@ export class FirestoreService {
       }
     }
 
-    updateUser(userData: any, userID: string) {
-      updateDoc(doc(this.userCol, userID), {
-        name: userData.name,
-        profileImg: userData.profileImg,
-        email: userData.email,
-        channels: userData.channels,
-        directMessages: userData.directMessages
-      });
+    updateUser(userData: Partial<User>, userID: string) {
+      const userDocRef = doc(this.userCol, userID);
+      return updateDoc(userDocRef, userData);
     }
+
+    // updateUser(userData: any, userID: string) {
+    //   updateDoc(doc(this.userCol, userID), {
+    //     name: userData.name,
+    //     profileImg: userData.profileImg,
+    //     email: userData.email,
+    //     channels: userData.channels,
+    //     directMessages: userData.directMessages
+    //   });
+    // }
     
     updateChannel(channelData: any, channelID: string) {
       updateDoc(doc(this.channelCol, channelID), {

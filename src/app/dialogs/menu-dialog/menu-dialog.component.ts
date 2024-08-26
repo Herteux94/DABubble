@@ -1,8 +1,12 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ScreenSizeService } from '../../services/screen-size-service.service';
 import { CommonModule } from '@angular/common';
-import { Dialog, DialogRef } from '@angular/cdk/dialog';
+import { Dialog, DialogRef, DIALOG_DATA, DialogModule } from '@angular/cdk/dialog';
 import { ProfileDialogComponent } from '../profile-dialog/profile-dialog.component';
+import { User } from '../../models/user.model';
+import { ActiveUserService } from '../../services/active-user.service';
+import { MatDialogModule } from '@angular/material/dialog';
+
 
 @Component({
   selector: 'app-menu-dialog',
@@ -14,9 +18,10 @@ import { ProfileDialogComponent } from '../profile-dialog/profile-dialog.compone
 export class MenuDialogComponent implements OnInit {
   dialogRef = inject(DialogRef);
   dialog = inject(Dialog);
+  user!: User;
   mobile: boolean = false;
 
-  constructor(private screenSizeService: ScreenSizeService) {}
+  constructor(private screenSizeService: ScreenSizeService, private activeUserService: ActiveUserService) {}
 
   ngOnInit() {
     this.screenSizeService.isMobile().subscribe(isMobile => {
@@ -25,6 +30,8 @@ export class MenuDialogComponent implements OnInit {
   }
 
   openOwnProfileDialog() {
-    this.dialog.open(ProfileDialogComponent);
-}
+    this.dialog.open(ProfileDialogComponent, {
+      data: { userID: this.activeUserService.activeUser.userID  }
+    });
+  }
 }

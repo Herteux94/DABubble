@@ -3,12 +3,13 @@ import { getStorage, ref, uploadBytesResumable, getDownloadURL, FirebaseStorage 
 import { getAuth, Auth } from 'firebase/auth';
 import { FirebaseApp } from '@angular/fire/app';
 import { inject } from '@angular/core';
+import { deleteObject, listAll } from '@angular/fire/storage';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StorageService {
-  private storage: FirebaseStorage;
+  public storage: FirebaseStorage;
   private auth: Auth;
 
   constructor() {
@@ -43,6 +44,23 @@ export class StorageService {
         reject("No user is signed in.");
       }
     });
+  }
+  
+  async deleteOldAvatars(excludeUrl: string): Promise<void> {
+    const user = this.auth.currentUser;
+    if (user) {
+      const userAvatarFolderRef = ref(this.storage, `avatars/${user.uid}`);
+      const allFiles = await listAll(userAvatarFolderRef);
+
+      for (const fileRef of allFiles.items) {
+        const fileUrl = await getDownloadURL(fileRef);
+        if (fileUrl !== excludeUrl) {
+          await deleteObject(fileRef);
+        }
+      }
+    } else {
+      return Promise.reject("No user is signed in.");
+    }
   }
 
   // Neue Methode zum Hochladen von Dateien in einen Channel

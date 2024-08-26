@@ -4,7 +4,6 @@ import { ScreenSizeService } from '../../services/screen-size-service.service';
 import { Dialog } from '@angular/cdk/dialog';
 import { MenuDialogComponent } from '../../dialogs/menu-dialog/menu-dialog.component';
 import { ActiveUserService } from '../../services/active-user.service';
-import { UserProfileService } from '../../services/user-profile.service';
 
 @Component({
   selector: 'app-header',
@@ -24,7 +23,6 @@ export class HeaderComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     public activeUserService: ActiveUserService,
-    public userProfileService: UserProfileService
   ) {}
 
   ngOnInit() {
@@ -34,11 +32,6 @@ export class HeaderComponent implements OnInit {
 
     this.router.events.subscribe(() => {
       this.checkIfNavigationActive();
-    });
-
-    // Avatar-URL abonnieren und setzen
-    this.userProfileService.avatarUrl$.subscribe(url => {
-      this.avatarUrl = url;
     });
   }
 

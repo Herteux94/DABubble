@@ -43,8 +43,6 @@ export class ProfileDialogComponent {
   ngOnInit(): void {
     this.user = this.findUserService.findUser(this.data.userID);
     this.ownProfile = this.activeUserService.activeUser.userID === this.data.userID;
-    console.log(this.user);
-    console.log(this.activeUserService.activeUser.userID);
     
     if (this.ownProfile) {
       console.log('This is the own profile view');
