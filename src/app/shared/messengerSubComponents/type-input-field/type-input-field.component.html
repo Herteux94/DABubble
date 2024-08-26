@@ -1,11 +1,16 @@
 <div class="wrapper">
   <div class="textArea">
+    <div *ngIf="uploadedImageUrl" class="uploadContainer">
+      <div class="uploadPreviewContainer">
+        <img class="closeBtn" src="../../../assets/img/close.svg" alt="close btn" (click)="closePreview()">
+        <img [src]="uploadedImageUrl" alt="img upload preview" class="uploadPreview">
+      </div>
+    </div>
     <textarea [(ngModel)]="this.message.content"></textarea>
-
     <div class="btnArea">
       <div class="leftSide">
         <div class="svgContainer">
-          <input type="file" id="fileInput" style="display: none;" (change)="uploadFile($event)" />
+          <input type="file" id="fileInput" style="display: none;" (change)="previewFile($event)" />
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
             (click)="triggerFileInput()">
             <g clip-path="url(#clip0_70010_3998)">
