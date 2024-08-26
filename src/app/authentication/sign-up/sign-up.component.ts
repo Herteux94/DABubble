@@ -50,11 +50,11 @@ export class SignUpComponent {
         try {
           this.user.userID = activeUserID;
           this.user.lastOnline = Date.now();
-          this.activeUserService.setActiveUserToLocalStorage(this.user.userID);
+          this.activeUserService.setActiveUserToLocalStorage(activeUserID);
           await this.firestoreService.addUser(this.user.toJSON());
-          this.activeUserService.activeUser = this.user;
           this.errorMessage = '';
-          console.log('User successfully signed up and profile created. ActiveUser: ');
+          console.log('User successfully signed up and profile created. User: ', this.user);
+          this.activeUserService.loadActiveUser(activeUserID);
           this.router.navigate(['/createAccount']);
         } catch (error) {
           console.error('Error saving user profile to Firestore:', error);

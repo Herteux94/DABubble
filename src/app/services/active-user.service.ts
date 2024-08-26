@@ -11,22 +11,12 @@ import { User } from '../models/user.model';
 
 export class ActiveUserService {
   activeUser$!: Observable<any>;
-  activeUserChannels!: Channel[]; // muss abonnieren für immer aktuellen for loop
+  activeUserChannels!: Channel[];
   activeUserDirectMessages!: DirectMessage[];
   activeUser!: User;
 
   constructor(private firestoreService: FirestoreService) {
     this.loadActiveUser();
-
-    // Abonniere den activeUser$-Stream, um Channels und DirectMessages zu laden, wenn sich der User ändert
-    this.activeUser$.subscribe((user) => {
-      if (user) {
-        this.activeUser = user;
-        // Lade die Channels und Direct Messages für den aktiven Benutzer
-        this.loadUserChannels(this.activeUser.channels);
-        this.loadUserDirectMessages(this.activeUser.directMessages);
-      }
-    });
   }
 
   async loadActiveUser(activeUserID?: string) {
@@ -41,14 +31,26 @@ export class ActiveUserService {
 
     await this.getActiveUser(userID); // Stellt sicher, dass der activeUser$ aktualisiert wird
 
-    console.log('Active User: ', this.activeUser$);
+    this.subscribeUserObservableAndLoadConversations();
   }
-
+  
   async getActiveUser(userID: string | null) {
     this.activeUser$ = this.firestoreService.allUsers$
-      .pipe(
-        map(users => users.find((user: any) => user.userID === userID))
-      );
+    .pipe(
+      map(users => users.find((user: any) => user.userID === userID))
+    );
+  }
+  
+  subscribeUserObservableAndLoadConversations() {
+    this.activeUser$.subscribe((user) => {
+      if (user) {
+        this.activeUser = user;
+        this.loadUserChannels(this.activeUser.channels);
+        this.loadUserDirectMessages(this.activeUser.directMessages);
+      } else {
+        console.log('Kein Benutzer gefunden');
+      }
+    });
   }
 
   setActiveUserToLocalStorage(userID: string) {
@@ -79,4 +81,9 @@ export class ActiveUserService {
     }
     console.log('Active User DMs: ', this.activeUserDirectMessages);
   }
+
+
+
+
+
 }

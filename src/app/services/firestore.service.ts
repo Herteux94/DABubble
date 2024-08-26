@@ -15,7 +15,6 @@ import { Observable } from 'rxjs';
 import { Channel } from '../models/channel.model';
 import { User } from '../models/user.model';
 import { DirectMessage } from '../models/directMessages.model';
-import { ActiveChannelService } from './active-channel.service';
 
 @Injectable({
   providedIn: 'root'

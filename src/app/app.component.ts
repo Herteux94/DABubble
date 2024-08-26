@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { AuthenticationComponent } from './authentication/authentication.component';
-import { ActiveUserService } from './services/active-user.service';
 
 
 @Component({

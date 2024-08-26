@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FirestoreService } from './firestore.service';
 import { first, map, Observable } from 'rxjs';
-import { channel } from 'diagnostics_channel';
 import { Message } from '../models/message.model';
 
 @Injectable({
