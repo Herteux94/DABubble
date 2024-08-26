@@ -19,6 +19,7 @@ export class MessageComponent {
   dialog = inject(Dialog);
   
   @Input() isChannel!: boolean;
+  @Input() ownMessage!: boolean;
   @Input() message!: {
     senderID: string;
     senderName: string;

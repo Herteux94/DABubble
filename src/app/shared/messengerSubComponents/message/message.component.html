@@ -1,18 +1,18 @@
-<div class="wrapper">
+<div [ngClass]="ownMessage ? 'fdRowRev' : ''" class="wrapper">
     <img (click)="openProfileDialog()" src="../../../../assets/img/avatars/avatar-1.svg">
 
     <div class="text">
-        <div class="nameAndTime">
+        <div [ngClass]="ownMessage ? 'fdRowRev' : ''" class="nameAndTime">
             <span (click)="openProfileDialog()" class="name">{{ message.senderName }}</span>
             <span class="time subText">{{ message.creationTime.valueOf() | date:'HH:mm' }}</span>
         </div>
 
-        <div class="messageText">
+        <div [ngClass]="ownMessage ? 'messageTextOwnMsg' : 'messageText'">
             <span>{{ message.content }}</span>
         </div>
 
         <div class="reactionsArea">
-            <div class="reactions">
+            <div [ngClass]="ownMessage ? 'fdRowRev' : ''" class="reactions">
                 <div class="reactionContainer">
                     <img src="../../../../assets/img/close.svg">
                     <span class="reactionsCount">1</span>

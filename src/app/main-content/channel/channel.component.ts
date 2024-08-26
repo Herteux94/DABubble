@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DateDividerComponent } from '../../shared/messengerSubComponents/date-divider/date-divider.component';
 import { MessageComponent } from '../../shared/messengerSubComponents/message/message.component';
-import { OwnMessageComponent } from '../../shared/messengerSubComponents/own-message/own-message.component';
 import { SubHeaderComponent } from '../../shared/messengerSubComponents/sub-header/sub-header.component';
 import { TypeInputFieldComponent } from '../../shared/messengerSubComponents/type-input-field/type-input-field.component';
 import { ThreadComponent } from '../thread/thread.component';
@@ -17,7 +16,6 @@ import { CommonModule } from '@angular/common';
   imports: [
     DateDividerComponent,
     MessageComponent,
-    OwnMessageComponent,
     SubHeaderComponent,
     TypeInputFieldComponent,
     ThreadComponent,
@@ -30,6 +28,7 @@ export class ChannelComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     public activeChannelService: ActiveChannelService,
+    public activeUserService: ActiveUserService,
     public firestoreService: FirestoreService
   ) {}
 

@@ -4,7 +4,11 @@
       <div class="messagesContent">
         @if(this.activeChannelService.channelMessages && this.activeChannelService.channelMessages.length > 0) {
         @for(message of this.activeChannelService.channelMessages; track message) {
-          <app-message [message]="message" [isChannel]="true"></app-message>
+          @if(message.senderID == this.activeUserService.activeUser.userID) {
+            <app-message [message]="message" [isChannel]="true" [ownMessage]="true"></app-message>
+          } @else {
+            <app-message [message]="message" [isChannel]="true" [ownMessage]="false"></app-message>
+          }
           }
         }
         <app-date-divider></app-date-divider>
