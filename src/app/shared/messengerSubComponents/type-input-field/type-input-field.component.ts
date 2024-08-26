@@ -22,21 +22,23 @@ export class TypeInputFieldComponent {
   message = new Message();
   uploadedImageUrl: string = '';  // Variable für die Bild-URL
   fileToUpload: File | null = null;  // Variable, um die ausgewählte Datei zu speichern
+  fileToUploadURL: string = '';
 
   constructor(
     private firestoreService: FirestoreService,
     private activeUserService: ActiveUserService,
     private activeChannelService: ActiveChannelService,
     private storageService: StorageService
-  ) {}
+  ) { }
 
   sendMessage(messengerType: string) {
-    this.uploadFileToFirestore();
     console.log(this.messengerType);
 
     this.message.creationTime = Date.now();
     this.message.senderID = this.activeUserService.activeUser.userID;
     this.message.senderName = this.activeUserService.activeUser.name;
+    console.error('fileToUpload:', this.fileToUpload);
+    this.message.attachments.push(this.fileToUploadURL);
 
     if (this.messengerType === 'thread') {
       this.firestoreService.addThreadMessage(this.message.toJSON(), messengerType, this.activeChannelService.activeChannel.channelID);
@@ -48,6 +50,8 @@ export class TypeInputFieldComponent {
     console.log(this.message);
 
     this.message.content = '';
+    this.uploadFileToFirestore();
+
   }
 
   triggerFileInput() {
@@ -61,6 +65,7 @@ export class TypeInputFieldComponent {
   previewFile(event: any) {
     const file: File = event.target.files[0];
     this.fileToUpload = file;
+    this.fileToUploadURL = file.name;
 
     if (file) {
       const reader = new FileReader();
