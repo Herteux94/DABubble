@@ -9,7 +9,6 @@ import { Message } from '../models/message.model';
 export class ActiveChannelService {
   activeChannel: any;
   channelMessages$!: Observable<any[]>;
-
   channelMessages: Message[] = [];
 
   constructor(
@@ -37,9 +36,6 @@ export class ActiveChannelService {
         },
         error: (error) => {
           console.error('Fehler beim Laden des aktiven Channels:', error);
-        },
-        complete: () => {
-          console.log('Channel-Ladevorgang abgeschlossen.');
         }
       });      
   }
@@ -56,9 +52,6 @@ export class ActiveChannelService {
       },
       error: (error) => {
         console.error('Fehler beim Laden der aktiven Messages:', error);
-      },
-      complete: () => {
-        console.log('Messages-Ladevorgang abgeschlossen.');
       }
     });      
   }

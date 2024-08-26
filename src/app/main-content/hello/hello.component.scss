@@ -1,0 +1,30 @@
+@import '../../../variables.scss';
+
+section {
+    background-color: white;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.greetingsContainer {
+    width: 100%;
+}
+
+.userName {
+    color: $second-color;
+    font-size: 32px;
+}
+
+h1 {
+    text-align: center;
+}
+
+
+
+@media(min-width: 1025px) {
+    section {
+        border-radius: 30px;
+    }
+}

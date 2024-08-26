@@ -73,9 +73,7 @@ export class FirestoreService {
     return collectionData(this.directMessageCol);
   }
 
-  getMessages(messengerType: string, messengerID: string): Observable<any[]> {
-    console.log(messengerType, messengerID);
-    
+  getMessages(messengerType: string, messengerID: string): Observable<any[]> {    
     return collectionData(collection(this.firestore, `${messengerType}/${messengerID}/messages`));
   }
 
