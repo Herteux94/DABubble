@@ -8,6 +8,7 @@ import { Component, Input } from '@angular/core';
   styleUrl: './own-message.component.scss'
 })
 export class OwnMessageComponent {
+  @Input() attachments!: { content: string; senderName: string; time: string }; // Hinzufügen von message als Input
 
   @Input() isChannel!: boolean;
 

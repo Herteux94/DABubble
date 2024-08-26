@@ -6,6 +6,21 @@
     z-index: 99;
 }
 
+.uploadContainer {
+  display: block; /* Standardmäßiges Verhalten, wenn sichtbar */
+}
+
+.uploadPreview{
+  width: 80px;
+  height: 80px;
+  border-radius: 15%;
+  object-fit: cover;
+}
+
+.hidden {
+  display: none; /* Versteckt das Element */
+}
+
 .textArea {
     border: 1px solid $outlines;
     border-radius: 20px;

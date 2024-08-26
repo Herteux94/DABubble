@@ -5,11 +5,14 @@ import { FirestoreService } from '../../../services/firestore.service';
 import { ActiveUserService } from '../../../services/active-user.service';
 import { ActiveChannelService } from '../../../services/active-channel.service';
 import { StorageService } from '../../../services/storage.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-type-input-field',
   standalone: true,
-  imports: [FormsModule],
+  imports: [
+    FormsModule,
+    CommonModule],
   templateUrl: './type-input-field.component.html',
   styleUrls: ['./type-input-field.component.scss']
 })
@@ -17,15 +20,18 @@ export class TypeInputFieldComponent {
 
   @Input() messengerType: string = '';
   message = new Message();
+  uploadedImageUrl: string = '';  // Variable für die Bild-URL
+  fileToUpload: File | null = null;  // Variable, um die ausgewählte Datei zu speichern
 
   constructor(
     private firestoreService: FirestoreService,
     private activeUserService: ActiveUserService,
     private activeChannelService: ActiveChannelService,
-    private storageService: StorageService // StorageService injizieren
+    private storageService: StorageService
   ) {}
 
   sendMessage(messengerType: string) {
+    this.uploadFileToFirestore()
     console.log(this.messengerType);
 
     this.message.creationTime = Date.now();
@@ -44,7 +50,6 @@ export class TypeInputFieldComponent {
     this.message.content = '';
   }
 
-  // Methode, um das versteckte Dateieingabefeld zu triggern
   triggerFileInput() {
     const fileInput = document.getElementById('fileInput') as HTMLInputElement;
     if (fileInput) {
@@ -52,18 +57,34 @@ export class TypeInputFieldComponent {
     }
   }
 
-  // Methode zum Upload von Dateien in den Channel
-  uploadFile(event: any) {
+  // Methode zum Anzeigen der Datei in der Vorschau
+  previewFile(event: any) {
     const file: File = event.target.files[0];
-    const channelId = this.activeChannelService.activeChannel.channelID;
+    this.fileToUpload = file;
 
     if (file) {
-      this.storageService.uploadFileToChannel(channelId, file).then((downloadURL) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.uploadedImageUrl = reader.result as string;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  // Methode zum Hochladen der Datei in Firestore
+  uploadFileToFirestore() {
+    if (this.fileToUpload) {
+      const channelId = this.activeChannelService.activeChannel.channelID;
+      this.storageService.uploadFileToChannel(channelId, this.fileToUpload).then((downloadURL) => {
         console.log('File uploaded successfully:', downloadURL);
         // Weiterverarbeitung des downloadURL falls notwendig
+        this.fileToUpload = null;  // Reset der Datei nach dem Hochladen
+        this.uploadedImageUrl = '';  // Reset der Vorschau nach dem Hochladen
       }).catch((error) => {
         console.error('Error uploading file:', error);
       });
+    } else {
+      console.error('No file selected for upload.');
     }
   }
 }
