@@ -59,7 +59,7 @@ export class HeaderComponent implements OnInit {
   }
 
   getProfileImage() {
-    if (this.activeUserService.activeUser) {
+    if (this.activeUserService.activeUser && this.activeUserService.activeUser.profileImg != "") {
       return this.activeUserService.activeUser.profileImg;
     } else {
       return "../../assets/img/Profile.svg"
