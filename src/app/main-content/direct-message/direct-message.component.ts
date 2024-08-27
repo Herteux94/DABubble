@@ -3,7 +3,7 @@ import { DateDividerComponent } from '../../shared/messengerSubComponents/date-d
 import { MessageComponent } from '../../shared/messengerSubComponents/message/message.component';
 import { SubHeaderComponent } from '../../shared/messengerSubComponents/sub-header/sub-header.component';
 import { TypeInputFieldComponent } from '../../shared/messengerSubComponents/type-input-field/type-input-field.component';
-import { ActiveChannelService } from '../../services/active-channel.service';
+import { ActiveDirectMessageService } from '../../services/active-direct-message-service.service';
 
 @Component({
   selector: 'app-direct-message',
@@ -14,5 +14,5 @@ import { ActiveChannelService } from '../../services/active-channel.service';
 })
 export class DirectMessageComponent {
 
-  constructor(public activeChannelService: ActiveChannelService) {}
+  constructor(public activeDirectMessageService: ActiveDirectMessageService) {}
 }

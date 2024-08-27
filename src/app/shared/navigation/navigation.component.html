@@ -104,7 +104,7 @@
         <div class="contentList">
             @if(this.activeUserService.activeUser && this.activeUserService.activeUserDirectMessages && this.activeUserService.activeUserDirectMessages.length > 0) {
                 @for (dm of this.activeUserService.activeUserDirectMessages; track dm){
-            <a [routerLink]="['/messenger/directMessage']">
+            <a (click)="this.activeDirectMessageService.loadActiveDMAndMessages(dm.directMessageID)" [routerLink]="['/messenger/directMessage']">
                 <div class="profileAndOnlineCircleImg">
                     <img class="avatarImg" src="../../../assets/img/avatars/avatar-3.svg" alt="hashtag-icon">
                     <img class="onlineStatusImg" src="../../../assets/img/green-online-circle.svg" alt="online-status">

@@ -97,12 +97,13 @@ export class FirestoreService {
     });
   }
 
-  addDirectMessage(directMessageData: any) {
+  addDirectMessage(directMessageData: any, userID: string) {
     addDoc(this.directMessageCol, directMessageData)
     .then((docRef) => {
       updateDoc(doc(this.directMessageCol, docRef.id), {
         directMessageID: docRef.id
       });
+      this.updateUserWithChannelOrDirectMessage(userID, 'directMessages', docRef.id);
     });
   }
   
@@ -128,14 +129,14 @@ export class FirestoreService {
 
     ///////////////////////////////////////// updateFunctions /////////////////////////////////////////
 
-    async updateUserWithChannelOrDirectMessage(userID: string, messengerType: string, channelID: string) {
+    async updateUserWithChannelOrDirectMessage(userID: string, messengerType: string, messengerID: string) {
       try {
         await updateDoc(doc(this.userCol, userID), {
-          [messengerType]: arrayUnion(channelID),
+          [messengerType]: arrayUnion(messengerID),
         });
         console.log('Channel successfully added');
       } catch (error) {
-        console.error('Error updating channel: ', channelID, ' in User: ', userID, ' : ', error);
+        console.error('Error updating channel: ', messengerID, ' in User: ', userID, ' : ', error);
       }
     }
 

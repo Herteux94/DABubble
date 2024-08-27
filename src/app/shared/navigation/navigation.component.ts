@@ -8,6 +8,7 @@ import { RoutingThreadOutletService } from '../../services/routing-thread-outlet
 import { FirestoreService } from '../../services/firestore.service';
 import { ActiveChannelService } from '../../services/active-channel.service';
 import { ActiveUserService } from '../../services/active-user.service';
+import { ActiveDirectMessageService } from '../../services/active-direct-message-service.service';
 
 @Component({
   selector: 'app-navigation',
@@ -26,7 +27,8 @@ export class NavigationComponent implements OnInit {
     public firestoreService: FirestoreService,
     private router: Router,
     public activeChannelService: ActiveChannelService,
-    public activeUserService: ActiveUserService
+    public activeUserService: ActiveUserService,
+    public activeDirectMessageService: ActiveDirectMessageService
   ) {}
 
   ngOnInit() {

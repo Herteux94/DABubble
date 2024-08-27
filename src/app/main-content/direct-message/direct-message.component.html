@@ -3,8 +3,8 @@
       <app-sub-header [isDM]="true"></app-sub-header>
       <div class="messagesContent">
         <app-date-divider></app-date-divider>
-        @if(this.activeChannelService.channelMessages && this.activeChannelService.channelMessages.length > 0) {
-          @for(message of this.activeChannelService.channelMessages; track message) {
+        @if(this.activeDirectMessageService.dmMessages && this.activeDirectMessageService.dmMessages.length > 0) {
+          @for(message of this.activeDirectMessageService.dmMessages; track message) {
             <app-message [message]="message" [isChannel]="false"></app-message>
             }
           }
