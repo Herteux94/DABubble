@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { FirestoreService } from './firestore.service';
 import { first, map, Observable } from 'rxjs';
 import { Message } from '../models/message.model';
+import { User } from '../models/user.model';
+import { ActiveUserService } from './active-user.service';
+import { FindUserService } from './find-user.service';
 
 @Injectable({
   providedIn: 'root',
@@ -11,11 +14,15 @@ export class ActiveDirectMessageService {
   dmMessages$!: Observable<any[]>;
   dmMessages: Message[] = [];
 
+  activeDMPartner!: any;
+
   constructor(
     private firestoreService: FirestoreService,
+    private activeUserService: ActiveUserService,
+    private findUserService: FindUserService
   ) {}
 
-  async loadActiveDMAndMessages(directMessageID: string) {
+  async loadActiveDMAndMessagesAndPartner(directMessageID: string) {
     await this.loadActiveDM(directMessageID);
     this.loadDMMessages(directMessageID);
     setTimeout(() => {
@@ -34,6 +41,7 @@ export class ActiveDirectMessageService {
         next: (directMessage) => {
           if (directMessage) {
             this.activeDM = directMessage; 
+            this.loadDMPartner();
           } else {
             console.error('DirectMessage nicht gefunden');
           }
@@ -59,6 +67,16 @@ export class ActiveDirectMessageService {
       }
     });      
   }
+
+  async loadDMPartner() {
+      let activeUserID = this.activeUserService.activeUser.userID;
+      let dmPartnerID = await this.activeDM.member.find((memberID: string) => memberID !== activeUserID);
+
+      this.activeDMPartner = this.findUserService.findUser(dmPartnerID);
+
+      console.log('DM Partner: ', this.activeDMPartner);
+    }
+  
 
 
 }
