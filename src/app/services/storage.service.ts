@@ -45,7 +45,7 @@ export class StorageService {
       }
     });
   }
-  
+
   async deleteOldAvatars(excludeUrl: string): Promise<void> {
     const user = this.auth.currentUser;
     if (user) {
@@ -69,6 +69,34 @@ export class StorageService {
       const user = this.auth.currentUser;
       if (user) {
         const storageRef = ref(this.storage, `channels/${channelId}/${file.name}`);
+        const uploadTask = uploadBytesResumable(storageRef, file);
+
+        uploadTask.on('state_changed',
+          (snapshot: any) => {
+            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log('Upload is ' + progress + '% done');
+          },
+          (error: any) => {
+            console.error("Upload failed", error);
+            reject(error);
+          },
+          () => {
+            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL: string) => {
+              resolve(downloadURL);
+            }).catch(reject);
+          }
+        );
+      } else {
+        reject("No user is signed in.");
+      }
+    });
+  }
+
+  uploadFileToDirectMessage(conversationId: string, file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const user = this.auth.currentUser;
+      if (user) {
+        const storageRef = ref(this.storage, `direct_messages/${conversationId}/${file.name}`);
         const uploadTask = uploadBytesResumable(storageRef, file);
 
         uploadTask.on('state_changed',
