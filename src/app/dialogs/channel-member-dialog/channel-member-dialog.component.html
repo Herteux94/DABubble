@@ -14,7 +14,7 @@
                 @for (member of members; track member) {
 
                 <div class="member" [ngClass]="{'hover': !mobile, 'active': mobile}">
-                    <img [src]="member.profileImg" alt="Schließen">
+                    <img [src]="member.profileImg || '../../../assets/img/dummyAvatar.svg'" alt="Schließen">
                     <p>{{ member.name }}</p>
                 </div>
                 }

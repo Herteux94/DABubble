@@ -37,11 +37,4 @@ export class FindUserService {
       user.name.toLowerCase().includes(name.toLowerCase())
     );
   }
-
-  // findUsersWithName(name: string) {
-  //   let user = this.firestoreService.allUsers.find(
-  //     (users) => users.name === name
-  //   );
-  //   return user;
-  // }
 }
