@@ -30,7 +30,7 @@ export const routes: Routes = [
         children: [
             { path: '', redirectTo: 'hello', pathMatch: 'full' },
             { path: 'channel/:id', component: ChannelComponent },
-            { path: 'directMessage', component: DirectMessageComponent},
+            { path: 'directMessage/:id', component: DirectMessageComponent},
             { path: 'newMessage', component: NewMessageComponent},
             { path: 'threadM', component: ThreadComponent },
             { path: 'thread', component: ThreadComponent, outlet: 'thread' },
