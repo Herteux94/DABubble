@@ -6,14 +6,14 @@ import { ActiveUserService } from '../../../services/active-user.service';
 import { ActiveChannelService } from '../../../services/active-channel.service';
 import { StorageService } from '../../../services/storage.service';
 import { CommonModule } from '@angular/common';
-import { ActiveDirectMessageService } from '../../../services/active-direct-message-service.service';
 
 @Component({
   selector: 'app-type-input-field',
   standalone: true,
   imports: [
     FormsModule,
-    CommonModule],
+    CommonModule
+  ],
   templateUrl: './type-input-field.component.html',
   styleUrls: ['./type-input-field.component.scss']
 })
@@ -27,32 +27,38 @@ export class TypeInputFieldComponent {
     private firestoreService: FirestoreService,
     private activeUserService: ActiveUserService,
     private activeChannelService: ActiveChannelService,
-    private activeDirectMessageService: ActiveDirectMessageService,
     private storageService: StorageService
   ) { }
 
-  sendMessage(messengerType: string) {
-    console.log(this.messengerType);
-
+  // Methode zum Senden der Nachricht mit den URLs der Anhänge
+  sendMessageWithUrls() {
     this.message.creationTime = Date.now();
     this.message.senderID = this.activeUserService.activeUser.userID;
     this.message.senderName = this.activeUserService.activeUser.name;
 
+    // Füge die tatsächlichen URLs zu den Anhängen hinzu
     this.uploadedFiles.forEach(uploadedFile => {
-      this.message.attachments.push(uploadedFile.url);
+      if (uploadedFile.url) {
+        this.message.attachments.push(uploadedFile.url);
+      }
     });
 
     if (this.messengerType === 'thread') {
-      this.firestoreService.addThreadMessage(this.message.toJSON(), messengerType, this.activeChannelService.activeChannel.channelID);
-    } else if (this.messengerType === 'channels') {
-      this.firestoreService.addMessage(this.message.toJSON(), messengerType, this.activeChannelService.activeChannel.channelID);
-    } else if (this.messengerType === 'directMessages') {
-      this.firestoreService.addMessage(this.message.toJSON(), messengerType, this.activeDirectMessageService.activeDM.directMessageID);
+      this.firestoreService.addThreadMessage(this.message.toJSON(), this.messengerType, this.activeChannelService.activeChannel.channelID);
     } else {
-      console.error('MessengerType not found');
+      this.firestoreService.addMessage(this.message.toJSON(), this.messengerType, this.activeChannelService.activeChannel.channelID);
     }
 
+    console.log(this.activeChannelService.activeChannel);
+    console.log(this.message);
+
     this.message.content = '';
+  }
+
+  sendMessage(messengerType: string) {
+    console.log(this.messengerType);
+
+    // Rufe die Upload-Funktion auf, bevor die Nachricht gesendet wird
     this.uploadFileToFirestore();
   }
 
@@ -70,26 +76,35 @@ export class TypeInputFieldComponent {
     files.forEach(file => {
       const reader = new FileReader();
       reader.onload = () => {
+        // Speichere die Base64-Daten vorübergehend in der `url`-Eigenschaft, um die Vorschau anzuzeigen
         this.uploadedFiles.push({ file, url: reader.result as string });
       };
       reader.readAsDataURL(file);
     });
   }
 
-  // Methode zum Hochladen der Dateien in Firestore
+  // Methode zum Hochladen der Dateien in Firebase Storage und Aktualisierung der URLs
   uploadFileToFirestore() {
-    this.uploadedFiles.forEach(uploadedFile => {
+    const uploadPromises = this.uploadedFiles.map(uploadedFile => {
       const channelId = this.activeChannelService.activeChannel.channelID;
-      this.storageService.uploadFileToChannel(channelId, uploadedFile.file).then((downloadURL) => {
-        console.log('File uploaded successfully:', downloadURL);
-        // Aktualisiere die URL nach dem Hochladen, falls notwendig
-        uploadedFile.url = downloadURL;
-      }).catch((error) => {
-        console.error('Error uploading file:', error);
-      });
+      return this.storageService.uploadFileToChannel(channelId, uploadedFile.file)
+        .then((downloadURL) => {
+          console.log('File uploaded successfully:', downloadURL);
+          uploadedFile.url = downloadURL; // Speichere die tatsächliche URL
+        })
+        .catch((error) => {
+          console.error('Error uploading file:', error);
+          return Promise.reject(error);
+        });
     });
 
-    this.uploadedFiles = [];  // Reset der Liste nach dem Hochladen
+    // Warte, bis alle Uploads abgeschlossen sind
+    Promise.all(uploadPromises).then(() => {
+      this.sendMessageWithUrls(); // Sende die Nachricht nach erfolgreichem Upload
+      this.uploadedFiles = []; // Reset der Liste nach dem Hochladen
+    }).catch(error => {
+      console.error('Error uploading files:', error);
+    });
   }
 
   // Methode zum Entfernen einer Datei aus der Vorschau

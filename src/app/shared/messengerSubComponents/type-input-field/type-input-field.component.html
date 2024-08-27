@@ -1,9 +1,9 @@
 <div class="wrapper">
   <div class="textArea">
     <div *ngIf="uploadedFiles.length > 0" class="uploadContainer">
-      <div *ngFor="let file of uploadedFiles" class="uploadPreviewContainer">
-        <img class="closeBtn" src="../../../assets/img/close.svg" alt="close btn" (click)="closePreview(file)">
-        <img [src]="file.url" alt="img upload preview" class="uploadPreview">
+      <div class="uploadPreviewContainer" *ngFor="let uploadedFile of uploadedFiles">
+        <img class="closeBtn" src="../../../assets/img/close.svg" alt="close btn" (click)="closePreview(uploadedFile)">
+        <img [src]="uploadedFile.url" alt="img upload preview" class="uploadPreview">
       </div>
     </div>
     <textarea [(ngModel)]="this.message.content"></textarea>
