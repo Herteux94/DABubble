@@ -109,7 +109,7 @@
                     <img class="avatarImg" src="../../../assets/img/avatars/avatar-3.svg" alt="hashtag-icon">
                     <img class="onlineStatusImg" src="../../../assets/img/green-online-circle.svg" alt="online-status">
                 </div>
-                @if(this.activeDirectMessageService.activeDM.member && this.activeDirectMessageService.activeDM.member.length > 0) {
+                @if(this.activeDirectMessageService.activeDM && this.activeDirectMessageService.activeDM.member && this.activeDirectMessageService.activeDM.member.length > 0) {
                     <span>{{ this.activeDirectMessageService.activeDM.member[0] }}</span>
                 }
             </a>

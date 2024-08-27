@@ -29,7 +29,7 @@ export class ActiveUserService {
       userID = activeUserID;
     }
 
-    await this.getActiveUser(userID); // Stellt sicher, dass der activeUser$ aktualisiert wird
+    await this.getActiveUser(userID); // Stellt sicher, dass der activeUser$ aktualisiert wird    
 
     this.subscribeUserObservableAndLoadConversations();
   }

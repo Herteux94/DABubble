@@ -6,7 +6,7 @@ import {
   trigger,
 } from '@angular/animations';
 import { DIALOG_DATA, DialogModule, DialogRef } from '@angular/cdk/dialog';
-import { Component, Inject, inject } from '@angular/core';
+import { Component, ElementRef, Inject, inject, ViewChild } from '@angular/core';
 import { User } from '../../models/user.model';
 import { ActiveUserService } from '../../services/active-user.service';
 import { FindUserService } from '../../services/find-user.service';
@@ -33,6 +33,7 @@ export class ProfileDialogComponent {
   dialogRef = inject(DialogRef);
   user!: any;
   ownProfile: boolean = false;
+  @ViewChild('profileContainer') profileContainer!: ElementRef;
 
   constructor(
     @Inject(DIALOG_DATA) public data: {userID: string},
@@ -47,5 +48,11 @@ export class ProfileDialogComponent {
     if (this.ownProfile) {
       console.log('This is the own profile view');
     }
+  }
+
+  ngAfterViewInit() {
+    setTimeout(() => {
+        this.profileContainer.nativeElement.focus();
+      }, 10);
   }
 }

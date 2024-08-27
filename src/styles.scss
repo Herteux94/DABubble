@@ -23,6 +23,10 @@
   scrollbar-width: none;
   box-sizing: border-box;
   transition: all 150ms ease-in-out;
+
+  &:focus-visible {
+    outline: none;
+  }
 }
 
 *::-webkit-scrollbar {
