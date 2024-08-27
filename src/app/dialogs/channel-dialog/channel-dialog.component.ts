@@ -146,7 +146,7 @@ export class ChannelDialogComponent implements OnInit {
     if (this.isEditingDescription) {
       setTimeout(() => {
         this.channelDescriptionInput.nativeElement.focus();
-      }, 0);
+      }, 10);
     } else if (!this.isEditingName) {
       this.saveNewDescription();
     }
