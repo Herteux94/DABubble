@@ -1,5 +1,5 @@
 <div [ngClass]="ownMessage ? 'fdRowRev' : ''" class="wrapper">
-  <img (click)="openProfileDialog()" src="../../../../assets/img/avatars/avatar-1.svg">
+  <img class="avatar" (click)="openProfileDialog()" src="../../../../assets/img/avatars/avatar-1.svg">
 
   <div class="text">
     <div [ngClass]="ownMessage ? 'fdRowRev' : ''" class="nameAndTime">
@@ -8,7 +8,6 @@
     </div>
 
     <div [ngClass]="ownMessage ? 'messageTextOwnMsg' : 'messageText'">
-      <span>{{ message.content }}</span>
       <div *ngIf="message.attachments && message.attachments.length > 0" class="fileContainer">
         <div *ngFor="let attachment of message.attachments" class="filePreviewContainer">
           <a [href]="attachment" download class="download-link"><img [src]="attachment" alt="img file preview"
@@ -16,6 +15,7 @@
           </a>
         </div>
       </div>
+      <span>{{ message.content }}</span>
     </div>
 
     <!-- Neue Struktur für die Anhänge -->
