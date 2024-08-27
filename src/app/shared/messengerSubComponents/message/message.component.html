@@ -10,7 +10,7 @@
     <div [ngClass]="ownMessage ? 'messageTextOwnMsg' : 'messageText'">
       <div *ngIf="message.attachments && message.attachments.length > 0" class="fileContainer">
         <div *ngFor="let attachment of message.attachments" class="filePreviewContainer">
-          <a [href]="attachment" download class="download-link"><img [src]="attachment" alt="img file preview"
+          <a [href]="attachment" download class="download-link"><img [src]="attachment" alt="img file preview" [ngClass]="{'filePreview': true, 'multipleFiles': message.attachments.length > 1}"
               class="filePreview">
           </a>
         </div>
