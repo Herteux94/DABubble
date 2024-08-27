@@ -41,7 +41,6 @@ export class ActiveDirectMessageService {
         next: (directMessage) => {
           if (directMessage) {
             this.activeDM = directMessage; 
-            this.loadDMPartner();
           } else {
             console.error('DirectMessage nicht gefunden');
           }
@@ -57,7 +56,7 @@ export class ActiveDirectMessageService {
     this.dmMessages$.subscribe({
       next: (messages) => {
         if (messages) {          
-          this.dmMessages = messages; 
+          this.dmMessages = messages.sort((a, b) => a.creationTime - b.creationTime); 
         } else {
           console.error('Messages nicht gefunden');
         }
@@ -68,14 +67,14 @@ export class ActiveDirectMessageService {
     });      
   }
 
-  async loadDMPartner() {
-      let activeUserID = this.activeUserService.activeUser.userID;
-      let dmPartnerID = await this.activeDM.member.find((memberID: string) => memberID !== activeUserID);
+  // async loadDMPartner() {
+  //     let activeUserID = this.activeUserService.activeUser.userID;
+  //     let dmPartnerID = await this.activeDM.member.find((memberID: string) => memberID !== activeUserID);
 
-      this.activeDMPartner = this.findUserService.findUser(dmPartnerID);
+  //     this.activeDMPartner = this.findUserService.findUser(dmPartnerID);
 
-      console.log('DM Partner: ', this.activeDMPartner);
-    }
+  //     console.log('DM Partner: ', this.activeDMPartner);
+  //   }
   
 
 

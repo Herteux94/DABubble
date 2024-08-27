@@ -4,6 +4,7 @@ import { Channel } from '../models/channel.model';
 import { DirectMessage } from '../models/directMessages.model';
 import { firstValueFrom, map, Observable } from 'rxjs';
 import { User } from '../models/user.model';
+import { FindUserService } from './find-user.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,10 +13,10 @@ import { User } from '../models/user.model';
 export class ActiveUserService {
   activeUser$!: Observable<any>;
   activeUserChannels!: Channel[];
-  activeUserDirectMessages!: DirectMessage[];
+  activeUserDirectMessages!: any[];
   activeUser!: User;
 
-  constructor(private firestoreService: FirestoreService) {
+  constructor(private firestoreService: FirestoreService, private findUserService: FindUserService) {
     this.loadActiveUser();
   }
 
@@ -78,10 +79,37 @@ export class ActiveUserService {
         this.firestoreService.allDirectMessages.filter((directMessage: any) =>
           activeUserDirectMessageIDs.includes(directMessage.directMessageID)
         );
+
+      this.loadDMPartnerInformations();
     }
     console.log('Active User DMs: ', this.activeUserDirectMessages);
   }
 
+  async loadDMPartnerInformations() {
+    if (!this.activeUser || !this.activeUserDirectMessages) return;
+
+    for (const directMessage of this.activeUserDirectMessages) {
+      const partnerUserID = directMessage.member.find((id: string) => id !== this.activeUser.userID);
+      
+      if (partnerUserID) {
+        try {
+          const partnerUser = await this.findUserService.findUser(partnerUserID);
+          
+          if (partnerUser) {
+            directMessage.partnerUser = partnerUser; // Füge den Partner-User dem DirectMessage hinzu
+            setTimeout(() => {
+              console.log(this.activeUserDirectMessages);
+              
+            },1000)
+          }
+        } catch (error) {
+          console.error('Fehler beim Laden des Partners', error);
+        }
+      }
+    }
+  }
+    
+  
 
 
 

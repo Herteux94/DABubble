@@ -224,8 +224,8 @@
       <div class="contentList">
         @if(this.activeUserService.activeUser &&
         this.activeUserService.activeUserDirectMessages &&
-        this.activeUserService.activeUserDirectMessages.length > 0) { @for (dm
-        of this.activeUserService.activeUserDirectMessages; track dm){
+        this.activeUserService.activeUserDirectMessages.length > 0) {
+             @for (dm of this.activeUserService.activeUserDirectMessages; track dm){
         <a
           (click)="
             this.activeDirectMessageService.loadActiveDMAndMessagesAndPartner(
@@ -238,10 +238,12 @@
             <img
               class="avatarImg"
               [src]="
-                this.activeDirectMessageService.activeDMPartner &&
-                this.activeDirectMessageService.activeDMPartner.profileImg &&
-                this.activeDirectMessageService.activeDMPartner.profileImg != ''
-                  ? this.activeDirectMessageService.activeDMPartner.profileImg
+                this.activeUserService.activeUserDirectMessages &&
+                this.activeUserService.activeUserDirectMessages.length > 0 &&
+                dm.partnerUser &&
+                dm.partnerUser.profileImg &&
+                dm.partnerUser.profileImg != ''
+                  ? dm.partnerUser.profileImg
                   : '../../../assets/img/Profile.svg'
               "
               alt="hashtag-icon"
@@ -252,11 +254,9 @@
               alt="online-status"
             />
           </div>
-          @if(this.activeDirectMessageService.activeDM &&
-          this.activeDirectMessageService.activeDM.member &&
-          this.activeDirectMessageService.activeDM.member.length > 0) {
+          @if(this.activeUserService.activeUserDirectMessages && this.activeUserService.activeUserDirectMessages.length > 0 && dm.partnerUser && dm.partnerUser.name) {
           <span>{{
-            this.activeDirectMessageService.activeDMPartner.name
+            dm.partnerUser.name
           }}</span>
           }
         </a>

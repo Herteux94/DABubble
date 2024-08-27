@@ -45,7 +45,7 @@ export class ActiveChannelService {
     this.channelMessages$.subscribe({
       next: (messages) => {
         if (messages) {          
-          this.channelMessages = messages; 
+          this.channelMessages = messages.sort((a, b) => a.creationTime - b.creationTime); 
         } else {
           console.error('Messages nicht gefunden');
         }
