@@ -145,6 +145,12 @@ export class FirestoreService {
       updateDoc(doc(this.userCol, userID), userData);
     }
     
+    addMemberToChannel(userID: string, channelID: string) {
+      return updateDoc(doc(this.channelCol, channelID), {
+        member: arrayUnion(userID),
+      });
+    }
+
     updateChannel(channelData: Partial<Channel>, channelID: string) {
       updateDoc(doc(this.channelCol, channelID), channelData);
     }

@@ -52,11 +52,29 @@
   }
 }
 
+.searchUserContainer {
+  position: relative;
+}
+
+.floatingMemberList{
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 300px;
+  max-height: 220px;
+  border-radius:0 30px 30px 30px;
+  border: 2px solid $outlines;
+  background-color: white;
+  overflow-y: scroll;
+}
+
 .memberList {
   display: flex;
   flex-direction: column;
   gap: 12px;
   padding: 1% 4%;
+  max-height: 220px;
+  overflow-y: scroll;
 
   :active {
     background-color: $background-color;
@@ -71,6 +89,18 @@
   gap: 16px;
   cursor: pointer;
   padding: 4px 20px;
+
+  img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .removeUserIcon {
+    width: 24px;
+    height: 24px;
+  }
 }
 
 .addMemberContainer {
