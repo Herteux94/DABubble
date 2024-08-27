@@ -15,6 +15,7 @@ import { Observable } from 'rxjs';
 import { Channel } from '../models/channel.model';
 import { User } from '../models/user.model';
 import { DirectMessage } from '../models/directMessages.model';
+import { Message } from '../models/message.model';
 
 @Injectable({
   providedIn: 'root'
@@ -141,42 +142,19 @@ export class FirestoreService {
     }
 
     updateUser(userData: Partial<User>, userID: string) {
-      const userDocRef = doc(this.userCol, userID);
-      return updateDoc(userDocRef, userData);
+      updateDoc(doc(this.userCol, userID), userData);
     }
-
-    // updateUser(userData: any, userID: string) {
-    //   updateDoc(doc(this.userCol, userID), {
-    //     name: userData.name,
-    //     profileImg: userData.profileImg,
-    //     email: userData.email,
-    //     channels: userData.channels,
-    //     directMessages: userData.directMessages
-    //   });
-    // }
     
-    updateChannel(channelData: any, channelID: string) {
-      updateDoc(doc(this.channelCol, channelID), {
-        name: channelData.name,
-        description: channelData.description,
-        member: channelData.member
-      });
+    updateChannel(channelData: Partial<Channel>, channelID: string) {
+      updateDoc(doc(this.channelCol, channelID), channelData);
     }
 
-    updateMessage(messageData: any, messengerType: string , messengerID: string, messageID: string) {
-      updateDoc(doc(collection(this.firestore, `${messengerType}/${messengerID}/messages/${messageID}`)), {
-        content: messageData.content,
-        attachments: messageData.attachments,
-        reaction: messageData.reaction
-      });
+    updateMessage(messageData: Partial<Message>, messengerType: string , messengerID: string, messageID: string) {
+      updateDoc(doc(collection(this.firestore, `${messengerType}/${messengerID}/messages/${messageID}`)), messageData);
     }
 
-    updateThreadMessage(messageData: any, messengerType: string , messengerID: string, messageID: string, threadID: string) {
-      updateDoc(doc(collection(this.firestore, `${messengerType}/${messengerID}/messages/${messageID}/thread/${threadID}`)), {
-        content: messageData.content,
-        attachments: messageData.attachments,
-        reaction: messageData.reaction
-      });
+    updateThreadMessage(messageData: Partial<Message>, messengerType: string , messengerID: string, messageID: string, threadID: string) {
+      updateDoc(doc(collection(this.firestore, `${messengerType}/${messengerID}/messages/${messageID}/thread/${threadID}`)), messageData);
     }
 
     ///////////////////////////////////////// deleteFunctions /////////////////////////////////////////

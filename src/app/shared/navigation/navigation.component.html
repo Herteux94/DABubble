@@ -104,12 +104,14 @@
         <div class="contentList">
             @if(this.activeUserService.activeUser && this.activeUserService.activeUserDirectMessages && this.activeUserService.activeUserDirectMessages.length > 0) {
                 @for (dm of this.activeUserService.activeUserDirectMessages; track dm){
-            <a (click)="this.activeDirectMessageService.loadActiveDMAndMessages(dm.directMessageID)" [routerLink]="['/messenger/directMessage']">
+            <a (click)="this.activeDirectMessageService.loadActiveDMAndMessages(dm.directMessageID)" [routerLink]="['/messenger/directMessage', dm.directMessageID]">
                 <div class="profileAndOnlineCircleImg">
                     <img class="avatarImg" src="../../../assets/img/avatars/avatar-3.svg" alt="hashtag-icon">
                     <img class="onlineStatusImg" src="../../../assets/img/green-online-circle.svg" alt="online-status">
                 </div>
-                <span>DM Partner Placeholder</span>
+                @if(this.activeDirectMessageService.activeDM.member && this.activeDirectMessageService.activeDM.member.length > 0) {
+                    <span>{{ this.activeDirectMessageService.activeDM.member[0] }}</span>
+                }
             </a>
                 }
             } @else {

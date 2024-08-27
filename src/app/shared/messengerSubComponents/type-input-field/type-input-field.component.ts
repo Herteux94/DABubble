@@ -6,6 +6,7 @@ import { ActiveUserService } from '../../../services/active-user.service';
 import { ActiveChannelService } from '../../../services/active-channel.service';
 import { StorageService } from '../../../services/storage.service';
 import { CommonModule } from '@angular/common';
+import { ActiveDirectMessageService } from '../../../services/active-direct-message-service.service';
 
 @Component({
   selector: 'app-type-input-field',
@@ -26,6 +27,7 @@ export class TypeInputFieldComponent {
     private firestoreService: FirestoreService,
     private activeUserService: ActiveUserService,
     private activeChannelService: ActiveChannelService,
+    private activeDirectMessageService: ActiveDirectMessageService,
     private storageService: StorageService
   ) { }
 
@@ -42,12 +44,13 @@ export class TypeInputFieldComponent {
 
     if (this.messengerType === 'thread') {
       this.firestoreService.addThreadMessage(this.message.toJSON(), messengerType, this.activeChannelService.activeChannel.channelID);
-    } else {
+    } else if (this.messengerType === 'channels') {
       this.firestoreService.addMessage(this.message.toJSON(), messengerType, this.activeChannelService.activeChannel.channelID);
+    } else if (this.messengerType === 'directMessages') {
+      this.firestoreService.addMessage(this.message.toJSON(), messengerType, this.activeDirectMessageService.activeDM.directMessageID);
+    } else {
+      console.error('MessengerType not found');
     }
-
-    console.log(this.activeChannelService.activeChannel.channelID);
-    console.log(this.message);
 
     this.message.content = '';
     this.uploadFileToFirestore();
