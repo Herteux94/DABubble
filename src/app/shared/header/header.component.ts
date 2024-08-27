@@ -4,11 +4,12 @@ import { ScreenSizeService } from '../../services/screen-size-service.service';
 import { Dialog } from '@angular/cdk/dialog';
 import { MenuDialogComponent } from '../../dialogs/menu-dialog/menu-dialog.component';
 import { ActiveUserService } from '../../services/active-user.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterModule, RouterLink, RouterLinkActive],
+  imports: [RouterModule, RouterLink, RouterLinkActive, CommonModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
@@ -54,6 +55,14 @@ export class HeaderComponent implements OnInit {
       this.navigationCompActive = true;
     } else {
       this.navigationCompActive = false;
+    }
+  }
+
+  getProfileImage() {
+    if (this.activeUserService.activeUser) {
+      return this.activeUserService.activeUser.profileImg;
+    } else {
+      return "../../assets/img/Profile.svg"
     }
   }
 }

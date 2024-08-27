@@ -9,7 +9,7 @@
             <h2 class="name">{{ this.activeUserService.activeUser.name }}</h2>
         }
         <div class="profileAndOnlineCircleImg">
-            <img class="avatarImg" [src]="this.activeUserService.activeUser.profileImg" alt="hashtag-icon">
+            <img class="avatarImg" [src]="getProfileImage()" alt="Profilbild">
             <img class="onlineStatusImg" src="../../../assets/img/green-online-circle.svg" alt="online-status">
         </div>
         <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
