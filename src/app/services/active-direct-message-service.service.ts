@@ -66,15 +66,6 @@ export class ActiveDirectMessageService {
       }
     });      
   }
-
-  // async loadDMPartner() {
-  //     let activeUserID = this.activeUserService.activeUser.userID;
-  //     let dmPartnerID = await this.activeDM.member.find((memberID: string) => memberID !== activeUserID);
-
-  //     this.activeDMPartner = this.findUserService.findUser(dmPartnerID);
-
-  //     console.log('DM Partner: ', this.activeDMPartner);
-  //   }
   
 
 

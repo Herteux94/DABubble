@@ -6,6 +6,7 @@ import { ActiveUserService } from '../../../services/active-user.service';
 import { ActiveChannelService } from '../../../services/active-channel.service';
 import { StorageService } from '../../../services/storage.service';
 import { CommonModule } from '@angular/common';
+import { ActiveDirectMessageService } from '../../../services/active-direct-message-service.service';
 
 @Component({
   selector: 'app-type-input-field',
@@ -27,7 +28,8 @@ export class TypeInputFieldComponent {
     private firestoreService: FirestoreService,
     private activeUserService: ActiveUserService,
     private activeChannelService: ActiveChannelService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    public activeDirectMessageService: ActiveDirectMessageService
   ) { }
 
   // Methode zum Senden der Nachricht mit den URLs der Anhänge
@@ -45,17 +47,18 @@ export class TypeInputFieldComponent {
 
     if (this.messengerType === 'thread') {
       this.firestoreService.addThreadMessage(this.message.toJSON(), this.messengerType, this.activeChannelService.activeChannel.channelID);
-    } else {
+    } else if (this.messengerType === 'channels') {
       this.firestoreService.addMessage(this.message.toJSON(), this.messengerType, this.activeChannelService.activeChannel.channelID);
+    } else if (this.messengerType === 'directMessages') {
+      this.firestoreService.addMessage(this.message.toJSON(), this.messengerType, this.activeDirectMessageService.activeDM.directMessageID);
+    } else {
+      console.error('MessengerType not found')
     }
-
-    console.log(this.activeChannelService.activeChannel);
-    console.log(this.message);
 
     this.message.content = '';
   }
 
-  sendMessage(messengerType: string) {
+  sendMessage() {
     console.log(this.messengerType);
 
     // Rufe die Upload-Funktion auf, bevor die Nachricht gesendet wird
@@ -115,6 +118,6 @@ export class TypeInputFieldComponent {
   @HostListener('document:keydown.enter', ['$event'])
   handleEnterKey(event: KeyboardEvent) {
     event.preventDefault();
-    this.sendMessage(this.messengerType);
+    this.sendMessage();
   }
 }
