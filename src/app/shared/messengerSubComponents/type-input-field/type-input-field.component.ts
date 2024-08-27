@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, HostListener, Input } from '@angular/core';
 import { Message } from '../../../models/message.model';
 import { FormsModule } from '@angular/forms';
 import { FirestoreService } from '../../../services/firestore.service';
@@ -110,5 +110,11 @@ export class TypeInputFieldComponent {
   // Methode zum Entfernen einer Datei aus der Vorschau
   closePreview(fileToRemove: { file: File, url: string }) {
     this.uploadedFiles = this.uploadedFiles.filter(file => file !== fileToRemove);
+  }
+
+  @HostListener('document:keydown.enter', ['$event'])
+  handleEnterKey(event: KeyboardEvent) {
+    event.preventDefault();
+    this.sendMessage(this.messengerType);
   }
 }
