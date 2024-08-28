@@ -32,8 +32,102 @@ export class TypeInputFieldComponent {
     public activeDirectMessageService: ActiveDirectMessageService
   ) { }
 
-  // Methode zum Senden der Nachricht mit den URLs der Anhänge
-  sendMessageWithUrls() {
+  // Überprüft den Messenger-Typ und leitet den Upload-Prozess ein
+  sendMessage() {
+    console.log(this.messengerType);
+
+    if (this.uploadedFiles.length > 0) {
+      this.uploadFilesAndSendMessage();
+    } else {
+      this.sendMessageBasedOnType();
+    }
+  }
+
+  // Methode zum Hochladen der Dateien und anschließendem Senden der Nachricht
+  private uploadFilesAndSendMessage() {
+    const uploadPromises = this.uploadedFiles.map(uploadedFile => {
+      return this.uploadFile(uploadedFile);
+    });
+
+    Promise.all(uploadPromises)
+      .then(() => this.sendMessageBasedOnType())
+      .catch(error => {
+        console.error('Error uploading files:', error);
+      });
+  }
+
+  private uploadFile(uploadedFile: { file: File, url: string }) {
+    const uploadMethod = this.getUploadMethod();
+    const id = this.getIdForUpload();
+
+    if (uploadMethod && id) {
+      return this.performUpload(uploadMethod, id, uploadedFile);
+    } else {
+      return Promise.reject('Unknown or unsupported message type');
+    }
+  }
+
+  private getUploadMethod() {
+    if (this.messengerType === 'channels') {
+      return this.storageService.uploadFileToChannel;
+    } else if (this.messengerType === 'directMessages') {
+      return this.storageService.uploadFileToDirectMessage;
+    } else {
+      console.error('Unknown message type:', this.messengerType);
+      return null;
+    }
+  }
+
+  private getIdForUpload() {
+    if (this.messengerType === 'channels') {
+      return this.activeChannelService.activeChannel.channelID;
+    } else if (this.messengerType === 'directMessages') {
+      return this.activeDirectMessageService.activeDM.directMessageID;
+    } else {
+      console.error('Unknown message type:', this.messengerType);
+      return null;
+    }
+  }
+
+  private performUpload(
+    uploadMethod: (id: string, file: File) => Promise<string>,
+    id: string,
+    uploadedFile: { file: File, url: string }
+  ) {
+    return uploadMethod.call(this.storageService, id, uploadedFile.file)
+      .then((downloadURL) => {
+        console.log(`File uploaded successfully to ${this.messengerType}:`, downloadURL);
+        uploadedFile.url = downloadURL; // Speichere die tatsächliche URL
+      })
+      .catch((error) => {
+        console.error(`Error uploading file to ${this.messengerType}:`, error);
+        return Promise.reject(error);
+      });
+  }
+
+
+
+  // Sendet die Nachricht basierend auf dem Messenger-Typ
+  private sendMessageBasedOnType() {
+    this.prepareMessage();
+
+    if (this.messengerType === 'thread') {
+      this.firestoreService.addThreadMessage(this.message.toJSON(), this.messengerType, this.activeChannelService.activeChannel.channelID);
+    } else if (this.messengerType === 'channels') {
+      this.firestoreService.addMessage(this.message.toJSON(), this.messengerType, this.activeChannelService.activeChannel.channelID);
+    } else if (this.messengerType === 'directMessages') {
+      this.firestoreService.addMessage(this.message.toJSON(), this.messengerType, this.activeDirectMessageService.activeDM.directMessageID);
+    } else {
+      console.error('MessengerType not found');
+    }
+
+    this.resetMessage();
+  }
+
+  private prepareMessage() {
+    // Leere die Anhänge der Nachricht, bevor neue hinzugefügt werden
+    this.message.attachments = [];
+
     this.message.creationTime = Date.now();
     this.message.senderID = this.activeUserService.activeUser.userID;
     this.message.senderName = this.activeUserService.activeUser.name;
@@ -44,25 +138,12 @@ export class TypeInputFieldComponent {
         this.message.attachments.push(uploadedFile.url);
       }
     });
-
-    if (this.messengerType === 'thread') {
-      this.firestoreService.addThreadMessage(this.message.toJSON(), this.messengerType, this.activeChannelService.activeChannel.channelID);
-    } else if (this.messengerType === 'channels') {
-      this.firestoreService.addMessage(this.message.toJSON(), this.messengerType, this.activeChannelService.activeChannel.channelID);
-    } else if (this.messengerType === 'directMessages') {
-      this.firestoreService.addMessage(this.message.toJSON(), this.messengerType, this.activeDirectMessageService.activeDM.directMessageID);
-    } else {
-      console.error('MessengerType not found')
-    }
-
-    this.message.content = '';
   }
 
-  sendMessage() {
-    console.log(this.messengerType);
-
-    // Rufe die Upload-Funktion auf, bevor die Nachricht gesendet wird
-    this.uploadFileToFirestore();
+  // Setzt die Nachricht zurück nach dem Senden
+  private resetMessage() {
+    this.message.content = '';
+    this.uploadedFiles = []; // Reset der Liste nach dem Hochladen
   }
 
   triggerFileInput() {
@@ -83,30 +164,6 @@ export class TypeInputFieldComponent {
         this.uploadedFiles.push({ file, url: reader.result as string });
       };
       reader.readAsDataURL(file);
-    });
-  }
-
-  // Methode zum Hochladen der Dateien in Firebase Storage und Aktualisierung der URLs
-  uploadFileToFirestore() {
-    const uploadPromises = this.uploadedFiles.map(uploadedFile => {
-      const channelId = this.activeChannelService.activeChannel.channelID;
-      return this.storageService.uploadFileToChannel(channelId, uploadedFile.file)
-        .then((downloadURL) => {
-          console.log('File uploaded successfully:', downloadURL);
-          uploadedFile.url = downloadURL; // Speichere die tatsächliche URL
-        })
-        .catch((error) => {
-          console.error('Error uploading file:', error);
-          return Promise.reject(error);
-        });
-    });
-
-    // Warte, bis alle Uploads abgeschlossen sind
-    Promise.all(uploadPromises).then(() => {
-      this.sendMessageWithUrls(); // Sende die Nachricht nach erfolgreichem Upload
-      this.uploadedFiles = []; // Reset der Liste nach dem Hochladen
-    }).catch(error => {
-      console.error('Error uploading files:', error);
     });
   }
 
