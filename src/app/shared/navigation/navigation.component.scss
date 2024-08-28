@@ -1,271 +1,270 @@
-@import '../../../variables.scss';
+@import "../../../variables.scss";
 
 nav {
-    padding: 0 16px 24px 16px;
-    background-color: white;
-    overflow-y: scroll;
-    max-height: 100%;
-    height: 100%;
+  padding: 0 16px 24px 16px;
+  background-color: white;
+  overflow-y: scroll;
+  max-height: 100%;
+  height: 100%;
 }
 
 .wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
-    width: 100%;
-    max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  width: 100%;
+  max-height: 100%;
 }
 
 .mt88 {
-    margin-top: 88px;
+  margin-top: 88px;
 }
 
 .inputContainer {
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 80px;
-    background-color: white;
-    display: flex;
-    justify-content: center;
-    padding: 24px 0;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 80px;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  padding: 24px 0;
 
-    input {
-        border: none;
-        border-radius: 42px;
-        height: 40px;
-        width: 100%;
-        max-width: 90%;
-        outline: 1px solid $outlines;
-        padding: 8px 24px;
-        box-sizing: border-box;
-        background-image: url(../../../assets/img/search-glass-icon.svg);
-        background-repeat: no-repeat;
-        background-position: calc(100% - 24px);
-        background-size: 20px;
-    
-        &:focus {
-            outline: 1px solid $first-color;
-        }
+  input {
+    border: none;
+    border-radius: 42px;
+    height: 40px;
+    width: 100%;
+    max-width: 90%;
+    outline: 1px solid $outlines;
+    padding: 8px 24px;
+    box-sizing: border-box;
+    background-image: url(../../../assets/img/search-glass-icon.svg);
+    background-repeat: no-repeat;
+    background-position: calc(100% - 24px);
+    background-size: 20px;
+
+    &:focus {
+      outline: 1px solid $first-color;
     }
+  }
 }
 
 .desktopHeaderContainer {
-    display: none;
+  display: none;
 }
 
 .areaContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
 .channelsHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .dropDownAndH3 {
-    display: flex;
-    align-items: center;
-    gap: 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 
 .iconAndH3 {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .contentList {
-    padding-left: 26px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+  padding-left: 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 
-    a {
-        display: flex;
-        gap: 8px;
-        color: black;
-        align-items: center;
-        width: fit-content;
-        padding: 4px 20px;
-        border-radius: 20px;
-    }
+  a {
+    display: flex;
+    gap: 8px;
+    color: black;
+    align-items: center;
+    width: fit-content;
+    padding: 4px 20px;
+    border-radius: 20px;
+  }
 }
 
 .addChannel {
-    padding-left: 26px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+  padding-left: 26px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .addChannelBtnContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 8px;
-    border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px;
+  border-radius: 100%;
 }
 
 .dmHeader {
-    display: flex;
-    align-items: center;
-    gap: 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 
 .profileAndOnlineCircleImg {
-    position: relative;
-    height: 50px;
+  position: relative;
+  height: 50px;
 }
 
 .avatarImg {
-    width: 50px;
-    border-radius: 100%;
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+  object-fit: cover;
 }
 
 .onlineStatusImg {
-    position: absolute;
-    bottom: 0px;
-    right: 0px;
-    z-index: 1;
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  z-index: 1;
 }
 
 .editFAB {
-    width: 60px;
-    position: fixed;
-    bottom: 16px;
-    right: 16px;
-    filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.2));
-    z-index: 99;
+  width: 60px;
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.2));
+  z-index: 99;
 }
 
-@media(min-width: 1025px) {
-    nav {
-        border-radius: 30px;
-        height: calc(100vh - 80px);
-        padding: 32px 40px;
-    }
+@media (min-width: 1025px) {
+  nav {
+    border-radius: 30px;
+    height: calc(100vh - 80px);
+    padding: 32px 40px;
+  }
 
-    .inputContainer {
-        display: none;
-    }
+  .inputContainer {
+    display: none;
+  }
 
-    .desktopHeaderContainer {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+  .desktopHeaderContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-        .editSquareContainer {
-            cursor: pointer;
-            border-radius: 100%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            
-            &:hover {
-                background-color: $background-color;
+    .editSquareContainer {
+      cursor: pointer;
+      border-radius: 100%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
-                svg path{
-                    fill: $first-color;
-                }
-            }
+      &:hover {
+        background-color: $background-color;
 
+        svg path {
+          fill: $first-color;
         }
+      }
     }
+  }
 
-    .logoAndText {
-        display: flex;
-        align-items: center;
-        gap: 16px;
+  .logoAndText {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .dropDownAndH3 {
+    cursor: pointer;
+
+    &:hover {
+      svg path {
+        fill: $first-color;
+      }
+
+      h3 {
+        color: $first-color;
+      }
     }
+  }
 
-    .dropDownAndH3 {
-        cursor: pointer;
+  .addChannelBtnContainer {
+    cursor: pointer;
 
-        &:hover {
-            svg path {
-                fill: $first-color
-            }
+    &:hover {
+      background-color: $background-color;
 
-            h3 {
-                color: $first-color;
-            }
-        }
+      svg path {
+        fill: $first-color;
+      }
     }
+  }
 
+  .contentList {
+    a {
+      &:hover {
+        background-color: $background-color;
 
-
-    .addChannelBtnContainer {
-        cursor: pointer;
-
-        &:hover {
-            background-color: $background-color;
-
-            svg path {
-                fill: $first-color;
-            }
-        }
-    }
-
-    .contentList {
-        a {
-            &:hover {
-                background-color: $background-color;
-                
-                span {
-                    color: $second-color;
-                    font-weight: bold;
-                }
-
-                svg path {
-                    fill: $first-color;
-                }
-            }
-        }
-    }
-
-    .addChannel {
-        cursor: pointer;
-
-        img {
-            width: 24px;
-            height: 24px;
+        span {
+          color: $second-color;
+          font-weight: bold;
         }
 
-        &:hover {
-            span {
-                font-weight: bold;
-                color: $second-color;
-            }
-
-            svg path {
-                fill: $first-color;
-            }
+        svg path {
+          fill: $first-color;
         }
+      }
+    }
+  }
+
+  .addChannel {
+    cursor: pointer;
+
+    img {
+      width: 24px;
+      height: 24px;
     }
 
-    .dmHeader {
-        cursor: pointer;
+    &:hover {
+      span {
+        font-weight: bold;
+        color: $second-color;
+      }
 
-        &:hover {
-            color: $first-color;
-
-            svg path {
-                fill: $first-color;
-            }
-        }
+      svg path {
+        fill: $first-color;
+      }
     }
+  }
 
-    .editFAB {
-        display: none;
-    }
+  .dmHeader {
+    cursor: pointer;
 
-    .mt88 {
-        margin-top: 0;
+    &:hover {
+      color: $first-color;
+
+      svg path {
+        fill: $first-color;
+      }
     }
+  }
+
+  .editFAB {
+    display: none;
+  }
+
+  .mt88 {
+    margin-top: 0;
+  }
 }

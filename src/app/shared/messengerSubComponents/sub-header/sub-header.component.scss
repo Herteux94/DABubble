@@ -1,193 +1,196 @@
-@import '../../../../variables.scss';
+@import "../../../../variables.scss";
 
 .wrapper {
-    padding: 0 16px;
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 98;
-    background-color: white;
-    height: 72px;
+  padding: 0 16px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 98;
+  background-color: white;
+  height: 72px;
+  z-index: 2;
 }
 
 .leftSide {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 4px 20px;
-    border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 20px;
+  border-radius: 20px;
 }
 
 .imgHashtag {
-    width: 24px;
-    height: 24px;
+  width: 24px;
+  height: 24px;
 }
 
 .rightSide {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 16px;
-    flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+  flex: 1;
 }
 
 .member {
-    display: none;
-    padding: 4px 20px 4px 32px;
-    border-radius: 32px;
+  display: none;
+  padding: 4px 20px 4px 32px;
+  border-radius: 32px;
 }
 
 .personAddImgContainer {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  svg {
     width: 36px;
     height: 36px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    svg {
-        width: 36px;
-        height: 36px;
-    }
+  }
 }
 
 .hashtagAndName {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 
-    span {
-        color: $second-color;
-    }
+  span {
+    color: $second-color;
+  }
 }
 
 .closeSvgContainer {
-    padding: 8px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 100%;
+  padding: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100%;
 }
 
 .profileAndOnlineCircleImg {
-    position: relative;
-    height: 50px;
+  position: relative;
+  height: 50px;
 }
 
 .avatarImg {
-    width: 50px;
-    border-radius: 100%;
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+  object-fit: cover;
 }
 
 .onlineStatusImg {
-    position: absolute;
-    bottom: 0px;
-    right: 0px;
-    z-index: 1;
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  z-index: 1;
 }
 
 .inputContainer {
-    background-color: white;
-    display: flex;
-    justify-content: center;
-    width: 100%;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  width: 100%;
 
-    input {
-        border: none;
-        border-radius: 42px;
-        height: 40px;
-        width: 100%;
-        max-width: 90%;
-        outline: 1px solid $outlines;
-        padding: 8px 24px;
-        box-sizing: border-box;
-    
-        &:focus {
-            outline: 1px solid $first-color;
-        }
+  input {
+    border: none;
+    border-radius: 42px;
+    height: 40px;
+    width: 100%;
+    max-width: 90%;
+    outline: 1px solid $outlines;
+    padding: 8px 24px;
+    box-sizing: border-box;
+
+    &:focus {
+      outline: 1px solid $first-color;
     }
+  }
 }
 
-@media(min-width: 1025px) {
-    .wrapper {
-        padding: 16px 32px 16px 24px;
+@media (min-width: 1025px) {
+  .wrapper {
+    padding: 16px 32px 16px 24px;
+  }
+
+  .channelLeft {
+    cursor: pointer;
+
+    &:hover {
+      background-color: $background-color;
+
+      h3 {
+        color: $second-color;
+      }
+
+      svg path {
+        fill: $first-color;
+      }
+    }
+  }
+
+  .member {
+    display: flex;
+    gap: 8px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $background-color;
+
+      h3 {
+        color: $second-color;
+      }
     }
 
-    .channelLeft {
-        cursor: pointer;
-
-        &:hover {
-            background-color: $background-color;
-
-            h3 {
-                color: $second-color;
-            }
-
-            svg path {
-                fill: $first-color;
-            }
-        }
+    h3 {
+      display: flex;
+      align-items: center;
     }
 
-    .member {
+    .memberImages {
+      display: flex;
+
+      .profileImgContainer {
+        width: 36px;
+        height: 36px;
+        border-radius: 100%;
+        padding: 2px;
         display: flex;
-        gap: 8px;
-        cursor: pointer;
+        justify-content: center;
+        align-items: center;
+        margin-left: -12px;
+        background-color: white;
 
-        &:hover {
-            background-color: $background-color;
-
-            h3 {
-                color: $second-color;
-            }
+        img {
+          width: 32px;
+          height: 32px;
+          border-radius: 100%;
         }
-
-        h3 {
-            display: flex;
-            align-items: center;
-        }
-
-        .memberImages {
-            display: flex;
-
-            .profileImgContainer {
-                width: 36px;
-                height: 36px;
-                border-radius: 100%;
-                padding: 2px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                margin-left: -12px;
-                background-color: white;
-
-                img {
-                    width: 32px;
-                    height: 32px;
-                    border-radius: 100%;
-                }
-            }
-        }
+      }
     }
+  }
 
-    .personAddImgContainer {
-        &:hover {
-            cursor: pointer;
-            
-            svg path {
-                fill: $first-color;
-            }
-        }
+  .personAddImgContainer {
+    &:hover {
+      cursor: pointer;
+
+      svg path {
+        fill: $first-color;
+      }
     }
+  }
 
-    .closeSvgContainer {
-        &:hover {
-            background-color: $background-color;
-            cursor: pointer;
+  .closeSvgContainer {
+    &:hover {
+      background-color: $background-color;
+      cursor: pointer;
 
-            svg path {
-                fill: $first-color;
-            }
-        }
+      svg path {
+        fill: $first-color;
+      }
     }
+  }
 }
