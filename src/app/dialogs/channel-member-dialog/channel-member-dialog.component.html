@@ -14,7 +14,7 @@
                 @for (member of members; track member) {
 
                 <div class="member" [ngClass]="{'hover': !mobile, 'active': mobile}">
-                    <img [src]="member.profileImg || '../../../assets/img/dummyAvatar.svg'" alt="Schließen">
+                    <img [src]="member.profileImg || '../../../assets/img/Profile.svg'" alt="Schließen">
                     <p>{{ member.name }}</p>
                 </div>
                 }
@@ -75,7 +75,8 @@
                     <div *ngFor="let user of showSelectedUsers()" class="member">
                         <img [src]="user.profileImg || '../../../assets/img/dummyAvatar.svg'" alt="{{ user.name }}">
                         <p>{{ user.name }}</p>
-                        <img class="removeUserIcon" (click)="removeUser(user)" src="../../../assets/img/close.svg" alt="delete">
+                        <img class="removeUserIcon" (click)="removeUser(user)" src="../../../assets/img/close.svg"
+                            alt="delete">
                     </div>
                 </div>
                 }
