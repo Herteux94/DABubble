@@ -19,7 +19,7 @@ import { CommonModule } from '@angular/common';
     SubHeaderComponent,
     TypeInputFieldComponent,
     ThreadComponent,
-    CommonModule
+    CommonModule,
   ],
   templateUrl: './channel.component.html',
   styleUrl: './channel.component.scss',
@@ -38,7 +38,7 @@ export class ChannelComponent implements OnInit {
       this.route.paramMap.subscribe((paramMap) => {
         channelID = paramMap.get('id');
       });
-        this.activeChannelService.loadActiveChannelAndMessages(channelID);
+      this.activeChannelService.loadActiveChannelAndMessages(channelID);
     }
   }
 }
