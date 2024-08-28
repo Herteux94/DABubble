@@ -41,6 +41,7 @@ export class ActiveDirectMessageService {
         next: (directMessage) => {
           if (directMessage) {
             this.activeDM = directMessage; 
+            this.loadActiveDMPartner();
           } else {
             console.error('DirectMessage nicht gefunden');
           }
@@ -66,7 +67,11 @@ export class ActiveDirectMessageService {
       }
     });      
   }
-  
 
+  async loadActiveDMPartner() {
+    const partnerUserID = await this.activeDM.member.find((id: string) => id !== this.activeUserService.activeUser.userID);
+    this.activeDMPartner = this.findUserService.findUser(partnerUserID);
 
+    console.log('active DM Partner: ', this.activeDMPartner);
+  }
 }

@@ -7,6 +7,7 @@ import { ProfileDialogComponent } from '../../../dialogs/profile-dialog/profile-
 import { ChannelDialogComponent } from '../../../dialogs/channel-dialog/channel-dialog.component';
 import { RoutingThreadOutletService } from '../../../services/routing-thread-outlet.service';
 import { ActiveChannelService } from '../../../services/active-channel.service';
+import { ActiveDirectMessageService } from '../../../services/active-direct-message-service.service';
 
 export interface DialogData {
   animal: 'panda' | 'unicorn' | 'lion'; // Natürlich noch brauchbare daten anlegen
@@ -32,7 +33,8 @@ export class SubHeaderComponent implements OnInit {
   constructor(
     public screenSizeService: ScreenSizeService,
     public threadRoutingService: RoutingThreadOutletService,
-    public activeChannelService: ActiveChannelService
+    public activeChannelService: ActiveChannelService,
+    public activeDirectMessageService: ActiveDirectMessageService
   ) {}
 
   ngOnInit() {

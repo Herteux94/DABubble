@@ -85,7 +85,7 @@ export class ActiveUserService {
     console.log('Active User DMs: ', this.activeUserDirectMessages);
   }
 
-  async loadDMPartnerInformations() {
+  loadDMPartnerInformations() {
     if (!this.activeUser || !this.activeUserDirectMessages) return;
 
     for (const directMessage of this.activeUserDirectMessages) {
@@ -93,14 +93,10 @@ export class ActiveUserService {
       
       if (partnerUserID) {
         try {
-          const partnerUser = await this.findUserService.findUser(partnerUserID);
+          const partnerUser = this.findUserService.findUser(partnerUserID);
           
           if (partnerUser) {
             directMessage.partnerUser = partnerUser; // Füge den Partner-User dem DirectMessage hinzu
-            setTimeout(() => {
-              console.log(this.activeUserDirectMessages);
-              
-            },1000)
           }
         } catch (error) {
           console.error('Fehler beim Laden des Partners', error);

@@ -15,10 +15,15 @@ export class FindUserService {
   }
 
   findUser(userID: string | null) {
-    let user = this.firestoreService.allUsers.find(
-      (users) => users.userID === userID
-    );
-    return user;
+    try {
+      let user = this.firestoreService.allUsers.find(
+        (users) => users.userID === userID
+      );
+      return user;
+    } catch (err) {
+      console.log('no User found: ', err);
+      return err
+    }
   }
 
   findUsers(userIDs: string[] | null) {

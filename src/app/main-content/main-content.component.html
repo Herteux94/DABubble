@@ -1,28 +1,41 @@
 @if(this.mobile) {
-  <section>
-    <div class="wrapper contentLimit">
-      <app-header></app-header>
-      <div class="bodyArea">
-        <div class="routerContainer">
-          <router-outlet></router-outlet>
-        </div>
+<section>
+  <div class="wrapper contentLimit">
+    <app-header></app-header>
+    <div class="bodyArea">
+      <div class="routerContainer">
+        <router-outlet></router-outlet>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 } @else {
-  <section>
-    <div class="wrapper contentLimit">
-      <app-header></app-header>
-      <div [ngStyle]="{'margin': this.navOpenDesktop ? '0 16px' : '0 32px'}" class="bodyArea">
-        <app-navigation [ngClass]="navOpenDesktop ? 'showNav' : 'hideNav'"></app-navigation>
-        <div class="routerContainer">
-          <router-outlet></router-outlet>
-        </div>
-        <div [ngClass]="threadRoutingService.threadOpenDesktop ? 'showThread' : 'hideThread'" class="threadRouterContainer">
-          <router-outlet name="thread"></router-outlet>
-        </div>
+<section>
+  <div class="wrapper contentLimit">
+    <app-header></app-header>
+    <div
+      [ngStyle]="{ margin: this.navOpenDesktop ? '0 16px' : '0 32px' }"
+      class="bodyArea"
+    >
+      <app-navigation
+        [ngClass]="navOpenDesktop ? 'showNav' : 'hideNav'"
+      ></app-navigation>
+      <div class="routerContainer">
+        <router-outlet></router-outlet>
+      </div>
+      <div
+        [ngClass]="
+          threadRoutingService.threadOpenDesktop ? 'showThread' : 'hideThread'
+        "
+        class="threadRouterContainer"
+      >
+        <router-outlet name="thread"></router-outlet>
       </div>
     </div>
-    <app-nav-toggle-btn [menuOpen]="navOpenDesktop" (click)="toggleMenu()"></app-nav-toggle-btn>
-  </section>
+  </div>
+  <app-nav-toggle-btn
+    [menuOpen]="navOpenDesktop"
+    (click)="toggleMenu()"
+  ></app-nav-toggle-btn>
+</section>
 }
