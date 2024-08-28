@@ -3,6 +3,8 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
 import { ScreenSizeService } from '../../services/screen-size-service.service';
 import { Dialog, DIALOG_DATA, DialogModule, DialogRef } from '@angular/cdk/dialog';
+import { User } from '@angular/fire/auth';
+import { Channel } from '../../models/channel.model';
 
 @Component({
   selector: 'app-invite-member-dialog',
@@ -14,6 +16,8 @@ import { Dialog, DIALOG_DATA, DialogModule, DialogRef } from '@angular/cdk/dialo
 export class InviteMemberDialogComponent implements OnInit {
   dialogRef = inject(DialogRef);
   data = inject(DIALOG_DATA);
+  user!: User;
+  channel!: Channel;
 
   contactData = {
     name: '',

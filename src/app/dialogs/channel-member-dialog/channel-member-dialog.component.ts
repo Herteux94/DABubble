@@ -72,7 +72,7 @@ export class ChannelMemberDialogComponent implements OnInit {
     this.members = this.findUserService.findUsers(
       this.activeChannelService.activeChannel.member
     );
-    console.log(this.members);
+    // console.log(this.members);
   }
 
   openInvite() {

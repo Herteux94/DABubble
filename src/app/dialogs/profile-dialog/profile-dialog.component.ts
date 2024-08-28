@@ -10,14 +10,13 @@ import { Component, ElementRef, Inject, inject, ViewChild } from '@angular/core'
 import { User } from '../../models/user.model';
 import { ActiveUserService } from '../../services/active-user.service';
 import { FindUserService } from '../../services/find-user.service';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Observable } from 'rxjs';
-import { log } from 'console';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-profile-dialog',
   standalone: true,
-  imports: [DialogModule],
+  imports: [CommonModule, RouterModule, DialogModule],
   templateUrl: './profile-dialog.component.html',
   styleUrl: './profile-dialog.component.scss',
   animations: [

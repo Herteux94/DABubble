@@ -9,7 +9,9 @@
         <div class="profileContainer" #profileContainer tabindex="-1">
 
             <div class="imgContainer">
-                <img class="profileImg" src="../../../assets/img/avatars/avatar-1.svg" alt="">
+                <!-- <a [routerLink]="[ '/createAccount']"> --> 
+                    <img cli class="profileImg" [src]="this.activeUserService.activeUser.profileImg || '../../assets/img/profile.svg'" alt="">
+                <!-- </a> -->
             </div>
 
             <div class="nameContainer">

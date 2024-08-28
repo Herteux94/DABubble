@@ -8,11 +8,7 @@ import { log } from 'console';
   providedIn: 'root',
 })
 export class FindUserService {
-  private allUsers = signal<User[]>([]);
-
-  constructor(private firestoreService: FirestoreService) {
-    this.allUsers.set(this.firestoreService.allUsers);
-  }
+  constructor(private firestoreService: FirestoreService) {}
 
   findUser(userID: string | null) {
     try {
@@ -22,7 +18,7 @@ export class FindUserService {
       return user;
     } catch (err) {
       console.log('no User found: ', err);
-      return err
+      return err;
     }
   }
 
@@ -38,7 +34,7 @@ export class FindUserService {
   }
 
   findUsersWithName(name: string) {
-    return this.allUsers().filter(user =>
+    return this.firestoreService.allUsers.filter((user) =>
       user.name.toLowerCase().includes(name.toLowerCase())
     );
   }

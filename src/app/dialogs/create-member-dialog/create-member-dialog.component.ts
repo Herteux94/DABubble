@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
 import { ScreenSizeService } from '../../services/screen-size-service.service';
+import { User } from '../../models/user.model';
+import { Channel } from '../../models/channel.model';
 
 @Component({
   selector: 'app-create-member-dialog',
@@ -11,7 +13,8 @@ import { ScreenSizeService } from '../../services/screen-size-service.service';
   styleUrl: './create-member-dialog.component.scss'
 })
 export class CreateMemberDialogComponent implements OnInit {
-
+  user!: User;
+  channel!: Channel;
   contactData = {
     name: ''
   };
