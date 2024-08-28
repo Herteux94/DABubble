@@ -24,7 +24,7 @@ export const routes: Routes = [
       { path: 'signUp', component: SignUpComponent },
       { path: 'createAccount', component: ChooseAvatarComponent },
       { path: 'sendResetPWMail', component: SendResetPwMailComponent },
-      { path: 'resetPW', component: ResetPwComponent },
+      { path: 'resetPassword', component: ResetPwComponent },
     ],
   },
   {
