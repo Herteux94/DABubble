@@ -1,0 +1,64 @@
+import { Injectable } from '@angular/core';
+import { FirestoreService } from './firestore.service';
+import { Observable } from 'rxjs';
+import { Message } from '../models/message.model';
+import { ActiveChannelService } from './active-channel.service';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class ActiveThreadService {
+  activeThreadMessage: any;
+  threadMessages$!: Observable<any[]>;
+  threadMessages: Message[] = [];
+
+  constructor(
+    private firestoreService: FirestoreService,
+    private activeChannelService: ActiveChannelService
+  ) {}
+
+  loadActiveThreadAndMessages(threadMessageID: string) {
+    this.loadActiveThread(threadMessageID);
+    this.loadThreadMessages(threadMessageID);
+
+    setTimeout(() => {
+      console.log(this.activeThreadMessage.senderID);
+      console.log(this.threadMessages);
+    }, 1000);
+  }
+
+  async loadActiveThread(threadMessageID: string): Promise<void> {
+    let channelID = this.activeChannelService.activeChannel.channelID;
+
+    let activeThread = this.firestoreService.getThread(
+      channelID,
+      threadMessageID
+    );
+
+    this.activeThreadMessage = (await activeThread).data();
+  }
+
+  loadThreadMessages(threadMessageID: string) {
+    let channelID = this.activeChannelService.activeChannel.channelID;
+
+    this.threadMessages$ = this.firestoreService.getThreadMessages(
+      channelID,
+      threadMessageID
+    );
+
+    this.threadMessages$.subscribe({
+      next: (messages) => {
+        if (messages) {
+          this.threadMessages = messages.sort(
+            (a, b) => a.creationTime - b.creationTime
+          );
+        } else {
+          console.error('Messages nicht gefunden');
+        }
+      },
+      error: (error) => {
+        console.error('Fehler beim Laden der aktiven Messages:', error);
+      },
+    });
+  }
+}

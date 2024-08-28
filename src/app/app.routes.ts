@@ -16,27 +16,32 @@ import { NavigationComponent } from './shared/navigation/navigation.component';
 import { HelloComponent } from './main-content/hello/hello.component';
 
 export const routes: Routes = [
-    { path: '', component: AuthenticationComponent,
-        children: [
-            { path: '', redirectTo: 'login', pathMatch: 'full' },  // Redirect to login
-            { path: 'login', component: LoginComponent },  // Explicit login route
-            { path: 'signUp', component: SignUpComponent },
-            { path: 'createAccount', component: ChooseAvatarComponent },
-            { path: 'sendResetPWMail', component: SendResetPwMailComponent },
-            { path: 'resetPW', component: ResetPwComponent },
-        ]
-    },
-    { path: 'messenger', component: MainContentComponent, data: { animation: 'routerTransitions' },
-        children: [
-            { path: '', redirectTo: 'hello', pathMatch: 'full' },
-            { path: 'channel/:id', component: ChannelComponent },
-            { path: 'directMessage/:id', component: DirectMessageComponent},
-            { path: 'newMessage', component: NewMessageComponent},
-            { path: 'threadM', component: ThreadComponent },
-            { path: 'thread', component: ThreadComponent, outlet: 'thread' },
-            { path: 'navigation', component: NavigationComponent },
-            { path: 'hello', component: HelloComponent },
-        ]
-    },
-    { path: 'dialogs', component: DialogTestComponent },
+  {
+    path: '',
+    component: AuthenticationComponent,
+    children: [
+      { path: '', redirectTo: 'login', pathMatch: 'full' }, // Redirect to login
+      { path: 'login', component: LoginComponent }, // Explicit login route
+      { path: 'signUp', component: SignUpComponent },
+      { path: 'createAccount', component: ChooseAvatarComponent },
+      { path: 'sendResetPWMail', component: SendResetPwMailComponent },
+      { path: 'resetPW', component: ResetPwComponent },
+    ],
+  },
+  {
+    path: 'messenger',
+    component: MainContentComponent,
+    data: { animation: 'routerTransitions' },
+    children: [
+      { path: '', redirectTo: 'hello', pathMatch: 'full' },
+      { path: 'channel/:id', component: ChannelComponent },
+      { path: 'directMessage/:id', component: DirectMessageComponent },
+      { path: 'newMessage', component: NewMessageComponent },
+      { path: 'threadM/:id', component: ThreadComponent },
+      { path: 'thread/:id', component: ThreadComponent, outlet: 'thread' },
+      { path: 'navigation', component: NavigationComponent },
+      { path: 'hello', component: HelloComponent },
+    ],
+  },
+  { path: 'dialogs', component: DialogTestComponent },
 ];

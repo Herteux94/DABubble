@@ -28,7 +28,11 @@
           />
         </g>
       </svg>
-      <span class="threadName">Entwicklerteam</span>
+      @if(this.activeChannelService.activeChannel) {
+      <span class="threadName">{{
+        this.activeChannelService.activeChannel.name
+      }}</span>
+      }
     </div>
   </div>
   } @else if(isDM) {

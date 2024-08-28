@@ -1,20 +1,21 @@
 <section>
-    <div class="content">
-      <app-sub-header [isThread]="true"></app-sub-header>
-      <div class="messagesContent">
-        <!-- <app-message [isChannel]="false"></app-message> -->
-         <h1>Placeholder Thread Message</h1>
-        <div class="divider">
-            <span class="subText">2 Antworten</span>
-            <div class="line"></div>
-        </div>
-        @if(this.activeChannelService.channelMessages && this.activeChannelService.channelMessages.length > 0) {
-        @for(message of this.activeChannelService.channelMessages; track message) {
-          <app-message [message]="message" [isChannel]="true"></app-message>
-          }
-        }
+  <div class="content">
+    <app-sub-header [isThread]="true"></app-sub-header>
+    <div class="messagesContent">
+      <app-message
+        [isChannel]="false"
+        [message]="this.activeThreadService.activeThreadMessage"
+      ></app-message>
+      <div class="divider">
+        <span class="subText">2 Antworten</span>
+        <div class="line"></div>
       </div>
+      @if(this.activeThreadService.threadMessages &&
+      this.activeThreadService.threadMessages.length > 0) { @for(message of
+      this.activeThreadService.threadMessages; track message) {
+      <app-message [message]="message" [isChannel]="true"></app-message>
+      } }
     </div>
-    <app-type-input-field [messengerType]="'thread'"></app-type-input-field>
-  </section>
-  
+  </div>
+  <app-type-input-field [messengerType]="'thread'"></app-type-input-field>
+</section>

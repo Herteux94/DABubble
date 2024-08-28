@@ -12,6 +12,7 @@ import { ScreenSizeService } from '../../../services/screen-size-service.service
 import { CommonModule } from '@angular/common';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ActiveUserService } from '../../../services/active-user.service';
+import { ActiveThreadService } from '../../../services/active-thread-service.service';
 
 @Component({
   selector: 'app-message',
@@ -47,7 +48,8 @@ export class MessageComponent {
     public threadRoutingService: RoutingThreadOutletService,
     private screenSizeService: ScreenSizeService,
     private router: Router,
-    private activeUserService: ActiveUserService
+    private activeUserService: ActiveUserService,
+    private activeThreadService: ActiveThreadService
   ) {}
 
   ngOnInit() {
@@ -55,7 +57,9 @@ export class MessageComponent {
       this.mobile = isMobile;
     });
 
-    this.checkIfOwnMessage();
+    if (this.message && this.message.senderID) {
+      this.checkIfOwnMessage();
+    }
 
     // Filtere ungültige URLs aus den Anhängen heraus
     if (this.message.attachments) {
@@ -80,10 +84,17 @@ export class MessageComponent {
   }
 
   navigateToThread() {
+    this.activeThreadService.loadActiveThreadAndMessages(
+      this.message.messageID
+    );
+
     if (this.mobile) {
-      this.router.navigate(['/messenger/threadM']);
+      this.router.navigate(['/messenger/threadM', this.message.messageID]);
     } else {
-      this.router.navigate(['/messenger', { outlets: { thread: ['thread'] } }]);
+      this.router.navigate([
+        '/messenger',
+        { outlets: { thread: ['thread', this.message.messageID] } },
+      ]);
     }
 
     this.threadRoutingService.openThread();

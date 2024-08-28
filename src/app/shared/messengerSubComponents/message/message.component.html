@@ -7,15 +7,21 @@
 
   <div class="text">
     <div [ngClass]="ownMessage ? 'fdRowRev' : ''" class="nameAndTime">
+      @if(this.message && this.message.senderName) {
       <span (click)="openProfileDialog()" class="name">{{
         message.senderName
       }}</span>
+
+      } @if(this.message && this.message.creationTime) {
       <span class="time subText">{{
         message.creationTime.valueOf() | date : "HH:mm"
       }}</span>
+
+      }
     </div>
 
     <div [ngClass]="ownMessage ? 'messageTextOwnMsg' : 'messageText'">
+      @if(this. message && this.message.attachments) {
       <div
         *ngIf="message.attachments && message.attachments.length > 0"
         class="fileContainer"
@@ -37,7 +43,10 @@
           </a>
         </div>
       </div>
+      } @if(this.message && this.message.content) {
       <span>{{ message.content }}</span>
+
+      }
     </div>
 
     <!-- Neue Struktur für die Anhänge -->

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { AuthenticationComponent } from './authentication/authentication.component';
-
+import { RoutingThreadOutletService } from './services/routing-thread-outlet.service';
 
 @Component({
   selector: 'app-root',
@@ -13,14 +13,18 @@ import { AuthenticationComponent } from './authentication/authentication.compone
     AuthenticationComponent,
     RouterOutlet,
     RouterLink,
-    RouterLinkActive
+    RouterLinkActive,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'da-bubble';
 
-  constructor() {}
-  
+  constructor(private routingThreadOutletService: RoutingThreadOutletService) {}
+  ngOnInit(): void {
+    if (!this.routingThreadOutletService.threadOpenDesktop) {
+      this.routingThreadOutletService.closeThread();
+    }
+  }
 }
