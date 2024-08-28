@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
 import { MainContentComponent } from './main-content/main-content.component';
 import { AuthenticationComponent } from './authentication/authentication.component';
-import { WorkspaceComponent } from './workspace/workspace.component';
 import { DialogTestComponent } from './dialog-test/dialog-test.component';
 import { LoginComponent } from './authentication/login/login.component';
 import { SignUpComponent } from './authentication/sign-up/sign-up.component';

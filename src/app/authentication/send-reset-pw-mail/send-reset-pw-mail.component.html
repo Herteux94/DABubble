@@ -1,4 +1,4 @@
-<form (ngSubmit)="sendResetEmail()" action="#">
+<form (ngSubmit)="onSubmit()" action="#">
   <section class="wrapper">
     <div class="card">
       <a (click)="goBack()" id="arrowBackLink">
@@ -23,13 +23,14 @@
                pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}"
                placeholder="beispielname@email.com"
                required
-               [(ngModel)]="inputValue"
+               [(ngModel)]="email"
                name="email">
       </div>
       <span class="infoTextGray">Wir senden Ihnen eine E-Mail, über die Sie Ihr Passwort ändern können.</span>
       <div class="sendMailBtnContainer">
-        <button class="firstBtn" type="submit" [disabled]="!inputValue">E-Mail senden</button>
+        <button class="firstBtn" type="submit" [disabled]="!email">E-Mail senden</button>
       </div>
+      <p *ngIf="message" class="infoText">{{ message }}</p>
     </div>
   </section>
 </form>

@@ -1,23 +1,52 @@
+
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ResetPasswordService {
-  private resetPasswordUrl = 'https://herteux-webentwicklung.de/reset-password.php';
+  private auth = getAuth();
 
-  constructor(private http: HttpClient) {
-    console.log('ResetPasswordService wurde instanziiert');
-  }
+  constructor() {}
 
-  sendResetPasswordEmail(email: string): Observable<any> {
-    console.log('Sende E-Mail-Adresse:', email);
-
-    const headers = { 'Content-Type': 'application/json' }; // Setze Content-Type Header explizit
-    const body = { email };
-
-    return this.http.post<any>(this.resetPasswordUrl, body, { headers });
+  resetPassword(email: string): Promise<void> {
+    return sendPasswordResetEmail(this.auth, email)
+      .then(() => {
+        console.log('Password reset email sent successfully');
+      })
+      .catch((error) => {
+        console.error('Error sending password reset email', error);
+        throw error;
+      });
   }
 }
+
+
+// import { Injectable } from '@angular/core';
+// import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
+
+// @Injectable({
+//   providedIn: 'root'
+// })
+// export class ResetPasswordService {
+//   private auth = getAuth();
+
+//   constructor() {}
+
+//   resetPassword(email: string): Promise<void> {
+//     const actionCodeSettings = {
+//       url: 'https://dabubble-c9340.firebaseapp.com/resetPassword', // Diese URL verweist auf deine eigene Passwort-Reset-Seite
+//       handleCodeInApp: true
+//     };
+
+//     return sendPasswordResetEmail(this.auth, email, actionCodeSettings)
+//       .then(() => {
+//         console.log('Password reset email sent successfully');
+//       })
+//       .catch((error) => {
+//         console.error('Error sending password reset email', error);
+//         throw error;
+//       });
+//   }
+// }
