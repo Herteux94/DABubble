@@ -178,7 +178,16 @@ export class TypeInputFieldComponent {
   previewFiles(event: any) {
     const files: File[] = Array.from(event.target.files);
 
+    // Erlaubte Dateitypen
+    const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf'];
+
     files.forEach((file) => {
+      // Überprüfe den Dateityp
+      if (!allowedTypes.includes(file.type)) {
+        console.error(`Invalid file type: ${file.name}. Only jpg, jpeg, png, and pdf files are allowed.`);
+        return; // Überspringe diese Datei, wenn der Typ ungültig ist
+      }
+
       const reader = new FileReader();
       reader.onload = () => {
         // Speichere die Base64-Daten vorübergehend in der `url`-Eigenschaft, um die Vorschau anzuzeigen
