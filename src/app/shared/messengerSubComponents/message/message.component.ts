@@ -13,6 +13,7 @@ import { CommonModule } from '@angular/common';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ActiveThreadService } from '../../../services/active-thread-service.service';
 import { Message } from '../../../models/message.model';
+import { ActiveChannelService } from '../../../services/active-channel.service';
 
 @Component({
   selector: 'app-message',
@@ -40,7 +41,8 @@ export class MessageComponent {
     public threadRoutingService: RoutingThreadOutletService,
     private screenSizeService: ScreenSizeService,
     private router: Router,
-    private activeThreadService: ActiveThreadService
+    private activeThreadService: ActiveThreadService,
+    private activeChannelService: ActiveChannelService
   ) {}
 
   ngOnInit() {
@@ -70,7 +72,11 @@ export class MessageComponent {
     );
 
     if (this.mobile) {
-      this.router.navigate(['/messenger/threadM', this.message.messageID]);
+      this.router.navigate([
+        // `/messenger/channel/${this.activeChannelService.activeChannel.channelID}/threadM`,
+        `/messenger/channel/${this.activeChannelService.activeChannel.channelID}/threadM`,
+        this.message.messageID,
+      ]);
     } else {
       this.router.navigate([
         '/messenger',

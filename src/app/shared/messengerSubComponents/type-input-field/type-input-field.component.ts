@@ -54,13 +54,15 @@ export class TypeInputFieldComponent {
       });
   }
 
-  private uploadFile(uploadedFile: { file: File, url: string }) {
+  private uploadFile(uploadedFile: { file: File; url: string }) {
     // Erlaubte Dateitypen
     const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf'];
 
     // Überprüfe den Dateityp
     if (!allowedTypes.includes(uploadedFile.file.type)) {
-      return Promise.reject('Invalid file type. Only jpg, jpeg, png, and pdf files are allowed.');
+      return Promise.reject(
+        'Invalid file type. Only jpg, jpeg, png, and pdf files are allowed.'
+      );
     }
 
     const uploadMethod = this.getUploadMethod();
@@ -72,7 +74,6 @@ export class TypeInputFieldComponent {
       return Promise.reject('Unknown or unsupported message type');
     }
   }
-
 
   private getUploadMethod() {
     if (this.messengerType === 'channels') {
@@ -184,7 +185,9 @@ export class TypeInputFieldComponent {
     files.forEach((file) => {
       // Überprüfe den Dateityp
       if (!allowedTypes.includes(file.type)) {
-        console.error(`Invalid file type: ${file.name}. Only jpg, jpeg, png, and pdf files are allowed.`);
+        console.error(
+          `Invalid file type: ${file.name}. Only jpg, jpeg, png, and pdf files are allowed.`
+        );
         return; // Überspringe diese Datei, wenn der Typ ungültig ist
       }
 

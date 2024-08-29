@@ -33,10 +33,14 @@ export const routes: Routes = [
     data: { animation: 'routerTransitions' },
     children: [
       { path: '', redirectTo: 'hello', pathMatch: 'full' },
-      { path: 'channel/:id', component: ChannelComponent },
+      {
+        path: 'channel/:id',
+        component: ChannelComponent,
+        children: [{ path: 'threadM/:id', component: ThreadComponent }],
+      },
       { path: 'directMessage/:id', component: DirectMessageComponent },
       { path: 'newMessage', component: NewMessageComponent },
-      { path: 'threadM/:id', component: ThreadComponent },
+      // { path: 'threadM/:id', component: ThreadComponent },
       { path: 'thread/:id', component: ThreadComponent, outlet: 'thread' },
       { path: 'navigation', component: NavigationComponent },
       { path: 'hello', component: HelloComponent },

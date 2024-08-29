@@ -6,6 +6,7 @@ import { ActiveChannelService } from '../../services/active-channel.service';
 import { ActiveThreadService } from '../../services/active-thread-service.service';
 import { ActivatedRoute } from '@angular/router';
 import { ActiveUserService } from '../../services/active-user.service';
+import { RoutingThreadOutletService } from '../../services/routing-thread-outlet.service';
 
 @Component({
   selector: 'app-thread',
@@ -28,6 +29,7 @@ export class ThreadComponent implements OnInit {
       this.route.paramMap.subscribe((paramMap) => {
         threadID = paramMap.get('id');
       });
+
       this.activeThreadService.loadActiveThreadAndMessages(threadID);
     }
   }

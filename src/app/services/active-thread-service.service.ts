@@ -20,11 +20,6 @@ export class ActiveThreadService {
   loadActiveThreadAndMessages(threadMessageID: string) {
     this.loadActiveThread(threadMessageID);
     this.loadThreadMessages(threadMessageID);
-
-    setTimeout(() => {
-      console.log(this.activeThreadMessage.senderID);
-      console.log(this.threadMessages);
-    }, 1000);
   }
 
   async loadActiveThread(threadMessageID: string): Promise<void> {
