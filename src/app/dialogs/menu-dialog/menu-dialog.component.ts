@@ -34,4 +34,9 @@ export class MenuDialogComponent implements OnInit {
       data: { userID: this.activeUserService.activeUser.userID  }
     });
   }
+
+  onLogout() {
+    this.activeUserService.logout();
+    this.dialogRef.close();
+  }
 }

@@ -5,6 +5,8 @@ import { DirectMessage } from '../models/directMessages.model';
 import { firstValueFrom, map, Observable } from 'rxjs';
 import { User } from '../models/user.model';
 import { FindUserService } from './find-user.service';
+import { Router } from '@angular/router';
+
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +18,7 @@ export class ActiveUserService {
   activeUserDirectMessages!: any[];
   activeUser!: User;
 
-  constructor(private firestoreService: FirestoreService, private findUserService: FindUserService) {
+  constructor(private firestoreService: FirestoreService, private findUserService: FindUserService, private router: Router) {
     this.loadActiveUser();
   }
 
@@ -30,18 +32,18 @@ export class ActiveUserService {
       userID = activeUserID;
     }
 
-    await this.getActiveUser(userID); // Stellt sicher, dass der activeUser$ aktualisiert wird    
+    await this.getActiveUser(userID); // Stellt sicher, dass der activeUser$ aktualisiert wird
 
     this.subscribeUserObservableAndLoadConversations();
   }
-  
+
   async getActiveUser(userID: string | null) {
     this.activeUser$ = this.firestoreService.allUsers$
     .pipe(
       map(users => users.find((user: any) => user.userID === userID))
     );
   }
-  
+
   subscribeUserObservableAndLoadConversations() {
     this.activeUser$.subscribe((user) => {
       if (user) {
@@ -90,11 +92,11 @@ export class ActiveUserService {
 
     for (const directMessage of this.activeUserDirectMessages) {
       const partnerUserID = directMessage.member.find((id: string) => id !== this.activeUser.userID);
-      
+
       if (partnerUserID) {
         try {
           const partnerUser = this.findUserService.findUser(partnerUserID);
-          
+
           if (partnerUser) {
             directMessage.partnerUser = partnerUser; // Füge den Partner-User dem DirectMessage hinzu
           }
@@ -104,10 +106,18 @@ export class ActiveUserService {
       }
     }
   }
-    
-  
 
+  logout() {
+    // Leere den Local Storage
+    localStorage.removeItem('activeUser');
 
+    // Setze alle relevanten Variablen zurück
+    this.activeUser = null!;
+    this.activeUserChannels = [];
+    this.activeUserDirectMessages = [];
 
+    // Leite zur Login-Seite weiter
+    this.router.navigate(['/login']);
+  }
 
 }
