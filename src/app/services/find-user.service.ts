@@ -1,8 +1,5 @@
 import { Injectable, signal } from '@angular/core';
 import { FirestoreService } from './firestore.service';
-import { map, Observable } from 'rxjs';
-import { User } from '../models/user.model';
-import { log } from 'console';
 
 @Injectable({
   providedIn: 'root',
@@ -36,6 +33,12 @@ export class FindUserService {
   findUsersWithName(name: string) {
     return this.firestoreService.allUsers.filter((user) =>
       user.name.toLowerCase().includes(name.toLowerCase())
+    );
+  }
+
+  findUsersWithEmail(email: string) {
+    return this.firestoreService.allUsers.filter((user) =>
+      user.email.toLowerCase().includes(email.toLowerCase())
     );
   }
 }

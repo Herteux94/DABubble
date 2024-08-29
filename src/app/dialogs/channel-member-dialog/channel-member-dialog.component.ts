@@ -72,7 +72,6 @@ export class ChannelMemberDialogComponent implements OnInit {
     this.members = this.findUserService.findUsers(
       this.activeChannelService.activeChannel.member
     );
-    // console.log(this.members);
   }
 
   openInvite() {
@@ -105,12 +104,19 @@ export class ChannelMemberDialogComponent implements OnInit {
 
   async addUsersToChannel() {
     const channel = this.activeChannelService.activeChannel;
-  
+
     for (const user of this.selectedUsers()) {
       if (!channel.member.includes(user.userID)) {
         channel.member.push(user.userID);
-        await this.firestoreService.updateUserWithChannelOrDirectMessage(user.userID, 'channels', channel.channelID);
-        await this.firestoreService.addMemberToChannel(user.userID, channel.channelID);
+        await this.firestoreService.updateUserWithChannelOrDirectMessage(
+          user.userID,
+          'channels',
+          channel.channelID
+        );
+        await this.firestoreService.addMemberToChannel(
+          user.userID,
+          channel.channelID
+        );
       }
     }
     this.selectedUsers.set([]);
