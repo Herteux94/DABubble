@@ -26,7 +26,7 @@ export class ThreadComponent implements OnInit {
       this.route.paramMap.subscribe((paramMap) => {
         threadID = paramMap.get('id');
       });
-      this.activeChannelService.loadActiveChannelAndMessages(threadID);
+      this.activeThreadService.loadActiveThreadAndMessages(threadID);
     }
   }
 }

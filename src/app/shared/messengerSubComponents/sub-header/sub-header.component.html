@@ -28,9 +28,9 @@
           />
         </g>
       </svg>
-      @if(this.activeChannelService.activeChannel) {
+      @if(this.threadRoutingService.activeThreadChannelName) {
       <span class="threadName">{{
-        this.activeChannelService.activeChannel.name
+        this.threadRoutingService.activeThreadChannelName
       }}</span>
       }
     </div>

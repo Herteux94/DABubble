@@ -57,15 +57,21 @@ export class MessageComponent {
       this.mobile = isMobile;
     });
 
+    console.log('message: ', this.message);
+
     if (this.message && this.message.senderID) {
       this.checkIfOwnMessage();
+    } else {
+      console.log('keine Message Sender ID vorhanden');
     }
 
     // Filtere ungültige URLs aus den Anhängen heraus
-    if (this.message.attachments) {
+    if (this.message && this.message.attachments) {
       this.message.attachments = this.message.attachments.filter(
         (url) => url && url.trim() !== ''
       );
+    } else {
+      console.log('keine Message attachments vorhanden');
     }
   }
 

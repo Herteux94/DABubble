@@ -21,15 +21,11 @@
     </div>
 
     <div [ngClass]="ownMessage ? 'messageTextOwnMsg' : 'messageText'">
-      @if(this. message && this.message.attachments) {
-      <div
-        *ngIf="message.attachments && message.attachments.length > 0"
-        class="fileContainer"
-      >
-        <div
-          *ngFor="let attachment of message.attachments"
-          class="filePreviewContainer"
-        >
+      @if(this.message && this.message.attachments &&
+      this.message.attachments.length > 0) {
+      <div class="fileContainer">
+        <div class="filePreviewContainer">
+          @for(attachment of this.message.attachments; track attachment) {
           <a [href]="attachment" download class="download-link"
             ><img
               [src]="attachment"
@@ -41,11 +37,11 @@
               class="filePreview"
             />
           </a>
+          }
         </div>
       </div>
       } @if(this.message && this.message.content) {
       <span>{{ message.content }}</span>
-
       }
     </div>
 
