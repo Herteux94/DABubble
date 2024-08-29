@@ -1,14 +1,24 @@
 <section>
-    <div class="content">
-      <app-sub-header [isDM]="true"></app-sub-header>
-      <div class="messagesContent">
-        <app-date-divider></app-date-divider>
-        @if(this.activeDirectMessageService.dmMessages && this.activeDirectMessageService.dmMessages.length > 0) {
-          @for(message of this.activeDirectMessageService.dmMessages; track message) {
-            <app-message [message]="message" [isChannel]="false"></app-message>
-            }
-          }
-      </div>
+  <div class="content">
+    <app-sub-header [isDM]="true"></app-sub-header>
+    <div class="messagesContent">
+      <app-date-divider></app-date-divider>
+      @if(this.activeDirectMessageService.dmMessages &&
+      this.activeDirectMessageService.dmMessages.length > 0) { @for(message of
+      this.activeDirectMessageService.dmMessages; track message) {
+      <app-message
+        [ownMessage]="
+          this.activeUserService.activeUser.userID === message.senderID
+            ? true
+            : false
+        "
+        [message]="message"
+        [isChannel]="false"
+      ></app-message>
+      } }
     </div>
-    <app-type-input-field [messengerType]="'directMessages'"></app-type-input-field>
-  </section>
+  </div>
+  <app-type-input-field
+    [messengerType]="'directMessages'"
+  ></app-type-input-field>
+</section>

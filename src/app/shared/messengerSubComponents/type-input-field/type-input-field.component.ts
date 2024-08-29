@@ -7,30 +7,28 @@ import { ActiveChannelService } from '../../../services/active-channel.service';
 import { StorageService } from '../../../services/storage.service';
 import { CommonModule } from '@angular/common';
 import { ActiveDirectMessageService } from '../../../services/active-direct-message-service.service';
+import { ActiveThreadService } from '../../../services/active-thread-service.service';
 
 @Component({
   selector: 'app-type-input-field',
   standalone: true,
-  imports: [
-    FormsModule,
-    CommonModule
-  ],
+  imports: [FormsModule, CommonModule],
   templateUrl: './type-input-field.component.html',
-  styleUrls: ['./type-input-field.component.scss']
+  styleUrls: ['./type-input-field.component.scss'],
 })
 export class TypeInputFieldComponent {
-
   @Input() messengerType: string = '';
   message = new Message();
-  uploadedFiles: { file: File, url: string }[] = [];  // Liste der hochgeladenen Dateien und deren URLs
+  uploadedFiles: { file: File; url: string }[] = []; // Liste der hochgeladenen Dateien und deren URLs
 
   constructor(
     private firestoreService: FirestoreService,
     private activeUserService: ActiveUserService,
     private activeChannelService: ActiveChannelService,
     private storageService: StorageService,
-    public activeDirectMessageService: ActiveDirectMessageService
-  ) { }
+    public activeDirectMessageService: ActiveDirectMessageService,
+    private activeThreadService: ActiveThreadService
+  ) {}
 
   // Überprüft den Messenger-Typ und leitet den Upload-Prozess ein
   sendMessage() {
@@ -45,18 +43,18 @@ export class TypeInputFieldComponent {
 
   // Methode zum Hochladen der Dateien und anschließendem Senden der Nachricht
   private uploadFilesAndSendMessage() {
-    const uploadPromises = this.uploadedFiles.map(uploadedFile => {
+    const uploadPromises = this.uploadedFiles.map((uploadedFile) => {
       return this.uploadFile(uploadedFile);
     });
 
     Promise.all(uploadPromises)
       .then(() => this.sendMessageBasedOnType())
-      .catch(error => {
+      .catch((error) => {
         console.error('Error uploading files:', error);
       });
   }
 
-  private uploadFile(uploadedFile: { file: File, url: string }) {
+  private uploadFile(uploadedFile: { file: File; url: string }) {
     const uploadMethod = this.getUploadMethod();
     const id = this.getIdForUpload();
 
@@ -92,11 +90,15 @@ export class TypeInputFieldComponent {
   private performUpload(
     uploadMethod: (id: string, file: File) => Promise<string>,
     id: string,
-    uploadedFile: { file: File, url: string }
+    uploadedFile: { file: File; url: string }
   ) {
-    return uploadMethod.call(this.storageService, id, uploadedFile.file)
+    return uploadMethod
+      .call(this.storageService, id, uploadedFile.file)
       .then((downloadURL) => {
-        console.log(`File uploaded successfully to ${this.messengerType}:`, downloadURL);
+        console.log(
+          `File uploaded successfully to ${this.messengerType}:`,
+          downloadURL
+        );
         uploadedFile.url = downloadURL; // Speichere die tatsächliche URL
       })
       .catch((error) => {
@@ -105,18 +107,28 @@ export class TypeInputFieldComponent {
       });
   }
 
-
-
   // Sendet die Nachricht basierend auf dem Messenger-Typ
   private sendMessageBasedOnType() {
     this.prepareMessage();
 
     if (this.messengerType === 'thread') {
-      this.firestoreService.addThreadMessage(this.message.toJSON(), this.messengerType, this.activeChannelService.activeChannel.channelID);
+      this.firestoreService.addThreadMessage(
+        this.message.toJSON(),
+        this.activeChannelService.activeChannel.channelID,
+        this.activeThreadService.activeThreadMessage.messageID
+      );
     } else if (this.messengerType === 'channels') {
-      this.firestoreService.addMessage(this.message.toJSON(), this.messengerType, this.activeChannelService.activeChannel.channelID);
+      this.firestoreService.addMessage(
+        this.message.toJSON(),
+        this.messengerType,
+        this.activeChannelService.activeChannel.channelID
+      );
     } else if (this.messengerType === 'directMessages') {
-      this.firestoreService.addMessage(this.message.toJSON(), this.messengerType, this.activeDirectMessageService.activeDM.directMessageID);
+      this.firestoreService.addMessage(
+        this.message.toJSON(),
+        this.messengerType,
+        this.activeDirectMessageService.activeDM.directMessageID
+      );
     } else {
       console.error('MessengerType not found');
     }
@@ -133,7 +145,7 @@ export class TypeInputFieldComponent {
     this.message.senderName = this.activeUserService.activeUser.name;
 
     // Füge die tatsächlichen URLs zu den Anhängen hinzu
-    this.uploadedFiles.forEach(uploadedFile => {
+    this.uploadedFiles.forEach((uploadedFile) => {
       if (uploadedFile.url) {
         this.message.attachments.push(uploadedFile.url);
       }
@@ -157,7 +169,7 @@ export class TypeInputFieldComponent {
   previewFiles(event: any) {
     const files: File[] = Array.from(event.target.files);
 
-    files.forEach(file => {
+    files.forEach((file) => {
       const reader = new FileReader();
       reader.onload = () => {
         // Speichere die Base64-Daten vorübergehend in der `url`-Eigenschaft, um die Vorschau anzuzeigen
@@ -168,8 +180,10 @@ export class TypeInputFieldComponent {
   }
 
   // Methode zum Entfernen einer Datei aus der Vorschau
-  closePreview(fileToRemove: { file: File, url: string }) {
-    this.uploadedFiles = this.uploadedFiles.filter(file => file !== fileToRemove);
+  closePreview(fileToRemove: { file: File; url: string }) {
+    this.uploadedFiles = this.uploadedFiles.filter(
+      (file) => file !== fileToRemove
+    );
   }
 
   @HostListener('document:keydown.enter', ['$event'])

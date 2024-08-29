@@ -2,10 +2,19 @@
   <div class="content">
     <app-sub-header [isThread]="true"></app-sub-header>
     <div class="messagesContent">
+      @if(this.activeThreadService.activeThreadMessage &&
+      this.activeThreadService.activeThreadMessage.senderID) {
       <app-message
         [isChannel]="false"
         [message]="this.activeThreadService.activeThreadMessage"
+        [ownMessage]="
+          this.activeUserService.activeUser.userID ===
+          this.activeThreadService.activeThreadMessage.senderID
+            ? true
+            : false
+        "
       ></app-message>
+      }
       <div class="divider">
         <span class="subText">2 Antworten</span>
         <div class="line"></div>
@@ -13,7 +22,15 @@
       @if(this.activeThreadService.threadMessages &&
       this.activeThreadService.threadMessages.length > 0) { @for(message of
       this.activeThreadService.threadMessages; track message) {
-      <app-message [message]="message" [isChannel]="true"></app-message>
+      <app-message
+        [ownMessage]="
+          this.activeUserService.activeUser.userID === message.senderID
+            ? true
+            : false
+        "
+        [message]="message"
+        [isChannel]="true"
+      ></app-message>
       } }
     </div>
   </div>

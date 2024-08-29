@@ -11,8 +11,8 @@ import { RoutingThreadOutletService } from '../../../services/routing-thread-out
 import { ScreenSizeService } from '../../../services/screen-size-service.service';
 import { CommonModule } from '@angular/common';
 import { MatDialogModule } from '@angular/material/dialog';
-import { ActiveUserService } from '../../../services/active-user.service';
 import { ActiveThreadService } from '../../../services/active-thread-service.service';
+import { Message } from '../../../models/message.model';
 
 @Component({
   selector: 'app-message',
@@ -31,24 +31,15 @@ import { ActiveThreadService } from '../../../services/active-thread-service.ser
 export class MessageComponent {
   mobile!: boolean;
   dialog = inject(Dialog);
-  ownMessage!: boolean;
 
+  @Input() ownMessage!: boolean;
   @Input() isChannel!: boolean;
-  @Input() message!: {
-    senderID: string;
-    senderName: string;
-    creationTime: Number;
-    content: string;
-    attachments: string[];
-    reactions: string[];
-    messageID: string;
-  };
+  @Input() message!: Message;
 
   constructor(
     public threadRoutingService: RoutingThreadOutletService,
     private screenSizeService: ScreenSizeService,
     private router: Router,
-    private activeUserService: ActiveUserService,
     private activeThreadService: ActiveThreadService
   ) {}
 
@@ -57,14 +48,6 @@ export class MessageComponent {
       this.mobile = isMobile;
     });
 
-    console.log('message: ', this.message);
-
-    if (this.message && this.message.senderID) {
-      this.checkIfOwnMessage();
-    } else {
-      console.log('keine Message Sender ID vorhanden');
-    }
-
     // Filtere ungültige URLs aus den Anhängen heraus
     if (this.message && this.message.attachments) {
       this.message.attachments = this.message.attachments.filter(
@@ -72,14 +55,6 @@ export class MessageComponent {
       );
     } else {
       console.log('keine Message attachments vorhanden');
-    }
-  }
-
-  checkIfOwnMessage() {
-    if (this.message.senderID == this.activeUserService.activeUser.userID) {
-      this.ownMessage = true;
-    } else {
-      this.ownMessage = false;
     }
   }
 

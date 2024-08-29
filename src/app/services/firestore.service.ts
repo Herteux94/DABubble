@@ -149,16 +149,12 @@ export class FirestoreService {
   }
 
   addThreadMessage(messageData: any, channelID: string, messageID: string) {
-    updateDoc(
-      doc(
-        collection(
-          this.firestore,
-          `channels/${channelID}/messages/${messageID}/threadMessages`
-        )
+    addDoc(
+      collection(
+        this.firestore,
+        `channels/${channelID}/messages/${messageID}/threadMessages`
       ),
-      {
-        messages: arrayUnion(messageData),
-      }
+      messageData
     ).then((docRef: any) => {
       updateDoc(
         doc(

@@ -38,15 +38,8 @@ export class ActiveThreadService {
     this.activeThreadMessage = (await activeThread).data();
   }
 
-  loadThreadMessages(threadMessageID: string) {
-    let channelID = '';
-
-    if (
-      this.activeChannelService.activeChannel &&
-      this.activeChannelService.activeChannel.channelID
-    ) {
-      channelID = this.activeChannelService.activeChannel.channelID;
-    }
+  async loadThreadMessages(threadMessageID: string) {
+    let channelID = this.activeChannelService.activeChannel.channelID;
 
     this.threadMessages$ = this.firestoreService.getThreadMessages(
       channelID,

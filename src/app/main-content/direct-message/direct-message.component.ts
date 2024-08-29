@@ -5,17 +5,26 @@ import { SubHeaderComponent } from '../../shared/messengerSubComponents/sub-head
 import { TypeInputFieldComponent } from '../../shared/messengerSubComponents/type-input-field/type-input-field.component';
 import { ActiveDirectMessageService } from '../../services/active-direct-message-service.service';
 import { ActivatedRoute } from '@angular/router';
+import { ActiveUserService } from '../../services/active-user.service';
 
 @Component({
   selector: 'app-direct-message',
   standalone: true,
-  imports: [DateDividerComponent, MessageComponent, SubHeaderComponent, TypeInputFieldComponent],
+  imports: [
+    DateDividerComponent,
+    MessageComponent,
+    SubHeaderComponent,
+    TypeInputFieldComponent,
+  ],
   templateUrl: './direct-message.component.html',
-  styleUrl: './direct-message.component.scss'
+  styleUrl: './direct-message.component.scss',
 })
 export class DirectMessageComponent implements OnInit {
-
-  constructor(public activeDirectMessageService: ActiveDirectMessageService, private route: ActivatedRoute) {}
+  constructor(
+    public activeDirectMessageService: ActiveDirectMessageService,
+    private route: ActivatedRoute,
+    public activeUserService: ActiveUserService
+  ) {}
 
   ngOnInit() {
     if (!this.activeDirectMessageService.activeDM) {
@@ -23,9 +32,9 @@ export class DirectMessageComponent implements OnInit {
       this.route.paramMap.subscribe((paramMap) => {
         directMessageID = paramMap.get('id');
       });
-        this.activeDirectMessageService.loadActiveDMAndMessagesAndPartner(directMessageID);
+      this.activeDirectMessageService.loadActiveDMAndMessagesAndPartner(
+        directMessageID
+      );
     }
   }
-
-
 }

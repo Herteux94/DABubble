@@ -5,6 +5,7 @@ import { TypeInputFieldComponent } from '../../shared/messengerSubComponents/typ
 import { ActiveChannelService } from '../../services/active-channel.service';
 import { ActiveThreadService } from '../../services/active-thread-service.service';
 import { ActivatedRoute } from '@angular/router';
+import { ActiveUserService } from '../../services/active-user.service';
 
 @Component({
   selector: 'app-thread',
@@ -17,6 +18,7 @@ export class ThreadComponent implements OnInit {
   constructor(
     public activeChannelService: ActiveChannelService,
     public activeThreadService: ActiveThreadService,
+    public activeUserService: ActiveUserService,
     private route: ActivatedRoute
   ) {}
 
