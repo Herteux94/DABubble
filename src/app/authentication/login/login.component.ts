@@ -68,27 +68,28 @@ export class LoginComponent {
       });
   }
 
-  // Methode für Google-Login
-  loginWithGoogle() {
-    const provider = new GoogleAuthProvider();
-    signInWithPopup(this.auth, provider)
-      .then(async (result) => {
-        const activeUserID = result.user.uid;
-        const displayName = result.user.displayName ?? ''; // Verwende einen leeren String, wenn displayName null oder undefined ist
-        const email = result.user.email ?? ''; // Verwende einen leeren String, wenn email null oder undefined ist
+// Methode für Google-Login
+loginWithGoogle() {
+  const provider = new GoogleAuthProvider();
+  signInWithPopup(this.auth, provider)
+    .then(async (result) => {
+      const activeUserID = result.user.uid;
+      const displayName = result.user.displayName ?? ''; // Verwende einen leeren String, wenn displayName null oder undefined ist
+      const email = result.user.email ?? ''; // Verwende einen leeren String, wenn email null oder undefined ist
 
-        await this.checkOrCreateUserProfile(activeUserID, displayName, email);
-        this.errorMessage = '';
-        this.errorType = null;
-        this.activeUserService.loadActiveUser(activeUserID);  // Setze den aktiven Benutzer
-        this.router.navigate(['/messenger']);
-      })
-      .catch((error) => {
-        console.error('Error during Google sign-in:', error);
-        this.errorMessage = 'Fehler bei der Anmeldung mit Google. Bitte versuchen Sie es erneut.';
-        this.errorType = null;
-      });
-  }
+      await this.checkOrCreateUserProfile(activeUserID, displayName, email);
+      this.errorMessage = '';
+      this.errorType = null;
+      this.activeUserService.loadActiveUser(activeUserID);  // Setze den aktiven Benutzer
+      this.router.navigate(['/messenger']);
+    })
+    .catch((error) => {
+      console.error('Error during Google sign-in:', error);
+      this.errorMessage = 'Fehler bei der Anmeldung mit Google. Bitte versuchen Sie es erneut.';
+      this.errorType = null;
+    });
+}
+
 
   async checkOrCreateUserProfile(activeUserID: string, displayName?: string, email?: string) {
     const userRef = doc(this.firestore, `users/${activeUserID}`);
@@ -97,8 +98,8 @@ export class LoginComponent {
     if (!userSnap.exists()) {
       let user = new User();
       user.userID = activeUserID;
-      user.name = displayName || '';  // Name von Google-Authentifizierung oder leerer String
-      user.email = email || '';  // E-Mail von Google-Authentifizierung oder leerer String
+      user.name = displayName ?? '';  // Verwende einen leeren String, wenn displayName null oder undefined ist
+      user.email = email ?? '';  // Verwende einen leeren String, wenn email null oder undefined ist
       user.lastOnline = Date.now();
 
       try {

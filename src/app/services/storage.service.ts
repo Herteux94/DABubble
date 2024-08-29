@@ -20,6 +20,15 @@ export class StorageService {
 
   uploadAvatar(file: File): Promise<string> {
     return new Promise((resolve, reject) => {
+      // Erlaubte Dateitypen
+      const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf'];
+
+      // Überprüfe den Dateityp
+      if (!allowedTypes.includes(file.type)) {
+        reject('Invalid file type. Only jpg, jpeg, png, and pdf files are allowed.');
+        return;
+      }
+
       const user = this.auth.currentUser;
       if (user) {
         const storageRef = ref(this.storage, `avatars/${user.uid}/${file.name}`);
@@ -45,6 +54,7 @@ export class StorageService {
       }
     });
   }
+
 
   async deleteOldAvatars(excludeUrl: string): Promise<void> {
     const user = this.auth.currentUser;

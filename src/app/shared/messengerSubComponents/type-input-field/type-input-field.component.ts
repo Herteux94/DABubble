@@ -54,7 +54,15 @@ export class TypeInputFieldComponent {
       });
   }
 
-  private uploadFile(uploadedFile: { file: File; url: string }) {
+  private uploadFile(uploadedFile: { file: File, url: string }) {
+    // Erlaubte Dateitypen
+    const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf'];
+
+    // Überprüfe den Dateityp
+    if (!allowedTypes.includes(uploadedFile.file.type)) {
+      return Promise.reject('Invalid file type. Only jpg, jpeg, png, and pdf files are allowed.');
+    }
+
     const uploadMethod = this.getUploadMethod();
     const id = this.getIdForUpload();
 
@@ -64,6 +72,7 @@ export class TypeInputFieldComponent {
       return Promise.reject('Unknown or unsupported message type');
     }
   }
+
 
   private getUploadMethod() {
     if (this.messengerType === 'channels') {
