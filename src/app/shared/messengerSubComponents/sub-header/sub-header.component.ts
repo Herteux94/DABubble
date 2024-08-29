@@ -22,13 +22,12 @@ export interface DialogData {
 })
 export class SubHeaderComponent implements OnInit {
   dialog = inject(Dialog);
+  mobile!: boolean;
 
   @Input() isChannel!: boolean;
   @Input() isThread!: boolean;
   @Input() isDM!: boolean;
   @Input() isNewMsg!: boolean;
-  
-  mobile!: boolean;
 
   constructor(
     public screenSizeService: ScreenSizeService,
@@ -41,7 +40,15 @@ export class SubHeaderComponent implements OnInit {
     this.screenSizeService.isMobile().subscribe((isMobile) => {
       this.mobile = isMobile;
     });
+
+    if (
+      this.activeChannelService.activeChannel &&
+      this.activeChannelService.activeChannel.name
+    ) {
+      this.threadRoutingService.loadActiveThreadChannelName();
+    }
   }
+
   openMemberDialog() {
     this.dialog.open(ChannelMemberDialogComponent, {
       // minWidth: '300px',
@@ -53,22 +60,19 @@ export class SubHeaderComponent implements OnInit {
   }
 
   openInviteDialog() {
-    this.dialog.open(InviteMemberDialogComponent, {
-    });
+    this.dialog.open(InviteMemberDialogComponent, {});
   }
 
   openProfileDialog() {
-    this.dialog.open(ProfileDialogComponent, {
-    });
+    this.dialog.open(ProfileDialogComponent, {});
   }
 
   openChannelDialog() {
-    this.dialog.open(ChannelDialogComponent, {
-    });
+    this.dialog.open(ChannelDialogComponent, {});
   }
 
   closeThread() {
-    if(this.mobile) {
+    if (this.mobile) {
       history.back();
     } else {
       this.threadRoutingService.closeThread();
