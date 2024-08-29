@@ -16,7 +16,7 @@
                 <span>Profil</span>
             </a>
 
-            <a class="menuLink hover" [ngClass]="{'hover': !mobile}">
+            <a class="menuLink hover" [ngClass]="{'hover': !mobile}" (click)="onLogout()">
                 <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <mask id="mask0_69747_1089" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
                         width="30" height="30">

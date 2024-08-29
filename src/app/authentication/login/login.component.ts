@@ -74,7 +74,10 @@ export class LoginComponent {
     signInWithPopup(this.auth, provider)
       .then(async (result) => {
         const activeUserID = result.user.uid;
-        await this.checkOrCreateUserProfile(activeUserID);
+        const displayName = result.user.displayName ?? ''; // Verwende einen leeren String, wenn displayName null oder undefined ist
+        const email = result.user.email ?? ''; // Verwende einen leeren String, wenn email null oder undefined ist
+
+        await this.checkOrCreateUserProfile(activeUserID, displayName, email);
         this.errorMessage = '';
         this.errorType = null;
         this.activeUserService.loadActiveUser(activeUserID);  // Setze den aktiven Benutzer
@@ -87,15 +90,17 @@ export class LoginComponent {
       });
   }
 
-  async checkOrCreateUserProfile(activeUserID: string) {
+  async checkOrCreateUserProfile(activeUserID: string, displayName?: string, email?: string) {
     const userRef = doc(this.firestore, `users/${activeUserID}`);
     const userSnap = await getDoc(userRef);
 
     if (!userSnap.exists()) {
       let user = new User();
       user.userID = activeUserID;
-      user.email = this.email;
+      user.name = displayName || '';  // Name von Google-Authentifizierung oder leerer String
+      user.email = email || '';  // E-Mail von Google-Authentifizierung oder leerer String
       user.lastOnline = Date.now();
+
       try {
         await this.firestoreService.addUser(user.toJSON());
         console.log('Neues Benutzerprofil in Firestore erstellt: ', user);
