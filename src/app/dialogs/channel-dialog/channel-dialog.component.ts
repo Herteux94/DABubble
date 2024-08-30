@@ -21,6 +21,8 @@ import { EditMemberDialogComponent } from '../edit-member-dialog/edit-member-dia
 import { Channel } from '../../models/channel.model';
 import { ActiveChannelService } from '../../services/active-channel.service';
 import { FirestoreService } from '../../services/firestore.service';
+import { ActiveUserService } from '../../services/active-user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-channel-dialog',
@@ -122,6 +124,8 @@ export class ChannelDialogComponent implements OnInit {
     private screenSizeService: ScreenSizeService,
     public activeChannelService: ActiveChannelService,
     private firestoreService: FirestoreService,
+    private activeUserService: ActiveUserService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -166,22 +170,26 @@ export class ChannelDialogComponent implements OnInit {
     textarea.rows = currentRows <= 4 ? currentRows : 4;
   }
 
-  onSubmit(ngForm: NgForm) {}
-
   getUserData(userID: string) {
-    // allUsers nach den userID´s durchsuchen und die Informationen rausholen
-    return userID
+    return userID;
   }
 
   saveNewName() {
-    this.activeChannelService.activeChannel.name = this.channelName; // Update local channel object
-    this.firestoreService.updateChannel({ name: this.channelName }, this.activeChannelService.activeChannel.channelID); // Update in backend
+    this.activeChannelService.activeChannel.name = this.channelName;
+    this.firestoreService.updateChannel(
+      { name: this.channelName },
+      this.activeChannelService.activeChannel.channelID
+    );
     console.log('Channel name updated successfully');
   }
 
   saveNewDescription() {
-    this.activeChannelService.activeChannel.description = this.channelDescription; // Update local channel object
-    this.firestoreService.updateChannel({ description: this.channelDescription }, this.activeChannelService.activeChannel.channelID); // Update in backend
+    this.activeChannelService.activeChannel.description =
+      this.channelDescription;
+    this.firestoreService.updateChannel(
+      { description: this.channelDescription },
+      this.activeChannelService.activeChannel.channelID
+    );
     console.log('Channel description updated successfully');
   }
 
@@ -194,6 +202,27 @@ export class ChannelDialogComponent implements OnInit {
   }
 
   leaveChannel() {
-    
+    const userID = this.activeUserService.activeUser.userID;
+    const channel = this.activeChannelService.activeChannel;
+
+    const updatedMembers = channel.member.filter(
+      (memberID: string) => memberID !== userID
+    );
+    const updatedUserChannels =
+      this.activeUserService.activeUser.channels.filter(
+        (channelID: string) => channelID !== channel.channelID
+      );
+
+
+    this.firestoreService.updateChannel(
+      { member: updatedMembers },
+      channel.channelID
+    );
+    this.firestoreService.updateUser({ channels: updatedUserChannels }, userID);
+    this.navigateToHelloComponent();
+  }
+
+  navigateToHelloComponent() {
+    this.router.navigate(['messenger/hello']);
   }
 }
