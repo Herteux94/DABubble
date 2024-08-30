@@ -33,7 +33,7 @@ export class NewDirectMessageService {
 
     // Da du die Funktion asynchron machst, musst du das Ergebnis des Promise zurückgeben.
     return this.firestoreService
-      .addDirectMessage(newDirectMessage.toJSON(), user.userID)
+      .addDirectMessage(newDirectMessage.toJSON(), user.userID, sender.userID)
       .then((docRef) => {
         // Hier wird die docRef.id zurückgegeben.
         return docRef.id;

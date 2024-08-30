@@ -116,13 +116,18 @@ export class FirestoreService {
     });
   }
 
-  addDirectMessage(directMessageData: any, userID: string): Promise<DocumentReference> {
+  addDirectMessage(directMessageData: any, userID1: string, userID2: string): Promise<DocumentReference> {
     return addDoc(this.directMessageCol, directMessageData).then((docRef) => {
       updateDoc(doc(this.directMessageCol, docRef.id), {
         directMessageID: docRef.id,
       });
       this.updateUserWithChannelOrDirectMessage(
-        userID,
+        userID1,
+        'directMessages',
+        docRef.id
+      );
+      this.updateUserWithChannelOrDirectMessage(
+        userID2,
         'directMessages',
         docRef.id
       );
