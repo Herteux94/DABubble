@@ -47,13 +47,9 @@ export class ActiveUserService {
 
   subscribeUserObservableAndLoadConversations() {
     this.activeUser$.subscribe((user) => {
-      if (user) {
-        this.activeUser = user;
-        this.loadUserChannels(this.activeUser.channels);
-        this.loadUserDirectMessages(this.activeUser.directMessages);
-      } else {
-        console.log('Kein Benutzer gefunden');
-      }
+      this.activeUser = user;
+      this.loadUserChannels(this.activeUser.channels);
+      this.loadUserDirectMessages(this.activeUser.directMessages);
     });
   }
 
@@ -66,12 +62,20 @@ export class ActiveUserService {
   }
 
   async loadUserChannels(activeUserChannelIDs: string[]) {
-    const channels = await firstValueFrom(this.firestoreService.allChannels$);
-    if (channels.length > 0) {
+    // const channels = await firstValueFrom(this.firestoreService.allChannels$);
+    // if (channels.length > 0) {
+    //   this.activeUserChannels = this.firestoreService.allChannels.filter(
+    //     (channel: any) => activeUserChannelIDs.includes(channel.channelID)
+    //   );
+    // }
+
+    this.firestoreService.allChannels$.subscribe(() => {
       this.activeUserChannels = this.firestoreService.allChannels.filter(
         (channel: any) => activeUserChannelIDs.includes(channel.channelID)
       );
-    }
+    });
+
+    console.log('activeUserChannels changed: ', this.activeUserChannels);
   }
 
   async loadUserDirectMessages(activeUserDirectMessageIDs: any[]) {
