@@ -46,22 +46,4 @@ export class NewDirectMessageService {
 
       // this.activeDirectMessageService.loadActiveThreadAndMessages(threadMessageID: string)
   }
-
-  // addNewDirectMessage() {
-  //   const sender = this.messageReceiver;
-  //   const user = this.activeUserService.activeUser;
-  //   console.log(sender, user);
-  //   const newDirectMessage = new DirectMessage();
-  //   newDirectMessage.directMessageID = '';
-  //   newDirectMessage.member = [this.activeUserService.activeUser.userID, sender.userID];
-  //   try {
-  //     this.firestoreService.addDirectMessage(newDirectMessage.toJSON(),this.activeUserService.activeUser.userID).then((docRef) => {
-  //       return docRef.id;
-  //     })
-  //     ;
-  //     // this.firestoreService.updateUserWithChannelOrDirectMessage(user.userID,'directMessages',this.id)
-  //   } catch (error) {
-  //     console.error('Fehler beim Erstellen des Channels:', error);
-  //   }
-  // }
 }
