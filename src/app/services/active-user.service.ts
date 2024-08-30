@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { computed, effect, Injectable, OnDestroy, Signal } from '@angular/core';
 import { FirestoreService } from './firestore.service';
 import { Channel } from '../models/channel.model';
 import { DirectMessage } from '../models/directMessages.model';
@@ -7,19 +7,43 @@ import { User } from '../models/user.model';
 import { FindUserService } from './find-user.service';
 import { Router } from '@angular/router';
 
-
 @Injectable({
   providedIn: 'root',
 })
-
-export class ActiveUserService {
+export class ActiveUserService implements OnDestroy {
   activeUser$!: Observable<any>;
-  activeUserChannels!: Channel[];
+  // activeUserChannels!: Channel[];
   activeUserDirectMessages!: any[];
   activeUser!: User;
 
-  constructor(private firestoreService: FirestoreService, private findUserService: FindUserService, private router: Router) {
+  allChannels: Signal<any[]> = toSignal(this.firestoreService.allChannels$);
+
+  // Signal für aktive Kanäle des Benutzers
+  activeUserChannels!: Signal<any[]>;
+
+  // Effekt, der auf Änderungen von allChannels reagiert
+  private activeUserChannelsEffect = effect(() => {
+    const channels = this.allChannels();
+    if (channels.length > 0) {
+      this.activeUserChannels = computed(() =>
+        channels.filter((channel: any) =>
+          this.activeUser.channels.includes(channel.channelID)
+        )
+      );
+    }
+  });
+
+  constructor(
+    private firestoreService: FirestoreService,
+    private findUserService: FindUserService,
+    private router: Router
+  ) {
     this.loadActiveUser();
+  }
+
+  ngOnDestroy() {
+    // Effekt deaktivieren, um Speicherlecks zu vermeiden
+    this.activeUserChannelsEffect.destroy();
   }
 
   async loadActiveUser(activeUserID?: string) {
@@ -38,21 +62,16 @@ export class ActiveUserService {
   }
 
   async getActiveUser(userID: string | null) {
-    this.activeUser$ = this.firestoreService.allUsers$
-    .pipe(
-      map(users => users.find((user: any) => user.userID === userID))
+    this.activeUser$ = this.firestoreService.allUsers$.pipe(
+      map((users) => users.find((user: any) => user.userID === userID))
     );
   }
 
   subscribeUserObservableAndLoadConversations() {
     this.activeUser$.subscribe((user) => {
-      if (user) {
-        this.activeUser = user;
-        this.loadUserChannels(this.activeUser.channels);
-        this.loadUserDirectMessages(this.activeUser.directMessages);
-      } else {
-        console.log('Kein Benutzer gefunden');
-      }
+      this.activeUser = user;
+      // this.loadUserChannels(this.activeUser.channels);
+      this.loadUserDirectMessages(this.activeUser.directMessages);
     });
   }
 
@@ -64,17 +83,19 @@ export class ActiveUserService {
     return localStorage.getItem('activeUser');
   }
 
-  async loadUserChannels(activeUserChannelIDs: string[]) {
-    const channels = await firstValueFrom(this.firestoreService.allChannels$);
-    if (channels.length > 0) {
-      this.activeUserChannels = this.firestoreService.allChannels.filter(
-        (channel: any) => activeUserChannelIDs.includes(channel.channelID)
-      );
-    }
-  }
+  // async loadUserChannels(activeUserChannelIDs: string[]): Observable<any[]> { // als Promise deklarieren
+  //   const channels = await firstValueFrom(this.firestoreService.allChannels$);
+  //   if (channels.length > 0) {
+  //     this.activeUserChannels = this.firestoreService.allChannels.filter(
+  //       (channel: any) => activeUserChannelIDs.includes(channel.channelID)
+  //     );
+  //   }
+  // }
 
   async loadUserDirectMessages(activeUserDirectMessageIDs: any[]) {
-    const directMessages = await firstValueFrom(this.firestoreService.allDirectMessages$);
+    const directMessages = await firstValueFrom(
+      this.firestoreService.allDirectMessages$
+    );
     if (directMessages.length > 0) {
       this.activeUserDirectMessages =
         this.firestoreService.allDirectMessages.filter((directMessage: any) =>
@@ -89,7 +110,9 @@ export class ActiveUserService {
     if (!this.activeUser || !this.activeUserDirectMessages) return;
 
     for (const directMessage of this.activeUserDirectMessages) {
-      const partnerUserID = directMessage.member.find((id: string) => id !== this.activeUser.userID);
+      const partnerUserID = directMessage.member.find(
+        (id: string) => id !== this.activeUser.userID
+      );
 
       if (partnerUserID) {
         try {
@@ -111,11 +134,13 @@ export class ActiveUserService {
 
     // Setze alle relevanten Variablen zurück
     this.activeUser = null!;
-    this.activeUserChannels = [];
+    // this.activeUserChannels = [];
     this.activeUserDirectMessages = [];
 
     // Leite zur Login-Seite weiter
     this.router.navigate(['/login']);
   }
-
+}
+function toSignal(allChannels$: Observable<Channel[]>): Signal<any[]> {
+  throw new Error('Function not implemented.');
 }

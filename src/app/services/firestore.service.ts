@@ -29,7 +29,6 @@ export class FirestoreService {
   allUsers$!: Observable<User[]>;
   allChannels$!: Observable<Channel[]>;
   allDirectMessages$!: Observable<DirectMessage[]>;
-  allThreads$!: Observable<any[]>;
 
   allUsers: User[] = [];
   allChannels: Channel[] = [];
@@ -116,7 +115,11 @@ export class FirestoreService {
     });
   }
 
-  addDirectMessage(directMessageData: any, userID1: string, userID2: string): Promise<DocumentReference> {
+  addDirectMessage(
+    directMessageData: any,
+    userID1: string,
+    userID2: string
+  ): Promise<DocumentReference> {
     return addDoc(this.directMessageCol, directMessageData).then((docRef) => {
       updateDoc(doc(this.directMessageCol, docRef.id), {
         directMessageID: docRef.id,
