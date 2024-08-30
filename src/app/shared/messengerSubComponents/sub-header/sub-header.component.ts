@@ -150,7 +150,9 @@ export class SubHeaderComponent implements OnInit {
   }
 
   openProfileDialog() {
-    this.dialog.open(ProfileDialogComponent, {});
+    this.dialog.open(ProfileDialogComponent, {
+      data: { userID: this.activeDirectMessageService.activeDMPartner.userID }
+    });
   }
 
   openChannelDialog() {
