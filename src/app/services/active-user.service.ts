@@ -12,9 +12,9 @@ import { Router } from '@angular/router';
 })
 export class ActiveUserService {
   activeUser$!: Observable<any>;
+  activeUser!: User;
   activeUserChannels!: Channel[];
   activeUserDirectMessages!: any[];
-  activeUser!: User;
 
   constructor(
     private firestoreService: FirestoreService,
@@ -47,9 +47,11 @@ export class ActiveUserService {
 
   subscribeUserObservableAndLoadConversations() {
     this.activeUser$.subscribe((user) => {
-      this.activeUser = user;
-      this.loadUserChannels(this.activeUser.channels);
-      this.loadUserDirectMessages(this.activeUser.directMessages);
+      if (user) {
+        this.activeUser = user;
+        this.loadUserChannels(this.activeUser.channels);
+        this.loadUserDirectMessages(this.activeUser.directMessages);
+      }
     });
   }
 
@@ -75,7 +77,9 @@ export class ActiveUserService {
       );
     });
 
-    console.log('activeUserChannels changed: ', this.activeUserChannels);
+    setTimeout(() => {
+      console.log('activeUserChannels changed: ', this.activeUserChannels);
+    }, 1000);
   }
 
   async loadUserDirectMessages(activeUserDirectMessageIDs: any[]) {
