@@ -25,10 +25,10 @@ export class ActiveDirectMessageService {
   async loadActiveDMAndMessagesAndPartner(directMessageID: string) {
     await this.loadActiveDM(directMessageID);
     this.loadDMMessages(directMessageID);
-    setTimeout(() => {
-      console.log('aktive DM: ', this.activeDM);
-      console.log('aktive DM-Nachrichten: ', this.dmMessages);
-    }, 1000)
+    // setTimeout(() => {
+    //   console.log('aktive DM: ', this.activeDM);
+    //   console.log('aktive DM-Nachrichten: ', this.dmMessages);
+    // }, 1000)
   }
 
   async loadActiveDM(directMessageID: string): Promise<void> {
@@ -71,7 +71,5 @@ export class ActiveDirectMessageService {
   async loadActiveDMPartner() {
     const partnerUserID = await this.activeDM.member.find((id: string) => id !== this.activeUserService.activeUser.userID);
     this.activeDMPartner = this.findUserService.findUser(partnerUserID);
-
-    console.log('active DM Partner: ', this.activeDMPartner);
   }
 }

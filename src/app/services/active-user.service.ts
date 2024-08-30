@@ -71,7 +71,6 @@ export class ActiveUserService {
         (channel: any) => activeUserChannelIDs.includes(channel.channelID)
       );
     }
-    console.log('Active User Channels: ', this.activeUserChannels);
   }
 
   async loadUserDirectMessages(activeUserDirectMessageIDs: any[]) {
@@ -84,7 +83,6 @@ export class ActiveUserService {
 
       this.loadDMPartnerInformations();
     }
-    console.log('Active User DMs: ', this.activeUserDirectMessages);
   }
 
   loadDMPartnerInformations() {

@@ -10,6 +10,7 @@ import {
   arrayUnion,
   setDoc,
   getDoc,
+  DocumentReference,
 } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { Channel } from '../models/channel.model';
@@ -115,8 +116,8 @@ export class FirestoreService {
     });
   }
 
-  addDirectMessage(directMessageData: any, userID: string) {
-    addDoc(this.directMessageCol, directMessageData).then((docRef) => {
+  addDirectMessage(directMessageData: any, userID: string): Promise<DocumentReference> {
+    return addDoc(this.directMessageCol, directMessageData).then((docRef) => {
       updateDoc(doc(this.directMessageCol, docRef.id), {
         directMessageID: docRef.id,
       });
@@ -125,8 +126,22 @@ export class FirestoreService {
         'directMessages',
         docRef.id
       );
+      return docRef;
     });
   }
+
+  // addDirectMessage(directMessageData: any, userID: string) {
+  //   return addDoc(this.directMessageCol, directMessageData).then((docRef) => {
+  //     updateDoc(doc(this.directMessageCol, docRef.id), {
+  //       directMessageID: docRef.id,
+  //     });
+  //     this.updateUserWithChannelOrDirectMessage(
+  //       userID,
+  //       'directMessages',
+  //       docRef.id
+  //     );
+  //   });
+  // }
 
   addMessage(messageData: any, messengerType: string, messengerID: string) {
     addDoc(

@@ -1,4 +1,4 @@
-import { Component, HostListener, Input } from '@angular/core';
+import { Component, HostListener, inject, Input } from '@angular/core';
 import { Message } from '../../../models/message.model';
 import { FormsModule } from '@angular/forms';
 import { FirestoreService } from '../../../services/firestore.service';
@@ -8,6 +8,8 @@ import { StorageService } from '../../../services/storage.service';
 import { CommonModule } from '@angular/common';
 import { ActiveDirectMessageService } from '../../../services/active-direct-message-service.service';
 import { ActiveThreadService } from '../../../services/active-thread-service.service';
+import { NewDirectMessageService } from '../../../services/new-direct-message.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-type-input-field',
@@ -18,6 +20,8 @@ import { ActiveThreadService } from '../../../services/active-thread-service.ser
 })
 export class TypeInputFieldComponent {
   @Input() messengerType: string = '';
+  @Input() newDirectMessage: boolean = false;
+  newDirectMessageService = inject(NewDirectMessageService);
   message = new Message();
   uploadedFiles: { file: File; url: string }[] = []; // Liste der hochgeladenen Dateien und deren URLs
 
@@ -27,13 +31,13 @@ export class TypeInputFieldComponent {
     private activeChannelService: ActiveChannelService,
     private storageService: StorageService,
     public activeDirectMessageService: ActiveDirectMessageService,
-    private activeThreadService: ActiveThreadService
+    private activeThreadService: ActiveThreadService,
+    private router: Router
   ) {}
 
   // Überprüft den Messenger-Typ und leitet den Upload-Prozess ein
   sendMessage() {
-    console.log(this.messengerType);
-
+    // console.log(this.messengerType);
     if (this.uploadedFiles.length > 0) {
       this.uploadFilesAndSendMessage();
     } else {
@@ -46,7 +50,6 @@ export class TypeInputFieldComponent {
     const uploadPromises = this.uploadedFiles.map((uploadedFile) => {
       return this.uploadFile(uploadedFile);
     });
-
     Promise.all(uploadPromises)
       .then(() => this.sendMessageBasedOnType())
       .catch((error) => {
@@ -57,7 +60,7 @@ export class TypeInputFieldComponent {
   private uploadFile(uploadedFile: { file: File; url: string }) {
     // Erlaubte Dateitypen
     const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf'];
-
+  
     // Überprüfe den Dateityp
     if (!allowedTypes.includes(uploadedFile.file.type)) {
       return Promise.reject(
@@ -67,7 +70,7 @@ export class TypeInputFieldComponent {
 
     const uploadMethod = this.getUploadMethod();
     const id = this.getIdForUpload();
-
+  
     if (uploadMethod && id) {
       return this.performUpload(uploadMethod, id, uploadedFile);
     } else {
@@ -76,6 +79,7 @@ export class TypeInputFieldComponent {
   }
 
   private getUploadMethod() {
+  
     if (this.messengerType === 'channels') {
       return this.storageService.uploadFileToChannel;
     } else if (this.messengerType === 'directMessages') {
@@ -87,6 +91,7 @@ export class TypeInputFieldComponent {
   }
 
   private getIdForUpload() {
+  
     if (this.messengerType === 'channels') {
       return this.activeChannelService.activeChannel.channelID;
     } else if (this.messengerType === 'directMessages') {
@@ -102,13 +107,14 @@ export class TypeInputFieldComponent {
     id: string,
     uploadedFile: { file: File; url: string }
   ) {
+  
     return uploadMethod
       .call(this.storageService, id, uploadedFile.file)
       .then((downloadURL) => {
-        console.log(
-          `File uploaded successfully to ${this.messengerType}:`,
-          downloadURL
-        );
+        // console.log(
+        //   `File uploaded successfully to ${this.messengerType}:`,
+        //   downloadURL
+        // );
         uploadedFile.url = downloadURL; // Speichere die tatsächliche URL
       })
       .catch((error) => {
@@ -118,35 +124,95 @@ export class TypeInputFieldComponent {
   }
 
   // Sendet die Nachricht basierend auf dem Messenger-Typ
-  private sendMessageBasedOnType() {
+  private async sendMessageBasedOnType() {
+  
     this.prepareMessage();
-
-    if (this.messengerType === 'thread') {
-      this.firestoreService.addThreadMessage(
-        this.message.toJSON(),
-        this.activeChannelService.activeChannel.channelID,
-        this.activeThreadService.activeThreadMessage.messageID
-      );
-    } else if (this.messengerType === 'channels') {
-      this.firestoreService.addMessage(
-        this.message.toJSON(),
-        this.messengerType,
-        this.activeChannelService.activeChannel.channelID
-      );
-    } else if (this.messengerType === 'directMessages') {
-      this.firestoreService.addMessage(
-        this.message.toJSON(),
-        this.messengerType,
-        this.activeDirectMessageService.activeDM.directMessageID
-      );
-    } else {
-      console.error('MessengerType not found');
+  
+    try {
+      if (this.messengerType === 'thread') {
+        await this.firestoreService.addThreadMessage(
+          this.message.toJSON(),
+          this.activeChannelService.activeChannel.channelID,
+          this.activeThreadService.activeThreadMessage.messageID
+        );
+      } else if (this.messengerType === 'channels') {
+        await this.firestoreService.addMessage(
+          this.message.toJSON(),
+          this.messengerType,
+          this.activeChannelService.activeChannel.channelID
+        );
+      } else if (this.messengerType === 'directMessages' && !this.newDirectMessage) {
+        await this.firestoreService.addMessage(
+          this.message.toJSON(),
+          this.messengerType,
+          this.activeDirectMessageService.activeDM.directMessageID
+        );
+      } else if (this.messengerType === 'directMessages' && this.newDirectMessage) {
+        
+        const directMessageID = await this.newDirectMessageService.addNewDirectMessage();
+        await this.activeDirectMessageService.loadActiveDMAndMessagesAndPartner(directMessageID)
+        await this.firestoreService.addMessage(
+          this.message.toJSON(),
+          this.messengerType,
+          directMessageID
+        );
+  
+        this.router.navigate([`messenger/directMessage/${directMessageID}`]);
+      } else {
+        console.error('MessengerType not found');
+      }
+    } catch (error) {
+      console.error('Error sending message:', error);
+    } finally {
+      this.resetMessage();
     }
 
-    this.resetMessage();
+
+    // if (this.messengerType === 'thread') {
+    //   this.firestoreService.addThreadMessage(
+    //     this.message.toJSON(),
+    //     this.activeChannelService.activeChannel.channelID,
+    //     this.activeThreadService.activeThreadMessage.messageID
+    //   );
+    // } else if (this.messengerType === 'channels') {
+    //   this.firestoreService.addMessage(
+    //     this.message.toJSON(),
+    //     this.messengerType,
+    //     this.activeChannelService.activeChannel.channelID
+    //   );
+    // } else if (this.messengerType === 'directMessages' && !this.newDirectMessage) {
+    
+    //   this.firestoreService.addMessage(
+    //     this.message.toJSON(),
+    //     this.messengerType,
+    //     this.activeDirectMessageService.activeDM.directMessageID
+        
+    //   );
+    // } else if (this.messengerType === 'directMessages' && this.newDirectMessage) {
+    
+    //   console.log('hier message Daten1' ,this.message);
+    //   await this.newDirectMessageService
+    //     .addNewDirectMessage()
+    //     .then((directMessageID) => {
+    //       console.log('hier message Daten2' ,this.message);
+        
+    //        this.firestoreService.addMessage(
+    //         this.message.toJSON(),
+    //         this.messengerType,
+    //         directMessageID
+    //       );
+        
+    //       this.router.navigate([`messenger/directMessage/${directMessageID}`]);
+    //     });
+    // } else {
+    //   console.error('MessengerType not found');
+    // }
+  
+    // this.resetMessage();
   }
 
   private prepareMessage() {
+  
     // Leere die Anhänge der Nachricht, bevor neue hinzugefügt werden
     this.message.attachments = [];
 
@@ -164,6 +230,7 @@ export class TypeInputFieldComponent {
 
   // Setzt die Nachricht zurück nach dem Senden
   private resetMessage() {
+  
     this.message.content = '';
     this.uploadedFiles = []; // Reset der Liste nach dem Hochladen
   }
@@ -177,6 +244,7 @@ export class TypeInputFieldComponent {
 
   // Methode zum Anzeigen der ausgewählten Dateien in der Vorschau
   previewFiles(event: any) {
+  
     const files: File[] = Array.from(event.target.files);
 
     // Erlaubte Dateitypen
@@ -202,6 +270,7 @@ export class TypeInputFieldComponent {
 
   // Methode zum Entfernen einer Datei aus der Vorschau
   closePreview(fileToRemove: { file: File; url: string }) {
+  
     this.uploadedFiles = this.uploadedFiles.filter(
       (file) => file !== fileToRemove
     );

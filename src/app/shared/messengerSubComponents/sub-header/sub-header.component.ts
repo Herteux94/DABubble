@@ -21,6 +21,7 @@ import { CommonModule } from '@angular/common';
 import { Channel } from '../../../models/channel.model';
 import { ActiveUserService } from '../../../services/active-user.service';
 import { Router } from '@angular/router';
+import { NewDirectMessageService } from '../../../services/new-direct-message.service';
 
 export interface DialogData {
   animal: 'panda' | 'unicorn' | 'lion'; // Natürlich noch brauchbare daten anlegen
@@ -38,6 +39,7 @@ export class SubHeaderComponent implements OnInit {
   findUserService = inject(FindUserService);
   activeChannelService = inject(ActiveChannelService);
   activeUserService = inject(ActiveUserService);
+  newDirectMessageService = inject(NewDirectMessageService);
 
   @Input() isChannel!: boolean;
   @Input() isThread!: boolean;
@@ -75,7 +77,7 @@ export class SubHeaderComponent implements OnInit {
     public screenSizeService: ScreenSizeService,
     public threadRoutingService: RoutingThreadOutletService,
     public activeDirectMessageService: ActiveDirectMessageService,
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit() {
@@ -107,19 +109,18 @@ export class SubHeaderComponent implements OnInit {
   }
 
   selectUser(user: User): void {
-    // Prüfen, ob es eine Direct Message mit diesem User gibt
     const existingDM = this.activeUserService.activeUserDirectMessages.find(
       (dm) => dm.member.includes(user.userID)
     );
-
+    
     if (existingDM) {
-      // Weiterleitung zu bestehendem Direct Message Channel
       this.router.navigate([
         `messenger/directMessage/${existingDM.directMessageID}`,
       ]);
     } else {
       // Benutzername im Eingabefeld anzeigen für neue Direct Message
       this.searchQuery.set(`@${user.name}`);
+      this.newDirectMessageService.messageReceiver = user;
     }
   }
 

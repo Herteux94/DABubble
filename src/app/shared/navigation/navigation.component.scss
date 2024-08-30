@@ -83,6 +83,8 @@ nav {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  overflow-y: scroll;
+  max-height: 400px;
 
   a {
     display: flex;
