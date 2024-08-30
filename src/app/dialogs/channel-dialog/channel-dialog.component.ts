@@ -20,6 +20,7 @@ import {
 import { EditMemberDialogComponent } from '../edit-member-dialog/edit-member-dialog.component';
 import { Channel } from '../../models/channel.model';
 import { ActiveChannelService } from '../../services/active-channel.service';
+import { FirestoreService } from '../../services/firestore.service';
 
 @Component({
   selector: 'app-channel-dialog',
@@ -119,7 +120,8 @@ export class ChannelDialogComponent implements OnInit {
 
   constructor(
     private screenSizeService: ScreenSizeService,
-    public activeChannelService: ActiveChannelService
+    public activeChannelService: ActiveChannelService,
+    private firestoreService: FirestoreService,
   ) {}
 
   ngOnInit() {
@@ -172,11 +174,15 @@ export class ChannelDialogComponent implements OnInit {
   }
 
   saveNewName() {
-    console.log('saveNewName hat geklappt');
+    this.activeChannelService.activeChannel.name = this.channelName; // Update local channel object
+    this.firestoreService.updateChannel({ name: this.channelName }, this.activeChannelService.activeChannel.channelID); // Update in backend
+    console.log('Channel name updated successfully');
   }
 
   saveNewDescription() {
-    console.log('saveNewDescription hat geklappt');
+    this.activeChannelService.activeChannel.description = this.channelDescription; // Update local channel object
+    this.firestoreService.updateChannel({ description: this.channelDescription }, this.activeChannelService.activeChannel.channelID); // Update in backend
+    console.log('Channel description updated successfully');
   }
 
   onEvent(event: any) {
@@ -185,5 +191,9 @@ export class ChannelDialogComponent implements OnInit {
 
   openEditMemberDialog() {
     this.dialog.open(EditMemberDialogComponent);
+  }
+
+  leaveChannel() {
+    
   }
 }
