@@ -109,20 +109,37 @@ export class SubHeaderComponent implements OnInit {
   }
 
   selectUser(user: User): void {
-    const existingDM = this.activeUserService.activeUserDirectMessages.find(
+    const directMessages = this.activeUserService.activeUserDirectMessages || [];
+  
+    const existingDM = directMessages.find(
       (dm) => dm.member.includes(user.userID)
     );
-    
+  
     if (existingDM) {
       this.router.navigate([
         `messenger/directMessage/${existingDM.directMessageID}`,
       ]);
     } else {
-      // Benutzername im Eingabefeld anzeigen für neue Direct Message
       this.searchQuery.set(`@${user.name}`);
       this.newDirectMessageService.messageReceiver = user;
     }
   }
+
+  // selectUser(user: User): void {
+  //   const existingDM = this.activeUserService.activeUserDirectMessages.find(
+  //     (dm) => dm.member.includes(user.userID)
+  //   );
+    
+  //   if (existingDM) {
+  //     this.router.navigate([
+  //       `messenger/directMessage/${existingDM.directMessageID}`,
+  //     ]);
+  //   } else {
+  //     // Benutzername im Eingabefeld anzeigen für neue Direct Message
+  //     this.searchQuery.set(`@${user.name}`);
+  //     this.newDirectMessageService.messageReceiver = user;
+  //   }
+  // }
 
   selectChannel(channel: Channel) {
     this.activeChannelService.loadActiveChannelAndMessages(channel.channelID);
