@@ -117,7 +117,9 @@ export class ChannelDialogComponent implements OnInit {
   isEditingDescription: boolean = false;
   channelName: string = this.activeChannelService.activeChannel.name;
   channelDescription: string =
-    this.activeChannelService.activeChannel.description;
+  this.activeChannelService.activeChannel.description;
+  channelCreator: string =
+    this.activeChannelService.activeChannel.creator;
   mobile: boolean = false;
 
   constructor(
