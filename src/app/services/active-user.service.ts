@@ -1,4 +1,4 @@
-import { computed, effect, Injectable, OnDestroy, Signal } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { FirestoreService } from './firestore.service';
 import { Channel } from '../models/channel.model';
 import { DirectMessage } from '../models/directMessages.model';
@@ -10,28 +10,11 @@ import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root',
 })
-export class ActiveUserService implements OnDestroy {
+export class ActiveUserService {
   activeUser$!: Observable<any>;
-  // activeUserChannels!: Channel[];
+  activeUserChannels!: Channel[];
   activeUserDirectMessages!: any[];
   activeUser!: User;
-
-  allChannels: Signal<any[]> = toSignal(this.firestoreService.allChannels$);
-
-  // Signal für aktive Kanäle des Benutzers
-  activeUserChannels!: Signal<any[]>;
-
-  // Effekt, der auf Änderungen von allChannels reagiert
-  private activeUserChannelsEffect = effect(() => {
-    const channels = this.allChannels();
-    if (channels.length > 0) {
-      this.activeUserChannels = computed(() =>
-        channels.filter((channel: any) =>
-          this.activeUser.channels.includes(channel.channelID)
-        )
-      );
-    }
-  });
 
   constructor(
     private firestoreService: FirestoreService,
@@ -39,11 +22,6 @@ export class ActiveUserService implements OnDestroy {
     private router: Router
   ) {
     this.loadActiveUser();
-  }
-
-  ngOnDestroy() {
-    // Effekt deaktivieren, um Speicherlecks zu vermeiden
-    this.activeUserChannelsEffect.destroy();
   }
 
   async loadActiveUser(activeUserID?: string) {
@@ -69,9 +47,13 @@ export class ActiveUserService implements OnDestroy {
 
   subscribeUserObservableAndLoadConversations() {
     this.activeUser$.subscribe((user) => {
-      this.activeUser = user;
-      // this.loadUserChannels(this.activeUser.channels);
-      this.loadUserDirectMessages(this.activeUser.directMessages);
+      if (user) {
+        this.activeUser = user;
+        this.loadUserChannels(this.activeUser.channels);
+        this.loadUserDirectMessages(this.activeUser.directMessages);
+      } else {
+        console.log('Kein Benutzer gefunden');
+      }
     });
   }
 
@@ -83,14 +65,14 @@ export class ActiveUserService implements OnDestroy {
     return localStorage.getItem('activeUser');
   }
 
-  // async loadUserChannels(activeUserChannelIDs: string[]): Observable<any[]> { // als Promise deklarieren
-  //   const channels = await firstValueFrom(this.firestoreService.allChannels$);
-  //   if (channels.length > 0) {
-  //     this.activeUserChannels = this.firestoreService.allChannels.filter(
-  //       (channel: any) => activeUserChannelIDs.includes(channel.channelID)
-  //     );
-  //   }
-  // }
+  async loadUserChannels(activeUserChannelIDs: string[]) {
+    const channels = await firstValueFrom(this.firestoreService.allChannels$);
+    if (channels.length > 0) {
+      this.activeUserChannels = this.firestoreService.allChannels.filter(
+        (channel: any) => activeUserChannelIDs.includes(channel.channelID)
+      );
+    }
+  }
 
   async loadUserDirectMessages(activeUserDirectMessageIDs: any[]) {
     const directMessages = await firstValueFrom(
@@ -134,13 +116,10 @@ export class ActiveUserService implements OnDestroy {
 
     // Setze alle relevanten Variablen zurück
     this.activeUser = null!;
-    // this.activeUserChannels = [];
+    this.activeUserChannels = [];
     this.activeUserDirectMessages = [];
 
     // Leite zur Login-Seite weiter
     this.router.navigate(['/login']);
   }
-}
-function toSignal(allChannels$: Observable<Channel[]>): Signal<any[]> {
-  throw new Error('Function not implemented.');
 }
