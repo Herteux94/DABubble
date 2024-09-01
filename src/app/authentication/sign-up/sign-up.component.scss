@@ -31,6 +31,11 @@ h1 {
   width: 100%;
 }
 
+.errorMessage {
+  color: red;
+  padding-bottom: 20px;
+}
+
 @media (min-width: 420px) {
   .arrowBackIcon {
     left: 20px;
