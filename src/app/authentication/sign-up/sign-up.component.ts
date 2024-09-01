@@ -24,6 +24,8 @@ export class SignUpComponent {
   password: string = '';
   user = new User();
 
+  validationStarted: boolean = false;
+
   constructor(
     private auth: Auth,
     private router: Router,
@@ -31,38 +33,52 @@ export class SignUpComponent {
     private firestoreService: FirestoreService
   ) {}
 
-  signUp() {
-    let isValid = true;
+  startValidation() {
+    if (!this.validationStarted) {
+      this.validationStarted = true;
+      this.validateAll();
+    }
+  }
 
-    // Überprüfen, ob der Name eingegeben wurde
+  validateAll() {
+    if (this.validationStarted) {
+      this.validateName();
+      this.validateEmail();
+      this.validatePassword();
+    }
+  }
+
+  validateName() {
     if (!this.user.name) {
       this.errorMessageName = 'Bitte gib deinen Namen ein.';
-      isValid = false;
     } else {
       this.errorMessageName = '';
     }
+  }
 
-    // Überprüfen, ob die E-Mail-Adresse eingegeben wurde
+  validateEmail() {
     if (!this.user.email) {
       this.errorMessageEmail = 'Bitte gib deine E-Mail-Adresse ein.';
-      isValid = false;
     } else {
       this.errorMessageEmail = '';
     }
+  }
 
-    // Überprüfen, ob das Passwort eingegeben wurde
+  validatePassword() {
     if (!this.password) {
       this.errorMessagePassword = 'Bitte gib ein Passwort ein.';
-      isValid = false;
     } else if (this.password.length < 6) {
       this.errorMessagePassword = 'Das Passwort muss mindestens 6 Zeichen lang sein.';
-      isValid = false;
     } else {
       this.errorMessagePassword = '';
     }
+  }
 
-    if (!isValid) {
-      return;
+  signUp() {
+    this.validateAll();
+
+    if (this.errorMessageName || this.errorMessageEmail || this.errorMessagePassword) {
+      return; // Wenn es Fehler gibt, wird der Sign-Up-Prozess abgebrochen.
     }
 
     createUserWithEmailAndPassword(this.auth, this.user.email, this.password)
@@ -73,9 +89,6 @@ export class SignUpComponent {
           this.user.lastOnline = Date.now();
           this.activeUserService.setActiveUserToLocalStorage(activeUserID);
           await this.firestoreService.addUser(this.user.toJSON());
-          this.errorMessageName = '';
-          this.errorMessageEmail = '';
-          this.errorMessagePassword = '';
           this.errorMessageGeneral = '';
           console.log('User successfully signed up and profile created. User: ', this.user);
           this.activeUserService.loadActiveUser(activeUserID);
