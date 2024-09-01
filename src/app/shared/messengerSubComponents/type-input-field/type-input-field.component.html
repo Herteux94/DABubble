@@ -8,6 +8,7 @@
       </div>
     </div>
     <textarea [(ngModel)]="this.message.content"></textarea>
+    <span *ngIf="errorMessageUpload" class="errorMessage">{{ errorMessageUpload }}</span>
     <div class="btnArea">
       <div class="leftSide">
         <div class="svgContainer">

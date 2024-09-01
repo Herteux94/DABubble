@@ -25,6 +25,8 @@ export class TypeInputFieldComponent {
   message = new Message();
   uploadedFiles: { file: File; url: string }[] = []; // Liste der hochgeladenen Dateien und deren URLs
 
+  errorMessageUpload: string = ''; // Variable für die Fehlermeldungen
+
   constructor(
     private firestoreService: FirestoreService,
     private activeUserService: ActiveUserService,
@@ -33,17 +35,7 @@ export class TypeInputFieldComponent {
     public activeDirectMessageService: ActiveDirectMessageService,
     private activeThreadService: ActiveThreadService,
     private router: Router
-  ) {}
-
-  // Überprüft den Messenger-Typ und leitet den Upload-Prozess ein
-  sendMessage() {
-    // console.log(this.messengerType);
-    if (this.uploadedFiles.length > 0) {
-      this.uploadFilesAndSendMessage();
-    } else {
-      this.sendMessageBasedOnType();
-    }
-  }
+  ) { }
 
   // Methode zum Hochladen der Dateien und anschließendem Senden der Nachricht
   private uploadFilesAndSendMessage() {
@@ -51,26 +43,28 @@ export class TypeInputFieldComponent {
       return this.uploadFile(uploadedFile);
     });
     Promise.all(uploadPromises)
-      .then(() => this.sendMessageBasedOnType())
+      .then(() => {
+        this.errorMessageUpload = ''; // Fehler zurücksetzen, wenn der Upload erfolgreich ist
+        this.sendMessageBasedOnType();
+      })
       .catch((error) => {
         console.error('Error uploading files:', error);
+        this.errorMessageUpload = error; // Fehlernachricht speichern
       });
   }
 
   private uploadFile(uploadedFile: { file: File; url: string }) {
-    // Erlaubte Dateitypen
     const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf'];
-  
-    // Überprüfe den Dateityp
+
     if (!allowedTypes.includes(uploadedFile.file.type)) {
       return Promise.reject(
-        'Invalid file type. Only jpg, jpeg, png, and pdf files are allowed.'
+        'Ungültiger Dateityp. Es sind nur jpg-, jpeg-, png- und pdf-Dateien erlaubt.'
       );
     }
 
     const uploadMethod = this.getUploadMethod();
     const id = this.getIdForUpload();
-  
+
     if (uploadMethod && id) {
       return this.performUpload(uploadMethod, id, uploadedFile);
     } else {
@@ -79,7 +73,6 @@ export class TypeInputFieldComponent {
   }
 
   private getUploadMethod() {
-  
     if (this.messengerType === 'channels') {
       return this.storageService.uploadFileToChannel;
     } else if (this.messengerType === 'directMessages') {
@@ -91,7 +84,6 @@ export class TypeInputFieldComponent {
   }
 
   private getIdForUpload() {
-  
     if (this.messengerType === 'channels') {
       return this.activeChannelService.activeChannel.channelID;
     } else if (this.messengerType === 'directMessages') {
@@ -107,14 +99,9 @@ export class TypeInputFieldComponent {
     id: string,
     uploadedFile: { file: File; url: string }
   ) {
-  
     return uploadMethod
       .call(this.storageService, id, uploadedFile.file)
       .then((downloadURL) => {
-        // console.log(
-        //   `File uploaded successfully to ${this.messengerType}:`,
-        //   downloadURL
-        // );
         uploadedFile.url = downloadURL; // Speichere die tatsächliche URL
       })
       .catch((error) => {
@@ -123,11 +110,37 @@ export class TypeInputFieldComponent {
       });
   }
 
-  // Sendet die Nachricht basierend auf dem Messenger-Typ
+  previewFiles(event: any) {
+    const files: File[] = Array.from(event.target.files);
+    const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf'];
+
+    files.forEach((file) => {
+      if (!allowedTypes.includes(file.type)) {
+        const errorMessage = `Ungültiger Dateityp:${file.name} - Es sind nur jpg-, jpeg-, png- und pdf-Dateien erlaubt.`
+        console.error(errorMessage);
+        this.errorMessageUpload = errorMessage; // Fehlernachricht speichern
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.uploadedFiles.push({ file, url: reader.result as string });
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  sendMessage() {
+    if (this.uploadedFiles.length > 0) {
+      this.uploadFilesAndSendMessage();
+    } else {
+      this.sendMessageBasedOnType();
+    }
+  }
+
   private async sendMessageBasedOnType() {
-  
     this.prepareMessage();
-  
+
     try {
       if (this.messengerType === 'thread') {
         await this.firestoreService.addThreadMessage(
@@ -148,79 +161,32 @@ export class TypeInputFieldComponent {
           this.activeDirectMessageService.activeDM.directMessageID
         );
       } else if (this.messengerType === 'directMessages' && this.newDirectMessage) {
-        
         const directMessageID = await this.newDirectMessageService.addNewDirectMessage();
-        await this.activeDirectMessageService.loadActiveDMAndMessagesAndPartner(directMessageID)
+        await this.activeDirectMessageService.loadActiveDMAndMessagesAndPartner(directMessageID);
         await this.firestoreService.addMessage(
           this.message.toJSON(),
           this.messengerType,
           directMessageID
         );
-  
+
         this.router.navigate([`messenger/directMessage/${directMessageID}`]);
       } else {
         console.error('MessengerType not found');
       }
     } catch (error) {
       console.error('Error sending message:', error);
+      this.errorMessageUpload = 'Error sending message. Please try again.'; // Fehlernachricht speichern
     } finally {
       this.resetMessage();
     }
-
-
-    // if (this.messengerType === 'thread') {
-    //   this.firestoreService.addThreadMessage(
-    //     this.message.toJSON(),
-    //     this.activeChannelService.activeChannel.channelID,
-    //     this.activeThreadService.activeThreadMessage.messageID
-    //   );
-    // } else if (this.messengerType === 'channels') {
-    //   this.firestoreService.addMessage(
-    //     this.message.toJSON(),
-    //     this.messengerType,
-    //     this.activeChannelService.activeChannel.channelID
-    //   );
-    // } else if (this.messengerType === 'directMessages' && !this.newDirectMessage) {
-    
-    //   this.firestoreService.addMessage(
-    //     this.message.toJSON(),
-    //     this.messengerType,
-    //     this.activeDirectMessageService.activeDM.directMessageID
-        
-    //   );
-    // } else if (this.messengerType === 'directMessages' && this.newDirectMessage) {
-    
-    //   console.log('hier message Daten1' ,this.message);
-    //   await this.newDirectMessageService
-    //     .addNewDirectMessage()
-    //     .then((directMessageID) => {
-    //       console.log('hier message Daten2' ,this.message);
-        
-    //        this.firestoreService.addMessage(
-    //         this.message.toJSON(),
-    //         this.messengerType,
-    //         directMessageID
-    //       );
-        
-    //       this.router.navigate([`messenger/directMessage/${directMessageID}`]);
-    //     });
-    // } else {
-    //   console.error('MessengerType not found');
-    // }
-  
-    // this.resetMessage();
   }
 
   private prepareMessage() {
-  
-    // Leere die Anhänge der Nachricht, bevor neue hinzugefügt werden
     this.message.attachments = [];
-
     this.message.creationTime = Date.now();
     this.message.senderID = this.activeUserService.activeUser.userID;
     this.message.senderName = this.activeUserService.activeUser.name;
 
-    // Füge die tatsächlichen URLs zu den Anhängen hinzu
     this.uploadedFiles.forEach((uploadedFile) => {
       if (uploadedFile.url) {
         this.message.attachments.push(uploadedFile.url);
@@ -228,9 +194,7 @@ export class TypeInputFieldComponent {
     });
   }
 
-  // Setzt die Nachricht zurück nach dem Senden
   private resetMessage() {
-  
     this.message.content = '';
     this.uploadedFiles = []; // Reset der Liste nach dem Hochladen
   }
@@ -242,35 +206,7 @@ export class TypeInputFieldComponent {
     }
   }
 
-  // Methode zum Anzeigen der ausgewählten Dateien in der Vorschau
-  previewFiles(event: any) {
-  
-    const files: File[] = Array.from(event.target.files);
-
-    // Erlaubte Dateitypen
-    const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf'];
-
-    files.forEach((file) => {
-      // Überprüfe den Dateityp
-      if (!allowedTypes.includes(file.type)) {
-        console.error(
-          `Invalid file type: ${file.name}. Only jpg, jpeg, png, and pdf files are allowed.`
-        );
-        return; // Überspringe diese Datei, wenn der Typ ungültig ist
-      }
-
-      const reader = new FileReader();
-      reader.onload = () => {
-        // Speichere die Base64-Daten vorübergehend in der `url`-Eigenschaft, um die Vorschau anzuzeigen
-        this.uploadedFiles.push({ file, url: reader.result as string });
-      };
-      reader.readAsDataURL(file);
-    });
-  }
-
-  // Methode zum Entfernen einer Datei aus der Vorschau
   closePreview(fileToRemove: { file: File; url: string }) {
-  
     this.uploadedFiles = this.uploadedFiles.filter(
       (file) => file !== fileToRemove
     );
