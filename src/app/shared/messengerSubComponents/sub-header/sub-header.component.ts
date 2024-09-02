@@ -7,7 +7,7 @@ import {
   signal,
 } from '@angular/core';
 import { ScreenSizeService } from '../../../services/screen-size-service.service';
-import { Dialog, DIALOG_DATA, DialogModule } from '@angular/cdk/dialog';
+import { Dialog, DialogModule } from '@angular/cdk/dialog';
 import { InviteMemberDialogComponent } from '../../../dialogs/invite-member-dialog/invite-member-dialog.component';
 import { ChannelMemberDialogComponent } from '../../../dialogs/channel-member-dialog/channel-member-dialog.component';
 import { ProfileDialogComponent } from '../../../dialogs/profile-dialog/profile-dialog.component';
