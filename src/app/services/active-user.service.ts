@@ -1,20 +1,19 @@
 import { Injectable } from '@angular/core';
 import { FirestoreService } from './firestore.service';
 import { Channel } from '../models/channel.model';
-import { firstValueFrom, map, Observable } from 'rxjs';
+import { firstValueFrom, map } from 'rxjs';
 import { User } from '../models/user.model';
 import { FindUserService } from './find-user.service';
 import { Router } from '@angular/router';
-import { log } from 'console';
+import { DirectMessage } from '../models/directMessages.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ActiveUserService {
-  // activeUser$!: Observable<any>;
   activeUser!: any;
   activeUserChannels!: Channel[];
-  activeUserDirectMessages!: any[];
+  activeUserDirectMessages!: DirectMessage[];
 
   constructor(
     private firestoreService: FirestoreService,
@@ -24,12 +23,11 @@ export class ActiveUserService {
     this.loadActiveUser();
   }
 
-  async loadActiveUser(activeUserID?: string) {
-    await this.getActiveUser(this.getActiveUserID(activeUserID));
-    this.subscribeUserObservableAndLoadConversations();
+  loadActiveUser(activeUserID?: string) {
+    this.getActiveUser(this.getActiveUserID(activeUserID));
   }
 
-  getActiveUserID(activeUserID: any) {
+  getActiveUserID(activeUserID: string | undefined) {
     let userID: string | null;
 
     if (!activeUserID) {
@@ -42,24 +40,15 @@ export class ActiveUserService {
     return userID;
   }
 
-  // async getActiveUser(userID: any): Promise<any> {
-  //   const user = await firstValueFrom(
-  //     this.firestoreService.allUsers$.pipe(
-  //       map((users: any[]) => users.find((user: any) => user.userID === userID))
-  //     )
-  //   );
-
-  //   return user;
-  // }
-
-  getActiveUser(userID: any): void {
+  getActiveUser(userID: string | null): void {
     this.firestoreService.allUsers$
       .pipe(
-        map((users: any[]) => users.find((user: any) => user.userID === userID))
+        map((users: User[]) =>
+          users.find((user: User) => user.userID === userID)
+        )
       )
-      .subscribe((user: any) => {
+      .subscribe((user: User | undefined) => {
         this.activeUser = user;
-
         this.loadConversations();
       });
   }
@@ -69,32 +58,7 @@ export class ActiveUserService {
     this.loadUserDirectMessages(this.activeUser.directMessages);
   }
 
-  setActiveUserToLocalStorage(userID: string) {
-    localStorage.setItem('activeUser', userID);
-  }
-
-  getActiveUserIDFromLocalStorage() {
-    return localStorage.getItem('activeUser');
-  }
-
-  async loadUserChannels(activeUserChannelIDs: string[]) {
-    // const channels = await firstValueFrom(this.firestoreService.allChannels$);
-    // if (channels.length > 0) {
-    //   this.activeUserChannels = this.firestoreService.allChannels.filter(
-    //     (channel: any) => activeUserChannelIDs.includes(channel.channelID)
-    //   );
-    // }
-
-    this.firestoreService.allChannels$.subscribe(() => {
-      this.activeUserChannels = this.firestoreService.allChannels.filter(
-        (channel: any) => activeUserChannelIDs.includes(channel.channelID)
-      );
-    });
-
-    setTimeout(() => {
-      console.log('activeUserChannels changed: ', this.activeUserChannels);
-    }, 1000);
-  }
+  async loadUserChannels(activeUserChannelIDs: string[]) {}
 
   async loadUserDirectMessages(activeUserDirectMessageIDs: any[]) {
     const directMessages = await firstValueFrom(
@@ -130,6 +94,14 @@ export class ActiveUserService {
         }
       }
     }
+  }
+
+  setActiveUserToLocalStorage(userID: string) {
+    localStorage.setItem('activeUser', userID);
+  }
+
+  getActiveUserIDFromLocalStorage() {
+    return localStorage.getItem('activeUser');
   }
 
   logout() {

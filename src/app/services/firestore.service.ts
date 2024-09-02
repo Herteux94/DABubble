@@ -60,8 +60,8 @@ export class FirestoreService {
     });
   }
 
-  getChannels(): Observable<any[]> {
-    // umschreiben zu getActiveUserChannels  und chatgpt fragen ob direkt .data() zurück geben kann und direkt gefiltert aus firestore laden
+  getChannels(channelIDs: string[]): Observable<any[]> {
+    // umschreiben zu getActiveUserChannels und chatgpt fragen ob direkt .data() zurück geben kann und direkt gefiltert aus firestore laden
     return collectionData(this.channelCol);
   }
 
