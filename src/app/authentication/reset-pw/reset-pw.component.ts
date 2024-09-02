@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { FocusInputDirective } from '../../directives/focus-input.directive';
 
@@ -18,5 +18,12 @@ export class ResetPwComponent {
 
   inputValuesMatch(): boolean {
     return this.inputValue === this.inputValue2 && this.inputValue !== '';
+  }
+
+
+  @HostListener('document:keydown.enter', ['$event'])
+  handleEnterKey(event: KeyboardEvent) {
+    event.preventDefault();
+    this.inputValuesMatch();
   }
 }
