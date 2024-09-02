@@ -38,7 +38,7 @@ export class ActiveUserService {
     this.subscribeUserObservableAndLoadConversations();
   }
 
-  async getActiveUserID(activeUserID: any) {
+  getActiveUserID(activeUserID: any) {
     let userID: string | null;
 
     if (!activeUserID) {
