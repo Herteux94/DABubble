@@ -61,6 +61,7 @@ export class FirestoreService {
   }
 
   getChannels(): Observable<any[]> {
+    // umschreiben zu getActiveUserChannels  und chatgpt fragen ob direkt .data() zurück geben kann und direkt gefiltert aus firestore laden
     return collectionData(this.channelCol);
   }
 
@@ -72,10 +73,12 @@ export class FirestoreService {
   }
 
   getDirectMessages(): Observable<any[]> {
+    // umschreiben zu getActiveUserDMs und chatgpt fragen ob direkt .data() zurück geben kann und direkt gefiltert aus firestore laden
     return collectionData(this.directMessageCol);
   }
 
   getThread(channelID: string, threadMessageID: string) {
+    // muss auch als Observable deklariert werden und sofort ein Array füllen, das angezapft wird vom HTML zum rendern
     return getDoc(
       doc(this.firestore, `channels/${channelID}/messages/${threadMessageID}`)
     );
@@ -101,9 +104,13 @@ export class FirestoreService {
 
   ///////////////////////////////////////// addFunctions /////////////////////////////////////////
 
-  async addUser(userData: any) {
-    const userRef = doc(this.firestore, `users/${userData.userID}`);
-    setDoc(userRef, userData);
+  async addUser(userData: any): Promise<any> {
+    try {
+      const userRef = doc(this.firestore, `users/${userData.userID}`);
+      setDoc(userRef, userData);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   addChannel(channelData: any, userID: string) {
@@ -115,7 +122,7 @@ export class FirestoreService {
     });
   }
 
-  addDirectMessage(
+  async addDirectMessage(
     directMessageData: any,
     userID1: string,
     userID2: string

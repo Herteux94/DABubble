@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
 import { FirestoreService } from './firestore.service';
 import { Channel } from '../models/channel.model';
-import { DirectMessage } from '../models/directMessages.model';
 import { firstValueFrom, map, Observable } from 'rxjs';
 import { User } from '../models/user.model';
 import { FindUserService } from './find-user.service';
 import { Router } from '@angular/router';
+import { log } from 'console';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ActiveUserService {
   activeUser$!: Observable<any>;
-  activeUser!: User;
+  activeUser!: any;
   activeUserChannels!: Channel[];
   activeUserDirectMessages!: any[];
 
@@ -25,7 +25,21 @@ export class ActiveUserService {
   }
 
   async loadActiveUser(activeUserID?: string) {
-    let userID: string | null = '';
+    // if(activeUserID) {
+    //   await this.getActiveUser(activeUserID);
+    // } else {
+    // const activeUserID = await this.getActiveUserIDFromLocalStorage();
+    this.activeUser = await this.getActiveUser(
+      this.getActiveUserID(activeUserID)
+    ); // Stellt sicher, dass der activeUser$ aktualisiert wird
+    // }
+    console.log(this.activeUser);
+
+    this.subscribeUserObservableAndLoadConversations();
+  }
+
+  async getActiveUserID(activeUserID: any) {
+    let userID: string | null;
 
     if (!activeUserID) {
       userID = this.getActiveUserIDFromLocalStorage();
@@ -34,15 +48,19 @@ export class ActiveUserService {
       userID = activeUserID;
     }
 
-    await this.getActiveUser(userID); // Stellt sicher, dass der activeUser$ aktualisiert wird
-
-    this.subscribeUserObservableAndLoadConversations();
+    return userID;
   }
 
-  async getActiveUser(userID: string | null) {
-    this.activeUser$ = this.firestoreService.allUsers$.pipe(
-      map((users) => users.find((user: any) => user.userID === userID))
+  async getActiveUser(userID: any): Promise<any> {
+    const user = await firstValueFrom(
+      this.firestoreService.allUsers$.pipe(
+        map((users: any[]) => users.find((user: any) => user.userID === userID))
+      )
     );
+
+    console.log(user);
+
+    return user;
   }
 
   subscribeUserObservableAndLoadConversations() {
