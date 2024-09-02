@@ -17,15 +17,19 @@ export class ActiveThreadService {
     private activeChannelService: ActiveChannelService
   ) {}
 
-  loadActiveThreadAndMessages(threadMessageID: string) {
-    this.loadActiveThread(threadMessageID);
+  async loadActiveThreadAndMessages(threadMessageID: string) {
+    await this.loadActiveThread(threadMessageID);
     this.loadThreadMessages(threadMessageID);
   }
 
   async loadActiveThread(threadMessageID: string): Promise<void> {
-    let channelID = this.activeChannelService.activeChannel.channelID;
+    if(this.activeChannelService.activeChannel.channelID) {
+      const channelID = this.activeChannelService.activeChannel.channelID;
+    } else {
+      setInterval(channelID = this.activeChannelService.activeChannel.channelID;)
+    }
 
-    let activeThread = this.firestoreService.getThread(
+    const activeThread = this.firestoreService.getThread(
       channelID,
       threadMessageID
     );
@@ -34,7 +38,7 @@ export class ActiveThreadService {
   }
 
   async loadThreadMessages(threadMessageID: string) {
-    let channelID = this.activeChannelService.activeChannel.channelID;
+    const channelID = this.activeChannelService.activeChannel.channelID;
 
     this.threadMessages$ = this.firestoreService.getThreadMessages(
       channelID,
