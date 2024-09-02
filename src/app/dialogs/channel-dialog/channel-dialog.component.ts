@@ -6,7 +6,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { ScreenSizeService } from '../../services/screen-size-service.service';
 import { InviteMemberDialogComponent } from '../invite-member-dialog/invite-member-dialog.component';
 import { Dialog, DialogRef } from '@angular/cdk/dialog';

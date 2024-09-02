@@ -1,28 +1,45 @@
 <div class="dialogContainer roundedDialog">
     <div class="dialogWrapper">
 
-        <div class="dialogHeader" >
+        <div class="dialogHeader">
             <h2>Leute hinzufügen</h2>
             <img (click)="dialogRef.close()" src="../../../assets/img/close.svg" alt="Schließen">
         </div>
-        
+
         <div class="coloredText" [ngClass]="{'dNone': mobile}">
             # Entwicklerteam
         </div>
 
-        <form (ngSubmit)="onSubmit(contactForm)" autocomplete="off" #contactForm="ngForm">
-            <div class="inputContainer" [class.invalid]="!name.valid && name.touched">
-                <input class="input" #name="ngModel" [(ngModel)]="contactData.name" type="text" id="name" name="name"
-                    placeholder="Name eingeben" required autocomplete="new-password" />
-                @if (!name.valid && name.touched) {
-                <span class="errorMessage subText">Bitte gib einen Namen ein.</span>
-                }
+        <form (ngSubmit)="addUsersToChannel()" autocomplete="off">
+            <div class="inputContainer">
+                <input class="input" [value]="searchQuery()" (input)="onSearchInput($event)" type="text" id="name"
+                    placeholder="Name eingeben" required />
             </div>
+
+            @if (foundUsers().length > 0 && searchQuery()) {
+            <div class="searchUserContainer">
+                <div class="memberList floatingMemberList">
+                    <div *ngFor="let user of foundUsers()" class="member" (click)="selectUser(user)">
+                        <img [src]="user.profileImg || '../../../assets/img/dummyAvatar.svg'" alt="{{ user.name }}">
+                        <p>{{ user.name }}</p>
+                    </div>
+                </div>
+            </div>
+            }
+
+            @if (showSelectedUsers()) {
+            <div class="memberList">
+                <div *ngFor="let user of showSelectedUsers()" class="member">
+                    <img [src]="user.profileImg || '../../../assets/img/dummyAvatar.svg'" alt="{{ user.name }}">
+                    <p>{{ user.name }}</p>
+                    <img class="removeUserIcon" (click)="removeUser(user)" src="../../../assets/img/close.svg" alt="delete">
+                </div>
+            </div>
+            }
 
             <div class="btnWrapper">
-                <button class="firstBtn">Hinzufügen</button>
+                <button class="firstBtn" [disabled]="selectedUsers().length === 0">Hinzufügen</button>
             </div>
-
         </form>
     </div>
 </div>

@@ -1,7 +1,7 @@
 import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { ScreenSizeService } from '../../services/screen-size-service.service';
 import { CommonModule } from '@angular/common';
-import { FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import {
   animate,
   state,
@@ -13,10 +13,8 @@ import { DialogRef } from '@angular/cdk/dialog';
 import { Channel } from '../../models/channel.model';
 import { FindUserService } from '../../services/find-user.service';
 import { ActiveChannelService } from '../../services/active-channel.service';
-import { arrayUnion, Firestore } from '@angular/fire/firestore';
 import { FirestoreService } from '../../services/firestore.service';
 import { User } from '../../models/user.model';
-import { deleteUser } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-channel-member-dialog',
