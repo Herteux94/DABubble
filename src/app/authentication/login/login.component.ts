@@ -102,7 +102,7 @@ export class LoginComponent {
     const userSnap = await getDoc(userRef);
 
     if (!userSnap.exists()) {
-      let user = new User();
+      const user = new User();
       user.userID = activeUserID;
       user.name = displayName ?? '';  // Verwende einen leeren String, wenn displayName null oder undefined ist
       user.email = email ?? '';  // Verwende einen leeren String, wenn email null oder undefined ist
