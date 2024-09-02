@@ -117,9 +117,8 @@ export class ChannelDialogComponent implements OnInit {
   isEditingDescription: boolean = false;
   channelName: string = this.activeChannelService.activeChannel.name;
   channelDescription: string =
-  this.activeChannelService.activeChannel.description;
-  channelCreator: string =
-    this.activeChannelService.activeChannel.creator;
+    this.activeChannelService.activeChannel.description;
+  channelCreator: string = this.activeChannelService.activeChannel.creator;
   mobile: boolean = false;
 
   constructor(
@@ -214,7 +213,6 @@ export class ChannelDialogComponent implements OnInit {
       this.activeUserService.activeUser.channels.filter(
         (channelID: string) => channelID !== channel.channelID
       );
-
 
     this.firestoreService.updateChannel(
       { member: updatedMembers },

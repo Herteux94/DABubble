@@ -10,27 +10,26 @@
             <div class="channelNameContainer">
                 <h3>Channel-Name</h3>
                 @if (mobile) {
-                    @if (isEditingName) {
-                        <div>
-                            <img src="../../../assets/img/check_circle.svg" alt=""
-                                (click)="saveNewName(); onEvent($event)">
-                        </div>
-                        } @else {
-                        <div>
-                            <img src="../../../assets/img/pen.svg" alt="" (click)="toggleEditName()">
-                        </div>
-                        }
+                @if (isEditingName) {
+                <div>
+                    <img src="../../../assets/img/check_circle.svg" alt="" (click)="saveNewName(); onEvent($event)">
+                </div>
+                } @else {
+                <div>
+                    <img src="../../../assets/img/pen.svg" alt="" (click)="toggleEditName()">
+                </div>
+                }
 
                 } @else {
-                    @if (isEditingName) {
-                        <div>
-                            <span class="coloredText" (click)="saveNewName(); onEvent($event)">Speichern</span>
-                        </div>
-                        } @else {
-                        <div>
-                            <span class="coloredText" (click)="toggleEditName()">Bearbeiten</span>
-                        </div>
-                        }
+                @if (isEditingName) {
+                <div>
+                    <span class="coloredText" (click)="saveNewName(); onEvent($event)">Speichern</span>
+                </div>
+                } @else {
+                <div>
+                    <span class="coloredText" (click)="toggleEditName()">Bearbeiten</span>
+                </div>
+                }
                 }
             </div>
 
@@ -42,20 +41,19 @@
             </div>
             } @else if (isEditingName) {
             <div class="inputContainer">
-                <input  #channelNameInput [ngClass]="isEditingName ? 'noOutline' : 'outline'" class="input inputBackground" type="text" [(ngModel)]="channelName"
-                    (blur)="toggleEditName()">
+                <input #channelNameInput [ngClass]="isEditingName ? 'noOutline' : 'outline'" class="input inputBackground" type="text"
+                    [(ngModel)]="channelName" (blur)="toggleEditName()">
             </div>}
         </div>
 
-        <div class="channelContentWrapper"  [ngClass]="isEditingDescription ? 'noOutline' : 'outline'">
+        <div class="channelContentWrapper" [ngClass]="isEditingDescription ? 'noOutline' : 'outline'">
             <div class="channelNameContainer">
                 <h3>Beschreibung</h3>
 
                 @if (mobile) {
                 @if (isEditingDescription) {
                 <div>
-                    <img src="../../../assets/img/check_circle.svg" alt=""
-                        (click)="saveNewDescription(); onEvent($event)">
+                    <img src="../../../assets/img/check_circle.svg" alt="" (click)="saveNewDescription(); onEvent($event)">
                 </div>
                 } @else {
                 <div>

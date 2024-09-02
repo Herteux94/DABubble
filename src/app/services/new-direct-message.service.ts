@@ -3,7 +3,6 @@ import { ActiveUserService } from './active-user.service';
 import { FirestoreService } from './firestore.service';
 import { User } from '../models/user.model';
 import { DirectMessage } from '../models/directMessages.model';
-import { log } from 'console';
 import { ActiveDirectMessageService } from './active-direct-message-service.service';
 
 @Injectable({
