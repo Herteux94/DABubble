@@ -11,7 +11,7 @@ import { log } from 'console';
   providedIn: 'root',
 })
 export class ActiveUserService {
-  activeUser$!: Observable<any>;
+  // activeUser$!: Observable<any>;
   activeUser!: any;
   activeUserChannels!: Channel[];
   activeUserDirectMessages!: any[];
@@ -25,16 +25,7 @@ export class ActiveUserService {
   }
 
   async loadActiveUser(activeUserID?: string) {
-    // if(activeUserID) {
-    //   await this.getActiveUser(activeUserID);
-    // } else {
-    // const activeUserID = await this.getActiveUserIDFromLocalStorage();
-    this.activeUser = await this.getActiveUser(
-      this.getActiveUserID(activeUserID)
-    ); // Stellt sicher, dass der activeUser$ aktualisiert wird
-    // }
-    console.log(this.activeUser);
-
+    await this.getActiveUser(this.getActiveUserID(activeUserID));
     this.subscribeUserObservableAndLoadConversations();
   }
 
@@ -51,26 +42,31 @@ export class ActiveUserService {
     return userID;
   }
 
-  async getActiveUser(userID: any): Promise<any> {
-    const user = await firstValueFrom(
-      this.firestoreService.allUsers$.pipe(
+  // async getActiveUser(userID: any): Promise<any> {
+  //   const user = await firstValueFrom(
+  //     this.firestoreService.allUsers$.pipe(
+  //       map((users: any[]) => users.find((user: any) => user.userID === userID))
+  //     )
+  //   );
+
+  //   return user;
+  // }
+
+  getActiveUser(userID: any): void {
+    this.firestoreService.allUsers$
+      .pipe(
         map((users: any[]) => users.find((user: any) => user.userID === userID))
       )
-    );
+      .subscribe((user: any) => {
+        this.activeUser = user;
 
-    console.log(user);
-
-    return user;
+        this.loadConversations();
+      });
   }
 
-  subscribeUserObservableAndLoadConversations() {
-    this.activeUser$.subscribe((user) => {
-      if (user) {
-        this.activeUser = user;
-        this.loadUserChannels(this.activeUser.channels);
-        this.loadUserDirectMessages(this.activeUser.directMessages);
-      }
-    });
+  loadConversations() {
+    this.loadUserChannels(this.activeUser.channels);
+    this.loadUserDirectMessages(this.activeUser.directMessages);
   }
 
   setActiveUserToLocalStorage(userID: string) {
