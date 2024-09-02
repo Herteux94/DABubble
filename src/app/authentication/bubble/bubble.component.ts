@@ -7,14 +7,15 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div *ngIf="show" @slideInOut class="snackbar">
-      {{ message }}
-    </div>
+    <div *ngIf="show" @slideInOut class="snackbar" [innerHTML]="message"></div>
   `,
   styles: [`
     .snackbar {
       position: fixed;
       bottom: 16px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       right: 16px;
       font-size: 36px;
       font-weight: 700;
@@ -24,6 +25,12 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
       border-radius: 30px 30px 0 30px;
       box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2);
     }
+    .snackbar  {
+      >img{
+      vertical-align: middle;
+      margin-right: 10px;
+      height: 40px; /* Optional: Passe die Höhe des Bildes an */
+    }}
   `],
   animations: [
     trigger('slideInOut', [

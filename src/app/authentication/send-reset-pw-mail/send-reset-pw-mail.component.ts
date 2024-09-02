@@ -32,7 +32,7 @@ export class SendResetPwMailComponent {
   onSubmit() {
     this.resetPasswordService.resetPassword(this.email)
       .then(() => {
-        this.message = '<img src="assets/img/success_icon.svg" alt="Success Icon" /> E-Mail gesendet';
+        this.message = '<img src="assets/img/send.png" alt="Success Icon" class="sendIcon"/>  E-Mail gesendet';
         this.bubbleComponent.message = this.message;
         this.bubbleComponent.showSnackbar();  // Snackbar wird hier aktiviert
       })

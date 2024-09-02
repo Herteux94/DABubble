@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Auth, createUserWithEmailAndPassword } from '@angular/fire/auth';
 import { FormsModule } from '@angular/forms';
@@ -7,11 +7,12 @@ import { User } from '../../models/user.model';
 import { ActiveUserService } from '../../services/active-user.service';
 import { FirestoreService } from '../../services/firestore.service';
 import { FocusInputDirective } from '../../directives/focus-input.directive';
+import { BubbleComponent } from '../bubble/bubble.component';
 
 @Component({
   selector: 'app-sign-up',
   standalone: true,
-  imports: [CommonModule, FormsModule, FocusInputDirective],
+  imports: [CommonModule, FormsModule, FocusInputDirective, BubbleComponent],
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.scss']
 })
@@ -24,6 +25,8 @@ export class SignUpComponent {
   user = new User();
 
   validationStarted: boolean = false;
+
+  @ViewChild(BubbleComponent) bubbleComponent!: BubbleComponent;
 
   constructor(
     private auth: Auth,
@@ -73,34 +76,38 @@ export class SignUpComponent {
     }
   }
 
-  signUp() {
+  async signUp() {
     this.validateAll();
 
     if (this.errorMessageName || this.errorMessageEmail || this.errorMessagePassword) {
       return; // Wenn es Fehler gibt, wird der Sign-Up-Prozess abgebrochen.
     }
 
-    createUserWithEmailAndPassword(this.auth, this.user.email, this.password)
-      .then(async (userCredential) => {
-        const activeUserID = userCredential.user.uid;
-        try {
-          this.user.userID = activeUserID;
-          this.user.lastOnline = Date.now();
-          this.activeUserService.setActiveUserToLocalStorage(activeUserID);
-          await this.firestoreService.addUser(this.user.toJSON());
-          this.errorMessageGeneral = '';
-          console.log('User successfully signed up and profile created. User: ', this.user);
-          this.activeUserService.loadActiveUser(activeUserID);
-          this.router.navigate(['/createAccount']);
-        } catch (error) {
-          console.error('Error saving user profile to Firestore:', error);
-          this.errorMessageGeneral = 'Fehler beim Speichern des Benutzerprofils. Bitte versuchen Sie es erneut.';
-        }
-      })
-      .catch((error) => {
-        console.error('Error during sign-up:', error);
-        this.errorMessageGeneral = 'Fehler bei der Kontoerstellung. Bitte versuchen Sie es erneut.';
-      });
+    try {
+      this.bubbleComponent.message = 'Konto erfolgreich erstellt!';
+      const userCredential = await createUserWithEmailAndPassword(this.auth, this.user.email, this.password);
+      const activeUserID = userCredential.user.uid;
+
+      this.user.userID = activeUserID;
+      this.user.lastOnline = Date.now();
+      this.activeUserService.setActiveUserToLocalStorage(activeUserID);
+      await this.firestoreService.addUser(this.user.toJSON());
+      this.errorMessageGeneral = '';
+      console.log('User successfully signed up and profile created. User: ', this.user);
+      this.activeUserService.loadActiveUser(activeUserID);
+
+      // Snackbar anzeigen
+      this.bubbleComponent.showSnackbar();
+
+      // Warten, bis die Snackbar-Animation abgeschlossen ist, bevor das Routing ausgeführt wird
+      setTimeout(() => {
+        this.router.navigate(['/createAccount']);
+      }, 2000); // Dauer der Snackbar-Anzeige
+
+    } catch (error) {
+      console.error('Error during sign-up:', error);
+      this.errorMessageGeneral = 'Fehler bei der Kontoerstellung. Bitte versuchen Sie es erneut.';
+    }
   }
 
   goBack() {
