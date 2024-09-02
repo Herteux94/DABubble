@@ -31,7 +31,7 @@ export class InviteMemberDialogComponent implements OnInit {
 );
 
 
-  constructor(private screenSizeService: ScreenSizeService,public firestoreService: FirestoreService) {}
+  constructor(private screenSizeService: ScreenSizeService, public firestoreService: FirestoreService) {}
 
   ngOnInit() {
     this.screenSizeService.isMobile().subscribe((isMobile) => {

@@ -16,6 +16,13 @@
   padding-left: 20px;
 }
 
+.floatingMemberList {
+  top: unset;
+  bottom: 145px;
+  left: 25px;
+  border-radius: 30px 30px 30px 0;
+}
+
 @media screen and (min-width: 1025px) {
   .roundedDialog {
     width: 514px;
