@@ -29,7 +29,7 @@ export class ResetPwComponent {
 
   handleSubmit() {
     if (this.inputValuesMatch()) {
-      // Snackbar anzeigen
+
       this.bubbleComponent.message = 'Anmelden';
       this.bubbleComponent.showSnackbar();
 
