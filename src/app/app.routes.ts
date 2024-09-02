@@ -16,6 +16,21 @@ import { HelloComponent } from './main-content/hello/hello.component';
 
 export const routes: Routes = [
   {
+    path: 'messenger',
+    component: MainContentComponent,
+    data: { animation: 'routerTransitions' },
+    children: [
+       { path: '', redirectTo: 'hello', pathMatch: 'full' },
+       { path: 'channel/:id', component: ChannelComponent },
+       { path: 'directMessage/:id', component: DirectMessageComponent },
+       { path: 'newMessage', component: NewMessageComponent },
+       { path: 'channel/:id/threadM/:id', component: ThreadComponent },
+       { path: 'thread/:id', component: ThreadComponent, outlet: 'thread' },
+       { path: 'navigation', component: NavigationComponent },
+       { path: 'hello', component: HelloComponent },
+    ],
+  },
+  {
     path: '',
     component: AuthenticationComponent,
     children: [
@@ -27,21 +42,7 @@ export const routes: Routes = [
       { path: 'resetPassword', component: ResetPwComponent },
     ],
   },
-  { path: '**', redirectTo: 'login' },  // Wildcard, falls keine Route passt
-  {
-     path: 'messenger',
-     component: MainContentComponent,
-     data: { animation: 'routerTransitions' },
-     children: [
-        { path: '', redirectTo: 'hello', pathMatch: 'full' },
-        { path: 'channel/:id', component: ChannelComponent },
-        { path: 'directMessage/:id', component: DirectMessageComponent },
-        { path: 'newMessage', component: NewMessageComponent },
-        { path: 'channel/:id/threadM/:id', component: ThreadComponent },
-        { path: 'thread/:id', component: ThreadComponent, outlet: 'thread' },
-        { path: 'navigation', component: NavigationComponent },
-        { path: 'hello', component: HelloComponent },
-     ],
-   },
+
    { path: 'dialogs', component: DialogTestComponent },
+   { path: '**', redirectTo: 'login' },  // Wildcard, falls keine Route passt
 ];

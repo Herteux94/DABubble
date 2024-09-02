@@ -53,7 +53,7 @@ export class LoginComponent {
         this.errorMessage = '';
         this.errorType = null;
         this.activeUserService.loadActiveUser(activeUserID);  // Setze den aktiven Benutzer
-        // this.router.navigate(['/messenger']);
+        this.router.navigate(['/messenger']);
       })
       .catch((error) => {
         console.error('Error logging in:', error);
@@ -81,7 +81,7 @@ export class LoginComponent {
         this.errorMessage = '';
         this.errorType = null;
         this.activeUserService.loadActiveUser(activeUserID);  // Setze den aktiven Benutzer
-        // this.router.navigate(['/messenger']);
+        this.router.navigate(['/messenger']);
       })
       .catch((error) => {
         console.error('Error during Google sign-in:', error);
