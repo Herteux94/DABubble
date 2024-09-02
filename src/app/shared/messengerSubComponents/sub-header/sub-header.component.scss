@@ -33,7 +33,7 @@
   flex: 1;
 }
 
-.member {
+.memberSubHeader {
   display: none;
   padding: 4px 20px 4px 32px;
   border-radius: 32px;
@@ -207,6 +207,16 @@
   }
 
   .member {
+    display: flex;
+    gap: 8px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $background-color;
+    }
+  }
+
+  .memberSubHeader {
     display: flex;
     gap: 8px;
     cursor: pointer;

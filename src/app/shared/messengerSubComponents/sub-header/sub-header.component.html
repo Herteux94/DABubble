@@ -157,7 +157,7 @@
       <input type="text" placeholder="An: #channel oder @person oder Email" />
     </div> -->
     } @else {
-    <div class="member" (click)="openMemberDialog()">
+    <div class="memberSubHeader" (click)="openMemberDialog()">
       <div class="memberImages">
         @if(this.activeChannelService.activeChannel) { @for(member of
         this.activeChannelService.activeChannel.member; track member) {
