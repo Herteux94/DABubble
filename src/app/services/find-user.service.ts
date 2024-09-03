@@ -9,7 +9,7 @@ export class FindUserService {
 
   findUser(userID: string | null) {
     try {
-      let user = this.firestoreService.allUsers.find(
+      const user = this.firestoreService.allUsers.find(
         (users) => users.userID === userID
       );
       return user;
@@ -23,7 +23,7 @@ export class FindUserService {
     if (!userIDs) return [];
 
     // Verwende filter(), um alle passenden Nutzer basierend auf den userIDs zu finden
-    let users = this.firestoreService.allUsers.filter((user) =>
+    const users = this.firestoreService.allUsers.filter((user) =>
       userIDs.includes(user.userID)
     );
 
