@@ -3,7 +3,7 @@ import { User } from './user.model';
 export class DirectMessage {
   member!: string[];
   directMessageID!: string;
-  partnerUser?: User | undefined;
+  partnerUser?: any;
 
   constructor() {
     this.member = [];

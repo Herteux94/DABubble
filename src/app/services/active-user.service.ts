@@ -79,7 +79,7 @@ export class ActiveUserService {
       this.loadDMPartnerInformations();
     });
   }
-  
+
   loadDMPartnerInformations() {
     this.firestoreService.allUsers$.subscribe((allUsers) => {
       for (const directMessage of this.activeUserDirectMessages) {

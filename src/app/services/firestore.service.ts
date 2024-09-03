@@ -63,23 +63,22 @@ export class FirestoreService {
   // }
 
   getChannels(channelIDs: string[]): Observable<any[]> {
-
     if (channelIDs.length === 0) {
-      return of([]);  // Falls keine IDs vorhanden sind, gib ein leeres Array zurück
+      return of([]); // Falls keine IDs vorhanden sind, gib ein leeres Array zurück
     }
 
     // IDs in Gruppen von maximal 10 aufteilen
     const idGroups = this.chunkArray(channelIDs, 10);
 
     // Abfragen für jede Gruppe erstellen und die Observables sammeln
-    const queries = idGroups.map(ids => {
+    const queries = idGroups.map((ids) => {
       const q = query(this.channelCol, where('channelID', 'in', ids));
-      return collectionData(q);  // Firestore-Abfrage als Observable zurückgeben
+      return collectionData(q); // Firestore-Abfrage als Observable zurückgeben
     });
 
     // Die Ergebnisse aller Observables kombinieren und als flaches Array zurückgeben
     return forkJoin(queries).pipe(
-      map(results => results.flat()) // flacht die verschachtelten Arrays zu einem einzigen Array ab
+      map((results) => results.flat()) // flacht die verschachtelten Arrays zu einem einzigen Array ab
     );
   }
 
@@ -92,33 +91,35 @@ export class FirestoreService {
 
   getDirectMessages(directMessageIDs: string[]): Observable<any[]> {
     if (directMessageIDs.length === 0) {
-      return of([]);  // Falls keine IDs vorhanden sind, gib ein leeres Array zurück
+      return of([]); // Falls keine IDs vorhanden sind, gib ein leeres Array zurück
     }
 
     // IDs in Gruppen von maximal 10 aufteilen
     const idGroups = this.chunkArray(directMessageIDs, 10);
 
     // Abfragen für jede Gruppe erstellen und die Observables sammeln
-    const queries = idGroups.map(ids => {
-      const q = query(this.directMessageCol, where('directMessageID', 'in', ids));
-      return collectionData(q);  // Firestore-Abfrage als Observable zurückgeben
+    const queries = idGroups.map((ids) => {
+      const q = query(
+        this.directMessageCol,
+        where('directMessageID', 'in', ids)
+      );
+      return collectionData(q); // Firestore-Abfrage als Observable zurückgeben
     });
 
     // Die Ergebnisse aller Observables kombinieren und als flaches Array zurückgeben
     return forkJoin(queries).pipe(
-      map(results => results.flat()) // flacht die verschachtelten Arrays zu einem einzigen Array ab
+      map((results) => results.flat()) // flacht die verschachtelten Arrays zu einem einzigen Array ab
     );
   }
 
   // Hilfsfunktion, um ein Array in kleinere Arrays von max. 10 Elementen aufzuteilen
-  private chunkArray(arr: string[], size: number): string[][] {
+  chunkArray(arr: string[], size: number): string[][] {
     const result = [];
     for (let i = 0; i < arr.length; i += size) {
       result.push(arr.slice(i, i + size));
     }
     return result;
   }
-  
 
   getThread(channelID: string, threadMessageID: string) {
     // muss auch als Observable deklariert werden und sofort ein Array füllen, das angezapft wird vom HTML zum rendern
