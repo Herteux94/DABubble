@@ -83,15 +83,6 @@ export class FirestoreService {
     );
   }
 
-  // Hilfsfunktion, um ein Array in kleinere Arrays von max. 10 Elementen aufzuteilen
-  private chunkArray(arr: string[], size: number): string[][] {
-    const result = [];
-    for (let i = 0; i < arr.length; i += size) {
-      result.push(arr.slice(i, i + size));
-    }
-    return result;
-  }
-
   // loadDirectMessageList() {
   //   this.allDirectMessages$ = this.getDirectMessages();
   //   this.allDirectMessages$.subscribe((directMessages) => {
@@ -127,7 +118,7 @@ export class FirestoreService {
     }
     return result;
   }
-  }
+  
 
   getThread(channelID: string, threadMessageID: string) {
     // muss auch als Observable deklariert werden und sofort ein Array füllen, das angezapft wird vom HTML zum rendern
