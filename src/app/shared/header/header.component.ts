@@ -5,6 +5,7 @@ import { Dialog } from '@angular/cdk/dialog';
 import { MenuDialogComponent } from '../../dialogs/menu-dialog/menu-dialog.component';
 import { ActiveUserService } from '../../services/active-user.service';
 import { CommonModule } from '@angular/common';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-header',
@@ -18,7 +19,8 @@ export class HeaderComponent implements OnInit {
   mobile!: boolean;
   navigationCompActive: boolean = true;
   avatarUrl: string = '../../../assets/img/avatars/avatar-4.svg';
-
+  activeUser: User | null = null;
+  
   constructor(
     private screenSizeService: ScreenSizeService,
     private router: Router,
@@ -33,6 +35,10 @@ export class HeaderComponent implements OnInit {
 
     this.router.events.subscribe(() => {
       this.checkIfNavigationActive();
+    });
+    this.activeUserService.activeUser$.subscribe(user => {
+      this.activeUser = user;
+      // Du kannst jetzt synchron auf `activeUser` zugreifen
     });
   }
 

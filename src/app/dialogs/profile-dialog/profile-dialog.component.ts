@@ -7,7 +7,6 @@ import {
 } from '@angular/animations';
 import { DIALOG_DATA, DialogModule, DialogRef } from '@angular/cdk/dialog';
 import { Component, ElementRef, Inject, inject, ViewChild } from '@angular/core';
-import { User } from '../../models/user.model';
 import { ActiveUserService } from '../../services/active-user.service';
 import { FindUserService } from '../../services/find-user.service';
 import { CommonModule } from '@angular/common';

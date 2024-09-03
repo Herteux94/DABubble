@@ -79,24 +79,42 @@ export class ActiveUserService {
       this.loadDMPartnerInformations();
     });
   }
-
+  
   loadDMPartnerInformations() {
-    // for (const directMessage of this.activeUserDirectMessages) {
-    //   const partnerUserID = directMessage.member.find(
-    //     (id: string) => id !== this.activeUser.userID
-    //   );
-    //   if (partnerUserID) {
-    //     try {
-    //       const partnerUser = this.findUserService.findUser(partnerUserID);
-    //       if (partnerUser) {
-    //         directMessage.partnerUser = partnerUser; // Füge den Partner-User dem DirectMessage hinzu
-    //       }
-    //     } catch (error) {
-    //       console.error('Fehler beim Laden des Partners', error);
-    //     }
-    //   }
-    // }
+    this.firestoreService.allUsers$.subscribe((allUsers) => {
+      for (const directMessage of this.activeUserDirectMessages) {
+        const partnerUserID = directMessage.member.find(
+          (id: string) => id !== this.activeUser.userID
+        );
+        if (partnerUserID) {
+          const partnerUser = allUsers.find(
+            (user: User) => user.userID === partnerUserID
+          );
+          if (partnerUser) {
+            directMessage.partnerUser = partnerUser; // Füge den Partner-User der DirectMessage hinzu
+          }
+        }
+      }
+    });
   }
+
+  // loadDMPartnerInformations() {
+  //   for (const directMessage of this.activeUserDirectMessages) {
+  //     const partnerUserID = directMessage.member.find(
+  //       (id: string) => id !== this.activeUser.userID
+  //     );
+  //     if (partnerUserID) {
+  //       try {
+  //         const partnerUser = this.findUserService.findUser(partnerUserID);
+  //         if (partnerUser) {
+  //           directMessage.partnerUser = partnerUser; // Füge den Partner-User dem DirectMessage hinzu
+  //         }
+  //       } catch (error) {
+  //         console.error('Fehler beim Laden des Partners', error);
+  //       }
+  //     }
+  //   }
+  // }
 
   setActiveUserToLocalStorage(userID: string) {
     localStorage.setItem('activeUser', userID);
