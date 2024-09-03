@@ -19,7 +19,7 @@ import { FocusInputDirective } from '../../directives/focus-input.directive';
 export class LoginComponent {
   email: string = '';
   password: string = '';
-
+  newUser: boolean = false;
   errorMessage: string = '';
   errorType: 'email' | 'password' | null = null;
 
@@ -81,7 +81,9 @@ export class LoginComponent {
         this.errorMessage = '';
         this.errorType = null;
         this.activeUserService.loadActiveUser(activeUserID);  // Setze den aktiven Benutzer
+        if (this.newUser){
         this.router.navigate(['/createAccount']);
+        }
       })
       .catch((error) => {
         console.error('Error during Google sign-in:', error);
@@ -107,6 +109,7 @@ export class LoginComponent {
       user.name = displayName ?? '';  // Verwende einen leeren String, wenn displayName null oder undefined ist
       user.email = email ?? '';  // Verwende einen leeren String, wenn email null oder undefined ist
       user.lastOnline = Date.now();
+      this.newUser = true;
       try {
         await this.firestoreService.addUser(user.toJSON());
         console.log('Neues Benutzerprofil in Firestore erstellt:', user);
