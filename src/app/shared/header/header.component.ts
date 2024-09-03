@@ -36,7 +36,7 @@ export class HeaderComponent implements OnInit {
     this.router.events.subscribe(() => {
       this.checkIfNavigationActive();
     });
-    this.activeUserService.activeUser$.subscribe(user => {
+    this.activeUserService.activeUser.subscribe(user => {
       this.activeUser = user;
       // Du kannst jetzt synchron auf `activeUser` zugreifen
     });
