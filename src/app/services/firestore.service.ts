@@ -14,7 +14,7 @@ import {
   query,
   where,
 } from '@angular/fire/firestore';
-import { forkJoin, map, Observable, of } from 'rxjs';
+import { combineLatest, forkJoin, map, Observable, of, tap } from 'rxjs';
 import { Channel } from '../models/channel.model';
 import { User } from '../models/user.model';
 // import { DirectMessage } from '../models/directMessages.model';
@@ -66,19 +66,19 @@ export class FirestoreService {
     if (channelIDs.length === 0) {
       return of([]); // Falls keine IDs vorhanden sind, gib ein leeres Array zurück
     }
-
+    
     // IDs in Gruppen von maximal 10 aufteilen
     const idGroups = this.chunkArray(channelIDs, 10);
-
+    
     // Abfragen für jede Gruppe erstellen und die Observables sammeln
     const queries = idGroups.map((ids) => {
       const q = query(this.channelCol, where('channelID', 'in', ids));
-      return collectionData(q); // Firestore-Abfrage als Observable zurückgeben
+      return collectionData(q);
     });
-
+    
     // Die Ergebnisse aller Observables kombinieren und als flaches Array zurückgeben
-    return forkJoin(queries).pipe(
-      map((results) => results.flat()) // flacht die verschachtelten Arrays zu einem einzigen Array ab
+    return combineLatest(queries).pipe(
+      map((results) => results.flat())
     );
   }
 
@@ -103,12 +103,12 @@ export class FirestoreService {
         this.directMessageCol,
         where('directMessageID', 'in', ids)
       );
-      return collectionData(q); // Firestore-Abfrage als Observable zurückgeben
+      return collectionData(q);
     });
 
     // Die Ergebnisse aller Observables kombinieren und als flaches Array zurückgeben
-    return forkJoin(queries).pipe(
-      map((results) => results.flat()) // flacht die verschachtelten Arrays zu einem einzigen Array ab
+    return combineLatest(queries).pipe(
+      map((results) => results.flat())
     );
   }
 

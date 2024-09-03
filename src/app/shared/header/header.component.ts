@@ -25,7 +25,6 @@ export class HeaderComponent implements OnInit {
   mobile!: boolean;
   navigationCompActive: boolean = true;
   avatarUrl: string = '../../../assets/img/avatars/avatar-4.svg';
-  activeUser: User | null = null;
 
   constructor(
     private screenSizeService: ScreenSizeService,
@@ -41,10 +40,6 @@ export class HeaderComponent implements OnInit {
 
     this.router.events.subscribe(() => {
       this.checkIfNavigationActive();
-    });
-    this.activeUserService.activeUser.subscribe((user: User | null) => {
-      this.activeUser = user;
-      // Du kannst jetzt synchron auf `activeUser` zugreifen
     });
   }
 

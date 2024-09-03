@@ -53,7 +53,9 @@ export class ActiveUserService {
       )
       .subscribe((user: User | undefined) => {
         this.activeUser = user;
-        this.loadConversations();
+        if ((this.activeUser = user)) {
+          this.loadConversations();
+        }
       });
   }
 
@@ -117,11 +119,25 @@ export class ActiveUserService {
   // }
 
   setActiveUserToLocalStorage(userID: string) {
-    localStorage.setItem('activeUser', userID);
+    try {
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('activeUser', userID);
+      }
+    } catch (error) {
+      console.error('Fehler beim Setzen von localStorage:', error);
+    }
   }
 
   getActiveUserIDFromLocalStorage() {
-    return localStorage.getItem('activeUser');
+    try {
+      if (typeof window !== 'undefined') {
+        return localStorage.getItem('activeUser');
+      }
+      return null;
+    } catch (error) {
+      console.error('Fehler beim Abrufen von localStorage:', error);
+      return null;
+    }
   }
 
   logout() {
