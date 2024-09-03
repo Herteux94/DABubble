@@ -16,6 +16,23 @@ import { HelloComponent } from './main-content/hello/hello.component';
 
 export const routes: Routes = [
   {
+    path: '',
+    redirectTo: 'login', // Standardmäßig zur Login-Seite weiterleiten
+    pathMatch: 'full',
+  },
+  {
+    path: '',
+    component: AuthenticationComponent,
+    children: [
+      { path: '', redirectTo: 'login', pathMatch: 'full' }, // Redirect to login
+      { path: 'login', component: LoginComponent }, // Explicit login route
+      { path: 'signUp', component: SignUpComponent },
+      { path: 'createAccount', component: ChooseAvatarComponent },
+      { path: 'sendResetPWMail', component: SendResetPwMailComponent },
+      { path: 'resetPassword', component: ResetPwComponent },
+    ],
+  },
+  {
     path: 'messenger',
     component: MainContentComponent,
     data: { animation: 'routerTransitions' },
@@ -30,17 +47,6 @@ export const routes: Routes = [
        { path: 'hello', component: HelloComponent },
     ],
   },
-  {
-    path: '',
-    component: AuthenticationComponent,
-    children: [
-      { path: '', redirectTo: 'login', pathMatch: 'full' }, // Redirect to login
-      { path: 'login', component: LoginComponent }, // Explicit login route
-      { path: 'signUp', component: SignUpComponent },
-      { path: 'createAccount', component: ChooseAvatarComponent },
-      { path: 'sendResetPWMail', component: SendResetPwMailComponent },
-      { path: 'resetPassword', component: ResetPwComponent },
-    ],
-  },
    { path: 'dialogs', component: DialogTestComponent },
+   { path: '**', redirectTo: 'login' }, // Fallback-Route: bei nicht gefundenen Routen zur Login-Seite
 ];
