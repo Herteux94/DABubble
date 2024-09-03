@@ -25,9 +25,7 @@ export class ActiveChannelService {
   async loadActiveChannel(channelID: string): Promise<void> {
     this.activeUserService.activeUserChannels$
       .pipe(
-        first((channels) =>
-          channels.some((channel) => channel.channelID === channelID)
-        ),
+        first((channels) => channels.length > 0), // Warte, bis Kanäle vorhanden sind
         map((channels) =>
           channels.find((channel) => channel.channelID === channelID)
         )
@@ -45,6 +43,35 @@ export class ActiveChannelService {
         },
       });
   }
+  
+
+  // async loadActiveChannel(channelID: string): Promise<void> {
+    
+  //   if (this.activeUserService.activeUserChannels.length > 0) {
+  //     this.activeUserService.activeUserChannels$
+  //       .pipe(
+  //         first((channels) =>
+  //           channels.some((channel) => channel.channelID === channelID)
+  //         ),
+  //         map((channels) =>
+  //           channels.find((channel) => channel.channelID === channelID)
+  //         )
+  //       )
+  //       .subscribe({
+  //         next: (channel) => {
+  //           if (channel) {
+  //             this.activeChannel = channel;
+  //           } else {
+  //             console.error('Channel nicht gefunden');
+  //           }
+  //         },
+  //         error: (error) => {
+  //           console.error('Fehler beim Laden des aktiven Channels:', error);
+  //         },
+  //       });
+
+  //   }
+  // }
 
   loadChannelMessages(channelID: string) {
     this.channelMessages$ = this.firestoreService.getMessages(

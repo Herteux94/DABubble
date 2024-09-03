@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FirestoreService } from './firestore.service';
 import { Channel } from '../models/channel.model';
-import { map, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 import { User } from '../models/user.model';
 import { FindUserService } from './find-user.service';
 import { Router } from '@angular/router';
@@ -13,12 +13,16 @@ import { DirectMessage } from '../models/directMessages.model';
 export class ActiveUserService {
   activeUser!: any;
 
-  activeUserChannels$!: Observable<Channel[]>;
+  // activeUserChannels$!: Observable<Channel[]>;
   activeUserChannels!: Channel[];
 
   activeUserDirectMessages$!: Observable<DirectMessage[]>;
   activeUserDirectMessages!: any[];
 
+  private activeUserChannelsSubject = new BehaviorSubject<any[]>([]); // Initialisiere mit leerem Array
+  activeUserChannels$ = this.activeUserChannelsSubject.asObservable(); // Observable für den Zugriff
+
+  
   constructor(
     private firestoreService: FirestoreService,
     private findUserService: FindUserService,
@@ -69,6 +73,7 @@ export class ActiveUserService {
       this.firestoreService.getChannels(activeUserChannelIDs);
     this.activeUserChannels$.subscribe((channels) => {
       this.activeUserChannels = channels;
+      this.activeUserChannelsSubject.next(channels);
     });
   }
 
