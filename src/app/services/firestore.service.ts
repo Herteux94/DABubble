@@ -17,7 +17,7 @@ import {
 import { forkJoin, map, Observable, of } from 'rxjs';
 import { Channel } from '../models/channel.model';
 import { User } from '../models/user.model';
-import { DirectMessage } from '../models/directMessages.model';
+// import { DirectMessage } from '../models/directMessages.model';
 import { Message } from '../models/message.model';
 
 @Injectable({
@@ -30,16 +30,16 @@ export class FirestoreService {
 
   allUsers$!: Observable<User[]>;
   // allChannels$!: Observable<Channel[]>;
-  allDirectMessages$!: Observable<DirectMessage[]>;
+  // allDirectMessages$!: Observable<DirectMessage[]>;
 
   allUsers: User[] = [];
   // allChannels: Channel[] = [];
-  allDirectMessages: DirectMessage[] = [];
+  // allDirectMessages: DirectMessage[] = [];
 
   constructor(private firestore: Firestore) {
     this.loadUserList();
     // this.loadChannelList();
-    this.loadDirectMessageList();
+    // this.loadDirectMessageList();
   }
 
   ///////////////////////////////////////// loadFunctions /////////////////////////////////////////

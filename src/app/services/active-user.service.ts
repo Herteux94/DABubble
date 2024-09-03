@@ -17,7 +17,7 @@ export class ActiveUserService {
   activeUserChannels!: Channel[];
 
   activeUserDirectMessages$!: Observable<DirectMessage[]>;
-  activeUserDirectMessages!: DirectMessage[];
+  activeUserDirectMessages!: any[];
 
   constructor(
     private firestoreService: FirestoreService,
