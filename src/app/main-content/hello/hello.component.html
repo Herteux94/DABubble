@@ -1,12 +1,13 @@
 <section>
-    @if(this.activeUserService.activeUser && this.activeUserService.activeUser.name) {
-        <div class="greetingsContainer">
-            <h1>Schön dich zu sehen,
-            <em>
-            <span class="userName">{{
-                this.activeUserService.activeUser.name
-            }}</span>
-            </em> !</h1>
-        </div>
-        }
+  @if(this.activeUserService.activeUser && this.activeUserService.activeUser.name) {
+  <div class="greetingsContainer">
+    <h1>Schön dich zu sehen,
+      <em>
+        <span class="userName">{{
+          this.activeUserService.activeUser.name
+          }}</span>
+      </em> !
+    </h1>
+  </div>
+  }
 </section>

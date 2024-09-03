@@ -81,7 +81,7 @@ export class LoginComponent {
         this.errorMessage = '';
         this.errorType = null;
         this.activeUserService.loadActiveUser(activeUserID);  // Setze den aktiven Benutzer
-        this.router.navigate(['/messenger']);
+        this.router.navigate(['/createAccount']);
       })
       .catch((error) => {
         console.error('Error during Google sign-in:', error);
@@ -107,7 +107,6 @@ export class LoginComponent {
       user.name = displayName ?? '';  // Verwende einen leeren String, wenn displayName null oder undefined ist
       user.email = email ?? '';  // Verwende einen leeren String, wenn email null oder undefined ist
       user.lastOnline = Date.now();
-
       try {
         await this.firestoreService.addUser(user.toJSON());
         console.log('Neues Benutzerprofil in Firestore erstellt:', user);
@@ -116,6 +115,7 @@ export class LoginComponent {
       }
     } else {
       console.log('Benutzerprofil existiert bereits:', userSnap.data());
+      this.router.navigate(['/messenger']);
     }
   }
 

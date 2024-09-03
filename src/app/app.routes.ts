@@ -42,7 +42,5 @@ export const routes: Routes = [
       { path: 'resetPassword', component: ResetPwComponent },
     ],
   },
-
    { path: 'dialogs', component: DialogTestComponent },
-   { path: '**', redirectTo: 'login' },  // Wildcard, falls keine Route passt
 ];
