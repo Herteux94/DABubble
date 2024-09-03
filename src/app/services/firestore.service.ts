@@ -11,8 +11,10 @@ import {
   setDoc,
   getDoc,
   DocumentReference,
+  query,
+  where,
 } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { forkJoin, map, Observable, of } from 'rxjs';
 import { Channel } from '../models/channel.model';
 import { User } from '../models/user.model';
 import { DirectMessage } from '../models/directMessages.model';
@@ -27,16 +29,16 @@ export class FirestoreService {
   directMessageCol = collection(this.firestore, 'directMessages');
 
   allUsers$!: Observable<User[]>;
-  allChannels$!: Observable<Channel[]>;
+  // allChannels$!: Observable<Channel[]>;
   allDirectMessages$!: Observable<DirectMessage[]>;
 
   allUsers: User[] = [];
-  allChannels: Channel[] = [];
+  // allChannels: Channel[] = [];
   allDirectMessages: DirectMessage[] = [];
 
   constructor(private firestore: Firestore) {
     this.loadUserList();
-    this.loadChannelList();
+    // this.loadChannelList();
     this.loadDirectMessageList();
   }
 
@@ -53,28 +55,78 @@ export class FirestoreService {
     return collectionData(this.userCol);
   }
 
-  loadChannelList() {
-    this.allChannels$ = this.getChannels();
-    this.allChannels$.subscribe((channels) => {
-      this.allChannels = channels;
-    });
-  }
+  // loadChannelList() {
+  //   this.allChannels$ = this.getChannels();
+  //   this.allChannels$.subscribe((channels) => {
+  //     this.allChannels = channels;
+  //   });
+  // }
 
   getChannels(channelIDs: string[]): Observable<any[]> {
-    // umschreiben zu getActiveUserChannels und chatgpt fragen ob direkt .data() zurück geben kann und direkt gefiltert aus firestore laden
-    return collectionData(this.channelCol);
-  }
 
-  loadDirectMessageList() {
-    this.allDirectMessages$ = this.getDirectMessages();
-    this.allDirectMessages$.subscribe((directMessages) => {
-      this.allDirectMessages = directMessages;
+    if (channelIDs.length === 0) {
+      return of([]);  // Falls keine IDs vorhanden sind, gib ein leeres Array zurück
+    }
+
+    // IDs in Gruppen von maximal 10 aufteilen
+    const idGroups = this.chunkArray(channelIDs, 10);
+
+    // Abfragen für jede Gruppe erstellen und die Observables sammeln
+    const queries = idGroups.map(ids => {
+      const q = query(this.channelCol, where('channelID', 'in', ids));
+      return collectionData(q);  // Firestore-Abfrage als Observable zurückgeben
     });
+
+    // Die Ergebnisse aller Observables kombinieren und als flaches Array zurückgeben
+    return forkJoin(queries).pipe(
+      map(results => results.flat()) // flacht die verschachtelten Arrays zu einem einzigen Array ab
+    );
   }
 
-  getDirectMessages(): Observable<any[]> {
-    // umschreiben zu getActiveUserDMs und chatgpt fragen ob direkt .data() zurück geben kann und direkt gefiltert aus firestore laden
-    return collectionData(this.directMessageCol);
+  // Hilfsfunktion, um ein Array in kleinere Arrays von max. 10 Elementen aufzuteilen
+  private chunkArray(arr: string[], size: number): string[][] {
+    const result = [];
+    for (let i = 0; i < arr.length; i += size) {
+      result.push(arr.slice(i, i + size));
+    }
+    return result;
+  }
+
+  // loadDirectMessageList() {
+  //   this.allDirectMessages$ = this.getDirectMessages();
+  //   this.allDirectMessages$.subscribe((directMessages) => {
+  //     this.allDirectMessages = directMessages;
+  //   });
+  // }
+
+  getDirectMessages(directMessageIDs: string[]): Observable<any[]> {
+    if (directMessageIDs.length === 0) {
+      return of([]);  // Falls keine IDs vorhanden sind, gib ein leeres Array zurück
+    }
+
+    // IDs in Gruppen von maximal 10 aufteilen
+    const idGroups = this.chunkArray(directMessageIDs, 10);
+
+    // Abfragen für jede Gruppe erstellen und die Observables sammeln
+    const queries = idGroups.map(ids => {
+      const q = query(this.directMessageCol, where('directMessageID', 'in', ids));
+      return collectionData(q);  // Firestore-Abfrage als Observable zurückgeben
+    });
+
+    // Die Ergebnisse aller Observables kombinieren und als flaches Array zurückgeben
+    return forkJoin(queries).pipe(
+      map(results => results.flat()) // flacht die verschachtelten Arrays zu einem einzigen Array ab
+    );
+  }
+
+  // Hilfsfunktion, um ein Array in kleinere Arrays von max. 10 Elementen aufzuteilen
+  private chunkArray(arr: string[], size: number): string[][] {
+    const result = [];
+    for (let i = 0; i < arr.length; i += size) {
+      result.push(arr.slice(i, i + size));
+    }
+    return result;
+  }
   }
 
   getThread(channelID: string, threadMessageID: string) {

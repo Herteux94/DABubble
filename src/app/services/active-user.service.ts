@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FirestoreService } from './firestore.service';
 import { Channel } from '../models/channel.model';
-import { firstValueFrom, map } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { User } from '../models/user.model';
 import { FindUserService } from './find-user.service';
 import { Router } from '@angular/router';
@@ -12,7 +12,11 @@ import { DirectMessage } from '../models/directMessages.model';
 })
 export class ActiveUserService {
   activeUser!: any;
+
+  activeUserChannels$!: Observable<Channel[]>;
   activeUserChannels!: Channel[];
+
+  activeUserDirectMessages$!: Observable<DirectMessage[]>;
   activeUserDirectMessages!: DirectMessage[];
 
   constructor(
@@ -58,42 +62,40 @@ export class ActiveUserService {
     this.loadUserDirectMessages(this.activeUser.directMessages);
   }
 
-  async loadUserChannels(activeUserChannelIDs: string[]) {}
+  loadUserChannels(activeUserChannelIDs: string[]) {
+    this.activeUserChannels$ =
+      this.firestoreService.getChannels(activeUserChannelIDs);
+    this.activeUserChannels$.subscribe((channels) => {
+      this.activeUserChannels = channels;
+    });
+  }
 
-  async loadUserDirectMessages(activeUserDirectMessageIDs: any[]) {
-    const directMessages = await firstValueFrom(
-      this.firestoreService.allDirectMessages$
+  async loadUserDirectMessages(activeUserDirectMessageIDs: string[]) {
+    this.activeUserDirectMessages$ = this.firestoreService.getDirectMessages(
+      activeUserDirectMessageIDs
     );
-    if (directMessages.length > 0) {
-      this.activeUserDirectMessages =
-        this.firestoreService.allDirectMessages.filter((directMessage: any) =>
-          activeUserDirectMessageIDs.includes(directMessage.directMessageID)
-        );
-
+    this.activeUserDirectMessages$.subscribe((directMessages) => {
+      this.activeUserDirectMessages = directMessages;
       this.loadDMPartnerInformations();
-    }
+    });
   }
 
   loadDMPartnerInformations() {
-    if (!this.activeUser || !this.activeUserDirectMessages) return;
-
-    for (const directMessage of this.activeUserDirectMessages) {
-      const partnerUserID = directMessage.member.find(
-        (id: string) => id !== this.activeUser.userID
-      );
-
-      if (partnerUserID) {
-        try {
-          const partnerUser = this.findUserService.findUser(partnerUserID);
-
-          if (partnerUser) {
-            directMessage.partnerUser = partnerUser; // Füge den Partner-User dem DirectMessage hinzu
-          }
-        } catch (error) {
-          console.error('Fehler beim Laden des Partners', error);
-        }
-      }
-    }
+    // for (const directMessage of this.activeUserDirectMessages) {
+    //   const partnerUserID = directMessage.member.find(
+    //     (id: string) => id !== this.activeUser.userID
+    //   );
+    //   if (partnerUserID) {
+    //     try {
+    //       const partnerUser = this.findUserService.findUser(partnerUserID);
+    //       if (partnerUser) {
+    //         directMessage.partnerUser = partnerUser; // Füge den Partner-User dem DirectMessage hinzu
+    //       }
+    //     } catch (error) {
+    //       console.error('Fehler beim Laden des Partners', error);
+    //     }
+    //   }
+    // }
   }
 
   setActiveUserToLocalStorage(userID: string) {
