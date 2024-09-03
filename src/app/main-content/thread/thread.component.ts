@@ -6,7 +6,7 @@ import { ActiveChannelService } from '../../services/active-channel.service';
 import { ActiveThreadService } from '../../services/active-thread-service.service';
 import { ActivatedRoute } from '@angular/router';
 import { ActiveUserService } from '../../services/active-user.service';
-import { RoutingThreadOutletService } from '../../services/routing-thread-outlet.service';
+// import { RoutingThreadOutletService } from '../../services/routing-thread-outlet.service';
 
 @Component({
   selector: 'app-thread',
@@ -24,13 +24,12 @@ export class ThreadComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    if (!this.activeThreadService.activeThreadMessage) {
-      let threadID: any;
-      this.route.paramMap.subscribe((paramMap) => {
-        threadID = paramMap.get('id');
-      });
-
-      this.activeThreadService.loadActiveThreadAndMessages(threadID);
-    }
+    // if (!this.activeThreadService.activeThreadMessage) {
+    //   let threadID: any;
+    //   this.route.paramMap.subscribe((paramMap) => {
+    //     threadID = paramMap.get('id');
+    //   });
+    //   this.activeThreadService.loadActiveThreadAndMessages(threadID);
+    // }
   }
 }

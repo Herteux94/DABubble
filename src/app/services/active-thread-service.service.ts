@@ -17,47 +17,47 @@ export class ActiveThreadService {
     private activeChannelService: ActiveChannelService
   ) {}
 
-  async loadActiveThreadAndMessages(threadMessageID: string) {
-    // await this.loadActiveThread(threadMessageID);
-    // this.loadThreadMessages(threadMessageID);
-  }
+  // async loadActiveThreadAndMessages(threadMessageID: string) {
+  //   await this.loadActiveThread(threadMessageID);
+  //   this.loadThreadMessages(threadMessageID);
+  // }
 
-  async loadActiveThread(threadMessageID: string): Promise<void> {
-    // if(this.activeChannelService.activeChannel.channelID) {
-    //   const channelID = this.activeChannelService.activeChannel.channelID;
-    // } else {
-    //   setInterval(channelID = this.activeChannelService.activeChannel.channelID;)
-    // }
+  // async loadActiveThread(threadMessageID: string): Promise<void> {
+  //   if(this.activeChannelService.activeChannel.channelID) {
+  //     const channelID = this.activeChannelService.activeChannel.channelID;
+  //   } else {
+  //     setInterval(channelID = this.activeChannelService.activeChannel.channelID;)
+  //   }
 
-    // const activeThread = this.firestoreService.getThread(
-    //   channelID,
-    //   threadMessageID
-    // );
+  //   const activeThread = this.firestoreService.getThread(
+  //     channelID,
+  //     threadMessageID
+  //   );
 
-    // this.activeThreadMessage = (await activeThread).data();
-  }
+  //   this.activeThreadMessage = (await activeThread).data();
+  // }
 
-  async loadThreadMessages(threadMessageID: string) {
-    // const channelID = this.activeChannelService.activeChannel.channelID;
+  // async loadThreadMessages(threadMessageID: string) {
+  //   const channelID = this.activeChannelService.activeChannel.channelID;
 
-    // this.threadMessages$ = this.firestoreService.getThreadMessages(
-    //   channelID,
-    //   threadMessageID
-    // );
+  //   this.threadMessages$ = this.firestoreService.getThreadMessages(
+  //     channelID,
+  //     threadMessageID
+  //   );
 
-    // this.threadMessages$.subscribe({
-    //   next: (messages) => {
-    //     if (messages) {
-    //       this.threadMessages = messages.sort(
-    //         (a, b) => a.creationTime - b.creationTime
-    //       );
-    //     } else {
-    //       console.error('Messages nicht gefunden');
-    //     }
-    //   },
-    //   error: (error) => {
-    //     console.error('Fehler beim Laden der aktiven Messages:', error);
-    //   },
-    // });
-  }
+  //   this.threadMessages$.subscribe({
+  //     next: (messages) => {
+  //       if (messages) {
+  //         this.threadMessages = messages.sort(
+  //           (a, b) => a.creationTime - b.creationTime
+  //         );
+  //       } else {
+  //         console.error('Messages nicht gefunden');
+  //       }
+  //     },
+  //     error: (error) => {
+  //       console.error('Fehler beim Laden der aktiven Messages:', error);
+  //     },
+  //   });
+  // }
 }

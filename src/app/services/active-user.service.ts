@@ -22,7 +22,6 @@ export class ActiveUserService {
   private activeUserChannelsSubject = new BehaviorSubject<any[]>([]); // Initialisiere mit leerem Array
   activeUserChannels$ = this.activeUserChannelsSubject.asObservable(); // Observable für den Zugriff
 
-  
   constructor(
     private firestoreService: FirestoreService,
     private findUserService: FindUserService,
@@ -36,11 +35,12 @@ export class ActiveUserService {
   }
 
   getActiveUserID(activeUserID: string | undefined) {
-    let userID: string | null;
+    let userID: any;
 
     if (!activeUserID) {
       userID = this.getActiveUserIDFromLocalStorage();
       console.log('Active User ID über Local Storage geladen: ', userID);
+      userID = activeUserID;
     } else {
       userID = activeUserID;
     }
@@ -71,6 +71,7 @@ export class ActiveUserService {
   loadUserChannels(activeUserChannelIDs: string[]) {
     this.activeUserChannels$ =
       this.firestoreService.getChannels(activeUserChannelIDs);
+
     this.activeUserChannels$.subscribe((channels) => {
       this.activeUserChannels = channels;
       this.activeUserChannelsSubject.next(channels);

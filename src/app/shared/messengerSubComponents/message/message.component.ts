@@ -67,23 +67,21 @@ export class MessageComponent {
   }
 
   navigateToThread() {
-    this.activeThreadService.loadActiveThreadAndMessages(
-      this.message.messageID
-    );
-
-    if (this.mobile) {
-      this.router.navigate([
-        // `/messenger/channel/${this.activeChannelService.activeChannel.channelID}/threadM`,
-        `/messenger/channel/${this.activeChannelService.activeChannel.channelID}/threadM`,
-        this.message.messageID,
-      ]);
-    } else {
-      this.router.navigate([
-        '/messenger',
-        { outlets: { thread: ['thread', this.message.messageID] } },
-      ]);
-    }
-
-    this.threadRoutingService.openThread();
+    // this.activeThreadService.loadActiveThreadAndMessages(
+    //   this.message.messageID
+    // );
+    // if (this.mobile) {
+    //   this.router.navigate([
+    //     // `/messenger/channel/${this.activeChannelService.activeChannel.channelID}/threadM`,
+    //     `/messenger/channel/${this.activeChannelService.activeChannel.channelID}/threadM`,
+    //     this.message.messageID,
+    //   ]);
+    // } else {
+    //   this.router.navigate([
+    //     '/messenger',
+    //     { outlets: { thread: ['thread', this.message.messageID] } },
+    //   ]);
+    // }
+    // this.threadRoutingService.openThread();
   }
 }
