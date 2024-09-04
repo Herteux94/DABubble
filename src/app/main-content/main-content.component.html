@@ -13,29 +13,18 @@
 <section>
   <div class="wrapper contentLimit">
     <app-header></app-header>
-    <div
-      [ngStyle]="{ margin: this.navOpenDesktop ? '0 16px' : '0 32px' }"
-      class="bodyArea"
-    >
-      <app-navigation
-        [ngClass]="navOpenDesktop ? 'showNav' : 'hideNav'"
-      ></app-navigation>
+    <div [ngStyle]="{ margin: this.navOpenDesktop ? '0 16px' : '0 32px' }" class="bodyArea">
+      <app-navigation [ngClass]="navOpenDesktop ? 'showNav' : 'hideNav'"></app-navigation>
       <div class="routerContainer">
         <router-outlet></router-outlet>
       </div>
-      <div
-        [ngClass]="
+      <div [ngClass]="
           threadRoutingService.threadOpenDesktop ? 'showThread' : 'hideThread'
-        "
-        class="threadRouterContainer"
-      >
+        " class="threadRouterContainer">
         <router-outlet name="thread"></router-outlet>
       </div>
     </div>
   </div>
-  <app-nav-toggle-btn
-    [menuOpen]="navOpenDesktop"
-    (click)="toggleMenu()"
-  ></app-nav-toggle-btn>
+  <app-nav-toggle-btn [menuOpen]="navOpenDesktop" (click)="toggleMenu()"></app-nav-toggle-btn>
 </section>
 }

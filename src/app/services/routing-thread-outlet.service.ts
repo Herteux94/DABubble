@@ -16,12 +16,12 @@ export class RoutingThreadOutletService {
   ) {}
 
   closeThread() {
-    // this.threadOpenDesktop = false;
-    // setTimeout(() => {
-    //   this.router.navigate(['/messenger', { outlets: { thread: null } }], {
-    //     relativeTo: this.route.parent,
-    //   });
-    // }, 350);
+    this.threadOpenDesktop = false;
+    setTimeout(() => {
+      this.router.navigate(['/messenger', { outlets: { thread: null } }], {
+        relativeTo: this.route.parent,
+      });
+    }, 350);
   }
 
   openThread() {
