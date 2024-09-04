@@ -13,6 +13,7 @@ import {
   DocumentReference,
   query,
   where,
+  getDocs,
 } from '@angular/fire/firestore';
 import { combineLatest, map, Observable, of } from 'rxjs';
 import { Channel } from '../models/channel.model';
@@ -72,7 +73,7 @@ export class FirestoreService {
         this.directMessageCol,
         where('directMessageID', 'in', ids)
       );
-      return collectionData(q);
+      return collectionData(q); // Firestore-Abfrage als Observable zurückgeben
     });
 
     return combineLatest(queries).pipe(map((results) => results.flat()));

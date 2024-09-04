@@ -49,7 +49,7 @@ export class ActiveDirectMessageService {
         next: (directMessage) => {
           if (directMessage) {
             this.activeDM = directMessage;
-            // this.loadActiveDMPartner();
+            this.loadActiveDMPartner();
           } else {
             console.error('DirectMessage nicht gefunden');
           }

@@ -1,5 +1,3 @@
-import { User } from './user.model';
-
 export class DirectMessage {
   member!: string[];
   directMessageID!: string;
