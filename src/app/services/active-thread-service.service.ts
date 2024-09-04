@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FirestoreService } from './firestore.service';
-import { Observable } from 'rxjs';
+import { first, firstValueFrom, Observable, switchMap } from 'rxjs';
 import { Message } from '../models/message.model';
 import { ActiveChannelService } from './active-channel.service';
 
@@ -23,14 +23,41 @@ export class ActiveThreadService {
   }
 
   async loadActiveThread(threadMessageID: string): Promise<void> {
-    const channelID = this.activeChannelService.activeChannel.channelID;
-
-    const activeThread = this.firestoreService.getThread(
-      channelID,
-      threadMessageID
-    );
-
-    this.activeThreadMessage = (await activeThread).data();
+    if (
+      this.activeChannelService.activeChannel &&
+      this.activeChannelService.activeChannel.channelID
+    ) {
+      this.activeThreadMessage = (
+        await this.firestoreService.getThread(
+          this.activeChannelService.activeChannel.channelID,
+          threadMessageID
+        )
+      ).data();
+      console.log(
+        'loaded ActiveThread without subscribe: ',
+        this.activeThreadMessage
+      );
+    } else {
+      this.activeChannelService.activeChannel$
+        .pipe(
+          first((channel) => !!channel),
+          switchMap((channel) =>
+            this.firestoreService.getThread(channel!.channelID, threadMessageID)
+          )
+        )
+        .subscribe({
+          next: (activeThread) => {
+            this.activeThreadMessage = activeThread.data();
+            console.log(
+              'loaded ActiveThread WITH Robims subscribe: ',
+              this.activeThreadMessage
+            );
+          },
+          error: (error) => {
+            console.error('Fehler beim Laden des aktiven Threads:', error);
+          },
+        });
+    }
   }
 
   async loadThreadMessages(threadMessageID: string) {

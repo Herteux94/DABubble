@@ -1,4 +1,10 @@
-import { Component, ElementRef, HostListener, inject, Input } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  inject,
+  Input,
+} from '@angular/core';
 import { Message } from '../../../models/message.model';
 import { FormsModule } from '@angular/forms';
 import { FirestoreService } from '../../../services/firestore.service';
@@ -35,8 +41,8 @@ export class TypeInputFieldComponent {
     public activeDirectMessageService: ActiveDirectMessageService,
     private activeThreadService: ActiveThreadService,
     private router: Router,
-    private el: ElementRef,
-  ) { }
+    private el: ElementRef
+  ) {}
 
   // Methode zum Hochladen der Dateien und anschließendem Senden der Nachricht
   private uploadFilesAndSendMessage() {
@@ -117,7 +123,7 @@ export class TypeInputFieldComponent {
 
     files.forEach((file) => {
       if (!allowedTypes.includes(file.type)) {
-        const errorMessage = `Ungültiger Dateityp:${file.name} - Es sind nur jpg-, jpeg-, png- und pdf-Dateien erlaubt.`
+        const errorMessage = `Ungültiger Dateityp:${file.name} - Es sind nur jpg-, jpeg-, png- und pdf-Dateien erlaubt.`;
         console.error(errorMessage);
         this.errorMessageUpload = errorMessage; // Fehlernachricht speichern
         return;
@@ -155,15 +161,24 @@ export class TypeInputFieldComponent {
           this.messengerType,
           this.activeChannelService.activeChannel.channelID
         );
-      } else if (this.messengerType === 'directMessages' && !this.newDirectMessage) {
+      } else if (
+        this.messengerType === 'directMessages' &&
+        !this.newDirectMessage
+      ) {
         await this.firestoreService.addMessage(
           this.message.toJSON(),
           this.messengerType,
           this.activeDirectMessageService.activeDM.directMessageID
         );
-      } else if (this.messengerType === 'directMessages' && this.newDirectMessage) {
-        const directMessageID = await this.newDirectMessageService.addNewDirectMessage();
-        await this.activeDirectMessageService.loadActiveDMAndMessagesAndPartner(directMessageID);
+      } else if (
+        this.messengerType === 'directMessages' &&
+        this.newDirectMessage
+      ) {
+        const directMessageID =
+          await this.newDirectMessageService.addNewDirectMessage();
+        await this.activeDirectMessageService.loadActiveDMAndMessagesAndPartner(
+          directMessageID
+        );
         await this.firestoreService.addMessage(
           this.message.toJSON(),
           this.messengerType,

@@ -25,9 +25,7 @@ export class Message {
       content: this.content,
       attachments: this.attachments,
       reactions: this.reactions,
-      messageID: this.messageID
+      messageID: this.messageID,
     };
   }
-
-
 }
