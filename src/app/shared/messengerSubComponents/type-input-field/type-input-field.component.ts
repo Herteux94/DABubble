@@ -150,11 +150,33 @@ export class TypeInputFieldComponent {
 
     try {
       if (this.messengerType === 'thread') {
+        const activeThreadMessage = this.activeThreadService.activeThreadMessage;
+        const channelID = this.activeChannelService.activeChannel.channelID;
+
+        // Füge die Nachricht zum Thread hinzu
         await this.firestoreService.addThreadMessage(
           this.message.toJSON(),
-          this.activeChannelService.activeChannel.channelID,
-          this.activeThreadService.activeThreadMessage.messageID
+          channelID,
+          activeThreadMessage.messageID
         );
+
+        // Aktualisiere die ursprüngliche Nachricht, zu der der Thread gehört
+        const updatedThreadLength = (activeThreadMessage.threadLength || 0) + 1; // Falls threadLength undefined ist, setze es auf 0
+        const messagePayload = {
+          lastAnswer: this.message.creationTime,
+          threadLength: updatedThreadLength
+        };
+
+        await this.firestoreService.updateMessage(
+          messagePayload,
+          "channels",
+          channelID,
+          activeThreadMessage.messageID
+        );
+
+        // Update local activeThreadMessage to reflect the new threadLength
+        this.activeThreadService.activeThreadMessage.threadLength = updatedThreadLength;
+
       } else if (this.messengerType === 'channels') {
         await this.firestoreService.addMessage(
           this.message.toJSON(),
@@ -196,6 +218,7 @@ export class TypeInputFieldComponent {
       this.resetMessage();
     }
   }
+
 
   private prepareMessage() {
     this.message.attachments = [];

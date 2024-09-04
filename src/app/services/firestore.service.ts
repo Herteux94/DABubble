@@ -13,7 +13,6 @@ import {
   DocumentReference,
   query,
   where,
-  getDocs,
 } from '@angular/fire/firestore';
 import { combineLatest, map, Observable, of } from 'rxjs';
 import { Channel } from '../models/channel.model';
@@ -235,21 +234,10 @@ export class FirestoreService {
     updateDoc(doc(this.channelCol, channelID), channelData);
   }
 
-  updateMessage(
-    messageData: Partial<Message>,
-    messengerType: string,
-    messengerID: string,
-    messageID: string
-  ) {
-    updateDoc(
-      doc(
-        collection(
+  updateMessage(messageData: Partial<Message>, messengerType: string, messengerID: string, messageID: string ) {
+    updateDoc(doc(collection(
           this.firestore,
-          `${messengerType}/${messengerID}/messages/${messageID}`
-        )
-      ),
-      messageData
-    );
+          `${messengerType}/${messengerID}/messages`), messageID), messageData);
   }
 
   updateThreadMessage(
