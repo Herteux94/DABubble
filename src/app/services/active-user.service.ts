@@ -39,7 +39,6 @@ export class ActiveUserService {
 
     if (!activeUserID) {
       userID = this.getActiveUserIDFromLocalStorage();
-      console.log('Active User ID über Local Storage geladen: ', userID);
     } else {
       userID = activeUserID;
     }
@@ -97,7 +96,7 @@ export class ActiveUserService {
             (user: User) => user.userID === partnerUserID
           );
           if (partnerUser) {
-            directMessage.partnerUser = partnerUser; // Füge den Partner-User der DirectMessage hinzu
+            directMessage.partnerUser = partnerUser;
           }
         }
       }
@@ -127,15 +126,12 @@ export class ActiveUserService {
   }
 
   logout() {
-    // Leere den Local Storage
     localStorage.removeItem('activeUser');
 
-    // Setze alle relevanten Variablen zurück
     this.activeUser = null!;
     this.activeUserChannels = [];
     this.activeUserDirectMessages = [];
 
-    // Leite zur Login-Seite weiter
     this.router.navigate(['/login']);
   }
 }

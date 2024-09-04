@@ -32,16 +32,12 @@ export class ActiveThreadService {
           threadMessageID
         )
       ).data();
-      console.log(
-        'loaded ActiveThread without subscribe: ',
-        this.activeThreadMessage
-      );
+      this.loadThreadMessages(threadMessageID);
     } else {
       this.activeChannelService.activeChannel$
         .pipe(
           first((channel) => !!channel),
           switchMap((channel) => {
-            // Setze die globale Variable channelID im else-Block
             this.channelID = channel!.channelID;
             return this.firestoreService.getThread(
               channel!.channelID,
@@ -62,8 +58,6 @@ export class ActiveThreadService {
   }
 
   async loadThreadMessages(threadMessageID: string) {
-    console.log(this.channelID);
-
     this.threadMessages$ = this.firestoreService.getThreadMessages(
       this.channelID,
       threadMessageID
@@ -75,7 +69,6 @@ export class ActiveThreadService {
           this.threadMessages = messages.sort(
             (a, b) => a.creationTime - b.creationTime
           );
-          console.log(this.threadMessages);
         } else {
           console.error('Messages nicht gefunden');
         }

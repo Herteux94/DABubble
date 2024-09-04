@@ -1,18 +1,17 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ActiveChannelService } from './active-channel.service';
+// import { ActiveChannelService } from './active-channel.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RoutingThreadOutletService {
   threadOpenDesktop!: boolean;
-  activeThreadChannelName!: string;
+  // activeThreadChannelName!: string;
 
   constructor(
     private router: Router,
-    private route: ActivatedRoute,
-    private activeChannelService: ActiveChannelService
+    private route: ActivatedRoute // private activeChannelService: ActiveChannelService
   ) {}
 
   closeThread() {
@@ -26,10 +25,10 @@ export class RoutingThreadOutletService {
 
   openThread() {
     this.threadOpenDesktop = true;
-    this.loadActiveThreadChannelName();
+    // this.loadActiveThreadChannelName();
   }
 
-  loadActiveThreadChannelName() {
-    this.activeThreadChannelName = this.activeChannelService.activeChannel.name;
-  }
+  // loadActiveThreadChannelName() {
+  //   this.activeThreadChannelName = this.activeChannelService.activeChannel.name;
+  // }
 }

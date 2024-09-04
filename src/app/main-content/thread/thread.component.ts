@@ -31,7 +31,7 @@ export class ThreadComponent implements OnInit {
         threadID = paramMap.get('id');
       });
 
-      this.threadRoutingService.threadOpenDesktop = true; // if Abfrage wegen doppelter Animation
+      this.threadRoutingService.openThread(); // if Abfrage wegen doppelter Animation
 
       this.activeThreadService.loadActiveThreadAndMessages(threadID);
     }
