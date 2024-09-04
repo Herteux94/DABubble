@@ -4,11 +4,18 @@
   padding: 8px 32px;
   display: flex;
   gap: 16px;
+  position: relative; // Wichtig für die absolute Positionierung der Options-Bubble
 
   .avatar {
     width: 50px;
     height: 50px;
     border-radius: 100%;
+  }
+
+  &:hover {
+    .options-bubble {
+      display: flex; // Options Bubble beim Hover anzeigen
+    }
   }
 }
 
@@ -16,17 +23,18 @@
   flex-direction: row-reverse;
 }
 
-.fileContainer{
+.fileContainer {
   display: flex;
 }
 
-.filePreview{
+.filePreview {
   max-width: 200px;
   max-height: 200px;
   border-radius: 15px;
   padding: 8px;
   object-fit: cover;
-  &:hover{
+
+  &:hover {
     filter: brightness(40%);
   }
 }
@@ -101,6 +109,18 @@
   .count {
     color: $first-color;
   }
+}
+
+.options-bubble {
+  display: none; // Bubble standardmäßig ausblenden
+  position: absolute;
+  top: -50px;
+  right: 0;
+  background-color: white;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
 }
 
 @media (min-width: 1025px) {

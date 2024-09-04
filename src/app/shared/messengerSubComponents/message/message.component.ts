@@ -1,10 +1,5 @@
 import { Component, inject, Input } from '@angular/core';
-import {
-  Router,
-  RouterLink,
-  RouterLinkActive,
-  RouterModule,
-} from '@angular/router';
+import { Router, RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
 import { ProfileDialogComponent } from '../../../dialogs/profile-dialog/profile-dialog.component';
 import { Dialog, DialogModule } from '@angular/cdk/dialog';
 import { RoutingThreadOutletService } from '../../../services/routing-thread-outlet.service';
@@ -14,6 +9,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { ActiveThreadService } from '../../../services/active-thread-service.service';
 import { Message } from '../../../models/message.model';
 import { ActiveChannelService } from '../../../services/active-channel.service';
+import { OptionsBubbleComponent } from './options-bubble/options-bubble.component';
 
 @Component({
   selector: 'app-message',
@@ -25,6 +21,7 @@ import { ActiveChannelService } from '../../../services/active-channel.service';
     CommonModule,
     MatDialogModule,
     DialogModule,
+    OptionsBubbleComponent
   ],
   templateUrl: './message.component.html',
   styleUrls: ['./message.component.scss'],
@@ -32,6 +29,7 @@ import { ActiveChannelService } from '../../../services/active-channel.service';
 export class MessageComponent {
   mobile!: boolean;
   dialog = inject(Dialog);
+  showOptions: boolean = false; // Flag zur Steuerung der Options-Bubble
 
   @Input() ownMessage!: boolean;
   @Input() isChannel!: boolean;
@@ -60,6 +58,10 @@ export class MessageComponent {
     }
   }
 
+  toggleOptions(show: boolean) {
+    this.showOptions = show;
+  }
+
   openProfileDialog() {
     this.dialog.open(ProfileDialogComponent, {
       data: { userID: this.message.senderID },
@@ -73,7 +75,6 @@ export class MessageComponent {
 
     if (this.mobile) {
       this.router.navigate([
-        // `/messenger/channel/${this.activeChannelService.activeChannel.channelID}/threadM`,
         `/messenger/channel/${this.activeChannelService.activeChannel.channelID}/threadM`,
         this.message.messageID,
       ]);
@@ -86,4 +87,6 @@ export class MessageComponent {
 
     this.threadRoutingService.openThread();
   }
+
+  
 }

@@ -1,0 +1,25 @@
+.options-bubble {
+  display: flex;
+  background-color: white;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  gap: 10px;
+  z-index: 1000;
+}
+
+.options-bubble svg {
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+}
+
+.options-bubble span {
+  cursor: pointer;
+  font-size: 24px;
+  transition: transform 0.2s ease-in-out;
+}
+
+.options-bubble span:hover {
+  transform: scale(1.2);
+}

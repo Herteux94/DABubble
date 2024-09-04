@@ -7,46 +7,32 @@
 
   <div class="text">
     <div [ngClass]="ownMessage ? 'fdRowRev' : ''" class="nameAndTime">
-      @if(this.message && this.message.senderName) {
-      <span (click)="openProfileDialog()" class="name">{{
-        message.senderName
-      }}</span>
-
-      } @if(this.message && this.message.creationTime) {
-      <span class="time subText">{{
-        message.creationTime.valueOf() | date : "HH:mm"
-      }}</span>
-
-      }
+      <span *ngIf="message?.senderName" (click)="openProfileDialog()" class="name">
+        {{ message.senderName }}
+      </span>
+      <span *ngIf="message?.creationTime" class="time subText">
+        {{ message.creationTime | date: 'HH:mm' }}
+      </span>
     </div>
 
     <div [ngClass]="ownMessage ? 'messageTextOwnMsg' : 'messageText'">
-      @if(this.message && this.message.attachments &&
-      this.message.attachments.length > 0) {
-      <div class="fileContainer">
+      <div *ngIf="message?.attachments && message.attachments.length > 0" class="fileContainer">
         <div class="filePreviewContainer">
-          @for(attachment of this.message.attachments; track attachment) {
-          <a [href]="attachment" download class="download-link"
-            ><img
+          <a *ngFor="let attachment of message.attachments" [href]="attachment" download class="download-link">
+            <img
               [src]="attachment"
               alt="img file preview"
-              [ngClass]="{
-                filePreview: true,
-                multipleFiles: message.attachments.length > 1
-              }"
+              [ngClass]="{ filePreview: true, multipleFiles: message.attachments.length > 1 }"
               class="filePreview"
             />
           </a>
-          }
         </div>
       </div>
-      } @if(this.message && this.message.content) {
-      <span>{{ message.content }}</span>
-      }
+
+      <span *ngIf="message?.content">{{ message.content }}</span>
     </div>
 
-    <!-- Neue Struktur für die Anhänge -->
-
+    <!-- Reaktionsbereich -->
     <div class="reactionsArea">
       <div [ngClass]="ownMessage ? 'fdRowRev' : ''" class="reactions">
         <div class="reactionContainer">
@@ -60,11 +46,12 @@
       </div>
     </div>
 
-    @if(this.isChannel) {
-    <div class="responses">
+    <!-- Optionen-Bubble, wird durch CSS-Hover sichtbar -->
+    <app-options-bubble class="options-bubble"></app-options-bubble>
+
+    <div *ngIf="isChannel" class="responses">
       <span (click)="navigateToThread()" class="count">2 Antworten</span>
       <span class="time subText">Letzte Antwort 14:56</span>
     </div>
-    }
   </div>
 </div>
