@@ -1,4 +1,4 @@
-import { Component, HostListener, inject, Input } from '@angular/core';
+import { Component, ElementRef, HostListener, inject, Input } from '@angular/core';
 import { Message } from '../../../models/message.model';
 import { FormsModule } from '@angular/forms';
 import { FirestoreService } from '../../../services/firestore.service';
@@ -34,7 +34,8 @@ export class TypeInputFieldComponent {
     private storageService: StorageService,
     public activeDirectMessageService: ActiveDirectMessageService,
     private activeThreadService: ActiveThreadService,
-    private router: Router
+    private router: Router,
+    private el: ElementRef,
   ) { }
 
   // Methode zum Hochladen der Dateien und anschließendem Senden der Nachricht
@@ -214,7 +215,10 @@ export class TypeInputFieldComponent {
 
   @HostListener('document:keydown.enter', ['$event'])
   handleEnterKey(event: KeyboardEvent) {
-    event.preventDefault();
-    this.sendMessage();
+    const activeElement = document.activeElement;
+    if (this.el.nativeElement.contains(activeElement)) {
+      event.preventDefault();
+      this.sendMessage();
+    }
   }
 }
