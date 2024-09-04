@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FirestoreService } from './firestore.service';
-import { first, firstValueFrom, Observable, switchMap } from 'rxjs';
+import { first, Observable, switchMap } from 'rxjs';
 import { Message } from '../models/message.model';
 import { ActiveChannelService } from './active-channel.service';
 
@@ -12,21 +12,20 @@ export class ActiveThreadService {
   threadMessages$!: Observable<any[]>;
   threadMessages: Message[] = [];
 
+  channelID!: string;
+
   constructor(
     private firestoreService: FirestoreService,
     private activeChannelService: ActiveChannelService
   ) {}
 
-  async loadActiveThreadAndMessages(threadMessageID: string) {
-    await this.loadActiveThread(threadMessageID);
-    this.loadThreadMessages(threadMessageID);
-  }
-
-  async loadActiveThread(threadMessageID: string): Promise<void> {
+  async loadActiveThreadAndMessages(threadMessageID: string): Promise<void> {
     if (
       this.activeChannelService.activeChannel &&
       this.activeChannelService.activeChannel.channelID
     ) {
+      this.channelID = this.activeChannelService.activeChannel.channelID;
+
       this.activeThreadMessage = (
         await this.firestoreService.getThread(
           this.activeChannelService.activeChannel.channelID,
@@ -41,17 +40,19 @@ export class ActiveThreadService {
       this.activeChannelService.activeChannel$
         .pipe(
           first((channel) => !!channel),
-          switchMap((channel) =>
-            this.firestoreService.getThread(channel!.channelID, threadMessageID)
-          )
+          switchMap((channel) => {
+            // Setze die globale Variable channelID im else-Block
+            this.channelID = channel!.channelID;
+            return this.firestoreService.getThread(
+              channel!.channelID,
+              threadMessageID
+            );
+          })
         )
         .subscribe({
           next: (activeThread) => {
             this.activeThreadMessage = activeThread.data();
-            console.log(
-              'loaded ActiveThread WITH Robims subscribe: ',
-              this.activeThreadMessage
-            );
+            this.loadThreadMessages(threadMessageID);
           },
           error: (error) => {
             console.error('Fehler beim Laden des aktiven Threads:', error);
@@ -61,10 +62,10 @@ export class ActiveThreadService {
   }
 
   async loadThreadMessages(threadMessageID: string) {
-    const channelID = this.activeChannelService.activeChannel.channelID;
+    console.log(this.channelID);
 
     this.threadMessages$ = this.firestoreService.getThreadMessages(
-      channelID,
+      this.channelID,
       threadMessageID
     );
 
@@ -74,6 +75,7 @@ export class ActiveThreadService {
           this.threadMessages = messages.sort(
             (a, b) => a.creationTime - b.creationTime
           );
+          console.log(this.threadMessages);
         } else {
           console.error('Messages nicht gefunden');
         }
