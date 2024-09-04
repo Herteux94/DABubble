@@ -19,6 +19,7 @@ import { FocusInputDirective } from '../../directives/focus-input.directive';
 export class LoginComponent {
   email: string = '';
   password: string = '';
+
   newUser: boolean = false;
   errorMessage: string = '';
   errorType: 'email' | 'password' | null = null;
@@ -38,7 +39,6 @@ export class LoginComponent {
       this.errorType = 'email';
       return;
     }
-
     if (!this.password) {
       this.errorMessage = 'Bitte gib dein Passwort ein.';
       this.errorType = 'password';
@@ -67,64 +67,63 @@ export class LoginComponent {
         }
       });
   }
+// Methode für Google-Login
+loginWithGoogle() {
+  const provider = new GoogleAuthProvider();
+  signInWithPopup(this.auth, provider)
+    .then(async (result) => {
+      const activeUserID = result.user.uid;
+      const displayName = result.user.displayName ?? ''; // Verwende einen leeren String, wenn displayName null oder undefined ist
+      const email = result.user.email ?? ''; // Verwende einen leeren String, wenn email null oder undefined ist
 
-  // Methode für Google-Login
-  loginWithGoogle() {
-    const provider = new GoogleAuthProvider();
-    signInWithPopup(this.auth, provider)
-      .then(async (result) => {
-        const activeUserID = result.user.uid;
-        const displayName = result.user.displayName ?? ''; // Verwende einen leeren String, wenn displayName null oder undefined ist
-        const email = result.user.email ?? ''; // Verwende einen leeren String, wenn email null oder undefined ist
-
-        await this.checkOrCreateUserProfile(activeUserID, displayName, email);
-        this.errorMessage = '';
-        this.errorType = null;
-        this.activeUserService.loadActiveUser(activeUserID);  // Setze den aktiven Benutzer
-        if (this.newUser){
-        this.router.navigate(['/createAccount']);
-        }
-      })
-      .catch((error) => {
-        console.error('Error during Google sign-in:', error);
-        this.errorMessage = 'Fehler bei der Anmeldung mit Google. Bitte versuchen Sie es erneut.';
-        this.errorType = null;
-      });
-  }
-
-  // Methode für Gäste-Login
-  guestLogin() {
-    this.email = 'info@herteux-webentwicklung.de';
-    this.password = 'Bewerbungen2024';
-    this.login();
-  }
-
-  async checkOrCreateUserProfile(activeUserID: string, displayName?: string, email?: string) {
-    const userRef = doc(this.firestore, `users/${activeUserID}`);
-    const userSnap = await getDoc(userRef);
-
-    if (!userSnap.exists()) {
-      const user = new User();
-      user.userID = activeUserID;
-      user.name = displayName ?? '';  // Verwende einen leeren String, wenn displayName null oder undefined ist
-      user.email = email ?? '';  // Verwende einen leeren String, wenn email null oder undefined ist
-      user.lastOnline = Date.now();
-      this.newUser = true;
-      try {
-        await this.firestoreService.addUser(user.toJSON());
-        console.log('Neues Benutzerprofil in Firestore erstellt:', user);
-      } catch (error) {
-        console.error('Fehler beim Erstellen des Benutzerprofils in Firestore:', error);
+      await this.checkOrCreateUserProfile(activeUserID, displayName, email);
+      this.errorMessage = '';
+      this.errorType = null;
+      this.activeUserService.loadActiveUser(activeUserID);  // Setze den aktiven Benutzer
+      if (this.newUser){
+      this.router.navigate(['/createAccount']);
       }
-    } else {
-      console.log('Benutzerprofil existiert bereits:', userSnap.data());
-      this.router.navigate(['/messenger']);
-    }
-  }
+    })
+    .catch((error) => {
+      console.error('Error during Google sign-in:', error);
+      this.errorMessage = 'Fehler bei der Anmeldung mit Google. Bitte versuchen Sie es erneut.';
+      this.errorType = null;
+    });
+}
 
-  @HostListener('document:keydown.enter', ['$event'])
-  handleEnterKey(event: KeyboardEvent) {
-    event.preventDefault();
-    this.login();
+// Methode für Gäste-Login
+guestLogin() {
+  this.email = 'info@herteux-webentwicklung.de';
+  this.password = 'Bewerbungen2024';
+  this.login();
+}
+
+async checkOrCreateUserProfile(activeUserID: string, displayName?: string, email?: string) {
+  const userRef = doc(this.firestore, `users/${activeUserID}`);
+  const userSnap = await getDoc(userRef);
+
+  if (!userSnap.exists()) {
+    const user = new User();
+    user.userID = activeUserID;
+    user.name = displayName ?? '';  // Verwende einen leeren String, wenn displayName null oder undefined ist
+    user.email = email ?? '';  // Verwende einen leeren String, wenn email null oder undefined ist
+    user.lastOnline = Date.now();
+    this.newUser = true;
+    try {
+      await this.firestoreService.addUser(user.toJSON());
+      console.log('Neues Benutzerprofil in Firestore erstellt:', user);
+    } catch (error) {
+      console.error('Fehler beim Erstellen des Benutzerprofils in Firestore:', error);
+    }
+  } else {
+    console.log('Benutzerprofil existiert bereits:', userSnap.data());
+    this.router.navigate(['/messenger']);
   }
+}
+
+@HostListener('document:keydown.enter', ['$event'])
+handleEnterKey(event: KeyboardEvent) {
+  event.preventDefault();
+  this.login();
+}
 }

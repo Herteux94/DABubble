@@ -1,6 +1,5 @@
-
 import { Injectable } from '@angular/core';
-import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
+import { getAuth, sendPasswordResetEmail, confirmPasswordReset } from 'firebase/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +9,14 @@ export class ResetPasswordService {
 
   constructor() {}
 
-  resetPassword(email: string): Promise<void> {
-    return sendPasswordResetEmail(this.auth, email)
+  // E-Mail zum Zurücksetzen des Passworts versenden
+  sendPasswordResetEmail(email: string): Promise<void> {
+    const actionCodeSettings = {
+      url: 'https://herteux-webentwicklung.de/resetPassword', // Eigene Seite zum Zurücksetzen des Passworts
+      handleCodeInApp: true // Ermöglicht es, den Link in der App zu handhaben
+    };
+
+    return sendPasswordResetEmail(this.auth, email, actionCodeSettings)
       .then(() => {
         console.log('Password reset email sent successfully');
       })
@@ -20,33 +25,16 @@ export class ResetPasswordService {
         throw error;
       });
   }
+
+  // Passwort mithilfe des oobCode zurücksetzen
+  confirmPasswordReset(oobCode: string, newPassword: string): Promise<void> {
+    return confirmPasswordReset(this.auth, oobCode, newPassword)
+      .then(() => {
+        console.log('Password has been reset successfully');
+      })
+      .catch((error) => {
+        console.error('Error resetting password', error);
+        throw error;
+      });
+  }
 }
-
-
-// import { Injectable } from '@angular/core';
-// import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
-
-// @Injectable({
-//   providedIn: 'root'
-// })
-// export class ResetPasswordService {
-//   private auth = getAuth();
-
-//   constructor() {}
-
-//   resetPassword(email: string): Promise<void> {
-//     const actionCodeSettings = {
-//       url: 'https://dabubble-c9340.firebaseapp.com/resetPassword', // Diese URL verweist auf deine eigene Passwort-Reset-Seite
-//       handleCodeInApp: true
-//     };
-
-//     return sendPasswordResetEmail(this.auth, email, actionCodeSettings)
-//       .then(() => {
-//         console.log('Password reset email sent successfully');
-//       })
-//       .catch((error) => {
-//         console.error('Error sending password reset email', error);
-//         throw error;
-//       });
-//   }
-// }

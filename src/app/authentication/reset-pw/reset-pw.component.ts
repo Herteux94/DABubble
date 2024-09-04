@@ -1,6 +1,7 @@
-import { Component, HostListener, ViewChild } from '@angular/core';
+import { Component, HostListener, ViewChild, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ResetPasswordService } from '../../services/reset-password.service'; // Service importieren
 import { FocusInputDirective } from '../../directives/focus-input.directive';
 import { BubbleComponent } from '../bubble/bubble.component';
 
@@ -15,28 +16,51 @@ import { BubbleComponent } from '../bubble/bubble.component';
   templateUrl: './reset-pw.component.html',
   styleUrls: ['./reset-pw.component.scss']
 })
-export class ResetPwComponent {
+export class ResetPwComponent implements OnInit {
   inputValue: string = '';
   inputValue2: string = '';
+  oobCode: string | null = null; // Der Reset-Code aus der URL
+  message: string | null = null;
 
   @ViewChild(BubbleComponent) bubbleComponent!: BubbleComponent;
 
-  constructor(private router: Router) {}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private resetPasswordService: ResetPasswordService // Service injizieren
+  ) {}
+
+  ngOnInit(): void {
+    // OOB-Code aus der URL holen
+    this.oobCode = this.route.snapshot.queryParamMap.get('oobCode');
+
+    if (!this.oobCode) {
+      // Kein OOB-Code gefunden, zur Fehlerseite weiterleiten
+      this.router.navigate(['/error']);
+    }
+  }
 
   inputValuesMatch(): boolean {
     return this.inputValue === this.inputValue2 && this.inputValue !== '';
   }
 
   handleSubmit() {
-    if (this.inputValuesMatch()) {
+    if (this.inputValuesMatch() && this.oobCode) {
+      this.resetPasswordService.confirmPasswordReset(this.oobCode, this.inputValue)
+        .then(() => {
+          this.message = 'Passwort erfolgreich geändert';
+          this.bubbleComponent.message = this.message;
+          this.bubbleComponent.showSnackbar();
 
-      this.bubbleComponent.message = 'Anmelden';
-      this.bubbleComponent.showSnackbar();
-
-      // Warten, bis die Snackbar-Animation abgeschlossen ist, bevor das Routing ausgeführt wird
-      setTimeout(() => {
-        this.router.navigate(['/login']);
-      }, 2000); // Dauer der Snackbar-Anzeige
+          setTimeout(() => {
+            this.router.navigate(['/login']);
+          }, 2000); // Snackbar-Anzeigezeit
+        })
+        .catch((error) => {
+          this.message = 'Fehler: ' + error.message;
+          this.bubbleComponent.message = this.message;
+          this.bubbleComponent.showSnackbar();
+        });
     }
   }
 

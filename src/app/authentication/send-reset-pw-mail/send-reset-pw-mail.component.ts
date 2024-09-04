@@ -30,7 +30,7 @@ export class SendResetPwMailComponent {
   constructor(private resetPasswordService: ResetPasswordService) { }
 
   onSubmit() {
-    this.resetPasswordService.resetPassword(this.email)
+    this.resetPasswordService.sendPasswordResetEmail(this.email)
       .then(() => {
         this.message = '<img src="assets/img/send.png" alt="Success Icon" class="sendIcon"/>  E-Mail gesendet';
         this.bubbleComponent.message = this.message;

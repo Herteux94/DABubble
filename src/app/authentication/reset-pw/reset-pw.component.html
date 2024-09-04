@@ -1,4 +1,4 @@
-  <section class="wrapper">
+<section class="wrapper">
   <div class="card">
     <a href="#"><img class="arrowBackIcon" src="../../../assets/img/arrow_back.svg" alt="arrow back icon"></a>
     <h1>Passwort <br>Zurücksetzen</h1>
@@ -9,7 +9,7 @@
       <input class="inputFieldAuth" type="password" placeholder="Neues Passwort bestätigen" required [(ngModel)]="inputValue2">
     </div>
     <div class="changePWBtnContainer">
-      <button class="firstBtn" [disabled]="!inputValuesMatch()">Passwort ändern</button>
+      <button class="firstBtn" (click)="handleSubmit()" [disabled]="!inputValuesMatch()">Passwort ändern</button>
     </div>
   </div>
   <app-bubble></app-bubble>
