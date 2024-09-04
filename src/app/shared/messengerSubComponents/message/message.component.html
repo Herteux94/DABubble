@@ -1,21 +1,17 @@
 <div [ngClass]="ownMessage ? 'fdRowRev' : ''" class="wrapper">
-  <img
-    class="avatar"
-    (click)="openProfileDialog()"
-    src="../../../../assets/img/avatars/avatar-1.svg"
-  />
+  <img class="avatar" (click)="openProfileDialog()" src="../../../../assets/img/avatars/avatar-1.svg" />
 
   <div class="text">
     <div [ngClass]="ownMessage ? 'fdRowRev' : ''" class="nameAndTime">
       @if(this.message && this.message.senderName) {
       <span (click)="openProfileDialog()" class="name">{{
         message.senderName
-      }}</span>
+        }}</span>
 
       } @if(this.message && this.message.creationTime) {
       <span class="time subText">{{
         message.creationTime.valueOf() | date : "HH:mm"
-      }}</span>
+        }}</span>
 
       }
     </div>
@@ -26,16 +22,11 @@
       <div class="fileContainer">
         <div class="filePreviewContainer">
           @for(attachment of this.message.attachments; track attachment) {
-          <a [href]="attachment" download class="download-link"
-            ><img
-              [src]="attachment"
-              alt="img file preview"
+          <a [href]="attachment" download class="download-link"><img [src]="attachment" alt="img file preview"
               [ngClass]="{
                 filePreview: true,
                 multipleFiles: message.attachments.length > 1
-              }"
-              class="filePreview"
-            />
+              }" class="filePreview" />
           </a>
           }
         </div>
@@ -62,8 +53,12 @@
 
     @if(this.isChannel) {
     <div class="responses">
-      <span (click)="navigateToThread()" class="count">2 Antworten</span>
-      <span class="time subText">Letzte Antwort 14:56</span>
+      @if(this.message && this.message.threadLength && this.message.threadLength > 0) {
+      <span (click)="navigateToThread()" class="count">{{ this.message.threadLength }} Antworten</span>
+      } @else {
+      <span (click)="navigateToThread()" class="count">Thread starten</span>
+      }
+      <span class="time subText">Letzte Antwort {{ this.message.lastAnswer.valueOf() | date : "HH:mm" }}</span>
     </div>
     }
   </div>
