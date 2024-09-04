@@ -13,15 +13,11 @@ import { DirectMessage } from '../models/directMessages.model';
 export class ActiveUserService {
   activeUser!: any;
 
-  // activeUserChannels$!: Observable<Channel[]>;
-
-  // activeUserDirectMessages$!: Observable<DirectMessage[]>;
-
   activeUserChannels!: Channel[];
   private activeUserChannelsSubject = new BehaviorSubject<any[]>([]); // Initialisiere mit leerem Array
   activeUserChannels$ = this.activeUserChannelsSubject.asObservable(); // Observable für den Zugriff
 
-  activeUserDirectMessages!: any[];
+  activeUserDirectMessages!: DirectMessage[];
   private activeUserDirectMessagesSubject = new BehaviorSubject<any[]>([]); // Initialisiere mit leerem Array
   activeUserDirectMessages$ =
     this.activeUserDirectMessagesSubject.asObservable(); // Observable für den Zugriff
@@ -72,22 +68,22 @@ export class ActiveUserService {
   }
 
   loadUserChannels(activeUserChannelIDs: string[]) {
-    this.activeUserChannels$ =
-      this.firestoreService.getChannels(activeUserChannelIDs);
-    this.activeUserChannels$.subscribe((channels) => {
-      this.activeUserChannels = channels;
-      this.activeUserChannelsSubject.next(channels);
-    });
+    this.firestoreService
+      .getChannels(activeUserChannelIDs)
+      .subscribe((channels) => {
+        this.activeUserChannels = channels;
+        this.activeUserChannelsSubject.next(channels);
+      });
   }
-  
-  async loadUserDirectMessages(activeUserDirectMessageIDs: string[]) {
-    this.activeUserDirectMessages$ = 
-    this.firestoreService.getDirectMessages(activeUserDirectMessageIDs);
-    this.activeUserDirectMessages$.subscribe((directMessages) => {
-      this.activeUserDirectMessages = directMessages;
-      this.activeUserDirectMessagesSubject.next(directMessages);
-      this.loadDMPartnerInformations();
-    });
+
+  loadUserDirectMessages(activeUserDirectMessageIDs: string[]) {
+    this.firestoreService
+      .getDirectMessages(activeUserDirectMessageIDs)
+      .subscribe((directMessages) => {
+        this.activeUserDirectMessages = directMessages;
+        this.activeUserDirectMessagesSubject.next(directMessages);
+        this.loadDMPartnerInformations();
+      });
   }
 
   loadDMPartnerInformations() {
@@ -107,24 +103,6 @@ export class ActiveUserService {
       }
     });
   }
-
-  // loadDMPartnerInformations() {
-  //   for (const directMessage of this.activeUserDirectMessages) {
-  //     const partnerUserID = directMessage.member.find(
-  //       (id: string) => id !== this.activeUser.userID
-  //     );
-  //     if (partnerUserID) {
-  //       try {
-  //         const partnerUser = this.findUserService.findUser(partnerUserID);
-  //         if (partnerUser) {
-  //           directMessage.partnerUser = partnerUser; // Füge den Partner-User dem DirectMessage hinzu
-  //         }
-  //       } catch (error) {
-  //         console.error('Fehler beim Laden des Partners', error);
-  //       }
-  //     }
-  //   }
-  // }
 
   setActiveUserToLocalStorage(userID: string) {
     try {

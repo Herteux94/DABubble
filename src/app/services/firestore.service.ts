@@ -17,7 +17,6 @@ import {
 import { combineLatest, map, Observable, of } from 'rxjs';
 import { Channel } from '../models/channel.model';
 import { User } from '../models/user.model';
-// import { DirectMessage } from '../models/directMessages.model';
 import { Message } from '../models/message.model';
 
 @Injectable({
@@ -29,17 +28,10 @@ export class FirestoreService {
   directMessageCol = collection(this.firestore, 'directMessages');
 
   allUsers$!: Observable<User[]>;
-  // allChannels$!: Observable<Channel[]>;
-  // allDirectMessages$!: Observable<DirectMessage[]>;
-
   allUsers: User[] = [];
-  // allChannels: Channel[] = [];
-  // allDirectMessages: DirectMessage[] = [];
 
   constructor(private firestore: Firestore) {
     this.loadUserList();
-    // this.loadChannelList();
-    // this.loadDirectMessageList();
   }
 
   ///////////////////////////////////////// loadFunctions /////////////////////////////////////////
@@ -55,42 +47,26 @@ export class FirestoreService {
     return collectionData(this.userCol);
   }
 
-  // loadChannelList() {
-  //   this.allChannels$ = this.getChannels();
-  //   this.allChannels$.subscribe((channels) => {
-  //     this.allChannels = channels;
-  //   });
-  // }
-
   getChannels(channelIDs: string[]): Observable<any[]> {
     if (channelIDs.length === 0) {
-      return of([]); // Falls keine IDs vorhanden sind, gib ein leeres Array zurück
+      return of([]);
     }
-    
-    // IDs in Gruppen von maximal 10 aufteilen
+
     const idGroups = this.chunkArray(channelIDs, 10);
-    
-    // Abfragen für jede Gruppe erstellen und die Observables sammeln
     const queries = idGroups.map((ids) => {
       const q = query(this.channelCol, where('channelID', 'in', ids));
       return collectionData(q);
     });
-    
-    // Die Ergebnisse aller Observables kombinieren und als flaches Array zurückgeben
-    return combineLatest(queries).pipe(
-      map((results) => results.flat())
-    );
+
+    return combineLatest(queries).pipe(map((results) => results.flat()));
   }
 
   getDirectMessages(directMessageIDs: string[]): Observable<any[]> {
     if (directMessageIDs.length === 0) {
-      return of([]); // Falls keine IDs vorhanden sind, gib ein leeres Array zurück
+      return of([]);
     }
 
-    // IDs in Gruppen von maximal 10 aufteilen
     const idGroups = this.chunkArray(directMessageIDs, 10);
-
-    // Abfragen für jede Gruppe erstellen und die Observables sammeln
     const queries = idGroups.map((ids) => {
       const q = query(
         this.directMessageCol,
@@ -99,13 +75,9 @@ export class FirestoreService {
       return collectionData(q);
     });
 
-    // Die Ergebnisse aller Observables kombinieren und als flaches Array zurückgeben
-    return combineLatest(queries).pipe(
-      map((results) => results.flat())
-    );
+    return combineLatest(queries).pipe(map((results) => results.flat()));
   }
 
-  // Hilfsfunktion, um ein Array in kleinere Arrays von max. 10 Elementen aufzuteilen
   chunkArray(arr: string[], size: number): string[][] {
     const result = [];
     for (let i = 0; i < arr.length; i += size) {
@@ -115,7 +87,6 @@ export class FirestoreService {
   }
 
   getThread(channelID: string, threadMessageID: string) {
-    // muss auch als Observable deklariert werden und sofort ein Array füllen, das angezapft wird vom HTML zum rendern
     return getDoc(
       doc(this.firestore, `channels/${channelID}/messages/${threadMessageID}`)
     );
@@ -181,19 +152,6 @@ export class FirestoreService {
       return docRef;
     });
   }
-
-  // addDirectMessage(directMessageData: any, userID: string) {
-  //   return addDoc(this.directMessageCol, directMessageData).then((docRef) => {
-  //     updateDoc(doc(this.directMessageCol, docRef.id), {
-  //       directMessageID: docRef.id,
-  //     });
-  //     this.updateUserWithChannelOrDirectMessage(
-  //       userID,
-  //       'directMessages',
-  //       docRef.id
-  //     );
-  //   });
-  // }
 
   addMessage(messageData: any, messengerType: string, messengerID: string) {
     addDoc(

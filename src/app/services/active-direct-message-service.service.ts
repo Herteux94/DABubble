@@ -22,13 +22,13 @@ export class ActiveDirectMessageService {
     private findUserService: FindUserService
   ) {}
 
-  async loadActiveDMAndMessagesAndPartner(directMessageID: string) {
+  async loadActiveDMAndMessagesAndPartner(
+    directMessageID: string
+    // partnerUser: User
+  ) {
     await this.loadActiveDM(directMessageID);
     this.loadDMMessages(directMessageID);
-    // setTimeout(() => {
-    //   console.log('aktive DM: ', this.activeDM);
-    //   console.log('aktive DM-Nachrichten: ', this.dmMessages);
-    // }, 1000)
+    // this.activeDMPartner = partnerUser;
   }
 
   async loadActiveDM(directMessageID: string): Promise<void> {
@@ -49,7 +49,7 @@ export class ActiveDirectMessageService {
         next: (directMessage) => {
           if (directMessage) {
             this.activeDM = directMessage;
-            this.loadActiveDMPartner();
+            // this.loadActiveDMPartner();
           } else {
             console.error('DirectMessage nicht gefunden');
           }
@@ -82,9 +82,18 @@ export class ActiveDirectMessageService {
   }
 
   async loadActiveDMPartner() {
+    // const partnerUserID = await this.activeDM.member.find(
+    //   (id: string) => id !== this.activeUserService.activeUser.userID
+    // );
+    // this.activeDMPartner = this.findUserService.findUser(partnerUserID);
+
     const partnerUserID = await this.activeDM.member.find(
       (id: string) => id !== this.activeUserService.activeUser.userID
     );
-    this.activeDMPartner = this.findUserService.findUser(partnerUserID);
+
+    this.firestoreService.allUsers$.subscribe(() => {
+      this.activeDMPartner = this.findUserService.findUser(partnerUserID);
+      console.log(this.activeDMPartner);
+    });
   }
 }
