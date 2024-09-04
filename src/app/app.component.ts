@@ -23,8 +23,8 @@ export class AppComponent implements OnInit {
 
   constructor(private routingThreadOutletService: RoutingThreadOutletService) {}
   ngOnInit(): void {
-    if (!this.routingThreadOutletService.threadOpenDesktop) {
-      this.routingThreadOutletService.closeThread();
-    }
+    // if (!this.routingThreadOutletService.threadOpenDesktop) {
+    //   this.routingThreadOutletService.closeThread();
+    // }
   }
 }

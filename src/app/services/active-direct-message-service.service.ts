@@ -22,13 +22,9 @@ export class ActiveDirectMessageService {
     private findUserService: FindUserService
   ) {}
 
-  async loadActiveDMAndMessagesAndPartner(
-    directMessageID: string
-    // partnerUser: User
-  ) {
+  async loadActiveDMAndMessagesAndPartner(directMessageID: string) {
     await this.loadActiveDM(directMessageID);
     this.loadDMMessages(directMessageID);
-    // this.activeDMPartner = partnerUser;
   }
 
   async loadActiveDM(directMessageID: string): Promise<void> {
@@ -82,18 +78,12 @@ export class ActiveDirectMessageService {
   }
 
   async loadActiveDMPartner() {
-    // const partnerUserID = await this.activeDM.member.find(
-    //   (id: string) => id !== this.activeUserService.activeUser.userID
-    // );
-    // this.activeDMPartner = this.findUserService.findUser(partnerUserID);
-
     const partnerUserID = await this.activeDM.member.find(
       (id: string) => id !== this.activeUserService.activeUser.userID
     );
 
     this.firestoreService.allUsers$.subscribe(() => {
       this.activeDMPartner = this.findUserService.findUser(partnerUserID);
-      console.log(this.activeDMPartner);
     });
   }
 }
