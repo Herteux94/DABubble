@@ -14,7 +14,7 @@ import {
   query,
   where,
 } from '@angular/fire/firestore';
-import { combineLatest, forkJoin, map, Observable, of, tap } from 'rxjs';
+import { combineLatest, map, Observable, of } from 'rxjs';
 import { Channel } from '../models/channel.model';
 import { User } from '../models/user.model';
 // import { DirectMessage } from '../models/directMessages.model';
@@ -81,13 +81,6 @@ export class FirestoreService {
       map((results) => results.flat())
     );
   }
-
-  // loadDirectMessageList() {
-  //   this.allDirectMessages$ = this.getDirectMessages();
-  //   this.allDirectMessages$.subscribe((directMessages) => {
-  //     this.allDirectMessages = directMessages;
-  //   });
-  // }
 
   getDirectMessages(directMessageIDs: string[]): Observable<any[]> {
     if (directMessageIDs.length === 0) {

@@ -14,15 +14,18 @@ export class ActiveUserService {
   activeUser!: any;
 
   // activeUserChannels$!: Observable<Channel[]>;
+
+  // activeUserDirectMessages$!: Observable<DirectMessage[]>;
+
   activeUserChannels!: Channel[];
-
-  activeUserDirectMessages$!: Observable<DirectMessage[]>;
-  activeUserDirectMessages!: any[];
-
   private activeUserChannelsSubject = new BehaviorSubject<any[]>([]); // Initialisiere mit leerem Array
   activeUserChannels$ = this.activeUserChannelsSubject.asObservable(); // Observable für den Zugriff
 
-  
+  activeUserDirectMessages!: any[];
+  private activeUserDirectMessagesSubject = new BehaviorSubject<any[]>([]); // Initialisiere mit leerem Array
+  activeUserDirectMessages$ =
+    this.activeUserDirectMessagesSubject.asObservable(); // Observable für den Zugriff
+
   constructor(
     private firestoreService: FirestoreService,
     private findUserService: FindUserService,
@@ -76,13 +79,13 @@ export class ActiveUserService {
       this.activeUserChannelsSubject.next(channels);
     });
   }
-
+  
   async loadUserDirectMessages(activeUserDirectMessageIDs: string[]) {
-    this.activeUserDirectMessages$ = this.firestoreService.getDirectMessages(
-      activeUserDirectMessageIDs
-    );
+    this.activeUserDirectMessages$ = 
+    this.firestoreService.getDirectMessages(activeUserDirectMessageIDs);
     this.activeUserDirectMessages$.subscribe((directMessages) => {
       this.activeUserDirectMessages = directMessages;
+      this.activeUserDirectMessagesSubject.next(directMessages);
       this.loadDMPartnerInformations();
     });
   }
