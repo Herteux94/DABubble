@@ -11,11 +11,13 @@ import { ActiveUserService } from '../../services/active-user.service';
 import { FindUserService } from '../../services/find-user.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { FirestoreService } from '../../services/firestore.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-profile-dialog',
   standalone: true,
-  imports: [CommonModule, RouterModule, DialogModule],
+  imports: [CommonModule, RouterModule, DialogModule, FormsModule],
   templateUrl: './profile-dialog.component.html',
   styleUrl: './profile-dialog.component.scss',
   animations: [
@@ -31,12 +33,18 @@ export class ProfileDialogComponent {
   dialogRef = inject(DialogRef);
   user!: any;
   ownProfile: boolean = false;
+  editingProfile = false;
+  userName: string = this.activeUserService.activeUser.name;
+  userMail: string = this.activeUserService.activeUser.email;
+  
   @ViewChild('profileContainer') profileContainer!: ElementRef;
-
+  @ViewChild('userNameInput') userNameInput!: ElementRef;
+  @ViewChild('userMail') userMailInput!: ElementRef;
   constructor(
     @Inject(DIALOG_DATA) public data: {userID: string},
     public activeUserService: ActiveUserService,
-    public findUserService: FindUserService
+    public findUserService: FindUserService,
+    private firestoreService: FirestoreService,
   ) {}
 
   ngOnInit(): void {
@@ -53,4 +61,19 @@ export class ProfileDialogComponent {
         this.profileContainer.nativeElement.focus();
       }, 10);
   }
+
+  toggleEditProfile() {
+    this.editingProfile = !this.editingProfile;
+  }
+
+  saveChanges() {
+    this.firestoreService.updateUser(
+      { name: this.userName,
+        email: this.userMail
+       },
+      this.activeUserService.activeUser.userID
+    );
+    this.dialogRef.close();
+  }
+
 }
