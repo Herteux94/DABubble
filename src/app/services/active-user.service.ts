@@ -131,7 +131,9 @@ export class ActiveUserService {
 
     this.activeUser = null!;
     this.activeUserChannels = [];
+    this.activeUserChannelsSubject.next([]);
     this.activeUserDirectMessages = [];
+    this.activeUserDirectMessagesSubject.next([]);
 
     this.router.navigate(['/login']);
   }
