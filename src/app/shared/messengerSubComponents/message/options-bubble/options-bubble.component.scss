@@ -1,17 +1,23 @@
+@import "../../../../../variables.scss";
+
 .optionsBubble {
   background-color: white;
-  border-radius: 10px 10px 10px 0;
-  padding: 10px;
+  border-radius: 20px 20px 20px 0;
+  padding: 4px 10px 4px 14px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  gap: 10px;
 }
 
 .optionsBubbleOwnMsg {
   background-color: white;
-  border-radius: 10px 10px 0 10px;
-  padding: 10px;
+  border-radius: 20px 20px 0 20px;
+  padding: 4px 10px 4px 14px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  gap: 10px;
+}
+
+.optionsBubbleContent {
+  display: flex;
+  align-items: center;
+  gap: 2px;
 }
 
 .options-bubble svg {
@@ -28,4 +34,22 @@
 
 .options-bubble span:hover {
   transform: scale(1.2);
+}
+
+.svgContainer {
+  padding: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+
+  &:hover {
+    background-color: $background-color;
+
+    .changeColor {
+      path {
+        fill: $first-color;
+      }
+    }
+  }
 }
