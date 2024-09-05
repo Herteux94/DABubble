@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -9,30 +9,58 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./options-bubble.component.scss'],
 })
 export class OptionsBubbleComponent {
+  @Input() ownMessage!: boolean;
   showEmojis: boolean = false; // Steuert, ob die Emojis oder die SVGs sichtbar sind
-
 
   // Emoji-Optionen
   options = [
-    { icon: '😀', label: 'Grinning Face', action: () => this.react('grinning') },
-    { icon: '😂', label: 'Face with Tears of Joy', action: () => this.react('joy') },
+    {
+      icon: '😀',
+      label: 'Grinning Face',
+      action: () => this.react('grinning'),
+    },
+    {
+      icon: '😂',
+      label: 'Face with Tears of Joy',
+      action: () => this.react('joy'),
+    },
     { icon: '😍', label: 'Heart Eyes', action: () => this.react('heart_eyes') },
-    { icon: '😎', label: 'Smiling Face with Sunglasses', action: () => this.react('cool') },
+    {
+      icon: '😎',
+      label: 'Smiling Face with Sunglasses',
+      action: () => this.react('cool'),
+    },
     { icon: '😡', label: 'Angry Face', action: () => this.react('angry') },
     { icon: '😭', label: 'Crying Face', action: () => this.react('crying') },
-    { icon: '😱', label: 'Screaming Face', action: () => this.react('screaming') },
+    {
+      icon: '😱',
+      label: 'Screaming Face',
+      action: () => this.react('screaming'),
+    },
 
     // Gesten & Hände
     { icon: '👍', label: 'Thumbs Up', action: () => this.react('thumbs_up') },
-    { icon: '👎', label: 'Thumbs Down', action: () => this.react('thumbs_down') },
+    {
+      icon: '👎',
+      label: 'Thumbs Down',
+      action: () => this.react('thumbs_down'),
+    },
     { icon: '👏', label: 'Clapping Hands', action: () => this.react('clap') },
     { icon: '🙏', label: 'Folded Hands', action: () => this.react('pray') },
     { icon: '🤘', label: 'Rock On', action: () => this.react('rock_on') },
 
     // Herzen
     { icon: '❤️', label: 'Red Heart', action: () => this.react('red_heart') },
-    { icon: '💔', label: 'Broken Heart', action: () => this.react('broken_heart') },
-    { icon: '💖', label: 'Sparkling Heart', action: () => this.react('sparkling_heart') },
+    {
+      icon: '💔',
+      label: 'Broken Heart',
+      action: () => this.react('broken_heart'),
+    },
+    {
+      icon: '💖',
+      label: 'Sparkling Heart',
+      action: () => this.react('sparkling_heart'),
+    },
     { icon: '💙', label: 'Blue Heart', action: () => this.react('blue_heart') },
 
     // Tiere & Natur
@@ -50,8 +78,16 @@ export class OptionsBubbleComponent {
 
     // Symbole
     { icon: '🔴', label: 'Red Circle', action: () => this.react('red_circle') },
-    { icon: '🟢', label: 'Green Circle', action: () => this.react('green_circle') },
-    { icon: '⚪', label: 'White Circle', action: () => this.react('white_circle') },
+    {
+      icon: '🟢',
+      label: 'Green Circle',
+      action: () => this.react('green_circle'),
+    },
+    {
+      icon: '⚪',
+      label: 'White Circle',
+      action: () => this.react('white_circle'),
+    },
     { icon: '⬆️', label: 'Up Arrow', action: () => this.react('up_arrow') },
     { icon: '⬇️', label: 'Down Arrow', action: () => this.react('down_arrow') },
   ];

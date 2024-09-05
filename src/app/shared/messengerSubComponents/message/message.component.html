@@ -14,6 +14,9 @@
         }}</span>
 
       }
+      <app-options-bubble [ngClass]="ownMessage ? 'optionsBubbleOwnMsg' : 'optionsBubble'"
+        [ownMessage]="ownMessage ? true : false"></app-options-bubble>
+
     </div>
 
     <div [ngClass]="ownMessage ? 'messageTextOwnMsg' : 'messageText'">
@@ -33,24 +36,24 @@
     </div>
 
     <!-- Reaktionsbereich -->
-    @if(this.message && this.message.reactions && this.message.reactions.length > 0) {      <div class="reactionsArea">
-        <div [ngClass]="ownMessage ? 'fdRowRev' : ''" class="reactions">
-          <div class="reactionContainer">
-            <img src="../../../../assets/img/close.svg" />
-            <span class="reactionsCount">1</span>
-          </div>
-          <div class="reactionContainer">
-            <img src="../../../../assets/img/google-icon.svg" />
-            <span class="reactionsCount">2</span>
-          </div>
+    @if(this.message && this.message.reactions && this.message.reactions.length > 0) { <div class="reactionsArea">
+      <div [ngClass]="ownMessage ? 'fdRowRev' : ''" class="reactions">
+        <div class="reactionContainer">
+          <img src="../../../../assets/img/close.svg" />
+          <span class="reactionsCount">1</span>
+        </div>
+        <div class="reactionContainer">
+          <img src="../../../../assets/img/google-icon.svg" />
+          <span class="reactionsCount">2</span>
         </div>
       </div>
+    </div>
     }
-    
-    <!-- Optionen-Bubble, wird durch CSS-Hover sichtbar -->
-    <app-options-bubble class="options-bubble"></app-options-bubble>
 
-      <div *ngIf="isChannel" class="responses">
+    <!-- Optionen-Bubble, wird durch CSS-Hover sichtbar -->
+    <!-- <app-options-bubble class="options-bubble"></app-options-bubble> -->
+
+    <div *ngIf="isChannel" class="responses">
       @if(this.message && this.message.threadLength && this.message.threadLength > 0) {
       <span (click)="navigateToThread()" class="count">{{ this.message.threadLength }} Antworten</span>
       <span class="time subText">Letzte Antwort {{ this.message.lastAnswer.valueOf() | date : "HH:mm" }}</span>
