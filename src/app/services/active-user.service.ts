@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FirestoreService } from './firestore.service';
 import { Channel } from '../models/channel.model';
-import { BehaviorSubject, map, Observable } from 'rxjs';
+import { BehaviorSubject, map } from 'rxjs';
 import { User } from '../models/user.model';
 import { FindUserService } from './find-user.service';
 import { Router } from '@angular/router';
@@ -57,6 +57,7 @@ export class ActiveUserService {
         this.activeUser = user;
         if ((this.activeUser = user)) {
           this.loadConversations();
+          console.log('loadConversations ausgeführt');
         }
       });
   }
