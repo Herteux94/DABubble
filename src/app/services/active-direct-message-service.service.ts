@@ -86,4 +86,8 @@ export class ActiveDirectMessageService {
       this.activeDMPartner = this.findUserService.findUser(partnerUserID);
     });
   }
+
+  clearActiveDM() {
+    this.activeDM = null;
+  }
 }

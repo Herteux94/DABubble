@@ -75,7 +75,6 @@ export class MessageComponent {
 
     if (this.mobile) {
       this.router.navigate([
-        // `/messenger/channel/${this.activeChannelService.activeChannel.channelID}/threadM`,
         `/messenger/channel/${this.activeChannelService.activeChannel.channelID}/threadM`,
         this.message.messageID,
       ]);

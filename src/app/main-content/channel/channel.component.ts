@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DateDividerComponent } from '../../shared/messengerSubComponents/date-divider/date-divider.component';
 import { MessageComponent } from '../../shared/messengerSubComponents/message/message.component';
 import { SubHeaderComponent } from '../../shared/messengerSubComponents/sub-header/sub-header.component';
@@ -24,7 +24,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './channel.component.html',
   styleUrl: './channel.component.scss',
 })
-export class ChannelComponent implements OnInit {
+export class ChannelComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     public activeChannelService: ActiveChannelService,
@@ -40,5 +40,9 @@ export class ChannelComponent implements OnInit {
       });
       this.activeChannelService.loadActiveChannelAndMessages(channelID);
     }
+  }
+
+  ngOnDestroy(): void {
+    this.activeChannelService.clearActiveChannel();
   }
 }

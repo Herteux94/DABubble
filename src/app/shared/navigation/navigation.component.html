@@ -73,7 +73,9 @@
         this.activeUserService.activeUserChannels &&
         this.activeUserService.activeUserChannels.length > 0) { @for (channel of
         this.activeUserService.activeUserChannels; track channel){
-        <a [routerLink]="['/messenger/channel', channel.channelID]"
+        <a class="listElement"
+          [class.active]="this.activeChannelService.activeChannel && this.activeChannelService.activeChannel.channelID && this.activeChannelService.activeChannel.channelID == channel.channelID"
+          [routerLink]="['/messenger/channel', channel.channelID]"
           (click)="
             this.activeChannelService.loadActiveChannelAndMessages(channel.channelID); this.threadRoutingService.closeThread()">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -130,7 +132,9 @@
         this.activeUserService.activeUserDirectMessages &&
         this.activeUserService.activeUserDirectMessages.length > 0) {
         @for (dm of this.activeUserService.activeUserDirectMessages; track dm){
-        <a (click)="this.activeDirectMessageService.loadActiveDMAndMessagesAndPartner( dm.directMessageID )"
+        <a class="listElement"
+          [class.active]="this.activeDirectMessageService.activeDM && this.activeDirectMessageService.activeDM.directMessageID && this.activeDirectMessageService.activeDM.directMessageID == dm.directMessageID"
+          (click)="this.activeDirectMessageService.loadActiveDMAndMessagesAndPartner( dm.directMessageID )"
           [routerLink]="['/messenger/directMessage', dm.directMessageID]">
           <div class="profileAndOnlineCircleImg">
             <img class="avatarImg" [src]="

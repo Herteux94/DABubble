@@ -8,8 +8,7 @@ import { ActiveUserService } from './active-user.service';
   providedIn: 'root',
 })
 export class ActiveChannelService {
-
-  private activeChannelSubject = new BehaviorSubject<any>(null); // Initial null value
+  activeChannelSubject = new BehaviorSubject<any>(null); // Initial null value
   activeChannel$ = this.activeChannelSubject.asObservable(); // Expose as observable
   activeChannel: any = null; // Maintain the latest channel as a plain object
   channelMessages$!: Observable<any[]>;
@@ -20,7 +19,7 @@ export class ActiveChannelService {
     private activeUserService: ActiveUserService
   ) {
     this.activeChannel$.subscribe((channel) => {
-      this.activeChannel = channel; // Update the plain object
+      this.activeChannel = channel;
     });
   }
 
@@ -70,5 +69,10 @@ export class ActiveChannelService {
         console.error('Fehler beim Laden der aktiven Messages:', error);
       },
     });
+  }
+
+  clearActiveChannel() {
+    this.activeChannelSubject.next(null);
+    this.activeChannel = null;
   }
 }
