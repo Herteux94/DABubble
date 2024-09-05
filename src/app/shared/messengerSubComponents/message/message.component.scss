@@ -39,7 +39,12 @@
 .text {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: 8px;
+}
+
+.alignFlexEnd {
+  align-items: flex-end;
 }
 
 .nameAndTime {
@@ -60,13 +65,14 @@
   background-color: $background-color;
   padding: 15px;
   border-radius: 0 30px 30px 30px;
+  min-width: 80px;
 }
 
 .messageTextOwnMsg {
   background-color: $second-color;
   padding: 15px;
   border-radius: 30px 0 30px 30px;
-
+  min-width: 80px;
   span {
     color: white;
   }
@@ -96,6 +102,7 @@
 .responses {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: 8px;
 
   .count {

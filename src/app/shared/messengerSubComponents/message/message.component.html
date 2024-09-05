@@ -1,7 +1,7 @@
 <div [ngClass]="ownMessage ? 'fdRowRev' : ''" class="wrapper">
   <img class="avatar" (click)="openProfileDialog()" src="../../../../assets/img/avatars/avatar-1.svg" />
 
-  <div class="text">
+  <div class="text" [ngClass]="ownMessage ? 'alignFlexEnd' : ''">
     <div [ngClass]="ownMessage ? 'fdRowRev' : ''" class="nameAndTime">
       @if(this.message && this.message.senderName) {
       <span (click)="openProfileDialog()" class="name">{{
@@ -37,28 +37,29 @@
     </div>
 
     <!-- Neue Struktur für die Anhänge -->
-
-    <div class="reactionsArea">
-      <div [ngClass]="ownMessage ? 'fdRowRev' : ''" class="reactions">
-        <div class="reactionContainer">
-          <img src="../../../../assets/img/close.svg" />
-          <span class="reactionsCount">1</span>
-        </div>
-        <div class="reactionContainer">
-          <img src="../../../../assets/img/google-icon.svg" />
-          <span class="reactionsCount">2</span>
+    @if(this.message && this.message.reactions && this.message.reactions.length > 0) {
+      <div class="reactionsArea">
+        <div [ngClass]="ownMessage ? 'fdRowRev' : ''" class="reactions">
+          <div class="reactionContainer">
+            <img src="../../../../assets/img/close.svg" />
+            <span class="reactionsCount">1</span>
+          </div>
+          <div class="reactionContainer">
+            <img src="../../../../assets/img/google-icon.svg" />
+            <span class="reactionsCount">2</span>
+          </div>
         </div>
       </div>
-    </div>
-
+    }
+    
     @if(this.isChannel) {
-    <div class="responses">
+      <div class="responses">
       @if(this.message && this.message.threadLength && this.message.threadLength > 0) {
       <span (click)="navigateToThread()" class="count">{{ this.message.threadLength }} Antworten</span>
+      <span class="time subText">Letzte Antwort {{ this.message.lastAnswer.valueOf() | date : "HH:mm" }}</span>
       } @else {
       <span (click)="navigateToThread()" class="count">Thread starten</span>
       }
-      <span class="time subText">Letzte Antwort {{ this.message.lastAnswer.valueOf() | date : "HH:mm" }}</span>
     </div>
     }
   </div>
