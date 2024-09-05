@@ -20,6 +20,7 @@ export class ThreadComponent implements OnInit {
     public activeChannelService: ActiveChannelService,
     public activeThreadService: ActiveThreadService,
     public activeUserService: ActiveUserService,
+    private threadRoutingService: RoutingThreadOutletService,
     private route: ActivatedRoute
   ) {}
 
@@ -30,7 +31,10 @@ export class ThreadComponent implements OnInit {
         threadID = paramMap.get('id');
       });
 
-      this.activeThreadService.loadActiveThreadAndMessages(threadID);
+      setTimeout(() => {
+        this.threadRoutingService.threadOpenDesktop = true; // if-Abfrage wegen doppelter Animation
+        this.activeThreadService.loadActiveThreadAndMessages(threadID);
+      }, 0);  // Delay für die nächste Change Detection
     }
   }
 }

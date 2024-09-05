@@ -85,15 +85,28 @@ nav {
   gap: 8px;
   overflow-y: scroll;
   max-height: 400px;
+}
 
-  a {
-    display: flex;
-    gap: 8px;
-    color: black;
-    align-items: center;
-    width: fit-content;
-    padding: 4px 20px;
-    border-radius: 50px;
+.listElement {
+  display: flex;
+  gap: 8px;
+  color: black;
+  align-items: center;
+  width: fit-content;
+  padding: 4px 20px;
+  border-radius: 50px;
+}
+
+.listElement.active {
+  background-color: $background-color;
+
+  span {
+    color: $second-color;
+    font-weight: bold;
+  }
+
+  svg path {
+    fill: $first-color;
   }
 }
 
@@ -213,19 +226,17 @@ nav {
     }
   }
 
-  .contentList {
-    a {
-      &:hover {
-        background-color: $background-color;
+  .listElement {
+    &:hover {
+      background-color: $background-color;
 
-        span {
-          color: $second-color;
-          font-weight: bold;
-        }
+      span {
+        color: $second-color;
+        font-weight: bold;
+      }
 
-        svg path {
-          fill: $first-color;
-        }
+      svg path {
+        fill: $first-color;
       }
     }
   }

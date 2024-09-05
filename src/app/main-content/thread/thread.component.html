@@ -4,33 +4,30 @@
     <div class="messagesContent">
       @if(this.activeThreadService.activeThreadMessage &&
       this.activeThreadService.activeThreadMessage.senderID) {
-      <app-message
-        [isChannel]="false"
-        [message]="this.activeThreadService.activeThreadMessage"
-        [ownMessage]="
+      <app-message [isChannel]="false" [message]="this.activeThreadService.activeThreadMessage" [ownMessage]="
           this.activeUserService.activeUser.userID ===
           this.activeThreadService.activeThreadMessage.senderID
             ? true
             : false
-        "
-      ></app-message>
+        "></app-message>
       }
       <div class="divider">
-        <span class="subText">2 Antworten</span>
+        @if(this.activeThreadService.activeThreadMessage &&
+        this.activeThreadService.activeThreadMessage.threadLength) {
+        <span class="subText">{{ this.activeThreadService.activeThreadMessage.threadLength }} Antworten</span>
+        } @else {
+        <span class="subText">jetzt Antworten</span>
+        }
         <div class="line"></div>
       </div>
       @if(this.activeThreadService.threadMessages &&
       this.activeThreadService.threadMessages.length > 0) { @for(message of
       this.activeThreadService.threadMessages; track message) {
-      <app-message
-        [ownMessage]="
+      <app-message [ownMessage]="
           this.activeUserService.activeUser.userID === message.senderID
             ? true
             : false
-        "
-        [message]="message"
-        [isChannel]="false"
-      ></app-message>
+        " [message]="message" [isChannel]="false"></app-message>
       } }
     </div>
   </div>

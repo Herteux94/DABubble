@@ -1,4 +1,10 @@
-import { Component, HostListener, inject, Input } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  inject,
+  Input,
+} from '@angular/core';
 import { Message } from '../../../models/message.model';
 import { FormsModule } from '@angular/forms';
 import { FirestoreService } from '../../../services/firestore.service';
@@ -34,8 +40,9 @@ export class TypeInputFieldComponent {
     private storageService: StorageService,
     public activeDirectMessageService: ActiveDirectMessageService,
     private activeThreadService: ActiveThreadService,
-    private router: Router
-  ) { }
+    private router: Router,
+    private el: ElementRef
+  ) {}
 
   // Methode zum Hochladen der Dateien und anschließendem Senden der Nachricht
   private uploadFilesAndSendMessage() {
@@ -116,7 +123,7 @@ export class TypeInputFieldComponent {
 
     files.forEach((file) => {
       if (!allowedTypes.includes(file.type)) {
-        const errorMessage = `Ungültiger Dateityp:${file.name} - Es sind nur jpg-, jpeg-, png- und pdf-Dateien erlaubt.`
+        const errorMessage = `Ungültiger Dateityp:${file.name} - Es sind nur jpg-, jpeg-, png- und pdf-Dateien erlaubt.`;
         console.error(errorMessage);
         this.errorMessageUpload = errorMessage; // Fehlernachricht speichern
         return;
@@ -143,26 +150,57 @@ export class TypeInputFieldComponent {
 
     try {
       if (this.messengerType === 'thread') {
+        const activeThreadMessage = this.activeThreadService.activeThreadMessage;
+        const channelID = this.activeChannelService.activeChannel.channelID;
+
+        // Füge die Nachricht zum Thread hinzu
         await this.firestoreService.addThreadMessage(
           this.message.toJSON(),
-          this.activeChannelService.activeChannel.channelID,
-          this.activeThreadService.activeThreadMessage.messageID
+          channelID,
+          activeThreadMessage.messageID
         );
+
+        // Aktualisiere die ursprüngliche Nachricht, zu der der Thread gehört
+        const updatedThreadLength = (activeThreadMessage.threadLength || 0) + 1; // Falls threadLength undefined ist, setze es auf 0
+        const messagePayload = {
+          lastAnswer: this.message.creationTime,
+          threadLength: updatedThreadLength
+        };
+
+        await this.firestoreService.updateMessage(
+          messagePayload,
+          "channels",
+          channelID,
+          activeThreadMessage.messageID
+        );
+
+        // Update local activeThreadMessage to reflect the new threadLength
+        this.activeThreadService.activeThreadMessage.threadLength = updatedThreadLength;
+
       } else if (this.messengerType === 'channels') {
         await this.firestoreService.addMessage(
           this.message.toJSON(),
           this.messengerType,
           this.activeChannelService.activeChannel.channelID
         );
-      } else if (this.messengerType === 'directMessages' && !this.newDirectMessage) {
+      } else if (
+        this.messengerType === 'directMessages' &&
+        !this.newDirectMessage
+      ) {
         await this.firestoreService.addMessage(
           this.message.toJSON(),
           this.messengerType,
           this.activeDirectMessageService.activeDM.directMessageID
         );
-      } else if (this.messengerType === 'directMessages' && this.newDirectMessage) {
-        const directMessageID = await this.newDirectMessageService.addNewDirectMessage();
-        await this.activeDirectMessageService.loadActiveDMAndMessagesAndPartner(directMessageID);
+      } else if (
+        this.messengerType === 'directMessages' &&
+        this.newDirectMessage
+      ) {
+        const directMessageID =
+          await this.newDirectMessageService.addNewDirectMessage();
+        await this.activeDirectMessageService.loadActiveDMAndMessagesAndPartner(
+          directMessageID
+        );
         await this.firestoreService.addMessage(
           this.message.toJSON(),
           this.messengerType,
@@ -180,6 +218,7 @@ export class TypeInputFieldComponent {
       this.resetMessage();
     }
   }
+
 
   private prepareMessage() {
     this.message.attachments = [];
@@ -214,7 +253,10 @@ export class TypeInputFieldComponent {
 
   @HostListener('document:keydown.enter', ['$event'])
   handleEnterKey(event: KeyboardEvent) {
-    event.preventDefault();
-    this.sendMessage();
+    const activeElement = document.activeElement;
+    if (this.el.nativeElement.contains(activeElement)) {
+      event.preventDefault();
+      this.sendMessage();
+    }
   }
 }

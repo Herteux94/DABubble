@@ -7,7 +7,7 @@ import {
   signal,
 } from '@angular/core';
 import { ScreenSizeService } from '../../../services/screen-size-service.service';
-import { Dialog, DIALOG_DATA, DialogModule } from '@angular/cdk/dialog';
+import { Dialog, DialogModule } from '@angular/cdk/dialog';
 import { InviteMemberDialogComponent } from '../../../dialogs/invite-member-dialog/invite-member-dialog.component';
 import { ChannelMemberDialogComponent } from '../../../dialogs/channel-member-dialog/channel-member-dialog.component';
 import { ProfileDialogComponent } from '../../../dialogs/profile-dialog/profile-dialog.component';
@@ -77,20 +77,13 @@ export class SubHeaderComponent implements OnInit {
     public screenSizeService: ScreenSizeService,
     public threadRoutingService: RoutingThreadOutletService,
     public activeDirectMessageService: ActiveDirectMessageService,
-    private router: Router,
+    private router: Router
   ) {}
 
   ngOnInit() {
     this.screenSizeService.isMobile().subscribe((isMobile) => {
       this.mobile = isMobile;
     });
-
-    if (
-      this.activeChannelService.activeChannel &&
-      this.activeChannelService.activeChannel.name
-    ) {
-      this.threadRoutingService.loadActiveThreadChannelName();
-    }
   }
 
   onSearchInput(event: Event): void {
@@ -109,12 +102,13 @@ export class SubHeaderComponent implements OnInit {
   }
 
   selectUser(user: User): void {
-    const directMessages = this.activeUserService.activeUserDirectMessages || [];
-  
-    const existingDM = directMessages.find(
-      (dm) => dm.member.includes(user.userID)
+    const directMessages =
+      this.activeUserService.activeUserDirectMessages || [];
+
+    const existingDM = directMessages.find((dm) =>
+      dm.member.includes(user.userID)
     );
-  
+
     if (existingDM) {
       this.router.navigate([
         `messenger/directMessage/${existingDM.directMessageID}`,
@@ -129,7 +123,7 @@ export class SubHeaderComponent implements OnInit {
   //   const existingDM = this.activeUserService.activeUserDirectMessages.find(
   //     (dm) => dm.member.includes(user.userID)
   //   );
-    
+
   //   if (existingDM) {
   //     this.router.navigate([
   //       `messenger/directMessage/${existingDM.directMessageID}`,
@@ -168,7 +162,7 @@ export class SubHeaderComponent implements OnInit {
 
   openProfileDialog() {
     this.dialog.open(ProfileDialogComponent, {
-      data: { userID: this.activeDirectMessageService.activeDMPartner.userID }
+      data: { userID: this.activeDirectMessageService.activeDMPartner.userID },
     });
   }
 

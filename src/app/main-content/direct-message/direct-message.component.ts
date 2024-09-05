@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DateDividerComponent } from '../../shared/messengerSubComponents/date-divider/date-divider.component';
 import { MessageComponent } from '../../shared/messengerSubComponents/message/message.component';
 import { SubHeaderComponent } from '../../shared/messengerSubComponents/sub-header/sub-header.component';
@@ -19,7 +19,7 @@ import { ActiveUserService } from '../../services/active-user.service';
   templateUrl: './direct-message.component.html',
   styleUrl: './direct-message.component.scss',
 })
-export class DirectMessageComponent implements OnInit {
+export class DirectMessageComponent implements OnInit, OnDestroy {
   constructor(
     public activeDirectMessageService: ActiveDirectMessageService,
     private route: ActivatedRoute,
@@ -36,5 +36,9 @@ export class DirectMessageComponent implements OnInit {
         directMessageID
       );
     }
+  }
+
+  ngOnDestroy(): void {
+    this.activeDirectMessageService.clearActiveDM();
   }
 }

@@ -73,6 +73,8 @@ export class MessageComponent {
       this.message.messageID
     );
 
+    this.threadRoutingService.openThread();
+
     if (this.mobile) {
       this.router.navigate([
         `/messenger/channel/${this.activeChannelService.activeChannel.channelID}/threadM`,
@@ -84,8 +86,6 @@ export class MessageComponent {
         { outlets: { thread: ['thread', this.message.messageID] } },
       ]);
     }
-
-    this.threadRoutingService.openThread();
   }
 
   

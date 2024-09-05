@@ -11,11 +11,12 @@ import {
   setDoc,
   getDoc,
   DocumentReference,
+  query,
+  where,
 } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { combineLatest, map, Observable, of } from 'rxjs';
 import { Channel } from '../models/channel.model';
 import { User } from '../models/user.model';
-import { DirectMessage } from '../models/directMessages.model';
 import { Message } from '../models/message.model';
 
 @Injectable({
@@ -27,17 +28,10 @@ export class FirestoreService {
   directMessageCol = collection(this.firestore, 'directMessages');
 
   allUsers$!: Observable<User[]>;
-  allChannels$!: Observable<Channel[]>;
-  allDirectMessages$!: Observable<DirectMessage[]>;
-
   allUsers: User[] = [];
-  allChannels: Channel[] = [];
-  allDirectMessages: DirectMessage[] = [];
 
   constructor(private firestore: Firestore) {
     this.loadUserList();
-    this.loadChannelList();
-    this.loadDirectMessageList();
   }
 
   ///////////////////////////////////////// loadFunctions /////////////////////////////////////////
@@ -53,26 +47,43 @@ export class FirestoreService {
     return collectionData(this.userCol);
   }
 
-  loadChannelList() {
-    this.allChannels$ = this.getChannels();
-    this.allChannels$.subscribe((channels) => {
-      this.allChannels = channels;
+  getChannels(channelIDs: string[]): Observable<any[]> {
+    if (channelIDs.length === 0) {
+      return of([]);
+    }
+
+    const idGroups = this.chunkArray(channelIDs, 10);
+    const queries = idGroups.map((ids) => {
+      const q = query(this.channelCol, where('channelID', 'in', ids));
+      return collectionData(q);
     });
+
+    return combineLatest(queries).pipe(map((results) => results.flat()));
   }
 
-  getChannels(): Observable<any[]> {
-    return collectionData(this.channelCol);
-  }
+  getDirectMessages(directMessageIDs: string[]): Observable<any[]> {
+    if (directMessageIDs.length === 0) {
+      return of([]);
+    }
 
-  loadDirectMessageList() {
-    this.allDirectMessages$ = this.getDirectMessages();
-    this.allDirectMessages$.subscribe((directMessages) => {
-      this.allDirectMessages = directMessages;
+    const idGroups = this.chunkArray(directMessageIDs, 10);
+    const queries = idGroups.map((ids) => {
+      const q = query(
+        this.directMessageCol,
+        where('directMessageID', 'in', ids)
+      );
+      return collectionData(q); // Firestore-Abfrage als Observable zurückgeben
     });
+
+    return combineLatest(queries).pipe(map((results) => results.flat()));
   }
 
-  getDirectMessages(): Observable<any[]> {
-    return collectionData(this.directMessageCol);
+  chunkArray(arr: string[], size: number): string[][] {
+    const result = [];
+    for (let i = 0; i < arr.length; i += size) {
+      result.push(arr.slice(i, i + size));
+    }
+    return result;
   }
 
   getThread(channelID: string, threadMessageID: string) {
@@ -101,9 +112,13 @@ export class FirestoreService {
 
   ///////////////////////////////////////// addFunctions /////////////////////////////////////////
 
-  async addUser(userData: any) {
-    const userRef = doc(this.firestore, `users/${userData.userID}`);
-    setDoc(userRef, userData);
+  async addUser(userData: any): Promise<any> {
+    try {
+      const userRef = doc(this.firestore, `users/${userData.userID}`);
+      setDoc(userRef, userData);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   addChannel(channelData: any, userID: string) {
@@ -115,7 +130,7 @@ export class FirestoreService {
     });
   }
 
-  addDirectMessage(
+  async addDirectMessage(
     directMessageData: any,
     userID1: string,
     userID2: string
@@ -137,19 +152,6 @@ export class FirestoreService {
       return docRef;
     });
   }
-
-  // addDirectMessage(directMessageData: any, userID: string) {
-  //   return addDoc(this.directMessageCol, directMessageData).then((docRef) => {
-  //     updateDoc(doc(this.directMessageCol, docRef.id), {
-  //       directMessageID: docRef.id,
-  //     });
-  //     this.updateUserWithChannelOrDirectMessage(
-  //       userID,
-  //       'directMessages',
-  //       docRef.id
-  //     );
-  //   });
-  // }
 
   addMessage(messageData: any, messengerType: string, messengerID: string) {
     addDoc(
@@ -232,21 +234,10 @@ export class FirestoreService {
     updateDoc(doc(this.channelCol, channelID), channelData);
   }
 
-  updateMessage(
-    messageData: Partial<Message>,
-    messengerType: string,
-    messengerID: string,
-    messageID: string
-  ) {
-    updateDoc(
-      doc(
-        collection(
+  updateMessage(messageData: Partial<Message>, messengerType: string, messengerID: string, messageID: string ) {
+    updateDoc(doc(collection(
           this.firestore,
-          `${messengerType}/${messengerID}/messages/${messageID}`
-        )
-      ),
-      messageData
-    );
+          `${messengerType}/${messengerID}/messages`), messageID), messageData);
   }
 
   updateThreadMessage(

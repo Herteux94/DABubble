@@ -6,15 +6,19 @@ export class Message {
   attachments!: string[]; //pdf, png, jpg, jpeg
   reactions!: string[];
   messageID!: string;
+  threadLength!: number;
+  lastAnswer!: number;
 
   constructor() {
     this.senderID = '';
     this.senderName = '';
-    this.creationTime;
+    this.creationTime = Date.now();
     this.content = '';
     this.attachments = [];
     this.reactions = [];
     this.messageID = '';
+    this.threadLength = 0;
+    this.lastAnswer = Date.now();
   }
 
   public toJSON() {
@@ -25,9 +29,9 @@ export class Message {
       content: this.content,
       attachments: this.attachments,
       reactions: this.reactions,
-      messageID: this.messageID
+      messageID: this.messageID,
+      threadLength: this.threadLength,
+      lastAnswer: this.lastAnswer,
     };
   }
-
-
 }

@@ -6,9 +6,10 @@ import { BehaviorSubject, Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class ScreenSizeService {
-  private mobileSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  private mobileSubject: BehaviorSubject<boolean> =
+    new BehaviorSubject<boolean>(false);
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+  constructor(@Inject(PLATFORM_ID) private platformId: object) {
     if (isPlatformBrowser(this.platformId)) {
       this.checkScreenSize(); // Initial check
       window.addEventListener('resize', this.checkScreenSize.bind(this));

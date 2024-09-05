@@ -1,30 +1,30 @@
 <div [ngClass]="ownMessage ? 'fdRowRev' : ''" class="wrapper">
-  <img
-    class="avatar"
-    (click)="openProfileDialog()"
-    src="../../../../assets/img/avatars/avatar-1.svg"
-  />
+  <img class="avatar" (click)="openProfileDialog()" src="../../../../assets/img/avatars/avatar-1.svg" />
 
-  <div class="text">
+  <div class="text" [ngClass]="ownMessage ? 'alignFlexEnd' : ''">
     <div [ngClass]="ownMessage ? 'fdRowRev' : ''" class="nameAndTime">
-      <span *ngIf="message?.senderName" (click)="openProfileDialog()" class="name">
-        {{ message.senderName }}
-      </span>
-      <span *ngIf="message?.creationTime" class="time subText">
-        {{ message.creationTime | date: 'HH:mm' }}
-      </span>
+      @if(this.message && this.message.senderName) {
+      <span (click)="openProfileDialog()" class="name">{{
+        message.senderName
+        }}</span>
+
+      } @if(this.message && this.message.creationTime) {
+      <span class="time subText">{{
+        message.creationTime.valueOf() | date : "HH:mm"
+        }}</span>
+
+      }
     </div>
 
     <div [ngClass]="ownMessage ? 'messageTextOwnMsg' : 'messageText'">
       <div *ngIf="message?.attachments && message.attachments.length > 0" class="fileContainer">
         <div class="filePreviewContainer">
-          <a *ngFor="let attachment of message.attachments" [href]="attachment" download class="download-link">
-            <img
-              [src]="attachment"
-              alt="img file preview"
-              [ngClass]="{ filePreview: true, multipleFiles: message.attachments.length > 1 }"
-              class="filePreview"
-            />
+          @for(attachment of this.message.attachments; track attachment) {
+          <a [href]="attachment" download class="download-link"><img [src]="attachment" alt="img file preview"
+              [ngClass]="{
+                filePreview: true,
+                multipleFiles: message.attachments.length > 1
+              }" class="filePreview" />
           </a>
         </div>
       </div>
@@ -33,25 +33,30 @@
     </div>
 
     <!-- Reaktionsbereich -->
-    <div class="reactionsArea">
-      <div [ngClass]="ownMessage ? 'fdRowRev' : ''" class="reactions">
-        <div class="reactionContainer">
-          <img src="../../../../assets/img/close.svg" />
-          <span class="reactionsCount">1</span>
-        </div>
-        <div class="reactionContainer">
-          <img src="../../../../assets/img/google-icon.svg" />
-          <span class="reactionsCount">2</span>
+    @if(this.message && this.message.reactions && this.message.reactions.length > 0) {      <div class="reactionsArea">
+        <div [ngClass]="ownMessage ? 'fdRowRev' : ''" class="reactions">
+          <div class="reactionContainer">
+            <img src="../../../../assets/img/close.svg" />
+            <span class="reactionsCount">1</span>
+          </div>
+          <div class="reactionContainer">
+            <img src="../../../../assets/img/google-icon.svg" />
+            <span class="reactionsCount">2</span>
+          </div>
         </div>
       </div>
-    </div>
-
+    }
+    
     <!-- Optionen-Bubble, wird durch CSS-Hover sichtbar -->
     <app-options-bubble class="options-bubble"></app-options-bubble>
 
-    <div *ngIf="isChannel" class="responses">
-      <span (click)="navigateToThread()" class="count">2 Antworten</span>
-      <span class="time subText">Letzte Antwort 14:56</span>
+      <div *ngIf="isChannel" class="responses">
+      @if(this.message && this.message.threadLength && this.message.threadLength > 0) {
+      <span (click)="navigateToThread()" class="count">{{ this.message.threadLength }} Antworten</span>
+      <span class="time subText">Letzte Antwort {{ this.message.lastAnswer.valueOf() | date : "HH:mm" }}</span>
+      } @else {
+      <span (click)="navigateToThread()" class="count">Thread starten</span>
+      }
     </div>
   </div>
 </div>
