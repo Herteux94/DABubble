@@ -134,7 +134,7 @@
         @for (dm of this.activeUserService.activeUserDirectMessages; track dm){
         <a class="listElement"
           [class.active]="this.activeDirectMessageService.activeDM && this.activeDirectMessageService.activeDM.directMessageID && this.activeDirectMessageService.activeDM.directMessageID == dm.directMessageID"
-          (click)="this.activeDirectMessageService.loadActiveDMAndMessagesAndPartner( dm.directMessageID )"
+          (click)="this.activeDirectMessageService.loadActiveDMAndMessagesAndPartner( dm.directMessageID ); this.threadRoutingService.closeThread()"
           [routerLink]="['/messenger/directMessage', dm.directMessageID]">
           <div class="profileAndOnlineCircleImg">
             <img class="avatarImg" [src]="
