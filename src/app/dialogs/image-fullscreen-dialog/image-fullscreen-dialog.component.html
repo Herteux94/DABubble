@@ -1,1 +1,11 @@
-<p>image-fullscreen-dialog works!</p>
+
+
+<div class="wrapper" [@dialogAnimationFadeIn]>
+    <div></div>
+    <img  [@dialogAnimationFadeIn] class="previewImageFullScreen" [src]="URL" alt="Image">
+    <div class="downloadAndCloseContainer">
+        <span class="actionSpan">download</span>
+        <p> | </p>
+        <span (click)="dialogRef.close()" class="actionSpan">schließen</span>
+    </div>
+</div>

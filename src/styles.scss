@@ -225,3 +225,9 @@ h3 {
 
 html, body { height: 100%; }
 body { margin: 0 }
+
+//////////////////////////////////////////// Custom Dialogs ////////////////////////////////////////////
+
+.custom-dialog-container .cdk-overlay-dark-backdrop {
+  background: rgba(0, 0, 0, 0.9);
+}

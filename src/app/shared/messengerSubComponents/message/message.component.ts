@@ -82,9 +82,9 @@ export class MessageComponent {
     }
   }
 
-  openFullscreenPreview() {
+  openFullscreenPreview(url: string) {
     this.dialog.open(ImageFullscreenDialogComponent, {
-      data: { URL : this.message.attachments }
+      data: { URL : url }
     });
   }
 }
