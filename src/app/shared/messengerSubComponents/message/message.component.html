@@ -12,9 +12,10 @@
       <span class="time subText">{{
         message.creationTime.valueOf() | date : "HH:mm"
         }}</span>
-
       }
-      <app-options-bubble [message]="this.message" [ngClass]="ownMessage ? 'optionsBubbleOwnMsg' : 'optionsBubble'"
+
+      <app-options-bubble [messengerType]="this.messengerType" [message]="this.message"
+        [ngClass]="ownMessage ? 'optionsBubbleOwnMsg' : 'optionsBubble'"
         [ownMessage]="ownMessage ? true : false"></app-options-bubble>
 
     </div>
@@ -23,8 +24,8 @@
       <div *ngIf="message?.attachments && message.attachments.length > 0" class="fileContainer">
         <div class="filePreviewContainer">
           @for(attachment of this.message.attachments; track attachment) {
-          <a (click)="openFullscreenPreview()" [href]="attachment" download class="download-link"><img [src]="attachment" alt="img file preview"
-              [ngClass]="{
+          <a (click)="openFullscreenPreview()" [href]="attachment" download class="download-link"><img
+              [src]="attachment" alt="img file preview" [ngClass]="{
                 filePreview: true,
                 multipleFiles: message.attachments.length > 1
               }" class="filePreview" />

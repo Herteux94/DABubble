@@ -34,6 +34,7 @@ export class MessageComponent {
   @Input() ownMessage!: boolean;
   @Input() isChannel!: boolean;
   @Input() message!: Message;
+  @Input() messengerType: string = '';
 
   constructor(
     public threadRoutingService: RoutingThreadOutletService,
@@ -54,10 +55,6 @@ export class MessageComponent {
     } else {
       console.log('keine Message attachments vorhanden');
     }
-  }
-
-  toggleOptions(show: boolean) {
-    this.showOptions = show;
   }
 
   openProfileDialog() {

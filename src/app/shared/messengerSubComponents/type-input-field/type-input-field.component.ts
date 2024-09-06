@@ -44,6 +44,107 @@ export class TypeInputFieldComponent {
     private el: ElementRef
   ) {}
 
+  sendMessage() {
+    if (this.uploadedFiles.length > 0) {
+      this.uploadFilesAndSendMessage();
+    } else {
+      this.sendMessageBasedOnType();
+    }
+  }
+
+  private async sendMessageBasedOnType() {
+    this.prepareMessage();
+
+    try {
+      if (this.messengerType === 'thread') {
+        const activeThreadMessage =
+          this.activeThreadService.activeThreadMessage;
+        const channelID = this.activeChannelService.activeChannel.channelID;
+
+        // Füge die Nachricht zum Thread hinzu
+        await this.firestoreService.addThreadMessage(
+          this.message.toJSON(),
+          channelID,
+          activeThreadMessage.messageID
+        );
+
+        // Aktualisiere die ursprüngliche Nachricht, zu der der Thread gehört
+        const updatedThreadLength = (activeThreadMessage.threadLength || 0) + 1; // Falls threadLength undefined ist, setze es auf 0
+        const messagePayload = {
+          lastAnswer: this.message.creationTime,
+          threadLength: updatedThreadLength,
+        };
+
+        await this.firestoreService.updateMessage(
+          messagePayload,
+          'channels',
+          channelID,
+          activeThreadMessage.messageID
+        );
+
+        // Update local activeThreadMessage to reflect the new threadLength
+        this.activeThreadService.activeThreadMessage.threadLength =
+          updatedThreadLength;
+      } else if (this.messengerType === 'channels') {
+        await this.firestoreService.addMessage(
+          this.message.toJSON(),
+          this.messengerType,
+          this.activeChannelService.activeChannel.channelID
+        );
+      } else if (
+        this.messengerType === 'directMessages' &&
+        !this.newDirectMessage
+      ) {
+        await this.firestoreService.addMessage(
+          this.message.toJSON(),
+          this.messengerType,
+          this.activeDirectMessageService.activeDM.directMessageID
+        );
+      } else if (
+        this.messengerType === 'directMessages' &&
+        this.newDirectMessage
+      ) {
+        const directMessageID =
+          await this.newDirectMessageService.addNewDirectMessage();
+        await this.activeDirectMessageService.loadActiveDMAndMessagesAndPartner(
+          directMessageID
+        );
+        await this.firestoreService.addMessage(
+          this.message.toJSON(),
+          this.messengerType,
+          directMessageID
+        );
+
+        this.router.navigate([`messenger/directMessage/${directMessageID}`]);
+      } else {
+        console.error('MessengerType not found');
+      }
+    } catch (error) {
+      console.error('Error sending message:', error);
+      this.errorMessageUpload = 'Error sending message. Please try again.'; // Fehlernachricht speichern
+    } finally {
+      this.resetMessage();
+    }
+  }
+
+  private prepareMessage() {
+    this.message.attachments = [];
+    this.message.creationTime = Date.now();
+    this.message.senderID = this.activeUserService.activeUser.userID;
+    this.message.senderName = this.activeUserService.activeUser.name;
+
+    this.uploadedFiles.forEach((uploadedFile) => {
+      if (uploadedFile.url) {
+        this.message.attachments.push(uploadedFile.url);
+      }
+    });
+  }
+
+  private resetMessage() {
+    this.message.content = '';
+    this.uploadedFiles = []; // Reset der Liste nach dem Hochladen
+  }
+
   // Methode zum Hochladen der Dateien und anschließendem Senden der Nachricht
   private uploadFilesAndSendMessage() {
     const uploadPromises = this.uploadedFiles.map((uploadedFile) => {
@@ -137,107 +238,6 @@ export class TypeInputFieldComponent {
     });
   }
 
-  sendMessage() {
-    if (this.uploadedFiles.length > 0) {
-      this.uploadFilesAndSendMessage();
-    } else {
-      this.sendMessageBasedOnType();
-    }
-  }
-
-  private async sendMessageBasedOnType() {
-    this.prepareMessage();
-
-    try {
-      if (this.messengerType === 'thread') {
-        const activeThreadMessage = this.activeThreadService.activeThreadMessage;
-        const channelID = this.activeChannelService.activeChannel.channelID;
-
-        // Füge die Nachricht zum Thread hinzu
-        await this.firestoreService.addThreadMessage(
-          this.message.toJSON(),
-          channelID,
-          activeThreadMessage.messageID
-        );
-
-        // Aktualisiere die ursprüngliche Nachricht, zu der der Thread gehört
-        const updatedThreadLength = (activeThreadMessage.threadLength || 0) + 1; // Falls threadLength undefined ist, setze es auf 0
-        const messagePayload = {
-          lastAnswer: this.message.creationTime,
-          threadLength: updatedThreadLength
-        };
-
-        await this.firestoreService.updateMessage(
-          messagePayload,
-          "channels",
-          channelID,
-          activeThreadMessage.messageID
-        );
-
-        // Update local activeThreadMessage to reflect the new threadLength
-        this.activeThreadService.activeThreadMessage.threadLength = updatedThreadLength;
-
-      } else if (this.messengerType === 'channels') {
-        await this.firestoreService.addMessage(
-          this.message.toJSON(),
-          this.messengerType,
-          this.activeChannelService.activeChannel.channelID
-        );
-      } else if (
-        this.messengerType === 'directMessages' &&
-        !this.newDirectMessage
-      ) {
-        await this.firestoreService.addMessage(
-          this.message.toJSON(),
-          this.messengerType,
-          this.activeDirectMessageService.activeDM.directMessageID
-        );
-      } else if (
-        this.messengerType === 'directMessages' &&
-        this.newDirectMessage
-      ) {
-        const directMessageID =
-          await this.newDirectMessageService.addNewDirectMessage();
-        await this.activeDirectMessageService.loadActiveDMAndMessagesAndPartner(
-          directMessageID
-        );
-        await this.firestoreService.addMessage(
-          this.message.toJSON(),
-          this.messengerType,
-          directMessageID
-        );
-
-        this.router.navigate([`messenger/directMessage/${directMessageID}`]);
-      } else {
-        console.error('MessengerType not found');
-      }
-    } catch (error) {
-      console.error('Error sending message:', error);
-      this.errorMessageUpload = 'Error sending message. Please try again.'; // Fehlernachricht speichern
-    } finally {
-      this.resetMessage();
-    }
-  }
-
-
-  private prepareMessage() {
-    this.message.attachments = [];
-    this.message.creationTime = Date.now();
-    this.message.senderID = this.activeUserService.activeUser.userID;
-    this.message.senderName = this.activeUserService.activeUser.name;
-
-    this.uploadedFiles.forEach((uploadedFile) => {
-      if (uploadedFile.url) {
-        this.message.attachments.push(uploadedFile.url);
-      }
-    });
-  }
-
-  private resetMessage() {
-    this.message.content = '';
-    this.uploadedFiles = []; // Reset der Liste nach dem Hochladen
-  }
-
   triggerFileInput() {
     const fileInput = document.getElementById('fileInput') as HTMLInputElement;
     if (fileInput) {
@@ -249,6 +249,24 @@ export class TypeInputFieldComponent {
     this.uploadedFiles = this.uploadedFiles.filter(
       (file) => file !== fileToRemove
     );
+  }
+
+  getPlaceholder() {
+    switch (this.messengerType) {
+      case 'channels': {
+        const channelName = this.activeChannelService.activeChannel.name;
+        return 'Nachricht an #' + channelName + '...';
+      }
+      case 'directMessages': {
+        const dmPartnerName =
+          this.activeDirectMessageService.activeDMPartner.name;
+        return 'Nachricht an ' + dmPartnerName + '...';
+      }
+      case 'thread':
+        return 'Antworten...';
+      default:
+        return 'Schreibe eine Nachricht...';
+    }
   }
 
   @HostListener('document:keydown.enter', ['$event'])
