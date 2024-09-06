@@ -47,8 +47,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  
   img {
+    padding: 4px;
+    border-radius: 25px;
     cursor: pointer;
+    &:hover {
+      background-color: $background-color;
+    }
   }
 }
 
@@ -163,6 +169,18 @@
   padding: 10px 20px;
 }
 
+.editSVG {
+  &:hover {
+    background-color: $background-color;
+    border-radius: 100px;
+    cursor: pointer;
+    
+    path {
+      fill: $first-color;
+    }
+  }
+}
+
 .hover {
   &:hover {
     background-color: $background-color;
@@ -170,7 +188,7 @@
     color: $second-color;
 
     svg path {
-      fill: $second-color;
+      fill: $first-color;
     }
   }
 }
