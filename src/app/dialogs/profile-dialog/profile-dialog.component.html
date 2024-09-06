@@ -9,7 +9,9 @@
         <div class="profileContainer" #profileContainer tabindex="-1">
 
             <div class="imgContainer">
-                <img cli class="profileImg" [src]="this.user.profileImg || '../../assets/img/Profile.svg'" alt="">
+                <img [class.editingProfileImg]="editingProfile" 
+                (click)="editingProfile ? openAvatarDialog() : ''" class="profileImg" 
+                [src]="ownProfile ? activeUserService.activeUser.profileImg : (user.profileImg || '../../assets/img/Profile.svg')" alt="Profilbild">
             </div>
 
             @if (editingProfile) {

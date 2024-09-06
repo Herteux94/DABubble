@@ -5,7 +5,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { DIALOG_DATA, DialogModule, DialogRef } from '@angular/cdk/dialog';
+import { Dialog, DIALOG_DATA, DialogModule, DialogRef } from '@angular/cdk/dialog';
 import { Component, ElementRef, Inject, inject, ViewChild } from '@angular/core';
 import { ActiveUserService } from '../../services/active-user.service';
 import { FindUserService } from '../../services/find-user.service';
@@ -15,6 +15,7 @@ import { FirestoreService } from '../../services/firestore.service';
 import { FormsModule } from '@angular/forms';
 import { User } from '../../models/user.model';
 import { NewDirectMessageService } from '../../services/new-direct-message.service';
+import { ChooseAvatarComponent } from '../../authentication/choose-avatar/choose-avatar.component';
 
 @Component({
   selector: 'app-profile-dialog',
@@ -34,6 +35,7 @@ import { NewDirectMessageService } from '../../services/new-direct-message.servi
 export class ProfileDialogComponent {
   newDirectMessageService = inject(NewDirectMessageService);
   dialogRef = inject(DialogRef);
+  dialog = inject(Dialog);
   user!: any;
   ownProfile: boolean = false;
   editingProfile = false;
@@ -80,28 +82,6 @@ export class ProfileDialogComponent {
     this.dialogRef.close();
   }
 
-  // openDM(user: User): void {
-  //   const directMessages =
-  //     this.activeUserService.activeUserDirectMessages || [];
-
-  //   const existingDM = directMessages.find((dm) =>
-  //     dm.member.includes(user.userID)
-  //   );
-
-  //   if (existingDM) {
-  //     this.router.navigate([
-  //       `messenger/directMessage/${existingDM.directMessageID}`,
-  //     ]);
-  //   } else {
-  //      this.newDirectMessageService.messageReceiver = user;
-  //      this.router.navigate([
-  //       `messenger/directMessage/${this.newDirectMessageService.addNewDirectMessage()}`,
-  //     ]);
-  //     //  this.newDirectMessageService.addNewDirectMessage();
-  //   }
-  //   this.dialogRef.close();
-  // }
-
   async openDM(user: User): Promise<void> {
     const directMessages = this.activeUserService.activeUserDirectMessages || [];
   
@@ -125,5 +105,11 @@ export class ProfileDialogComponent {
       ]);
     }
     this.dialogRef.close();
+  }
+
+  openAvatarDialog() {
+    this.dialog.open(ChooseAvatarComponent, {
+      data: { isDialog: true }
+    });
   }
 }
