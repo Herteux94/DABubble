@@ -25,8 +25,7 @@
         <div class="filePreviewContainer">
           @for(attachment of this.message.attachments; track attachment) {
           <!-- <a (click)="openFullscreenPreview()" [href]="attachment" download class="download-link"><img [src]="attachment" alt="img file preview" -->
-          <div (click)="openFullscreenPreview(attachment)"><img [src]="attachment" alt="img file preview"
-              [ngClass]="{
+          <div (click)="openFullscreenPreview(attachment)"><img [src]="attachment" alt="img file preview" [ngClass]="{
                 filePreview: true,
                 multipleFiles: message.attachments.length > 1
               }" class="filePreview" />
@@ -51,9 +50,6 @@
       </div>
     </div>
     }
-
-    <!-- Optionen-Bubble, wird durch CSS-Hover sichtbar -->
-    <!-- <app-options-bubble class="options-bubble"></app-options-bubble> -->
 
     <div *ngIf="isChannel" class="responses">
       @if(this.message && this.message.threadLength && this.message.threadLength > 0) {
