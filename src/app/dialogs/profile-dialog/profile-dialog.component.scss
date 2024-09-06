@@ -1,7 +1,6 @@
 @import "../../../variables.scss";
 @import "../../../app/shared/dialogs/dialog.component.scss";
 
-
 :host {
   display: block;
   background: none;
@@ -47,6 +46,14 @@
   border-radius: 50%;
   object-fit: cover;
   margin-bottom: 20px;
+}
+
+.editingProfileImg {
+  outline: 10px solid $background-color;
+  cursor: pointer;
+  &:hover {
+    outline: 10px solid $outlines;
+  }
 }
 
 .profileContainer {
