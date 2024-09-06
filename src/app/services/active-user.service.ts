@@ -57,7 +57,6 @@ export class ActiveUserService {
         this.activeUser = user;
         if ((this.activeUser = user)) {
           this.loadConversations();
-          console.log('loadConversations ausgeführt');
         }
       });
   }
@@ -130,10 +129,10 @@ export class ActiveUserService {
     localStorage.removeItem('activeUser');
 
     this.activeUser = null!;
-    this.activeUserChannels = [];
     this.activeUserChannelsSubject.next([]);
-    this.activeUserDirectMessages = [];
+    this.activeUserChannels = [];
     this.activeUserDirectMessagesSubject.next([]);
+    this.activeUserDirectMessages = [];
 
     this.router.navigate(['/login']);
   }

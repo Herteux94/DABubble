@@ -1,6 +1,6 @@
 <div [ngClass]="ownMessage? 'optionsBubbleOwnMsg' : 'optionsBubble'">
   <!-- SVG anzeigen, wenn Emojis nicht sichtbar sind -->
-  <div class="optionsBubbleContent" *ngIf="!showEmojis" (click)="showEmojiPicker()">
+  <div class="optionsBubbleContent" *ngIf="!showEmojis">
     <div class="svgContainer">
       <svg width="24" height="24" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
@@ -53,7 +53,7 @@
           fill="#EBA352" />
       </svg>
     </div>
-    <div class="svgContainer">
+    <div class="svgContainer" (click)="showEmojiPicker()">
       <svg class="changeColor" width="24" height="24" viewBox="0 0 24 24" fill="none"
         xmlns="http://www.w3.org/2000/svg">
         <mask id="mask0_1823_21631" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
@@ -67,7 +67,7 @@
         </g>
       </svg>
     </div>
-    <div class="svgContainer">
+    <div class="svgContainer" (click)="this.navigateToThread()">
       <svg class="changeColor" width="24" height="24" viewBox="0 0 24 24" fill="none"
         xmlns="http://www.w3.org/2000/svg">
         <mask id="mask0_1823_21561" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
@@ -81,7 +81,7 @@
         </g>
       </svg>
     </div>
-    <div class="svgContainer">
+    <div class="svgContainer" (click)="this.toggleMessageOptionsPopUp()">
       <svg class="changeColor" width="24" height="24" viewBox="0 0 24 24" fill="none"
         xmlns="http://www.w3.org/2000/svg">
         <mask id="mask0_1823_21565" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
@@ -95,8 +95,18 @@
         </g>
       </svg>
     </div>
-
   </div>
+
+  @if(this.messageOptionsOpen) {
+  <div class="messageOptionsPopUp">
+    <div class="spanContainer">
+      <span>Nachricht bearbeiten</span>
+    </div>
+    <div class="spanContainer">
+      <span>Nachricht löschen</span>
+    </div>
+  </div>
+  }
 
   <!-- Emojis anzeigen, wenn sie sichtbar sind -->
   <div *ngIf="showEmojis">

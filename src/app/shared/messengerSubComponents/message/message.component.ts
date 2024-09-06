@@ -1,5 +1,5 @@
 import { Component, inject, Input } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
+import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
 import { ProfileDialogComponent } from '../../../dialogs/profile-dialog/profile-dialog.component';
 import { Dialog, DialogModule } from '@angular/cdk/dialog';
 import { RoutingThreadOutletService } from '../../../services/routing-thread-outlet.service';
@@ -8,8 +8,8 @@ import { CommonModule } from '@angular/common';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ActiveThreadService } from '../../../services/active-thread-service.service';
 import { Message } from '../../../models/message.model';
-import { ActiveChannelService } from '../../../services/active-channel.service';
 import { OptionsBubbleComponent } from './options-bubble/options-bubble.component';
+import { MessageOptionsBubbleService } from '../../../services/message-options-bubble.service';
 
 @Component({
   selector: 'app-message',
@@ -21,7 +21,7 @@ import { OptionsBubbleComponent } from './options-bubble/options-bubble.componen
     CommonModule,
     MatDialogModule,
     DialogModule,
-    OptionsBubbleComponent
+    OptionsBubbleComponent,
   ],
   templateUrl: './message.component.html',
   styleUrls: ['./message.component.scss'],
@@ -38,9 +38,8 @@ export class MessageComponent {
   constructor(
     public threadRoutingService: RoutingThreadOutletService,
     private screenSizeService: ScreenSizeService,
-    private router: Router,
     private activeThreadService: ActiveThreadService,
-    private activeChannelService: ActiveChannelService
+    public messageOptionsBubbleService: MessageOptionsBubbleService
   ) {}
 
   ngOnInit() {
@@ -76,17 +75,9 @@ export class MessageComponent {
     this.threadRoutingService.openThread();
 
     if (this.mobile) {
-      this.router.navigate([
-        `/messenger/channel/${this.activeChannelService.activeChannel.channelID}/threadM`,
-        this.message.messageID,
-      ]);
+      this.threadRoutingService.navigateToThreadMobile(this.message.messageID);
     } else {
-      this.router.navigate([
-        '/messenger',
-        { outlets: { thread: ['thread', this.message.messageID] } },
-      ]);
+      this.threadRoutingService.navigateToThreadDesktop(this.message.messageID);
     }
   }
-
-  
 }

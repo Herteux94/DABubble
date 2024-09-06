@@ -14,7 +14,7 @@
         }}</span>
 
       }
-      <app-options-bubble [ngClass]="ownMessage ? 'optionsBubbleOwnMsg' : 'optionsBubble'"
+      <app-options-bubble [message]="this.message" [ngClass]="ownMessage ? 'optionsBubbleOwnMsg' : 'optionsBubble'"
         [ownMessage]="ownMessage ? true : false"></app-options-bubble>
 
     </div>
@@ -57,8 +57,6 @@
       @if(this.message && this.message.threadLength && this.message.threadLength > 0) {
       <span (click)="navigateToThread()" class="count">{{ this.message.threadLength }} Antworten</span>
       <span class="time subText">Letzte Antwort {{ this.message.lastAnswer.valueOf() | date : "HH:mm" }}</span>
-      } @else {
-      <span (click)="navigateToThread()" class="count">Thread starten</span>
       }
     </div>
   </div>

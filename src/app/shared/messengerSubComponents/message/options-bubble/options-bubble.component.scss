@@ -1,6 +1,7 @@
 @import "../../../../../variables.scss";
 
 .optionsBubble {
+  position: relative;
   background-color: white;
   border-radius: 20px 20px 20px 0;
   padding: 4px 10px 4px 14px;
@@ -8,6 +9,7 @@
 }
 
 .optionsBubbleOwnMsg {
+  position: relative;
   background-color: white;
   border-radius: 20px 20px 0 20px;
   padding: 4px 10px 4px 14px;
@@ -50,6 +52,25 @@
       path {
         fill: $first-color;
       }
+    }
+  }
+}
+
+.messageOptionsPopUp {
+  position: absolute;
+  bottom: -90px;
+  right: -150px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  border-radius: 0 20px 20px 20px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+
+  span {
+    &:hover {
+      color: $first-color;
     }
   }
 }

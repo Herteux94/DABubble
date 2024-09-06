@@ -1,5 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Message } from '../../../../models/message.model';
+import { RoutingThreadOutletService } from '../../../../services/routing-thread-outlet.service';
+import { ScreenSizeService } from '../../../../services/screen-size-service.service';
+import { ActiveThreadService } from '../../../../services/active-thread-service.service';
+import { MessageOptionsBubbleService } from '../../../../services/message-options-bubble.service';
 
 @Component({
   selector: 'app-options-bubble',
@@ -8,9 +13,12 @@ import { CommonModule } from '@angular/common';
   templateUrl: './options-bubble.component.html',
   styleUrls: ['./options-bubble.component.scss'],
 })
-export class OptionsBubbleComponent {
+export class OptionsBubbleComponent implements OnInit {
   @Input() ownMessage!: boolean;
+  @Input() message!: Message;
+  messageOptionsOpen!: boolean;
   showEmojis: boolean = false; // Steuert, ob die Emojis oder die SVGs sichtbar sind
+  mobile!: boolean;
 
   // Emoji-Optionen
   options = [
@@ -92,6 +100,19 @@ export class OptionsBubbleComponent {
     { icon: '⬇️', label: 'Down Arrow', action: () => this.react('down_arrow') },
   ];
 
+  constructor(
+    public threadRoutingService: RoutingThreadOutletService,
+    private screenSizeService: ScreenSizeService,
+    private activeThreadService: ActiveThreadService,
+    public messageOptionsBubbleService: MessageOptionsBubbleService
+  ) {}
+
+  ngOnInit() {
+    this.screenSizeService.isMobile().subscribe((isMobile) => {
+      this.mobile = isMobile;
+    });
+  }
+
   // Zeigt die Emoji-Picker an und ersetzt die Aktionen durch Emojis
   showEmojiPicker() {
     this.showEmojis = true;
@@ -105,5 +126,23 @@ export class OptionsBubbleComponent {
   // Methode zum Handhaben der Reaktionen (Emojis)
   react(reaction: string) {
     console.log(`Reaction: ${reaction}`);
+  }
+
+  toggleMessageOptionsPopUp() {
+    this.messageOptionsOpen = !this.messageOptionsOpen;
+  }
+
+  navigateToThread() {
+    this.activeThreadService.loadActiveThreadAndMessages(
+      this.message.messageID
+    );
+
+    this.threadRoutingService.openThread();
+
+    if (this.mobile) {
+      this.threadRoutingService.navigateToThreadMobile(this.message.messageID);
+    } else {
+      this.threadRoutingService.navigateToThreadDesktop(this.message.messageID);
+    }
   }
 }
