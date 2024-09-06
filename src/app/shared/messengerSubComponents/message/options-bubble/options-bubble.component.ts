@@ -4,7 +4,9 @@ import { Message } from '../../../../models/message.model';
 import { RoutingThreadOutletService } from '../../../../services/routing-thread-outlet.service';
 import { ScreenSizeService } from '../../../../services/screen-size-service.service';
 import { ActiveThreadService } from '../../../../services/active-thread-service.service';
-import { MessageOptionsBubbleService } from '../../../../services/message-options-bubble.service';
+import { FirestoreService } from '../../../../services/firestore.service';
+import { ActiveChannelService } from '../../../../services/active-channel.service';
+import { ActiveDirectMessageService } from '../../../../services/active-direct-message-service.service';
 
 @Component({
   selector: 'app-options-bubble',
@@ -16,6 +18,7 @@ import { MessageOptionsBubbleService } from '../../../../services/message-option
 export class OptionsBubbleComponent implements OnInit {
   @Input() ownMessage!: boolean;
   @Input() message!: Message;
+  @Input() messengerType: string = '';
   messageOptionsOpen!: boolean;
   showEmojis: boolean = false; // Steuert, ob die Emojis oder die SVGs sichtbar sind
   mobile!: boolean;
@@ -104,7 +107,9 @@ export class OptionsBubbleComponent implements OnInit {
     public threadRoutingService: RoutingThreadOutletService,
     private screenSizeService: ScreenSizeService,
     private activeThreadService: ActiveThreadService,
-    public messageOptionsBubbleService: MessageOptionsBubbleService
+    private firestoreService: FirestoreService,
+    private activeChannelService: ActiveChannelService,
+    private activeDirectMessageService: ActiveDirectMessageService
   ) {}
 
   ngOnInit() {
@@ -143,6 +148,32 @@ export class OptionsBubbleComponent implements OnInit {
       this.threadRoutingService.navigateToThreadMobile(this.message.messageID);
     } else {
       this.threadRoutingService.navigateToThreadDesktop(this.message.messageID);
+    }
+  }
+
+  editMessage() {}
+
+  deleteMessage() {
+    if (this.messengerType == 'channels') {
+      this.firestoreService.deleteMessage(
+        this.message.messageID,
+        this.messengerType,
+        this.activeChannelService.activeChannel.channelID
+      );
+    } else if (this.messengerType == 'directMessages') {
+      this.firestoreService.deleteMessage(
+        this.message.messageID,
+        this.messengerType,
+        this.activeDirectMessageService.activeDM.directMessageID
+      );
+    } else if (this.messengerType == 'thread') {
+      this.firestoreService.deleteThreadMessage(
+        this.activeChannelService.activeChannel.channelID,
+        this.activeThreadService.activeThreadMessage.messageID,
+        this.message.messageID
+      );
+    } else {
+      console.error('Messenger Type not found.');
     }
   }
 }

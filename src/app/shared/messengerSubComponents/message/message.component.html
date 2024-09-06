@@ -12,9 +12,10 @@
       <span class="time subText">{{
         message.creationTime.valueOf() | date : "HH:mm"
         }}</span>
-
       }
-      <app-options-bubble [message]="this.message" [ngClass]="ownMessage ? 'optionsBubbleOwnMsg' : 'optionsBubble'"
+
+      <app-options-bubble [messengerType]="this.messengerType" [message]="this.message"
+        [ngClass]="ownMessage ? 'optionsBubbleOwnMsg' : 'optionsBubble'"
         [ownMessage]="ownMessage ? true : false"></app-options-bubble>
 
     </div>

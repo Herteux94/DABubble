@@ -5,7 +5,7 @@
       @if(this.activeChannelService.channelMessages &&
       this.activeChannelService.channelMessages.length > 0) { @for(message of
       this.activeChannelService.channelMessages; track message) {
-      <app-message [ownMessage]="
+      <app-message [messengerType]="'channels'" [ownMessage]="
           this.activeUserService.activeUser.userID === message.senderID
             ? true
             : false

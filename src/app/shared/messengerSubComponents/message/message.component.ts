@@ -9,7 +9,6 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { ActiveThreadService } from '../../../services/active-thread-service.service';
 import { Message } from '../../../models/message.model';
 import { OptionsBubbleComponent } from './options-bubble/options-bubble.component';
-import { MessageOptionsBubbleService } from '../../../services/message-options-bubble.service';
 import { ImageFullscreenDialogComponent } from '../../../dialogs/image-fullscreen-dialog/image-fullscreen-dialog.component';
 
 @Component({
@@ -35,12 +34,12 @@ export class MessageComponent {
   @Input() ownMessage!: boolean;
   @Input() isChannel!: boolean;
   @Input() message!: Message;
+  @Input() messengerType: string = '';
 
   constructor(
     public threadRoutingService: RoutingThreadOutletService,
     private screenSizeService: ScreenSizeService,
-    private activeThreadService: ActiveThreadService,
-    public messageOptionsBubbleService: MessageOptionsBubbleService
+    private activeThreadService: ActiveThreadService
   ) {}
 
   ngOnInit() {
@@ -56,10 +55,6 @@ export class MessageComponent {
     } else {
       console.log('keine Message attachments vorhanden');
     }
-  }
-
-  toggleOptions(show: boolean) {
-    this.showOptions = show;
   }
 
   openProfileDialog() {

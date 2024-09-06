@@ -234,10 +234,19 @@ export class FirestoreService {
     updateDoc(doc(this.channelCol, channelID), channelData);
   }
 
-  updateMessage(messageData: Partial<Message>, messengerType: string, messengerID: string, messageID: string ) {
-    updateDoc(doc(collection(
-          this.firestore,
-          `${messengerType}/${messengerID}/messages`), messageID), messageData);
+  updateMessage(
+    messageData: Partial<Message>,
+    messengerType: string,
+    messengerID: string,
+    messageID: string
+  ) {
+    updateDoc(
+      doc(
+        collection(this.firestore, `${messengerType}/${messengerID}/messages`),
+        messageID
+      ),
+      messageData
+    );
   }
 
   updateThreadMessage(
@@ -268,17 +277,27 @@ export class FirestoreService {
     deleteDoc(doc(this.channelCol, channelID));
   }
 
-  deleteDirectMessage(directMessageID: string) {
-    deleteDoc(doc(this.directMessageCol, directMessageID));
+  deleteMessage(messageID: string, messengerType: string, messengerID: string) {
+    deleteDoc(
+      doc(
+        collection(this.firestore, `${messengerType}/${messengerID}/messages`),
+        messageID
+      )
+    );
   }
 
-  deleteMessage(messageID: string, messengerType: string, messengerID: string) {
+  deleteThreadMessage(
+    channelID: string,
+    threadMessageID: string,
+    messageID: string
+  ) {
     deleteDoc(
       doc(
         collection(
           this.firestore,
-          `${messengerType}/${messengerID}/messages/${messageID}`
-        )
+          `channels/${channelID}/messages/${threadMessageID}/threadMessages`
+        ),
+        messageID
       )
     );
   }

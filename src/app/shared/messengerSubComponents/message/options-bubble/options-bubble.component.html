@@ -81,6 +81,7 @@
         </g>
       </svg>
     </div>
+    @if(this.ownMessage) {
     <div class="svgContainer" (click)="this.toggleMessageOptionsPopUp()">
       <svg class="changeColor" width="24" height="24" viewBox="0 0 24 24" fill="none"
         xmlns="http://www.w3.org/2000/svg">
@@ -95,16 +96,13 @@
         </g>
       </svg>
     </div>
+    }
   </div>
 
   @if(this.messageOptionsOpen) {
   <div class="messageOptionsPopUp">
-    <div class="spanContainer">
-      <span>Nachricht bearbeiten</span>
-    </div>
-    <div class="spanContainer">
-      <span>Nachricht löschen</span>
-    </div>
+    <span (click)="editMessage()">Nachricht bearbeiten</span>
+    <span (click)="deleteMessage()">Nachricht löschen</span>
   </div>
   }
 

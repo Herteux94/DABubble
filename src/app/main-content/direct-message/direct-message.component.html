@@ -6,19 +6,13 @@
       @if(this.activeDirectMessageService.dmMessages &&
       this.activeDirectMessageService.dmMessages.length > 0) { @for(message of
       this.activeDirectMessageService.dmMessages; track message) {
-      <app-message
-        [ownMessage]="
+      <app-message [messengerType]="'directMessages'" [ownMessage]="
           this.activeUserService.activeUser.userID === message.senderID
             ? true
             : false
-        "
-        [message]="message"
-        [isChannel]="false"
-      ></app-message>
+        " [message]="message" [isChannel]="false"></app-message>
       } }
     </div>
   </div>
-  <app-type-input-field
-    [messengerType]="'directMessages'"
-  ></app-type-input-field>
+  <app-type-input-field [messengerType]="'directMessages'"></app-type-input-field>
 </section>
