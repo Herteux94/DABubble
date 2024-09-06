@@ -10,6 +10,7 @@ import { ActiveThreadService } from '../../../services/active-thread-service.ser
 import { Message } from '../../../models/message.model';
 import { OptionsBubbleComponent } from './options-bubble/options-bubble.component';
 import { MessageOptionsBubbleService } from '../../../services/message-options-bubble.service';
+import { ImageFullscreenDialogComponent } from '../../../dialogs/image-fullscreen-dialog/image-fullscreen-dialog.component';
 
 @Component({
   selector: 'app-message',
@@ -79,5 +80,11 @@ export class MessageComponent {
     } else {
       this.threadRoutingService.navigateToThreadDesktop(this.message.messageID);
     }
+  }
+
+  openFullscreenPreview() {
+    this.dialog.open(ImageFullscreenDialogComponent, {
+      data: { URL : this.message.attachments }
+    });
   }
 }
