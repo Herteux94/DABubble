@@ -254,12 +254,17 @@ export class TypeInputFieldComponent {
   getPlaceholder() {
     switch (this.messengerType) {
       case 'channels': {
-        const channelName = this.activeChannelService.activeChannel.name;
+        let channelName = '';
+        if (this.activeChannelService?.activeChannel?.name) {
+          channelName = this.activeChannelService.activeChannel.name;
+        }
         return 'Nachricht an #' + channelName + '...';
       }
       case 'directMessages': {
-        const dmPartnerName =
-          this.activeDirectMessageService.activeDMPartner.name;
+        let dmPartnerName = '';
+        if (this.activeDirectMessageService?.activeDMPartner?.name) {
+          dmPartnerName = this.activeDirectMessageService.activeDMPartner.name;
+        }
         return 'Nachricht an ' + dmPartnerName + '...';
       }
       case 'thread':
