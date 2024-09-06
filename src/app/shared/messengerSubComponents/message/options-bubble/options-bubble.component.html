@@ -99,12 +99,8 @@
 
   @if(this.messageOptionsOpen) {
   <div class="messageOptionsPopUp">
-    <div class="spanContainer">
-      <span>Nachricht bearbeiten</span>
-    </div>
-    <div class="spanContainer">
-      <span>Nachricht löschen</span>
-    </div>
+    <span (click)="editMessage()">Nachricht bearbeiten</span>
+    <span (click)="deleteMessage()">Nachricht löschen</span>
   </div>
   }
 

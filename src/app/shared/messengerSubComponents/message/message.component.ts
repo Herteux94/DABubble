@@ -9,7 +9,6 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { ActiveThreadService } from '../../../services/active-thread-service.service';
 import { Message } from '../../../models/message.model';
 import { OptionsBubbleComponent } from './options-bubble/options-bubble.component';
-import { MessageOptionsBubbleService } from '../../../services/message-options-bubble.service';
 import { ImageFullscreenDialogComponent } from '../../../dialogs/image-fullscreen-dialog/image-fullscreen-dialog.component';
 
 @Component({
@@ -39,8 +38,7 @@ export class MessageComponent {
   constructor(
     public threadRoutingService: RoutingThreadOutletService,
     private screenSizeService: ScreenSizeService,
-    private activeThreadService: ActiveThreadService,
-    public messageOptionsBubbleService: MessageOptionsBubbleService
+    private activeThreadService: ActiveThreadService
   ) {}
 
   ngOnInit() {
@@ -84,7 +82,7 @@ export class MessageComponent {
 
   openFullscreenPreview() {
     this.dialog.open(ImageFullscreenDialogComponent, {
-      data: { URL : this.message.attachments }
+      data: { URL: this.message.attachments },
     });
   }
 }

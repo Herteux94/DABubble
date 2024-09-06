@@ -4,7 +4,6 @@ import { Message } from '../../../../models/message.model';
 import { RoutingThreadOutletService } from '../../../../services/routing-thread-outlet.service';
 import { ScreenSizeService } from '../../../../services/screen-size-service.service';
 import { ActiveThreadService } from '../../../../services/active-thread-service.service';
-import { MessageOptionsBubbleService } from '../../../../services/message-options-bubble.service';
 
 @Component({
   selector: 'app-options-bubble',
@@ -103,8 +102,7 @@ export class OptionsBubbleComponent implements OnInit {
   constructor(
     public threadRoutingService: RoutingThreadOutletService,
     private screenSizeService: ScreenSizeService,
-    private activeThreadService: ActiveThreadService,
-    public messageOptionsBubbleService: MessageOptionsBubbleService
+    private activeThreadService: ActiveThreadService
   ) {}
 
   ngOnInit() {
