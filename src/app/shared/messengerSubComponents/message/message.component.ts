@@ -71,8 +71,6 @@ export class MessageComponent {
       if (sender) {
         this.senderName = sender.name;
         this.senderAvatar = sender.profileImg || '../../../assets/img/Profile.svg';
-        console.log(this.senderName, this.senderAvatar);
-        
       } else {
         console.warn('Sender nicht im Channel gefunden.');
       }
