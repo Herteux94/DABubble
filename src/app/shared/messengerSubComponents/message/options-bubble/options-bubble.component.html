@@ -1,4 +1,4 @@
-<div [ngClass]="ownMessage? 'optionsBubbleOwnMsg' : 'optionsBubble'">
+<div (mouseleave)="this.messageOptionsOpen = false" [ngClass]="ownMessage? 'optionsBubbleOwnMsg' : 'optionsBubble'">
   <!-- SVG anzeigen, wenn Emojis nicht sichtbar sind -->
   <div class="optionsBubbleContent" *ngIf="!showEmojis">
     <div class="svgContainer">
@@ -101,7 +101,7 @@
 
   @if(this.messageOptionsOpen) {
   <div class="messageOptionsPopUp">
-    <span (click)="editMessage()">Nachricht bearbeiten</span>
+    <span (click)="editMsg()">Nachricht bearbeiten</span>
     <span (click)="deleteMessage()">Nachricht löschen</span>
   </div>
   }
@@ -112,4 +112,12 @@
       {{ option.icon }}
     </span>
   </div>
+
+
+
+  <!-- <div class="editMessageContainer">
+    <textarea name="" id=""></textarea>
+  </div> -->
+
+
 </div>

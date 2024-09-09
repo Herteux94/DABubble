@@ -1,5 +1,5 @@
 <div [ngClass]="ownMessage ? 'fdRowRev' : ''" class="wrapper">
-  <img class="avatar" (click)="openProfileDialog()" [src]="senderAvatar"/>
+  <img class="avatar" (click)="openProfileDialog()" [src]="senderAvatar" />
 
   <div class="text" [ngClass]="ownMessage ? 'alignFlexEnd' : ''">
     <div [ngClass]="ownMessage ? 'fdRowRev' : ''" class="nameAndTime">
@@ -14,8 +14,8 @@
         }}</span>
       }
 
-      <app-options-bubble [messengerType]="this.messengerType" [message]="this.message"
-        [ngClass]="ownMessage ? 'optionsBubbleOwnMsg' : 'optionsBubble'"
+      <app-options-bubble (editMessage)="onEditMessageChange($event)" [messengerType]="this.messengerType"
+        [message]="this.message" [ngClass]="ownMessage ? 'optionsBubbleOwnMsg' : 'optionsBubble'"
         [ownMessage]="ownMessage ? true : false"></app-options-bubble>
 
     </div>
@@ -33,7 +33,16 @@
         </div>
       </div>
 
-      <span *ngIf="message?.content">{{ message.content }}</span>
+      @if(this.message?.content && !this.editMessage) {
+      <span>{{ message.content }}</span>
+      }
+      @if(this.editMessage) {
+      <textarea #editMsgTxtArea [(ngModel)]="this.message.content" class="editMsgTxtArea"></textarea>
+      <div class="saveOrDiscardBtns">
+        <span (click)="this.editMessage = false" class="subText">Verwerfen</span>
+        <span class="subText">Speichern</span>
+      </div>
+      }
     </div>
 
     <!-- Reaktionsbereich -->

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Message } from '../../../../models/message.model';
 import { RoutingThreadOutletService } from '../../../../services/routing-thread-outlet.service';
@@ -16,6 +16,7 @@ import { ActiveDirectMessageService } from '../../../../services/active-direct-m
   styleUrls: ['./options-bubble.component.scss'],
 })
 export class OptionsBubbleComponent implements OnInit {
+  @Output() editMessage = new EventEmitter<boolean>();
   @Input() ownMessage!: boolean;
   @Input() message!: Message;
   @Input() messengerType: string = '';
@@ -151,7 +152,10 @@ export class OptionsBubbleComponent implements OnInit {
     }
   }
 
-  editMessage() {}
+  editMsg() {
+    this.toggleMessageOptionsPopUp();
+    this.editMessage.emit(true);
+  }
 
   deleteMessage() {
     if (this.messengerType == 'channels') {
@@ -184,16 +188,6 @@ export class OptionsBubbleComponent implements OnInit {
       );
       this.activeThreadService.activeThreadMessage.threadLength =
         updatedThreadLength;
-
-      console.log('updatedThreadLength: ', updatedThreadLength);
-      console.log(
-        'activeChannel: ',
-        this.activeChannelService.activeChannel.channelID
-      );
-      console.log(
-        'activeThreadMsg: ',
-        this.activeThreadService.activeThreadMessage.messageID
-      );
     } else {
       console.error('Messenger Type not found.');
     }
