@@ -10,6 +10,7 @@ import { ActiveThreadService } from '../../../services/active-thread-service.ser
 import { Message } from '../../../models/message.model';
 import { OptionsBubbleComponent } from './options-bubble/options-bubble.component';
 import { ImageFullscreenDialogComponent } from '../../../dialogs/image-fullscreen-dialog/image-fullscreen-dialog.component';
+import { FirestoreService } from '../../../services/firestore.service';
 
 @Component({
   selector: 'app-message',
@@ -27,19 +28,22 @@ import { ImageFullscreenDialogComponent } from '../../../dialogs/image-fullscree
   styleUrls: ['./message.component.scss'],
 })
 export class MessageComponent {
-  mobile!: boolean;
-  dialog = inject(Dialog);
-  showOptions: boolean = false; // Flag zur Steuerung der Options-Bubble
-
   @Input() ownMessage!: boolean;
   @Input() isChannel!: boolean;
   @Input() message!: Message;
   @Input() messengerType: string = '';
 
+  mobile!: boolean;
+  dialog = inject(Dialog);
+  showOptions: boolean = false; // Flag zur Steuerung der Options-Bubble
+  senderName!: string;
+  senderAvatar!: string;
+
   constructor(
     public threadRoutingService: RoutingThreadOutletService,
     private screenSizeService: ScreenSizeService,
-    private activeThreadService: ActiveThreadService
+    private activeThreadService: ActiveThreadService,
+    private firestoreService: FirestoreService,
   ) {}
 
   ngOnInit() {
@@ -55,6 +59,24 @@ export class MessageComponent {
     } else {
       console.log('keine Message attachments vorhanden');
     }
+
+    if (this.message && this.message.senderID) {
+      this.loadSenderInfo(this.message.senderID);
+    }
+  }
+
+  loadSenderInfo(senderID: string) {
+    this.firestoreService.allUsers$.subscribe((users) => {
+      const sender = users.find((user) => user.userID === senderID);
+      if (sender) {
+        this.senderName = sender.name;
+        this.senderAvatar = sender.profileImg || '../../../assets/img/Profile.svg';
+        console.log(this.senderName, this.senderAvatar);
+        
+      } else {
+        console.warn('Sender nicht im Channel gefunden.');
+      }
+    });
   }
 
   openProfileDialog() {

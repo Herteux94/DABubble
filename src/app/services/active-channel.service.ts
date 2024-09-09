@@ -3,6 +3,8 @@ import { FirestoreService } from './firestore.service';
 import { BehaviorSubject, first, map, Observable } from 'rxjs';
 import { Message } from '../models/message.model';
 import { ActiveUserService } from './active-user.service';
+import { User } from '../models/user.model';
+import { FindUserService } from './find-user.service';
 
 @Injectable({
   providedIn: 'root',
@@ -13,13 +15,18 @@ export class ActiveChannelService {
   activeChannel: any = null; // Maintain the latest channel as a plain object
   channelMessages$!: Observable<any[]>;
   channelMessages: Message[] = [];
+  channelMember: User[] = [];
 
   constructor(
     private firestoreService: FirestoreService,
-    private activeUserService: ActiveUserService
+    private activeUserService: ActiveUserService,
+    private findUserService: FindUserService
   ) {
     this.activeChannel$.subscribe((channel) => {
       this.activeChannel = channel;
+      if (channel) {
+        this.loadChannelMember();
+      }
     });
   }
 
@@ -48,6 +55,21 @@ export class ActiveChannelService {
           console.error('Fehler beim Laden des aktiven Channels:', error);
         },
       });
+  }
+
+  loadChannelMember() {
+    if (this.activeChannel && this.activeChannel.member) {
+      const userIDs = this.activeChannel.member;
+      this.firestoreService.allUsers$
+        .pipe(
+          map(users => users.filter(user => userIDs.includes(user.userID)))
+        )
+        .subscribe(channelMember => {
+          this.channelMember = channelMember;
+        });
+    } else {
+      console.warn('Keine Mitglieder im Channel gefunden oder activeChannel ist null.');
+    }
   }
 
   loadChannelMessages(channelID: string) {

@@ -1,11 +1,11 @@
 <div [ngClass]="ownMessage ? 'fdRowRev' : ''" class="wrapper">
-  <img class="avatar" (click)="openProfileDialog()" src="../../../../assets/img/avatars/avatar-1.svg" />
+  <img class="avatar" (click)="openProfileDialog()" [src]="senderAvatar"/>
 
   <div class="text" [ngClass]="ownMessage ? 'alignFlexEnd' : ''">
     <div [ngClass]="ownMessage ? 'fdRowRev' : ''" class="nameAndTime">
       @if(this.message && this.message.senderName) {
       <span (click)="openProfileDialog()" class="name">{{
-        message.senderName
+        senderName
         }}</span>
 
       } @if(this.message && this.message.creationTime) {
