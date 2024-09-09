@@ -67,7 +67,7 @@ export class ActiveThreadService {
       next: (messages) => {
         if (messages) {
           this.threadMessages = messages.sort(
-            (a, b) => a.creationTime - b.creationTime
+            (a, b) => b.creationTime - a.creationTime
           );
         } else {
           console.error('Messages nicht gefunden');

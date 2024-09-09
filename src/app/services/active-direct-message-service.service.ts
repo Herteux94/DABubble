@@ -65,7 +65,7 @@ export class ActiveDirectMessageService {
       next: (messages) => {
         if (messages) {
           this.dmMessages = messages.sort(
-            (a, b) => a.creationTime - b.creationTime
+            (a, b) => b.creationTime - a.creationTime
           );
         } else {
           console.error('Messages nicht gefunden');

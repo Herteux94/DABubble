@@ -62,13 +62,15 @@ export class ActiveChannelService {
       const userIDs = this.activeChannel.member;
       this.firestoreService.allUsers$
         .pipe(
-          map(users => users.filter(user => userIDs.includes(user.userID)))
+          map((users) => users.filter((user) => userIDs.includes(user.userID)))
         )
-        .subscribe(channelMember => {
+        .subscribe((channelMember) => {
           this.channelMember = channelMember;
         });
     } else {
-      console.warn('Keine Mitglieder im Channel gefunden oder activeChannel ist null.');
+      console.warn(
+        'Keine Mitglieder im Channel gefunden oder activeChannel ist null.'
+      );
     }
   }
 
@@ -81,7 +83,7 @@ export class ActiveChannelService {
       next: (messages) => {
         if (messages) {
           this.channelMessages = messages.sort(
-            (a, b) => a.creationTime - b.creationTime
+            (a, b) => b.creationTime - a.creationTime
           );
         } else {
           console.error('Messages nicht gefunden');

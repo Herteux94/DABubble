@@ -7,7 +7,7 @@
   font-style: normal;
 }
 
-@font-face{
+@font-face {
   font-family: "Figtree";
   src: url("./assets/font/Figtree[wght].ttf");
   font-style: normal;
@@ -163,7 +163,7 @@ h3 {
   svg {
     margin: 0 20px 0 0;
   }
-  input{
+  input {
     width: 100%;
   }
 }
@@ -181,7 +181,6 @@ h3 {
 .inputContainerAuth input:focus::placeholder {
   color: transparent;
 }
-
 
 @media (min-width: 420px) {
   .inputContainerAuth {
@@ -223,8 +222,13 @@ h3 {
   max-width: 606px;
 }
 
-html, body { height: 100%; }
-body { margin: 0 }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+}
 
 //////////////////////////////////////////// Custom Dialogs ////////////////////////////////////////////
 

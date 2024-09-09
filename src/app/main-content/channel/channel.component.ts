@@ -1,4 +1,12 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  // AfterViewChecked,
+  // ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { DateDividerComponent } from '../../shared/messengerSubComponents/date-divider/date-divider.component';
 import { MessageComponent } from '../../shared/messengerSubComponents/message/message.component';
 import { SubHeaderComponent } from '../../shared/messengerSubComponents/sub-header/sub-header.component';
@@ -25,6 +33,9 @@ import { CommonModule } from '@angular/common';
   styleUrl: './channel.component.scss',
 })
 export class ChannelComponent implements OnInit, OnDestroy {
+  @ViewChild('messageContainer') messageContainer!: ElementRef;
+  shouldScrollToBottom: boolean = true;
+
   constructor(
     private route: ActivatedRoute,
     public activeChannelService: ActiveChannelService,
@@ -41,6 +52,23 @@ export class ChannelComponent implements OnInit, OnDestroy {
       this.activeChannelService.loadActiveChannelAndMessages(channelID);
     }
   }
+
+  // ngAfterViewChecked() {
+  //   if (this.messageContainer) {
+  //     this.scrollToBottom();
+  //   }
+  // }
+
+  // scrollToBottom() {
+  //   if (this.messageContainer) {
+  //     try {
+  //       this.messageContainer.nativeElement.scrollTop =
+  //         this.messageContainer.nativeElement.scrollHeight;
+  //     } catch (err) {
+  //       console.error('Could not scroll to bottom:', err);
+  //     }
+  //   }
+  // }
 
   ngOnDestroy(): void {
     this.activeChannelService.clearActiveChannel();
