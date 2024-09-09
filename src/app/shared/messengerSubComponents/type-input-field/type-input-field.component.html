@@ -7,7 +7,7 @@
         <img [src]="uploadedFile.url" alt="img upload preview" class="uploadPreview" />
       </div>
     </div>
-    <textarea [placeholder]="getPlaceholder()"></textarea>
+    <textarea [(ngModel)]="this.message.content" [placeholder]="getPlaceholder()"></textarea>
     <span *ngIf="errorMessageUpload" class="errorMessage">{{ errorMessageUpload }}</span>
     <div class="btnArea">
       <div class="leftSide">
