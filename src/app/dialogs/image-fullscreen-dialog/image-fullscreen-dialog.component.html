@@ -1,8 +1,8 @@
 
 
-<div class="wrapper" [@dialogAnimationFadeIn]>
+<div [@dialogAnimationFadeIn] class="wrapper" >
     <div></div>
-    <img  [@dialogAnimationFadeIn] class="previewImageFullScreen" [src]="URL" alt="Image">
+    <img [@imageFadeIn]="imageLoaded ? 'loaded' : 'loading'" class="previewImageFullScreen" [src]="URL" alt="Image" (load)="onImageLoad()">
     <div class="downloadAndCloseContainer">
         <span class="actionSpan">download</span>
         <p> | </p>

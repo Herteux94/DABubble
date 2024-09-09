@@ -12,10 +12,16 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: './image-fullscreen-dialog.component.html',
   styleUrl: './image-fullscreen-dialog.component.scss',
   animations: [
+    trigger('imageFadeIn', [
+      state('loading', style({ opacity: 0, transform: 'scale(0.7)' })),
+      state('loaded', style({ opacity: 1, transform: 'scale(1)' })),
+      transition('loading => loaded', [animate('300ms ease-out')]),
+      transition('loaded => loading', [animate('200ms ease-in')]),
+    ]),
     trigger('dialogAnimationFadeIn', [
-      state('void', style({ opacity: 0, transform: 'scale(1.5)' })),
+      state('void', style({ opacity: 0, transform: 'scale(0.75)' })),
       state('*', style({ opacity: 1, transform: 'scale(1)' })),
-      transition('void => *', [animate('300ms ease-out')]),
+      transition('void => *', [animate('200ms ease-out')]),
       transition('* => void', [animate('200ms ease-in')]),
     ]),
   ],
@@ -24,11 +30,15 @@ export class ImageFullscreenDialogComponent {
   URL: string;
   mobile!: boolean;
   dialogRef = inject(DialogRef);
-  
+  imageLoaded: boolean = false;
+
   constructor(
     @Inject(DIALOG_DATA) public data: any,
     public screenSizeService: ScreenSizeService,
     private http: HttpClient,
   ) {this.URL = data.URL;}
   
+  onImageLoad() {
+    this.imageLoaded = true; // Set to true once the image is fully loaded
+  }
 }

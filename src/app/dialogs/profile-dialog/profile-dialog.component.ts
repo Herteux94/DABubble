@@ -70,6 +70,8 @@ export class ProfileDialogComponent {
 
   toggleEditProfile() {
     this.editingProfile = !this.editingProfile;
+    this.userName = this.activeUserService.activeUser.name;
+    this.userMail = this.activeUserService.activeUser.email;
   }
 
   saveChanges() {
@@ -95,11 +97,7 @@ export class ProfileDialogComponent {
       ]);
     } else {
       this.newDirectMessageService.messageReceiver = user;
-      
-      // Warte, bis die addNewDirectMessage Funktion das directMessageID Promise auflöst
       const newDirectMessageID = await this.newDirectMessageService.addNewDirectMessage();
-  
-      // Jetzt kannst du die URL mit der aufgelösten directMessageID aktualisieren
       this.router.navigate([
         `messenger/directMessage/${newDirectMessageID}`,
       ]);
