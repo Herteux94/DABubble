@@ -167,10 +167,32 @@ export class OptionsBubbleComponent implements OnInit {
         this.activeDirectMessageService.activeDM.directMessageID
       );
     } else if (this.messengerType == 'thread') {
+      const updatedThreadLength =
+        this.activeThreadService.activeThreadMessage.threadLength - 1;
       this.firestoreService.deleteThreadMessage(
         this.activeChannelService.activeChannel.channelID,
         this.activeThreadService.activeThreadMessage.messageID,
         this.message.messageID
+      );
+      this.firestoreService.updateMessage(
+        {
+          threadLength: updatedThreadLength,
+        },
+        'channels',
+        this.activeChannelService.activeChannel.channelID,
+        this.activeThreadService.activeThreadMessage.messageID
+      );
+      this.activeThreadService.activeThreadMessage.threadLength =
+        updatedThreadLength;
+
+      console.log('updatedThreadLength: ', updatedThreadLength);
+      console.log(
+        'activeChannel: ',
+        this.activeChannelService.activeChannel.channelID
+      );
+      console.log(
+        'activeThreadMsg: ',
+        this.activeThreadService.activeThreadMessage.messageID
       );
     } else {
       console.error('Messenger Type not found.');
