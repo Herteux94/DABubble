@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, ElementRef, inject, Input, ViewChild } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
 import { ProfileDialogComponent } from '../../../dialogs/profile-dialog/profile-dialog.component';
 import { Dialog, DialogModule } from '@angular/cdk/dialog';
@@ -11,6 +11,7 @@ import { Message } from '../../../models/message.model';
 import { OptionsBubbleComponent } from './options-bubble/options-bubble.component';
 import { ImageFullscreenDialogComponent } from '../../../dialogs/image-fullscreen-dialog/image-fullscreen-dialog.component';
 import { FirestoreService } from '../../../services/firestore.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-message',
@@ -23,6 +24,7 @@ import { FirestoreService } from '../../../services/firestore.service';
     MatDialogModule,
     DialogModule,
     OptionsBubbleComponent,
+    FormsModule,
   ],
   templateUrl: './message.component.html',
   styleUrls: ['./message.component.scss'],
@@ -38,12 +40,15 @@ export class MessageComponent {
   showOptions: boolean = false; // Flag zur Steuerung der Options-Bubble
   senderName!: string;
   senderAvatar!: string;
+  editMessage: boolean = false;
+
+  @ViewChild('editMsgTxtArea') editMsgTxtArea!: ElementRef;
 
   constructor(
     public threadRoutingService: RoutingThreadOutletService,
     private screenSizeService: ScreenSizeService,
     private activeThreadService: ActiveThreadService,
-    private firestoreService: FirestoreService,
+    private firestoreService: FirestoreService
   ) {}
 
   ngOnInit() {
@@ -70,7 +75,8 @@ export class MessageComponent {
       const sender = users.find((user) => user.userID === senderID);
       if (sender) {
         this.senderName = sender.name;
-        this.senderAvatar = sender.profileImg || '../../../assets/img/Profile.svg';
+        this.senderAvatar =
+          sender.profileImg || '../../../assets/img/Profile.svg';
       } else {
         console.warn('Sender nicht im Channel gefunden.');
       }
@@ -99,7 +105,14 @@ export class MessageComponent {
 
   openFullscreenPreview(url: string) {
     this.dialog.open(ImageFullscreenDialogComponent, {
-      data: { URL : url }
+      data: { URL: url },
     });
+  }
+
+  onEditMessageChange(newValue: boolean) {
+    this.editMessage = newValue;
+    setTimeout(() => {
+      this.editMsgTxtArea.nativeElement.focus();
+    }, 200);
   }
 }
