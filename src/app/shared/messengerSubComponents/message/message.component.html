@@ -37,10 +37,10 @@
       <span>{{ message.content }}</span>
       }
       @if(this.editMessage) {
-      <textarea #editMsgTxtArea [(ngModel)]="this.message.content" class="editMsgTxtArea"></textarea>
+      <textarea #editMsgTxtArea [(ngModel)]="this.messageContentSnapshot" class="editMsgTxtArea"></textarea>
       <div class="saveOrDiscardBtns">
-        <span (click)="this.editMessage = false" class="subText">Verwerfen</span>
-        <span class="subText">Speichern</span>
+        <span (click)="this.discardChanges()" class="subText">Verwerfen</span>
+        <span (click)="this.saveChanges()" class="subText">Speichern</span>
       </div>
       }
     </div>

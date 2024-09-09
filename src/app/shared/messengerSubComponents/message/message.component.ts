@@ -12,6 +12,8 @@ import { OptionsBubbleComponent } from './options-bubble/options-bubble.componen
 import { ImageFullscreenDialogComponent } from '../../../dialogs/image-fullscreen-dialog/image-fullscreen-dialog.component';
 import { FirestoreService } from '../../../services/firestore.service';
 import { FormsModule } from '@angular/forms';
+import { ActiveChannelService } from '../../../services/active-channel.service';
+import { ActiveDirectMessageService } from '../../../services/active-direct-message-service.service';
 
 @Component({
   selector: 'app-message',
@@ -41,6 +43,7 @@ export class MessageComponent {
   senderName!: string;
   senderAvatar!: string;
   editMessage: boolean = false;
+  messageContentSnapshot = '';
 
   @ViewChild('editMsgTxtArea') editMsgTxtArea!: ElementRef;
 
@@ -48,7 +51,9 @@ export class MessageComponent {
     public threadRoutingService: RoutingThreadOutletService,
     private screenSizeService: ScreenSizeService,
     private activeThreadService: ActiveThreadService,
-    private firestoreService: FirestoreService
+    private firestoreService: FirestoreService,
+    private activeChannelService: ActiveChannelService,
+    private activeDirectMessageService: ActiveDirectMessageService
   ) {}
 
   ngOnInit() {
@@ -67,6 +72,10 @@ export class MessageComponent {
 
     if (this.message && this.message.senderID) {
       this.loadSenderInfo(this.message.senderID);
+    }
+
+    if (this.message?.content) {
+      this.messageContentSnapshot = this.message.content;
     }
   }
 
@@ -114,5 +123,39 @@ export class MessageComponent {
     setTimeout(() => {
       this.editMsgTxtArea.nativeElement.focus();
     }, 200);
+  }
+
+  discardChanges() {
+    this.editMessage = false;
+    this.messageContentSnapshot = this.message.content;
+  }
+
+  saveChanges() {
+    this.editMessage = false;
+    this.message.content = this.messageContentSnapshot;
+    if (this.messengerType == 'channels') {
+      this.firestoreService.updateMessage(
+        { content: this.message.content },
+        this.messengerType,
+        this.activeChannelService.activeChannel.channelID,
+        this.message.messageID
+      );
+    } else if (this.messengerType == 'directMessages') {
+      this.firestoreService.updateMessage(
+        { content: this.message.content },
+        this.messengerType,
+        this.activeDirectMessageService.activeDM.directMessageID,
+        this.message.messageID
+      );
+    } else if (this.messengerType == 'thread') {
+      this.firestoreService.updateThreadMessage(
+        { content: this.message.content },
+        this.activeChannelService.activeChannel.channelID,
+        this.activeThreadService.activeThreadMessage.messageID,
+        this.message.messageID
+      );
+    } else {
+      console.error('No Messenger Type found');
+    }
   }
 }

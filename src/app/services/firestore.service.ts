@@ -251,8 +251,7 @@ export class FirestoreService {
 
   updateThreadMessage(
     messageData: Partial<Message>,
-    messengerType: string,
-    messengerID: string,
+    channelID: string,
     messageID: string,
     threadID: string
   ) {
@@ -260,8 +259,9 @@ export class FirestoreService {
       doc(
         collection(
           this.firestore,
-          `${messengerType}/${messengerID}/messages/${messageID}/thread/${threadID}`
-        )
+          `channels/${channelID}/messages/${messageID}/threadMessages`
+        ),
+        threadID
       ),
       messageData
     );
