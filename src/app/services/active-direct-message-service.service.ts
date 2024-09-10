@@ -47,12 +47,14 @@ export class ActiveDirectMessageService implements OnDestroy {
           if (directMessage) {
             this.activeDM = directMessage;
 
-            if (directMessage.member.length > 1) {
+            if (
+              directMessage.member.length > 1 &&
+              directMessage.directMessageID !=
+                this.activeUserService.activeUser.userID
+            ) {
               this.loadActiveDMPartner();
-              console.log('loadScrtiveDMPartner ohne DM iD ausgeführt');
             } else {
               this.activeDMPartner = null;
-              console.log('activeDMPartner genullt');
             }
           } else {
             console.error('DirectMessage nicht gefunden');

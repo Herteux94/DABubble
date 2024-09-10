@@ -149,7 +149,7 @@
         this.activeUserService.activeUserDirectMessages &&
         this.activeUserService.activeUserDirectMessages.length > 0) {
         @for (dm of this.activeUserService.activeUserDirectMessages; track dm){
-        @if(dm.member.length > 1) {
+        @if(dm.member.length > 1 && dm.directMessageID != this.activeUserService.activeUser.userID) {
         <a class="listElement"
           [class.active]="this.activeDirectMessageService.activeDM && this.activeDirectMessageService.activeDM.directMessageID && this.activeDirectMessageService.activeDM.directMessageID == dm.directMessageID"
           (click)="this.activeDirectMessageService.loadActiveDMAndMessagesAndPartner( dm.directMessageID ); this.threadRoutingService.closeThread()"

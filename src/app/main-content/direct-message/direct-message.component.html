@@ -3,7 +3,8 @@
     <app-sub-header [isDM]="true"></app-sub-header>
     <div class="messagesContent">
       @if(this.activeDirectMessageService.dmMessagesGroupedByDate &&
-      this.activeDirectMessageService.dmMessagesGroupedByDate.length > 0) {
+      this.activeDirectMessageService.dmMessagesGroupedByDate.length > 0 &&
+      this.activeUserService.activeUser?.userID) {
       @for(messageGroup of this.activeDirectMessageService.dmMessagesGroupedByDate; track messageGroup) {
       @for(message of messageGroup.messages; track message) {
       <app-message [messengerType]="'directMessages'" [ownMessage]="
