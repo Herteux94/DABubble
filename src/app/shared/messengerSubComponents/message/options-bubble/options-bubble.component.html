@@ -1,8 +1,6 @@
 <div (mouseleave)="this.messageOptionsOpen = false" [ngClass]="ownMessage? 'optionsBubbleOwnMsg' : 'optionsBubble'">
 
-  <div *ngIf="showEmojis">
-    <app-emoji-picker (emojiSelect)="addEmoji($event)"></app-emoji-picker>
-  </div>
+    <app-emoji-picker *ngIf="showEmojis" (emojiSelect)="addEmoji($event)"></app-emoji-picker>
   <!-- SVG anzeigen, wenn Emojis nicht sichtbar sind -->
   <div class="optionsBubbleContent" *ngIf="!showEmojis">
     <div class="svgContainer">
