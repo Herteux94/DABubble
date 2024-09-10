@@ -1,14 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
-import { FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
+import { Component, ElementRef, HostListener, inject, OnInit, ViewChild } from '@angular/core';
 import { ScreenSizeService } from '../../services/screen-size-service.service';
 import { DialogRef } from '@angular/cdk/dialog';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Channel } from '../../models/channel.model';
 import { ActiveUserService } from '../../services/active-user.service';
 import { FirestoreService } from '../../services/firestore.service';
-import { doc, getDoc } from '@angular/fire/firestore';
-
+import { FormsModule, NgForm } from '@angular/forms';
 @Component({
   selector: 'app-create-channel-dialog',
   standalone: true,
@@ -36,20 +34,19 @@ export class CreateChannelDialogComponent implements OnInit {
     name: '',
     description:''
   };
-  
+  @ViewChild('contactForm') contactForm!: NgForm;
   mobile: boolean = false;
 
-  constructor(private screenSizeService: ScreenSizeService, private activeUserService: ActiveUserService, private firestoreService: FirestoreService) {}
-
+  constructor(private el: ElementRef, private screenSizeService: ScreenSizeService, private activeUserService: ActiveUserService, private firestoreService: FirestoreService) {}
+ 
   ngOnInit() {
     this.screenSizeService.isMobile().subscribe(isMobile => {
       this.mobile = isMobile;
     });
   }
 
-
-  async onSubmit(form: NgForm) {
-    if (form.valid) {
+  async onSubmit() {
+    if (this.contactForm.valid) {
       const newChannel = new Channel();
       newChannel.name = this.createdChannel.name!;
       newChannel.creator = this.activeUserService.activeUser.name;
@@ -58,49 +55,52 @@ export class CreateChannelDialogComponent implements OnInit {
       newChannel.member = [this.activeUserService.activeUser.userID];
 
       try {
-        // const channelID = await this.firestoreService.addChannel(newChannel);
-        
-        // Füge den Channel zur Benutzer-Sammlung hinzu
-        // await this.updateUserWithNewChannel(channelID);
-
-        this.firestoreService.addChannel(newChannel.toJSON(), this.activeUserService.activeUser.userID);
-
-        setTimeout(() => {
-          console.log('channel: ', newChannel);
-          console.log('active User: ', this.activeUserService.activeUser.userID);
-          
-        },1000)
-
-        
+        await this.firestoreService.addChannel(newChannel.toJSON(), this.activeUserService.activeUser.userID);
+        console.log('channel: ', newChannel);
+        console.log('active User: ', this.activeUserService.activeUser.userID);
         this.dialogRef.close();
       } catch (error) {
         console.error('Fehler beim Erstellen des Channels:', error);
       }
+    } else {
+      console.log('Formular ist ungültig, wird nicht gesendet.');
     }
   }
 
-  // private async updateUserWithNewChannel(channelID: string) {
-  //   const userID = this.activeUserService.activeUser.userID;
-  //   try {
-  //     await this.firestoreService.updateUser(channelID, userID);
-  //   } catch (error) {
-  //     console.error('Fehler beim Aktualisieren des Benutzers:', error);
-  //   }
-  // }
   
-  // onSubmit(form: NgForm) {
+
+  // async onSubmit(form: NgForm) {
   //   if (form.valid) {
-  //     let newChannel = new Channel();
+  //     const newChannel = new Channel();
   //     newChannel.name = this.createdChannel.name!;
   //     newChannel.creator = this.activeUserService.activeUser.name;
   //     newChannel.description = this.createdChannel.description!;
   //     newChannel.creationTime = Date.now();
   //     newChannel.member = [this.activeUserService.activeUser.userID];
-  //     newChannel.channelID = '';
 
-  //     this.firestoreService.addChannel(newChannel).then(() => {
+  //     try {
+  //       this.firestoreService.addChannel(newChannel.toJSON(), this.activeUserService.activeUser.userID);
+
+  //       setTimeout(() => {
+  //         console.log('channel: ', newChannel);
+  //         console.log('active User: ', this.activeUserService.activeUser.userID);
+          
+  //       },1000)
+
+        
   //       this.dialogRef.close();
-  //     });
+  //     } catch (error) {
+  //       console.error('Fehler beim Erstellen des Channels:', error);
+  //     }
   //   }
   // }
+
+  @HostListener('document:keydown.enter', ['$event'])
+  handleEnterKey(event: KeyboardEvent) {
+    const activeElement = document.activeElement;
+    if (this.el.nativeElement.contains(activeElement)) {
+      event.preventDefault();
+      this.onSubmit();
+    }
+  }
 }
