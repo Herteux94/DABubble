@@ -2,7 +2,6 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { FirestoreService } from './firestore.service';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { takeUntil, first, map } from 'rxjs/operators';
-import { Message } from '../models/message.model';
 import { ActiveUserService } from './active-user.service';
 import { User } from '../models/user.model';
 
@@ -16,7 +15,7 @@ export class ActiveChannelService implements OnDestroy {
   activeChannel$ = this.activeChannelSubject.asObservable(); // Expose as observable
   activeChannel: any = null; // Maintain the latest channel as a plain object
   channelMessages$!: Observable<any[]>;
-  channelMessages: Message[] = [];
+  channelMessagesGroupedByDate: any[] = [];
   channelMember: User[] = [];
 
   constructor(
@@ -88,10 +87,12 @@ export class ActiveChannelService implements OnDestroy {
       .pipe(takeUntil(this.destroy$)) // Ensure unsubscription
       .subscribe({
         next: (messages) => {
+          let messagesSorted = [];
           if (messages) {
-            this.channelMessages = messages.sort(
+            messagesSorted = messages.sort(
               (a, b) => b.creationTime - a.creationTime
             );
+            this.groupMessagesByDate(messagesSorted);
           } else {
             console.error('Messages nicht gefunden');
           }
@@ -100,6 +101,25 @@ export class ActiveChannelService implements OnDestroy {
           console.error('Fehler beim Laden der aktiven Messages:', error);
         },
       });
+  }
+
+  groupMessagesByDate(messages: any[]) {
+    const groupedMessages: { [key: string]: any[] } = {};
+
+    messages.forEach((message) => {
+      const date = new Date(message.creationTime).toLocaleDateString(); // Datum aus dem Timestamp extrahieren
+      if (!groupedMessages[date]) {
+        groupedMessages[date] = [];
+      }
+      groupedMessages[date].push(message); // Nachricht zum richtigen Datum hinzufügen
+    });
+
+    this.channelMessagesGroupedByDate = Object.keys(groupedMessages).map(
+      (date) => ({
+        date,
+        messages: groupedMessages[date],
+      })
+    );
   }
 
   clearActiveChannel() {

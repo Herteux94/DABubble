@@ -44,16 +44,17 @@ export class MessageComponent {
   senderAvatar!: string;
   editMessage: boolean = false;
   messageContentSnapshot = '';
+  currentUserID: string = 'AktuelleBenutzerID'; // Hier die tatsächliche Benutzer-ID einfügen
 
   @ViewChild('editMsgTxtArea') editMsgTxtArea!: ElementRef;
 
   constructor(
-    public threadRoutingService: RoutingThreadOutletService,
-    private screenSizeService: ScreenSizeService,
-    private activeThreadService: ActiveThreadService,
     private firestoreService: FirestoreService,
     private activeChannelService: ActiveChannelService,
-    private activeDirectMessageService: ActiveDirectMessageService
+    private activeDirectMessageService: ActiveDirectMessageService,
+    private activeThreadService: ActiveThreadService,
+    public threadRoutingService: RoutingThreadOutletService,
+    private screenSizeService: ScreenSizeService
   ) {}
 
   ngOnInit() {
@@ -61,20 +62,17 @@ export class MessageComponent {
       this.mobile = isMobile;
     });
 
-    // Filtere ungültige URLs aus den Anhängen heraus
-    if (this.message && this.message.attachments) {
+    if (this.message.attachments) {
       this.message.attachments = this.message.attachments.filter(
         (url) => url && url.trim() !== ''
       );
-    } else {
-      console.log('keine Message attachments vorhanden');
     }
 
-    if (this.message && this.message.senderID) {
+    if (this.message.senderID) {
       this.loadSenderInfo(this.message.senderID);
     }
 
-    if (this.message?.content) {
+    if (this.message.content) {
       this.messageContentSnapshot = this.message.content;
     }
   }
@@ -92,6 +90,58 @@ export class MessageComponent {
     });
   }
 
+  // Methode zum Hinzufügen einer Reaktion
+  addReaction(emoji: string) {
+    console.log('Emoji Received in addReaction:', emoji);  // Überprüfe, ob das Emoji korrekt in der MessageComponent ankommt
+    const userID = this.currentUserID;
+
+    if (!this.message.reactions) {
+      this.message.reactions = [];
+    }
+
+    const reaction = this.message.reactions.find((r) => r.emoji === emoji);
+
+    if (reaction) {
+      if (!reaction.users.includes(userID)) {
+        reaction.count += 1;
+        reaction.users.push(userID);
+      }
+    } else {
+      this.message.reactions.push({ emoji, count: 1, users: [userID] });
+    }
+
+    this.saveMessageReactions();
+  }
+
+  saveMessageReactions() {
+    const messageData = { reactions: this.message.reactions };
+
+    if (this.messengerType === 'channels') {
+      this.firestoreService.updateMessage(
+        messageData,
+        'channels',
+        this.activeChannelService.activeChannel.channelID,
+        this.message.messageID
+      );
+    } else if (this.messengerType === 'directMessages') {
+      this.firestoreService.updateMessage(
+        messageData,
+        'directMessages',
+        this.activeDirectMessageService.activeDM.directMessageID,
+        this.message.messageID
+      );
+    } else if (this.messengerType === 'thread') {
+      this.firestoreService.updateThreadMessage(
+        messageData,
+        this.activeChannelService.activeChannel.channelID,
+        this.activeThreadService.activeThreadMessage.messageID,
+        this.message.messageID
+      );
+    } else {
+      console.error('Messenger Type not found.');
+    }
+  }
+
   openProfileDialog() {
     this.dialog.open(ProfileDialogComponent, {
       data: { userID: this.message.senderID },
@@ -102,7 +152,6 @@ export class MessageComponent {
     this.activeThreadService.loadActiveThreadAndMessages(
       this.message.messageID
     );
-
     this.threadRoutingService.openThread();
 
     if (this.mobile) {

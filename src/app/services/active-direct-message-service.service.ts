@@ -2,7 +2,6 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { FirestoreService } from './firestore.service';
 import { first, map, Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Message } from '../models/message.model';
 import { ActiveUserService } from './active-user.service';
 import { FindUserService } from './find-user.service';
 
@@ -13,10 +12,9 @@ export class ActiveDirectMessageService implements OnDestroy {
   private destroy$ = new Subject<void>(); // Subject to handle unsubscription
 
   activeDM: any;
-  dmMessages$!: Observable<any[]>;
-  dmMessages: Message[] = [];
-
   activeDMPartner!: any;
+  dmMessages$!: Observable<any[]>;
+  dmMessagesGroupedByDate: any[] = [];
 
   constructor(
     private firestoreService: FirestoreService,
@@ -68,10 +66,12 @@ export class ActiveDirectMessageService implements OnDestroy {
       .pipe(takeUntil(this.destroy$)) // Ensure unsubscription
       .subscribe({
         next: (messages) => {
+          let messagesSorted = [];
           if (messages) {
-            this.dmMessages = messages.sort(
+            messagesSorted = messages.sort(
               (a, b) => b.creationTime - a.creationTime
             );
+            this.groupMessagesByDate(messagesSorted);
           } else {
             console.error('Messages nicht gefunden');
           }
@@ -80,6 +80,23 @@ export class ActiveDirectMessageService implements OnDestroy {
           console.error('Fehler beim Laden der aktiven Messages:', error);
         },
       });
+  }
+
+  groupMessagesByDate(messages: any[]) {
+    const groupedMessages: { [key: string]: any[] } = {};
+
+    messages.forEach((message) => {
+      const date = new Date(message.creationTime).toLocaleDateString(); // Datum aus dem Timestamp extrahieren
+      if (!groupedMessages[date]) {
+        groupedMessages[date] = [];
+      }
+      groupedMessages[date].push(message); // Nachricht zum richtigen Datum hinzufügen
+    });
+
+    this.dmMessagesGroupedByDate = Object.keys(groupedMessages).map((date) => ({
+      date,
+      messages: groupedMessages[date],
+    }));
   }
 
   async loadActiveDMPartner() {
@@ -98,7 +115,6 @@ export class ActiveDirectMessageService implements OnDestroy {
     this.activeDM = null;
   }
 
-  // Cleanup method to unsubscribe from all observables
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();

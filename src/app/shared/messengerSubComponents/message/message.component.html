@@ -5,28 +5,19 @@
 
   <div class="text" [ngClass]="ownMessage ? 'alignFlexEnd' : ''">
     <div [ngClass]="ownMessage ? 'fdRowRev' : ''" class="nameAndTime">
-      @if(this.message && this.message.senderName) {
-      <span (click)="openProfileDialog()" class="name">{{
-        senderName
-        }}</span>
+      <span (click)="openProfileDialog()" class="name">{{ senderName }}</span>
+      <span class="time subText">{{ message.creationTime | date: 'HH:mm' }}</span>
 
-      } @if(this.message && this.message.creationTime) {
-      <span class="time subText">{{
-        message.creationTime.valueOf() | date : "HH:mm"
-        }}</span>
-      }
-
-      @if(this.showOptions) {
-      <app-options-bubble (editMessage)="onEditMessageChange($event)" [messengerType]="this.messengerType"
-        [message]="this.message" [ngClass]="ownMessage ? 'optionsBubbleOwnMsg' : 'optionsBubble'"
-        [ownMessage]="ownMessage ? true : false"></app-options-bubble>
-
-      }
-
+      <!-- Options-Bubble -->
+      <app-options-bubble *ngIf="showOptions" (editMessage)="onEditMessageChange($event)"
+        (emojiSelected)="addReaction($event)" [messengerType]="messengerType" [message]="message"
+        [ownMessage]="ownMessage" [ngClass]="ownMessage ? 'optionsBubbleOwnMsg' : 'optionsBubble'">
+      </app-options-bubble>
     </div>
 
     <div [ngClass]="ownMessage ? 'messageTextOwnMsg' : 'messageText'">
-      <div *ngIf="message?.attachments && message.attachments.length > 0" class="fileContainer">
+      <!-- Anhänge -->
+      <div *ngIf="message.attachments && message.attachments.length > 0" class="fileContainer">
         <div class="filePreviewContainer">
           @for(attachment of this.message.attachments; track attachment) {
           <div (click)="openFullscreenPreview(attachment)"><img [src]="attachment" alt="img file preview" [ngClass]="{
@@ -38,38 +29,33 @@
         </div>
       </div>
 
-      @if(this.message.content && !this.editMessage) {
-      <span>{{ message.content }}</span>
-      }
-      @if(this.editMessage) {
-      <textarea #editMsgTxtArea [(ngModel)]="this.messageContentSnapshot" class="editMsgTxtArea"></textarea>
-      <div class="saveOrDiscardBtns">
-        <span (click)="this.discardChanges()" class="subText">Verwerfen</span>
-        <span (click)="this.saveChanges()" class="subText">Speichern</span>
-      </div>
-      }
-    </div>
+      <!-- Nachrichteninhalt -->
+      <span *ngIf="message.content && !editMessage">{{ message.content }}</span>
 
-    <!-- Reaktionsbereich -->
-    @if(this.message && this.message.reactions && this.message.reactions.length > 0) { <div class="reactionsArea">
-      <div [ngClass]="ownMessage ? 'fdRowRev' : ''" class="reactions">
-        <div class="reactionContainer">
-          <img src="../../../../assets/img/close.svg" />
-          <span class="reactionsCount">1</span>
-        </div>
-        <div class="reactionContainer">
-          <img src="../../../../assets/img/google-icon.svg" />
-          <span class="reactionsCount">2</span>
+      <!-- Nachricht bearbeiten -->
+      <div *ngIf="editMessage">
+        <textarea #editMsgTxtArea [(ngModel)]="messageContentSnapshot" class="editMsgTxtArea"></textarea>
+        <div class="saveOrDiscardBtns">
+          <span (click)="discardChanges()" class="subText">Verwerfen</span>
+          <span (click)="saveChanges()" class="subText">Speichern</span>
         </div>
       </div>
     </div>
-    }
 
-    <div *ngIf="isChannel" class="responses">
-      @if(this.message && this.message.threadLength && this.message.threadLength > 0) {
-      <span (click)="navigateToThread()" class="count">{{ this.message.threadLength }} Antworten</span>
-      <span class="time subText">Letzte Antwort {{ this.message.lastAnswer.valueOf() | date : "HH:mm" }}</span>
-      }
+    <!-- Reaktionen -->
+    <div *ngIf="message.reactions && message.reactions.length > 0" class="reactionsArea">
+      <div class="reactions">
+        <div *ngFor="let reaction of message.reactions" class="reactionContainer">
+          <span>{{ reaction.emoji }}</span>
+          <span class="reactionsCount">{{ reaction.count }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Antworten -->
+    <div *ngIf="isChannel && message.threadLength > 0" class="responses">
+      <span (click)="navigateToThread()" class="count">{{ message.threadLength }} Antworten</span>
+      <span class="time subText">Letzte Antwort {{ message.lastAnswer | date: 'HH:mm' }}</span>
     </div>
   </div>
 </div>

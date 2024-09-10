@@ -1,21 +1,22 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { PickerComponent } from '@ctrl/ngx-emoji-mart';
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
 
 @Component({
   selector: 'app-emoji-picker',
   standalone: true,
   imports: [
-    PickerComponent
+    PickerModule
   ],
   templateUrl: './emoji-picker.component.html',
   styleUrls: ['./emoji-picker.component.scss']
 })
 export class EmojiPickerComponent {
-
-  @Output() emojiSelect = new EventEmitter<string>(); // Gibt das ausgewählte Emoji nach außen weiter
+  @Output() emojiSelect = new EventEmitter<string>();
 
   addEmoji(event: any) {
-    const selectedEmoji = event.emoji.native; // Das ausgewählte Emoji
-    this.emojiSelect.emit(selectedEmoji); // Gibt das Emoji an die Elternkomponente weiter
+    console.log('Emoji event:', event);  // Überprüfe, was vom Event kommt
+    const selectedEmoji = event.emoji.native; // Emoji wird aus dem Event extrahiert
+    console.log('Selected Emoji:', selectedEmoji);  // Überprüfe das ausgewählte Emoji
+    this.emojiSelect.emit(selectedEmoji);  // Emoji wird emittiert
   }
 }

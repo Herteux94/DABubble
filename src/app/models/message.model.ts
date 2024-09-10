@@ -1,17 +1,15 @@
 export class Message {
   senderID!: string;
-  senderName!: string;
   creationTime!: number;
   content!: string;
   attachments!: string[]; //pdf, png, jpg, jpeg
-  reactions!: string[];
+  reactions!: { emoji: string; count: number; users: string[] }[];
   messageID!: string;
   threadLength!: number;
   lastAnswer!: number;
 
   constructor() {
     this.senderID = '';
-    this.senderName = '';
     this.creationTime = Date.now();
     this.content = '';
     this.attachments = [];
@@ -24,11 +22,14 @@ export class Message {
   public toJSON() {
     return {
       senderID: this.senderID,
-      senderName: this.senderName,
       creationTime: this.creationTime,
       content: this.content,
       attachments: this.attachments,
-      reactions: this.reactions,
+      reactions: this.reactions.map((reaction) => ({
+        emoji: reaction.emoji,
+        count: reaction.count,
+        users: reaction.users,
+      })),
       messageID: this.messageID,
       threadLength: this.threadLength,
       lastAnswer: this.lastAnswer,

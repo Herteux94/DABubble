@@ -3,14 +3,19 @@
     <app-sub-header [isThread]="true"></app-sub-header>
     <div class="messagesContent">
 
-      @if(this.activeThreadService.threadMessages &&
-      this.activeThreadService.threadMessages.length > 0) {
-      @for(message of this.activeThreadService.threadMessages; track message) {
+      @if(this.activeThreadService.threadMessagesGroupedByDate &&
+      this.activeThreadService.threadMessagesGroupedByDate.length > 0) {
+      @for(messageGroup of this.activeThreadService.threadMessagesGroupedByDate; track messageGroup) {
+      @for(message of messageGroup.messages; track message) {
       <app-message [messengerType]="'thread'" [ownMessage]="
           this.activeUserService.activeUser.userID === message.senderID
-            ? true
-            : false
-        " [message]="message" [isChannel]="false"></app-message>} }
+          ? true
+          : false
+          " [message]="message" [isChannel]="false"></app-message>
+      }
+      <app-date-divider [date]="messageGroup.date"></app-date-divider>
+      }
+      }
 
 
 
