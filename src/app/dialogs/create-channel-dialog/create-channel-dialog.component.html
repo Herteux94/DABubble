@@ -11,7 +11,60 @@
             Am besten sollten sie themenbezogen sein - #marketing zum Beispiel.
         </span>
 
-        <form (ngSubmit)="onSubmit(contactForm)" #contactForm="ngForm" autocomplete="off">
+        <form #contactForm="ngForm" (ngSubmit)="contactForm.form.valid && onSubmit()" autocomplete="off">
+            <div class="formWrapper">
+              <div class="h3Container">
+                <h3>Channel-Name</h3>
+              </div>
+              <div class="inputContainer" [class.invalid]="!name.valid && name.touched">
+                <input
+                  class="input"
+                  #name="ngModel"
+                  [(ngModel)]="createdChannel.name"
+                  type="text"
+                  id="name"
+                  name="name"
+                  placeholder="z.B. Kooperationsprojekte"
+                  required
+                  minlength="3"
+                  autocomplete="new-password"
+                />
+                <span *ngIf="name.errors?.['required'] && contactForm.submitted" class="errorMessage">Bitte Namen eingeben.</span>
+                <span *ngIf="name.errors?.['minlength'] && contactForm.submitted" class="errorMessage">
+                    Der Name muss mindestens 3 Zeichen haben.
+                </span>
+              </div>
+          
+              <div class="h3Container">
+                <h3>Beschreibung</h3>
+              </div>
+              <div class="inputContainer" [class.invalid]="!description.valid && description.touched">
+                <input
+                  class="input"
+                  #description="ngModel"
+                  [(ngModel)]="createdChannel.description"
+                  type="text"
+                  id="description"
+                  name="description"
+                  placeholder="Dein Text hier"
+                  required
+                  minlength="10"
+                  autocomplete="new-password"
+                />
+                <span *ngIf="description.errors?.['required'] && contactForm.submitted" class="errorMessage">Bitte Beschreibung eingeben.</span>
+                <span *ngIf="description.errors?.['minlength'] && contactForm.submitted" class="errorMessage">
+                    Die Beschreibung muss mindestens 10 Zeichen haben.
+                </span>
+            </div>
+          
+              <div class="btnWrapper">
+                <button type="submit" class="dialogBtn" [disabled]="!name.valid && !description.valid && !contactForm.valid">Erstellen</button>
+              </div>
+            </div>
+          </form>
+          
+        
+        <!-- <form (ngSubmit)="onSubmit(contactForm)" #contactForm="ngForm" autocomplete="off">
             <div class="formWrapper">
 
                 <div class="h3Container">
@@ -40,7 +93,7 @@
                 </div>
 
             </div>
-        </form>
+        </form> -->
 
         <!-- <form (ngSubmit)="onSubmit(contactForm)" autocomplete="off" #contactForm="ngForm">
             <div class="formWrapper">
