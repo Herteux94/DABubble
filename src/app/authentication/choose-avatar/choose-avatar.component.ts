@@ -33,7 +33,7 @@ export class ChooseAvatarComponent {
     private firestoreService: FirestoreService,
     public activeUserService: ActiveUserService,
     private router: Router,
-    @Optional() private dialogRef: DialogRef,
+    @Optional() public dialogRef: DialogRef,
     @Optional() @Inject(DIALOG_DATA) public data: any
   ) {
     if (this.data) {
