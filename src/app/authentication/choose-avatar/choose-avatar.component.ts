@@ -4,6 +4,7 @@ import {
   ElementRef,
   inject,
   Inject,
+  Optional,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StorageService } from '../../services/storage.service';
@@ -24,7 +25,7 @@ export class ChooseAvatarComponent {
   avatarUrl: string = '../../../assets/img/Profile.svg'; // Standardbild
   userID = this.activeUserService.activeUser.userID;
   dialog = inject(Dialog);
-  dialogRef = inject(DialogRef);
+  // dialogRef = inject(DialogRef, { optional: true });
   isDialog = false;
 
   constructor(
@@ -32,8 +33,13 @@ export class ChooseAvatarComponent {
     private firestoreService: FirestoreService,
     public activeUserService: ActiveUserService,
     private router: Router,
-    @Inject(DIALOG_DATA) public data: any
-  ) {this.isDialog = data.isDialog;}
+    @Optional() private dialogRef: DialogRef,
+    @Optional() @Inject(DIALOG_DATA) public data: any
+  ) {
+    if (this.data) {
+      this.isDialog = this.data.isDialog;
+    }
+  }
 
   uploadAvatar(event: any) {
     const file = event.target.files[0];
