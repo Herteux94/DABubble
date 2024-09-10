@@ -1,4 +1,6 @@
-<div [ngClass]="ownMessage ? 'fdRowRev' : ''" class="wrapper">
+<div [ngClass]="ownMessage ? 'fdRowRev' : ''" class="wrapper"
+  (mouseenter)="this.messengerType != 'threadTopicMessage' ? this.showOptions = true : ''"
+  (mouseleave)="this.messengerType != 'threadTopicMessage' ? this.showOptions = false : ''">
   <img class="avatar" (click)="openProfileDialog()" [src]="senderAvatar" />
 
   <div class="text" [ngClass]="ownMessage ? 'alignFlexEnd' : ''">
@@ -14,9 +16,12 @@
         }}</span>
       }
 
+      @if(this.showOptions) {
       <app-options-bubble (editMessage)="onEditMessageChange($event)" [messengerType]="this.messengerType"
         [message]="this.message" [ngClass]="ownMessage ? 'optionsBubbleOwnMsg' : 'optionsBubble'"
         [ownMessage]="ownMessage ? true : false"></app-options-bubble>
+
+      }
 
     </div>
 

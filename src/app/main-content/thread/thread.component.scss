@@ -29,6 +29,15 @@ app-sub-header {
   flex-direction: column-reverse;
   padding-bottom: 16px;
   padding-top: 32px;
+  position: relative;
+}
+
+.threadTopicMsgContainer {
+  position: fixed;
+  top: 80px;
+  left: 0;
+  right: 0;
+  background-color: white;
 }
 
 .divider {

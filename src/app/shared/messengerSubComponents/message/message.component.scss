@@ -14,10 +14,14 @@
   }
 
   &:hover {
-    app-options-bubble {
-      display: flex; // Options Bubble beim Hover anzeigen
-    }
+    // app-options-bubble {
+    //   display: flex; // Options Bubble beim Hover anzeigen
+    // }
   }
+}
+
+app-options-bubble {
+  display: flex;
 }
 
 .fdRowRev {
@@ -144,7 +148,6 @@
 }
 
 .optionsBubble {
-  display: none; // Bubble standardmäßig ausblenden
   position: absolute;
   top: -40px;
   right: -200px;
@@ -152,7 +155,6 @@
 }
 
 .optionsBubbleOwnMsg {
-  display: none; // Bubble standardmäßig ausblenden
   position: absolute;
   top: -40px;
   left: -240px;
