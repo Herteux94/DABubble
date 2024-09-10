@@ -23,6 +23,8 @@ import { ActiveChannelService } from '../../services/active-channel.service';
 import { FirestoreService } from '../../services/firestore.service';
 import { ActiveUserService } from '../../services/active-user.service';
 import { Router } from '@angular/router';
+import { User } from '../../models/user.model';
+import { FindUserService } from '../../services/find-user.service';
 
 @Component({
   selector: 'app-channel-dialog',
@@ -109,6 +111,7 @@ import { Router } from '@angular/router';
   ],
 })
 export class ChannelDialogComponent implements OnInit {
+  findUserService = inject(FindUserService);
   dialogRef = inject(DialogRef);
   dialog = inject(Dialog);
   channel!: Channel;
@@ -120,6 +123,7 @@ export class ChannelDialogComponent implements OnInit {
     this.activeChannelService.activeChannel.description;
   channelCreator: string = this.activeChannelService.activeChannel.creator;
   mobile: boolean = false;
+  members: User[] = [];
 
   constructor(
     private screenSizeService: ScreenSizeService,
@@ -133,6 +137,7 @@ export class ChannelDialogComponent implements OnInit {
     this.screenSizeService.isMobile().subscribe((isMobile) => {
       this.mobile = isMobile;
     });
+    this.loadUserData();
   }
 
   @ViewChild('channelNameInput') channelNameInput!: ElementRef;
@@ -157,6 +162,12 @@ export class ChannelDialogComponent implements OnInit {
     } else if (!this.isEditingName) {
       this.saveNewDescription();
     }
+  }
+
+  loadUserData() {
+    this.members = this.findUserService.findUsers(
+      this.activeChannelService.activeChannel.member
+    );
   }
 
   adjustTextareaRows(textarea: HTMLTextAreaElement): void {

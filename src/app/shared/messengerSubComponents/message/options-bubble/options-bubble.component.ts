@@ -21,6 +21,7 @@ import { EmojiPickerComponent } from '../emoji-picker/emoji-picker.component';
   styleUrls: ['./options-bubble.component.scss'],
 })
 export class OptionsBubbleComponent implements OnInit {
+  @Output() emojiSelected = new EventEmitter<string>();
   @Output() editMessage = new EventEmitter<boolean>();
   @Input() ownMessage!: boolean;
   @Input() message!: Message;
@@ -46,13 +47,15 @@ export class OptionsBubbleComponent implements OnInit {
 
   // Zeigt den Emoji-Picker an
   showEmojiPicker() {
+    console.log('Emoji Picker wird angezeigt'); // Überprüfe, ob der Emoji Picker aufgerufen wird
     this.showEmojis = true;
   }
 
-  addEmoji(selectedEmoji: string) {
-    this.react(selectedEmoji); // Verarbeitet das ausgewählte Emoji
-    this.showEmojis = false; // Schließt den Emoji-Picker
-  }
+// In der OptionsBubbleComponent
+addEmoji(selectedEmoji: string) {
+  console.log('Selected Emoji in OptionsBubble:', selectedEmoji);  // Überprüfe, ob das Emoji ankommt
+  this.emojiSelected.emit(selectedEmoji);  // Emoji wird an die MessageComponent weitergegeben
+}
 
 
   // Eine Beispielaktion, die etwas anderes macht

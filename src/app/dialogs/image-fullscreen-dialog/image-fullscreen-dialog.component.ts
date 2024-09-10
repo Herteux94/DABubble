@@ -2,8 +2,15 @@ import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { CommonModule } from '@angular/common';
 import { Component, inject, Inject } from '@angular/core';
 import { ScreenSizeService } from '../../services/screen-size-service.service';
-import { animate, state, style, transition, trigger } from '@angular/animations';
-import { HttpClient } from '@angular/common/http';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
+import { StorageService } from '../../services/storage.service';
+
 
 @Component({
   selector: 'app-image-fullscreen-dialog',
@@ -31,14 +38,20 @@ export class ImageFullscreenDialogComponent {
   mobile!: boolean;
   dialogRef = inject(DialogRef);
   imageLoaded: boolean = false;
+  imageUrl!: string;
+  url = '../../../assets/img/close.svg';
 
   constructor(
     @Inject(DIALOG_DATA) public data: any,
     public screenSizeService: ScreenSizeService,
-    private http: HttpClient,
-  ) {this.URL = data.URL;}
-  
+    public storageService: StorageService
+  ) {
+    this.URL = data.URL;
+    console.log(this.URL);
+    console.log(this.url);
+  }
+
   onImageLoad() {
-    this.imageLoaded = true; // Set to true once the image is fully loaded
+    this.imageLoaded = true;
   }
 }

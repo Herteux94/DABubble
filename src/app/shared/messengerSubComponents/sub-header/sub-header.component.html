@@ -93,7 +93,7 @@
       <input class="input" [value]="searchQuery()" (input)="onSearchInput($event)" type="text" id="name"
         placeholder="An: #channel oder @person oder Email" required />
 
-      <div *ngIf="foundUsers().length > 0 && firstLetter() === '@' && searchQuery()"
+      <div *ngIf="foundUsers().length > 0 && firstLetter() === '@' && searchQuery() && !this.newDirectMessageService.messageReceiver"
         class="memberList floatingMemberList">
         <div *ngFor="let user of foundUsers()" class="member" (click)="selectUser(user)">
           <img [src]="user.profileImg || '../../../assets/img/Profile.svg'" alt="{{ user.name }}">
@@ -101,7 +101,7 @@
         </div>
       </div>
 
-      <div *ngIf="foundChannel().length > 0 && firstLetter() === '#' && searchQuery()"
+      <div *ngIf="foundChannel().length > 0 && firstLetter() === '#' && searchQuery() && !this.newDirectMessageService.messageReceiver"
         class="memberList floatingMemberList">
         <div *ngFor="let channel of foundChannel()" class="member channel" (click)="selectChannel(channel)">
           <svg class="hashtag" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -120,7 +120,7 @@
         </div>
       </div>
 
-      <div *ngIf="foundUsersWithMail().length > 0 && firstLetter() === '' && searchQuery()"
+      <div *ngIf="foundUsersWithMail().length > 0 && firstLetter() === '' && searchQuery() && !this.newDirectMessageService.messageReceiver"
         class="memberList floatingMemberList">
         <div *ngFor="let user of foundUsersWithMail()" class="member" (click)="selectUser(user)">
           <img [src]="user.profileImg || '../../../assets/img/Profile.svg'" alt="{{ user.name }}">
