@@ -131,7 +131,6 @@ export class TypeInputFieldComponent {
     this.message.attachments = [];
     this.message.creationTime = Date.now();
     this.message.senderID = this.activeUserService.activeUser.userID;
-    this.message.senderName = this.activeUserService.activeUser.name;
 
     this.uploadedFiles.forEach((uploadedFile) => {
       if (uploadedFile.url) {
