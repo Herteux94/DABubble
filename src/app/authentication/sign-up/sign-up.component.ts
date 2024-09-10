@@ -14,7 +14,7 @@ import { BubbleComponent } from '../bubble/bubble.component';
   standalone: true,
   imports: [CommonModule, FormsModule, FocusInputDirective, BubbleComponent],
   templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.scss']
+  styleUrls: ['./sign-up.component.scss'],
 })
 export class SignUpComponent {
   errorMessageName: string = '';
@@ -70,7 +70,8 @@ export class SignUpComponent {
     if (!this.password) {
       this.errorMessagePassword = 'Bitte gib ein Passwort ein.';
     } else if (this.password.length < 6) {
-      this.errorMessagePassword = 'Das Passwort muss mindestens 6 Zeichen lang sein.';
+      this.errorMessagePassword =
+        'Das Passwort muss mindestens 6 Zeichen lang sein.';
     } else {
       this.errorMessagePassword = '';
     }
@@ -79,21 +80,34 @@ export class SignUpComponent {
   async signUp() {
     this.validateAll();
 
-    if (this.errorMessageName || this.errorMessageEmail || this.errorMessagePassword) {
+    if (
+      this.errorMessageName ||
+      this.errorMessageEmail ||
+      this.errorMessagePassword
+    ) {
       return; // Wenn es Fehler gibt, wird der Sign-Up-Prozess abgebrochen.
     }
 
     try {
       this.bubbleComponent.message = 'Konto erfolgreich erstellt!';
-      const userCredential = await createUserWithEmailAndPassword(this.auth, this.user.email, this.password);
+      const userCredential = await createUserWithEmailAndPassword(
+        this.auth,
+        this.user.email,
+        this.password
+      );
       const activeUserID = userCredential.user.uid;
 
       this.user.userID = activeUserID;
       this.user.lastOnline = Date.now();
+      this.user.directMessages = [activeUserID];
       this.activeUserService.setActiveUserToLocalStorage(activeUserID);
       await this.firestoreService.addUser(this.user.toJSON());
       this.errorMessageGeneral = '';
-      console.log('User successfully signed up and profile created. User: ', this.user);
+      console.log(
+        'User successfully signed up and profile created. User: ',
+        this.user
+      );
+      this.firestoreService.addSelfDirectMessage(activeUserID);
       this.activeUserService.loadActiveUser(activeUserID);
 
       // Snackbar anzeigen
@@ -103,10 +117,10 @@ export class SignUpComponent {
       setTimeout(() => {
         this.router.navigate(['/createAccount']);
       }, 2000); // Dauer der Snackbar-Anzeige
-
     } catch (error) {
       console.error('Error during sign-up:', error);
-      this.errorMessageGeneral = 'Fehler bei der Kontoerstellung. Bitte versuchen Sie es erneut.';
+      this.errorMessageGeneral =
+        'Fehler bei der Kontoerstellung. Bitte versuchen Sie es erneut.';
     }
   }
 

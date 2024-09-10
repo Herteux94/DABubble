@@ -138,7 +138,7 @@ export class FirestoreService implements OnDestroy {
   async addDirectMessage(
     directMessageData: any,
     userID1: string,
-    userID2: string
+    userID2: any
   ): Promise<DocumentReference> {
     return addDoc(this.directMessageCol, directMessageData).then((docRef) => {
       updateDoc(doc(this.directMessageCol, docRef.id), {
@@ -155,6 +155,13 @@ export class FirestoreService implements OnDestroy {
         docRef.id
       );
       return docRef;
+    });
+  }
+
+  addSelfDirectMessage(userID: string) {
+    setDoc(doc(this.directMessageCol, userID), {
+      member: userID,
+      directMessageID: userID,
     });
   }
 

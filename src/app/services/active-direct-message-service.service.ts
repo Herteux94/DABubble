@@ -46,7 +46,14 @@ export class ActiveDirectMessageService implements OnDestroy {
         next: (directMessage) => {
           if (directMessage) {
             this.activeDM = directMessage;
-            this.loadActiveDMPartner();
+
+            if (directMessage.member.length > 1) {
+              this.loadActiveDMPartner();
+              console.log('loadScrtiveDMPartner ohne DM iD ausgeführt');
+            } else {
+              this.activeDMPartner = null;
+              console.log('activeDMPartner genullt');
+            }
           } else {
             console.error('DirectMessage nicht gefunden');
           }
@@ -108,6 +115,7 @@ export class ActiveDirectMessageService implements OnDestroy {
       .pipe(takeUntil(this.destroy$)) // Ensure unsubscription
       .subscribe(() => {
         this.activeDMPartner = this.findUserService.findUser(partnerUserID);
+        console.log('loadActiveDMPartner: ', this.activeDMPartner);
       });
   }
 
