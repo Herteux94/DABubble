@@ -128,24 +128,42 @@
         </div>
       </div>
       <div class="contentList">
+        @if(this.activeUserService.activeUser && this.activeUserService.activeUser.name) {
+        <a class="listElement"
+          (click)="this.activeDirectMessageService.loadActiveDMAndMessagesAndPartner( this.activeUserService.activeUser.userID ); this.threadRoutingService.closeThread()"
+          [routerLink]="['/messenger/directMessage', this.activeUserService.activeUser.userID]">
+          <div class="profileAndOnlineCircleImg">
+            <img class="avatarImg" [src]="
+                this.activeUserService.activeUser &&
+                this.activeUserService.activeUser.profileImg &&
+                this.activeUserService.activeUser.profileImg != ''
+                  ? this.activeUserService.activeUser.profileImg
+                  : '../../../assets/img/Profile.svg'
+              " alt="hashtag-icon" />
+            <img class="onlineStatusImg" src="../../../assets/img/green-online-circle.svg" alt="online-status" />
+          </div>
+          <span>{{ this.activeUserService.activeUser.name }} (Du)</span>
+        </a>
+        }
         @if(this.activeUserService.activeUser &&
         this.activeUserService.activeUserDirectMessages &&
         this.activeUserService.activeUserDirectMessages.length > 0) {
         @for (dm of this.activeUserService.activeUserDirectMessages; track dm){
+        @if(dm.member.length > 1) {
         <a class="listElement"
           [class.active]="this.activeDirectMessageService.activeDM && this.activeDirectMessageService.activeDM.directMessageID && this.activeDirectMessageService.activeDM.directMessageID == dm.directMessageID"
           (click)="this.activeDirectMessageService.loadActiveDMAndMessagesAndPartner( dm.directMessageID ); this.threadRoutingService.closeThread()"
           [routerLink]="['/messenger/directMessage', dm.directMessageID]">
           <div class="profileAndOnlineCircleImg">
             <img class="avatarImg" [src]="
-                this.activeUserService.activeUserDirectMessages &&
-                this.activeUserService.activeUserDirectMessages.length > 0 &&
-                dm.partnerUser &&
-                dm.partnerUser.profileImg &&
-                dm.partnerUser.profileImg != ''
-                  ? dm.partnerUser.profileImg
-                  : '../../../assets/img/Profile.svg'
-              " alt="hashtag-icon" />
+                    this.activeUserService.activeUserDirectMessages &&
+                    this.activeUserService.activeUserDirectMessages.length > 0 &&
+                    dm.partnerUser &&
+                    dm.partnerUser.profileImg &&
+                    dm.partnerUser.profileImg != ''
+                      ? dm.partnerUser.profileImg
+                      : '../../../assets/img/Profile.svg'
+                  " alt="hashtag-icon" />
             <img class="onlineStatusImg" src="../../../assets/img/green-online-circle.svg" alt="online-status" />
           </div>
           @if(this.activeUserService.activeUserDirectMessages && this.activeUserService.activeUserDirectMessages.length
@@ -153,9 +171,8 @@
           <span>{{ dm.partnerUser.name }}</span>
           }
         </a>
-        } } @else {
-        <span>Starte deine erste DM!</span>
         }
+        } }
       </div>
     </div>
 

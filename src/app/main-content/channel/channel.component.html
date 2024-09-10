@@ -3,14 +3,15 @@
     <app-sub-header [isChannel]="true"></app-sub-header>
     <div class="messagesContent">
       @if(this.activeChannelService.channelMessagesGroupedByDate &&
-      this.activeChannelService.channelMessagesGroupedByDate.length > 0) {
+      this.activeChannelService.channelMessagesGroupedByDate.length > 0 &&
+      this.activeUserService.activeUser?.userID) {
       @for(messageGroup of this.activeChannelService.channelMessagesGroupedByDate; track messageGroup) {
       @for(message of messageGroup.messages; track message) {
       <app-message [messengerType]="'channels'" [ownMessage]="
-          this.activeUserService.activeUser.userID === message.senderID
-          ? true
-          : false
-          " [message]="message" [isChannel]="true"></app-message>
+                this.activeUserService.activeUser.userID === message.senderID
+                ? true
+                : false
+                " [message]="message" [isChannel]="true"></app-message>
       }
       <app-date-divider [date]="messageGroup.date"></app-date-divider>
       }

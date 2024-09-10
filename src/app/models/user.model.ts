@@ -1,6 +1,3 @@
-import { Channel } from "./channel.model";
-import { Message } from "./message.model";
-
 export class User {
   name!: string;
   profileImg!: string;
@@ -10,7 +7,7 @@ export class User {
   passwordResetToken!: string;
   passwordResetExpires!: string;
   channels!: string[];
-  directMessages!: Message[];
+  directMessages!: string[];
   userID!: string;
 
   constructor() {
@@ -37,7 +34,7 @@ export class User {
       passwordResetExpires: this.passwordResetExpires,
       channels: this.channels,
       directMessages: this.directMessages,
-      userID: this.userID
+      userID: this.userID,
     };
   }
 }

@@ -95,16 +95,20 @@ export class ActiveUserService implements OnDestroy {
     this.firestoreService.allUsers$
       .pipe(takeUntil(this.destroy$)) // Ensure unsubscription
       .subscribe((allUsers) => {
-        for (const directMessage of this.activeUserDirectMessages) {
-          const partnerUserID = directMessage.member.find(
-            (id: string) => id !== this.activeUser.userID
-          );
-          if (partnerUserID) {
-            const partnerUser = allUsers.find(
-              (user: User) => user.userID === partnerUserID
-            );
-            if (partnerUser) {
-              directMessage.partnerUser = partnerUser;
+        if (this.activeUserDirectMessages.length > 1) {
+          for (const directMessage of this.activeUserDirectMessages) {
+            if (directMessage.member.length > 1) {
+              const partnerUserID = directMessage.member.find(
+                (id: string) => id !== this.activeUser.userID
+              );
+              if (partnerUserID) {
+                const partnerUser = allUsers.find(
+                  (user: User) => user.userID === partnerUserID
+                );
+                if (partnerUser) {
+                  directMessage.partnerUser = partnerUser;
+                }
+              }
             }
           }
         }
