@@ -1,10 +1,10 @@
-
-
-<div [@dialogAnimationFadeIn] class="wrapper" >
+<div [@dialogAnimationFadeIn] class="wrapper">
     <div></div>
     <img [@imageFadeIn]="imageLoaded ? 'loaded' : 'loading'" class="previewImageFullScreen" [src]="URL" alt="Image" (load)="onImageLoad()">
     <div class="downloadAndCloseContainer">
-        <span class="actionSpan">download</span>
+        <a download [href]="URL">
+            <span class="actionSpan">download</span>
+        </a>
         <p> | </p>
         <span (click)="dialogRef.close()" class="actionSpan">schließen</span>
     </div>

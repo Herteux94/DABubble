@@ -28,19 +28,14 @@ export class NewDirectMessageService {
     newDirectMessage.directMessageID = '';
     newDirectMessage.member = [user.userID, sender.userID];
 
-    // Da du die Funktion asynchron machst, musst du das Ergebnis des Promise zurückgeben.
     return this.firestoreService
       .addDirectMessage(newDirectMessage.toJSON(), user.userID, sender.userID)
       .then((docRef) => {
-        // Hier wird die docRef.id zurückgegeben.
         return docRef.id;
       })
       .catch((error) => {
         console.error('Fehler beim Erstellen des Channels:', error);
-        // Optional: Fehlerbehandlung durch Rückgabe eines spezifischen Werts oder Neuwerfen des Fehlers
         throw error;
       });
-
-    // this.activeDirectMessageService.loadActiveThreadAndMessages(threadMessageID: string)
   }
 }
