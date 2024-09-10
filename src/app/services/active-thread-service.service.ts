@@ -1,13 +1,16 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { FirestoreService } from './firestore.service';
-import { first, Observable, switchMap } from 'rxjs';
+import { first, Observable, switchMap, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { Message } from '../models/message.model';
 import { ActiveChannelService } from './active-channel.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ActiveThreadService {
+export class ActiveThreadService implements OnDestroy {
+  private destroy$ = new Subject<void>(); // Used for unsubscribing
+
   activeThreadMessage: any;
   threadMessages$!: Observable<any[]>;
   threadMessages: Message[] = [];
@@ -43,7 +46,8 @@ export class ActiveThreadService {
               channel!.channelID,
               threadMessageID
             );
-          })
+          }),
+          takeUntil(this.destroy$) // Ensure unsubscription
         )
         .subscribe({
           next: (activeThread) => {
@@ -63,19 +67,27 @@ export class ActiveThreadService {
       threadMessageID
     );
 
-    this.threadMessages$.subscribe({
-      next: (messages) => {
-        if (messages) {
-          this.threadMessages = messages.sort(
-            (a, b) => b.creationTime - a.creationTime
-          );
-        } else {
-          console.error('Messages nicht gefunden');
-        }
-      },
-      error: (error) => {
-        console.error('Fehler beim Laden der aktiven Messages:', error);
-      },
-    });
+    this.threadMessages$
+      .pipe(takeUntil(this.destroy$)) // Ensure unsubscription
+      .subscribe({
+        next: (messages) => {
+          if (messages) {
+            this.threadMessages = messages.sort(
+              (a, b) => b.creationTime - a.creationTime
+            );
+          } else {
+            console.error('Messages nicht gefunden');
+          }
+        },
+        error: (error) => {
+          console.error('Fehler beim Laden der aktiven Messages:', error);
+        },
+      });
+  }
+
+  // Cleanup method to unsubscribe from all observables
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

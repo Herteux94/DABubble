@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import {
   Firestore,
   collection,
@@ -14,7 +14,8 @@ import {
   query,
   where,
 } from '@angular/fire/firestore';
-import { combineLatest, map, Observable, of } from 'rxjs';
+import { combineLatest, map, Observable, of, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { Channel } from '../models/channel.model';
 import { User } from '../models/user.model';
 import { Message } from '../models/message.model';
@@ -22,7 +23,9 @@ import { Message } from '../models/message.model';
 @Injectable({
   providedIn: 'root',
 })
-export class FirestoreService {
+export class FirestoreService implements OnDestroy {
+  private destroy$ = new Subject<void>(); // Subject to handle unsubscription
+
   userCol = collection(this.firestore, 'users');
   channelCol = collection(this.firestore, 'channels');
   directMessageCol = collection(this.firestore, 'directMessages');
@@ -38,9 +41,11 @@ export class FirestoreService {
 
   loadUserList() {
     this.allUsers$ = this.getUsers();
-    this.allUsers$.subscribe((users) => {
-      this.allUsers = users;
-    });
+    this.allUsers$
+      .pipe(takeUntil(this.destroy$)) // Ensure unsubscription
+      .subscribe((users) => {
+        this.allUsers = users;
+      });
   }
 
   getUsers(): Observable<any[]> {
@@ -72,7 +77,7 @@ export class FirestoreService {
         this.directMessageCol,
         where('directMessageID', 'in', ids)
       );
-      return collectionData(q); // Firestore-Abfrage als Observable zurückgeben
+      return collectionData(q);
     });
 
     return combineLatest(queries).pipe(map((results) => results.flat()));
@@ -300,5 +305,11 @@ export class FirestoreService {
         messageID
       )
     );
+  }
+
+  // Cleanup method to unsubscribe from all observables
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

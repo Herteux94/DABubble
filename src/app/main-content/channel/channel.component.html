@@ -1,7 +1,7 @@
 <section>
   <div class="content">
     <app-sub-header [isChannel]="true"></app-sub-header>
-    <div #messageContainer class="messagesContent">
+    <div class="messagesContent">
       @if(this.activeChannelService.channelMessages &&
       this.activeChannelService.channelMessages.length > 0) { @for(message of
       this.activeChannelService.channelMessages; track message) {

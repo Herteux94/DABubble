@@ -1,15 +1,17 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { FirestoreService } from './firestore.service';
-import { BehaviorSubject, first, map, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { takeUntil, first, map } from 'rxjs/operators';
 import { Message } from '../models/message.model';
 import { ActiveUserService } from './active-user.service';
 import { User } from '../models/user.model';
-import { FindUserService } from './find-user.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ActiveChannelService {
+export class ActiveChannelService implements OnDestroy {
+  private destroy$ = new Subject<void>(); // Used to signal unsubscription
+
   activeChannelSubject = new BehaviorSubject<any>(null); // Initial null value
   activeChannel$ = this.activeChannelSubject.asObservable(); // Expose as observable
   activeChannel: any = null; // Maintain the latest channel as a plain object
@@ -19,15 +21,16 @@ export class ActiveChannelService {
 
   constructor(
     private firestoreService: FirestoreService,
-    private activeUserService: ActiveUserService,
-    private findUserService: FindUserService
+    private activeUserService: ActiveUserService
   ) {
-    this.activeChannel$.subscribe((channel) => {
-      this.activeChannel = channel;
-      if (channel) {
-        this.loadChannelMember();
-      }
-    });
+    this.activeChannel$
+      .pipe(takeUntil(this.destroy$)) // Unsubscribe when destroy$ emits
+      .subscribe((channel) => {
+        this.activeChannel = channel;
+        if (channel) {
+          this.loadChannelMember();
+        }
+      });
   }
 
   async loadActiveChannelAndMessages(channelID: string) {
@@ -41,12 +44,13 @@ export class ActiveChannelService {
         first((channels) => channels.length > 0),
         map((channels) =>
           channels.find((channel) => channel.channelID === channelID)
-        )
+        ),
+        takeUntil(this.destroy$) // Ensure unsubscription
       )
       .subscribe({
         next: (channel) => {
           if (channel) {
-            this.activeChannelSubject.next(channel); // Update the BehaviorSubject
+            this.activeChannelSubject.next(channel);
           } else {
             console.error('Channel nicht gefunden');
           }
@@ -62,7 +66,8 @@ export class ActiveChannelService {
       const userIDs = this.activeChannel.member;
       this.firestoreService.allUsers$
         .pipe(
-          map((users) => users.filter((user) => userIDs.includes(user.userID)))
+          map((users) => users.filter((user) => userIDs.includes(user.userID))),
+          takeUntil(this.destroy$) // Ensure unsubscription
         )
         .subscribe((channelMember) => {
           this.channelMember = channelMember;
@@ -79,24 +84,32 @@ export class ActiveChannelService {
       'channels',
       channelID
     );
-    this.channelMessages$.subscribe({
-      next: (messages) => {
-        if (messages) {
-          this.channelMessages = messages.sort(
-            (a, b) => b.creationTime - a.creationTime
-          );
-        } else {
-          console.error('Messages nicht gefunden');
-        }
-      },
-      error: (error) => {
-        console.error('Fehler beim Laden der aktiven Messages:', error);
-      },
-    });
+    this.channelMessages$
+      .pipe(takeUntil(this.destroy$)) // Ensure unsubscription
+      .subscribe({
+        next: (messages) => {
+          if (messages) {
+            this.channelMessages = messages.sort(
+              (a, b) => b.creationTime - a.creationTime
+            );
+          } else {
+            console.error('Messages nicht gefunden');
+          }
+        },
+        error: (error) => {
+          console.error('Fehler beim Laden der aktiven Messages:', error);
+        },
+      });
   }
 
   clearActiveChannel() {
     this.activeChannelSubject.next(null);
     this.activeChannel = null;
+  }
+
+  // Clean up all subscriptions
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { FirestoreService } from './firestore.service';
 import { Channel } from '../models/channel.model';
-import { BehaviorSubject, map } from 'rxjs';
+import { BehaviorSubject, map, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { User } from '../models/user.model';
 import { FindUserService } from './find-user.service';
 import { Router } from '@angular/router';
@@ -10,7 +11,9 @@ import { DirectMessage } from '../models/directMessages.model';
 @Injectable({
   providedIn: 'root',
 })
-export class ActiveUserService {
+export class ActiveUserService implements OnDestroy {
+  private destroy$ = new Subject<void>(); // Subject to handle unsubscription
+
   activeUser!: any;
 
   activeUserChannels!: Channel[];
@@ -51,11 +54,12 @@ export class ActiveUserService {
       .pipe(
         map((users: User[]) =>
           users.find((user: User) => user.userID === userID)
-        )
+        ),
+        takeUntil(this.destroy$) // Ensure unsubscription
       )
       .subscribe((user: User | undefined) => {
         this.activeUser = user;
-        if ((this.activeUser = user)) {
+        if (this.activeUser) {
           this.loadConversations();
         }
       });
@@ -69,6 +73,7 @@ export class ActiveUserService {
   loadUserChannels(activeUserChannelIDs: string[]) {
     this.firestoreService
       .getChannels(activeUserChannelIDs)
+      .pipe(takeUntil(this.destroy$)) // Ensure unsubscription
       .subscribe((channels) => {
         this.activeUserChannels = channels;
         this.activeUserChannelsSubject.next(channels);
@@ -78,6 +83,7 @@ export class ActiveUserService {
   loadUserDirectMessages(activeUserDirectMessageIDs: string[]) {
     this.firestoreService
       .getDirectMessages(activeUserDirectMessageIDs)
+      .pipe(takeUntil(this.destroy$)) // Ensure unsubscription
       .subscribe((directMessages) => {
         this.activeUserDirectMessages = directMessages;
         this.activeUserDirectMessagesSubject.next(directMessages);
@@ -86,21 +92,23 @@ export class ActiveUserService {
   }
 
   loadDMPartnerInformations() {
-    this.firestoreService.allUsers$.subscribe((allUsers) => {
-      for (const directMessage of this.activeUserDirectMessages) {
-        const partnerUserID = directMessage.member.find(
-          (id: string) => id !== this.activeUser.userID
-        );
-        if (partnerUserID) {
-          const partnerUser = allUsers.find(
-            (user: User) => user.userID === partnerUserID
+    this.firestoreService.allUsers$
+      .pipe(takeUntil(this.destroy$)) // Ensure unsubscription
+      .subscribe((allUsers) => {
+        for (const directMessage of this.activeUserDirectMessages) {
+          const partnerUserID = directMessage.member.find(
+            (id: string) => id !== this.activeUser.userID
           );
-          if (partnerUser) {
-            directMessage.partnerUser = partnerUser;
+          if (partnerUserID) {
+            const partnerUser = allUsers.find(
+              (user: User) => user.userID === partnerUserID
+            );
+            if (partnerUser) {
+              directMessage.partnerUser = partnerUser;
+            }
           }
         }
-      }
-    });
+      });
   }
 
   setActiveUserToLocalStorage(userID: string) {
@@ -135,5 +143,11 @@ export class ActiveUserService {
     this.activeUserDirectMessages = [];
 
     this.router.navigate(['/login']);
+  }
+
+  // Cleanup method to unsubscribe from all observables
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

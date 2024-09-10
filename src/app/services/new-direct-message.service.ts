@@ -3,7 +3,6 @@ import { ActiveUserService } from './active-user.service';
 import { FirestoreService } from './firestore.service';
 import { User } from '../models/user.model';
 import { DirectMessage } from '../models/directMessages.model';
-import { ActiveDirectMessageService } from './active-direct-message-service.service';
 
 @Injectable({
   providedIn: 'root',
@@ -13,8 +12,7 @@ export class NewDirectMessageService {
 
   constructor(
     private firestoreService: FirestoreService,
-    private activeUserService: ActiveUserService,
-    private activeDirectMessageService: ActiveDirectMessageService,
+    private activeUserService: ActiveUserService
   ) {}
 
   getNewMessageSender() {
@@ -43,6 +41,6 @@ export class NewDirectMessageService {
         throw error;
       });
 
-      // this.activeDirectMessageService.loadActiveThreadAndMessages(threadMessageID: string)
+    // this.activeDirectMessageService.loadActiveThreadAndMessages(threadMessageID: string)
   }
 }
