@@ -7,11 +7,17 @@ import { ActiveThreadService } from '../../services/active-thread-service.servic
 import { ActivatedRoute } from '@angular/router';
 import { ActiveUserService } from '../../services/active-user.service';
 import { RoutingThreadOutletService } from '../../services/routing-thread-outlet.service';
+import { DateDividerComponent } from '../../shared/messengerSubComponents/date-divider/date-divider.component';
 
 @Component({
   selector: 'app-thread',
   standalone: true,
-  imports: [SubHeaderComponent, MessageComponent, TypeInputFieldComponent],
+  imports: [
+    SubHeaderComponent,
+    MessageComponent,
+    TypeInputFieldComponent,
+    DateDividerComponent,
+  ],
   templateUrl: './thread.component.html',
   styleUrl: './thread.component.scss',
 })
@@ -34,7 +40,7 @@ export class ThreadComponent implements OnInit {
       setTimeout(() => {
         this.threadRoutingService.threadOpenDesktop = true; // if-Abfrage wegen doppelter Animation
         this.activeThreadService.loadActiveThreadAndMessages(threadID);
-      }, 0);  // Delay für die nächste Change Detection
+      }, 0); // Delay für die nächste Change Detection
     }
   }
 }

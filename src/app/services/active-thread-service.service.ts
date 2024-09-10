@@ -2,7 +2,6 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { FirestoreService } from './firestore.service';
 import { first, Observable, switchMap, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Message } from '../models/message.model';
 import { ActiveChannelService } from './active-channel.service';
 
 @Injectable({
@@ -13,8 +12,7 @@ export class ActiveThreadService implements OnDestroy {
 
   activeThreadMessage: any;
   threadMessages$!: Observable<any[]>;
-  threadMessages: Message[] = [];
-
+  threadMessagesGroupedByDate: any[] = [];
   channelID!: string;
 
   constructor(
@@ -71,10 +69,12 @@ export class ActiveThreadService implements OnDestroy {
       .pipe(takeUntil(this.destroy$)) // Ensure unsubscription
       .subscribe({
         next: (messages) => {
+          let messagesSorted = [];
           if (messages) {
-            this.threadMessages = messages.sort(
+            messagesSorted = messages.sort(
               (a, b) => b.creationTime - a.creationTime
             );
+            this.groupMessagesByDate(messagesSorted);
           } else {
             console.error('Messages nicht gefunden');
           }
@@ -83,6 +83,25 @@ export class ActiveThreadService implements OnDestroy {
           console.error('Fehler beim Laden der aktiven Messages:', error);
         },
       });
+  }
+
+  groupMessagesByDate(messages: any[]) {
+    const groupedMessages: { [key: string]: any[] } = {};
+
+    messages.forEach((message) => {
+      const date = new Date(message.creationTime).toLocaleDateString(); // Datum aus dem Timestamp extrahieren
+      if (!groupedMessages[date]) {
+        groupedMessages[date] = [];
+      }
+      groupedMessages[date].push(message); // Nachricht zum richtigen Datum hinzufügen
+    });
+
+    this.threadMessagesGroupedByDate = Object.keys(groupedMessages).map(
+      (date) => ({
+        date,
+        messages: groupedMessages[date],
+      })
+    );
   }
 
   // Cleanup method to unsubscribe from all observables
