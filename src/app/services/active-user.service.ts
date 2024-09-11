@@ -97,7 +97,10 @@ export class ActiveUserService implements OnDestroy {
       .subscribe((allUsers) => {
         if (this.activeUserDirectMessages.length > 1) {
           for (const directMessage of this.activeUserDirectMessages) {
-            if (directMessage.member.length > 1) {
+            if (
+              directMessage.member.length > 1 &&
+              this.activeUser.userID != directMessage.directMessageID
+            ) {
               const partnerUserID = directMessage.member.find(
                 (id: string) => id !== this.activeUser.userID
               );

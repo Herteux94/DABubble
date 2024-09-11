@@ -1,22 +1,24 @@
+import { serverTimestamp } from '@angular/fire/firestore';
+
 export class Message {
   senderID!: string;
-  creationTime!: number;
+  creationTime!: any;
   content!: string;
   attachments!: string[]; //pdf, png, jpg, jpeg
   reactions!: { emoji: string; count: number; users: string[] }[];
   messageID!: string;
   threadLength!: number;
-  lastAnswer!: number;
+  lastAnswer!: any;
 
   constructor() {
     this.senderID = '';
-    this.creationTime = Date.now();
+    this.creationTime = serverTimestamp();
     this.content = '';
     this.attachments = [];
     this.reactions = [];
     this.messageID = '';
     this.threadLength = 0;
-    this.lastAnswer = Date.now();
+    this.lastAnswer = serverTimestamp();
   }
 
   public toJSON() {

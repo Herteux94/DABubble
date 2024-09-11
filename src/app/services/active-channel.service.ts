@@ -107,7 +107,11 @@ export class ActiveChannelService implements OnDestroy {
     const groupedMessages: { [key: string]: any[] } = {};
 
     messages.forEach((message) => {
-      const date = new Date(message.creationTime).toLocaleDateString(); // Datum aus dem Timestamp extrahieren
+      const date = new Date(
+        message.creationTime.seconds * 1000
+      ).toLocaleDateString(); // Datum aus dem Timestamp extrahieren
+      console.log(date);
+
       if (!groupedMessages[date]) {
         groupedMessages[date] = [];
       }

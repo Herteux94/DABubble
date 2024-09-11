@@ -4,7 +4,8 @@
     <div class="messagesContent">
 
       @if(this.activeThreadService.threadMessagesGroupedByDate &&
-      this.activeThreadService.threadMessagesGroupedByDate.length > 0) {
+      this.activeThreadService.threadMessagesGroupedByDate.length > 0 &&
+      this.activeUserService.activeUser?.userID) {
       @for(messageGroup of this.activeThreadService.threadMessagesGroupedByDate; track messageGroup) {
       @for(message of messageGroup.messages; track message) {
       <app-message [messengerType]="'thread'" [ownMessage]="

@@ -6,7 +6,8 @@
   <div class="text" [ngClass]="ownMessage ? 'alignFlexEnd' : ''">
     <div [ngClass]="ownMessage ? 'fdRowRev' : ''" class="nameAndTime">
       <span (click)="openProfileDialog()" class="name">{{ senderName }}</span>
-      <span class="time subText">{{ message.creationTime | date: 'HH:mm' }}</span>
+      <span class="time subText">{{ this.messageTimestampAsNumber | date: 'HH:mm' }}</span>
+      <!-- | date: 'HH:mm' -->
 
       <!-- Options-Bubble -->
       <app-options-bubble *ngIf="showOptions" (editMessage)="onEditMessageChange($event)"
@@ -25,7 +26,7 @@
                 multipleFiles: message.attachments.length > 1
               }" class="filePreview" />
           </div>
-        }
+          }
         </div>
       </div>
 
@@ -55,7 +56,7 @@
     <!-- Antworten -->
     <div *ngIf="isChannel && message.threadLength > 0" class="responses">
       <span (click)="navigateToThread()" class="count">{{ message.threadLength }} Antworten</span>
-      <span class="time subText">Letzte Antwort {{ message.lastAnswer | date: 'HH:mm' }}</span>
+      <span class="time subText">Letzte Antwort {{ message.lastAnswer }}</span>
     </div>
   </div>
 </div>

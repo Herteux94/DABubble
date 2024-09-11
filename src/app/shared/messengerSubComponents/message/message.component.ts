@@ -37,6 +37,9 @@ export class MessageComponent {
   @Input() message!: Message;
   @Input() messengerType: string = '';
 
+  messageTimestampAsNumber!: number;
+  messageTimestampAsDate!: any;
+
   mobile!: boolean;
   dialog = inject(Dialog);
   showOptions: boolean = false; // Flag zur Steuerung der Options-Bubble
@@ -62,18 +65,22 @@ export class MessageComponent {
       this.mobile = isMobile;
     });
 
-    if (this.message.attachments) {
+    if (this.message?.attachments) {
       this.message.attachments = this.message.attachments.filter(
         (url) => url && url.trim() !== ''
       );
     }
 
-    if (this.message.senderID) {
+    if (this.message?.senderID) {
       this.loadSenderInfo(this.message.senderID);
     }
 
-    if (this.message.content) {
+    if (this.message?.content) {
       this.messageContentSnapshot = this.message.content;
+    }
+
+    if (this.message?.creationTime) {
+      this.messageTimestampAsNumber = this.message.creationTime.seconds * 1000;
     }
   }
 
@@ -92,7 +99,7 @@ export class MessageComponent {
 
   // Methode zum Hinzufügen einer Reaktion
   addReaction(emoji: string) {
-    console.log('Emoji Received in addReaction:', emoji);  // Überprüfe, ob das Emoji korrekt in der MessageComponent ankommt
+    console.log('Emoji Received in addReaction:', emoji); // Überprüfe, ob das Emoji korrekt in der MessageComponent ankommt
     const userID = this.currentUserID;
 
     if (!this.message.reactions) {

@@ -16,6 +16,7 @@ import { ActiveDirectMessageService } from '../../../services/active-direct-mess
 import { ActiveThreadService } from '../../../services/active-thread-service.service';
 import { NewDirectMessageService } from '../../../services/new-direct-message.service';
 import { Router } from '@angular/router';
+import { serverTimestamp } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-type-input-field',
@@ -129,7 +130,7 @@ export class TypeInputFieldComponent {
 
   private prepareMessage() {
     this.message.attachments = [];
-    this.message.creationTime = Date.now();
+    this.message.creationTime = serverTimestamp();
     this.message.senderID = this.activeUserService.activeUser.userID;
 
     this.uploadedFiles.forEach((uploadedFile) => {
