@@ -3,7 +3,7 @@ export class User {
   profileImg!: string;
   email!: string;
   active!: boolean;
-  lastOnline!: number | undefined;
+  lastOnline!: any;
   passwordResetToken!: string;
   passwordResetExpires!: string;
   channels!: string[];

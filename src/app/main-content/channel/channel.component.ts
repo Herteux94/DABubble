@@ -9,7 +9,6 @@ import { ActiveChannelService } from '../../services/active-channel.service';
 import { ActiveUserService } from '../../services/active-user.service';
 import { FirestoreService } from '../../services/firestore.service';
 import { CommonModule } from '@angular/common';
-import { serverTimestamp } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-channel',
@@ -34,8 +33,6 @@ export class ChannelComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    console.log(serverTimestamp());
-
     if (!this.activeChannelService.activeChannel) {
       let channelID: any;
       this.route.paramMap.subscribe((paramMap) => {

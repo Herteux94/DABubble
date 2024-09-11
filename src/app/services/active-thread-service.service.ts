@@ -87,9 +87,15 @@ export class ActiveThreadService implements OnDestroy {
 
   groupMessagesByDate(messages: any[]) {
     const groupedMessages: { [key: string]: any[] } = {};
+    let date: any;
 
     messages.forEach((message) => {
-      const date = new Date(message.creationTime).toLocaleDateString(); // Datum aus dem Timestamp extrahieren
+      if (message?.creationTime?.seconds) {
+        date = new Date(
+          message.creationTime.seconds * 1000
+        ).toLocaleDateString(); // Datum aus dem Timestamp extrahieren
+      }
+
       if (!groupedMessages[date]) {
         groupedMessages[date] = [];
       }
