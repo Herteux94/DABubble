@@ -1,3 +1,4 @@
+import { ActiveUserService } from './../../../../services/active-user.service';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Message } from '../../../../models/message.model';
@@ -21,7 +22,7 @@ import { EmojiPickerComponent } from '../emoji-picker/emoji-picker.component';
   styleUrls: ['./options-bubble.component.scss'],
 })
 export class OptionsBubbleComponent implements OnInit {
-  @Output() emojiSelected = new EventEmitter<string>();
+  @Output() emojiSelected = new EventEmitter<{ emoji: string, userID: string }>(); // Wir emitten ein Objekt
   @Output() editMessage = new EventEmitter<boolean>();
   @Input() ownMessage!: boolean;
   @Input() message!: Message;
@@ -36,7 +37,9 @@ export class OptionsBubbleComponent implements OnInit {
     private activeThreadService: ActiveThreadService,
     private firestoreService: FirestoreService,
     private activeChannelService: ActiveChannelService,
-    private activeDirectMessageService: ActiveDirectMessageService
+    private activeDirectMessageService: ActiveDirectMessageService,
+    private activeUserService: ActiveUserService // ActiveUserService hinzufügen
+
   ) {}
 
   ngOnInit() {
@@ -47,15 +50,20 @@ export class OptionsBubbleComponent implements OnInit {
 
   // Zeigt den Emoji-Picker an
   showEmojiPicker() {
-    console.log('Emoji Picker wird angezeigt'); // Überprüfe, ob der Emoji Picker aufgerufen wird
     this.showEmojis = true;
   }
 
 // In der OptionsBubbleComponent
-addEmoji(selectedEmoji: string) {
-  console.log('Selected Emoji in OptionsBubble:', selectedEmoji);  // Überprüfe, ob das Emoji ankommt
-  this.emojiSelected.emit(selectedEmoji);  // Emoji wird an die MessageComponent weitergegeben
+addEmoji(event: { emoji: string }) {
+  const userID = this.activeUserService.activeUser?.userID; // Hole die User-ID des aktiven Benutzers
+  if (userID) {
+      this.emojiSelected.emit({ emoji: event.emoji, userID });  // Leite Emoji und User-ID weiter
+  } else {
+      console.error('No active user found.');
+  }
 }
+
+
 
 
   // Eine Beispielaktion, die etwas anderes macht
