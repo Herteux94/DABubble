@@ -9,10 +9,17 @@
       <span class="time subText">{{ message.creationTime | date: 'HH:mm' }}</span>
 
       <!-- Options-Bubble -->
-      <app-options-bubble *ngIf="showOptions" (editMessage)="onEditMessageChange($event)"
-        (emojiSelected)="addReaction($event)" [messengerType]="messengerType" [message]="message"
-        [ownMessage]="ownMessage" [ngClass]="ownMessage ? 'optionsBubbleOwnMsg' : 'optionsBubble'">
-      </app-options-bubble>
+      <app-options-bubble *ngIf="showOptions"
+      (editMessage)="onEditMessageChange($event)"
+      (emojiSelected)="addReaction($event)"
+      [messengerType]="messengerType"
+      [message]="message"
+      [ownMessage]="ownMessage"
+      [ngClass]="ownMessage ? 'optionsBubbleOwnMsg' : 'optionsBubble'">
+  </app-options-bubble>
+
+
+
     </div>
 
     <div [ngClass]="ownMessage ? 'messageTextOwnMsg' : 'messageText'">
@@ -42,15 +49,28 @@
       </div>
     </div>
 
-    <!-- Reaktionen -->
-    <div *ngIf="message.reactions && message.reactions.length > 0" class="reactionsArea">
-      <div class="reactions">
-        <div *ngFor="let reaction of message.reactions" class="reactionContainer">
-          <span>{{ reaction.emoji }}</span>
-          <span class="reactionsCount">{{ reaction.count }}</span>
-        </div>
+<!-- Reaktionen -->
+<div *ngIf="message.reactions && message.reactions.length > 0" class="reactionsArea">
+  <div class="reactions">
+    <div *ngFor="let reaction of message.reactions"
+         class="reactionContainer"
+         (mouseenter)="loadUserNamesForReaction(reaction.users)"
+         (mouseleave)="hoveredReactionUsers = []"> <!-- Namen ausblenden -->
+
+      <span>{{ reaction.emoji }}</span>
+      <span class="reactionsCount">{{ reaction.count }}</span>
+
+      <!-- Tooltip für User-Namen anzeigen -->
+      <div class="reactionTooltip" *ngIf="hoveredReactionUsers.length > 0">
+        {{ hoveredReactionUsers.join(', ') }} <!-- Namen anzeigen -->
       </div>
     </div>
+  </div>
+</div>
+
+
+
+
 
     <!-- Antworten -->
     <div *ngIf="isChannel && message.threadLength > 0" class="responses">

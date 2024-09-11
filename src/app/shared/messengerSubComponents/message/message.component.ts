@@ -1,3 +1,4 @@
+import { ActiveUserService } from './../../../services/active-user.service';
 import { Component, ElementRef, inject, Input, ViewChild } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
 import { ProfileDialogComponent } from '../../../dialogs/profile-dialog/profile-dialog.component';
@@ -14,6 +15,7 @@ import { FirestoreService } from '../../../services/firestore.service';
 import { FormsModule } from '@angular/forms';
 import { ActiveChannelService } from '../../../services/active-channel.service';
 import { ActiveDirectMessageService } from '../../../services/active-direct-message-service.service';
+
 
 @Component({
   selector: 'app-message',
@@ -44,7 +46,8 @@ export class MessageComponent {
   senderAvatar!: string;
   editMessage: boolean = false;
   messageContentSnapshot = '';
-  currentUserID: string = 'AktuelleBenutzerID'; // Hier die tatsächliche Benutzer-ID einfügen
+  hoveredReactionUsers: string[] = [];
+
 
   @ViewChild('editMsgTxtArea') editMsgTxtArea!: ElementRef;
 
@@ -54,7 +57,8 @@ export class MessageComponent {
     private activeDirectMessageService: ActiveDirectMessageService,
     private activeThreadService: ActiveThreadService,
     public threadRoutingService: RoutingThreadOutletService,
-    private screenSizeService: ScreenSizeService
+    private screenSizeService: ScreenSizeService,
+    private activeUserService: ActiveUserService // ActiveUserService im Konstruktor injizieren
   ) {}
 
   ngOnInit() {
@@ -90,10 +94,26 @@ export class MessageComponent {
     });
   }
 
-  // Methode zum Hinzufügen einer Reaktion
-  addReaction(emoji: string) {
-    console.log('Emoji Received in addReaction:', emoji);  // Überprüfe, ob das Emoji korrekt in der MessageComponent ankommt
-    const userID = this.currentUserID;
+  // In der MessageComponent hinzufügen
+  loadUserNamesForReaction(reactionUsers: string[]) {
+    this.hoveredReactionUsers = []; // Leere die Liste, bevor neue Namen geladen werden
+
+    this.firestoreService.allUsers$.subscribe((users) => {
+      // Für jede User-ID den entsprechenden User finden und den Namen speichern
+      reactionUsers.forEach((userID) => {
+        const user = users.find((u) => u.userID === userID);
+        if (user) {
+          this.hoveredReactionUsers.push(user.name); // Füge den Namen zur Liste hinzu
+        } else {
+          this.hoveredReactionUsers.push('Unbekannt'); // Falls der User nicht gefunden wird
+        }
+      });
+    });
+  }
+
+
+  addReaction(event: { emoji: string, userID: string }) {
+    const { emoji, userID } = event; // Extrahiere Emoji und User-ID aus dem Event
 
     if (!this.message.reactions) {
       this.message.reactions = [];
@@ -111,7 +131,8 @@ export class MessageComponent {
     }
 
     this.saveMessageReactions();
-  }
+}
+
 
   saveMessageReactions() {
     const messageData = { reactions: this.message.reactions };
