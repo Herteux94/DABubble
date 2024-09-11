@@ -9,7 +9,7 @@ import { FirestoreService } from '../../services/firestore.service';
 import { ActiveChannelService } from '../../services/active-channel.service';
 import { ActiveUserService } from '../../services/active-user.service';
 import { ActiveDirectMessageService } from '../../services/active-direct-message-service.service';
-import { ActualTimestampService } from '../../services/actual-timestamp.service';
+// import { ActualTimestampService } from '../../services/actual-timestamp.service';
 
 @Component({
   selector: 'app-navigation',
@@ -34,9 +34,9 @@ export class NavigationComponent implements OnInit {
     public firestoreService: FirestoreService,
     public activeChannelService: ActiveChannelService,
     public activeUserService: ActiveUserService,
-    public activeDirectMessageService: ActiveDirectMessageService,
-    public actualTimestampService: ActualTimestampService
-  ) {}
+    public activeDirectMessageService: ActiveDirectMessageService
+  ) // public actualTimestampService: ActualTimestampService
+  {}
 
   ngOnInit() {
     this.screenSizeService.isMobile().subscribe((isMobile) => {

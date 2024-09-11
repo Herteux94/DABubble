@@ -21,7 +21,7 @@ import {
   trigger,
 } from '@angular/animations';
 import { ActiveChannelService } from '../../services/active-channel.service';
-import { ActualTimestampService } from '../../services/actual-timestamp.service';
+// import { ActualTimestampService } from '../../services/actual-timestamp.service';
 
 @Component({
   selector: 'app-header',
@@ -60,9 +60,9 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private screenSizeService: ScreenSizeService,
-    private router: Router,
-    public actualTimestampService: ActualTimestampService
-  ) {}
+    private router: Router
+  ) // public actualTimestampService: ActualTimestampService
+  {}
 
   ngOnInit() {
     this.screenSizeService.isMobile().subscribe((isMobile) => {

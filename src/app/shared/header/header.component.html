@@ -56,9 +56,7 @@
       <div class="profileAndOnlineCircleImg">
         <img class="avatarImg" [src]="getProfileImage()" alt="Profilbild">
         @if(this.activeUserService.activeUser?.lastOnline) {
-        <img class="onlineStatusImg"
-          [src]="(this.activeUserService.activeUser.lastOnline - this.actualTimestampService.actualTimestamp < 300000) ? '../../../assets/img/green-online-circle.svg' : '../../../assets/img/grey_offline_circle.svg'"
-          alt="online-status">
+        <img class="onlineStatusImg" src="../../../assets/img/green-online-circle.svg" alt="online-status">
         }
       </div>
       <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
