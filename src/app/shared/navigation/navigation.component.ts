@@ -1,11 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import {
-  Router,
-  RouterLink,
-  RouterLinkActive,
-  RouterModule,
-} from '@angular/router';
+import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
 import { ScreenSizeService } from '../../services/screen-size-service.service';
 import { CreateChannelDialogComponent } from '../../dialogs/create-channel-dialog/create-channel-dialog.component';
 import { Dialog } from '@angular/cdk/dialog';
@@ -31,12 +26,12 @@ import { ActiveDirectMessageService } from '../../services/active-direct-message
 export class NavigationComponent implements OnInit {
   dialog = inject(Dialog);
   mobile!: boolean;
+  actualTimestamp = Date.now();
 
   constructor(
     public screenSizeService: ScreenSizeService,
     public threadRoutingService: RoutingThreadOutletService,
     public firestoreService: FirestoreService,
-    private router: Router,
     public activeChannelService: ActiveChannelService,
     public activeUserService: ActiveUserService,
     public activeDirectMessageService: ActiveDirectMessageService
@@ -46,14 +41,13 @@ export class NavigationComponent implements OnInit {
     this.screenSizeService.isMobile().subscribe((isMobile) => {
       this.mobile = isMobile;
     });
+
+    setInterval(() => {
+      this.actualTimestamp = Date.now();
+    }, 60000);
   }
 
   openNewChannelDialog() {
-    this.dialog.open(CreateChannelDialogComponent, {
-      // minWidth: '300px',
-      // data: {
-      //   animal: 'panda',
-      // },
-    });
+    this.dialog.open(CreateChannelDialogComponent, {});
   }
 }

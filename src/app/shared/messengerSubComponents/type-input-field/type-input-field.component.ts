@@ -51,6 +51,12 @@ export class TypeInputFieldComponent {
     } else {
       this.sendMessageBasedOnType();
     }
+    if (this.activeUserService.activeUser?.userID) {
+      this.firestoreService.updateUser(
+        { lastOnline: Date.now() },
+        this.activeUserService.activeUser.userID
+      );
+    }
   }
 
   private async sendMessageBasedOnType() {

@@ -110,6 +110,7 @@ export class ActiveUserService implements OnDestroy {
                 );
                 if (partnerUser) {
                   directMessage.partnerUser = partnerUser;
+                  console.log(partnerUser);
                 }
               }
             }

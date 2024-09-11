@@ -15,7 +15,7 @@ export class User {
     this.profileImg = '';
     this.email = '';
     this.active = false;
-    this.lastOnline = undefined;
+    this.lastOnline = 0;
     this.passwordResetToken = '';
     this.passwordResetExpires = '';
     this.channels = [];
