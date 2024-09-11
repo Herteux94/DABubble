@@ -14,6 +14,13 @@ import { CommonModule } from '@angular/common';
 import { User } from '../../models/user.model';
 import { FirestoreService } from '../../services/firestore.service';
 import { ProfileDialogComponent } from '../../dialogs/profile-dialog/profile-dialog.component';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 
 @Component({
   selector: 'app-header',
@@ -21,6 +28,20 @@ import { ProfileDialogComponent } from '../../dialogs/profile-dialog/profile-dia
   imports: [RouterModule, RouterLink, RouterLinkActive, CommonModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
+  animations: [
+    trigger('openSearchList', [
+      state('void', style({ height: '0px', opacity: 0, overflow: 'hidden' })),
+      state('*', style({ height: '*', opacity: 1, overflow: 'hidden' })),
+      transition('void => *', [
+        style({ height: '0px', opacity: 0 }),
+        animate('300ms ease-out', style({ height: '*', opacity: 1 }))
+      ]),
+      transition('* => void', [
+        animate('300ms ease-in', style({ height: '0px', opacity: 0 }))
+      ]),
+    ]),
+    
+  ],
 })
 export class HeaderComponent implements OnInit {
   dialog = inject(Dialog);
@@ -53,29 +74,48 @@ export class HeaderComponent implements OnInit {
   }
 
   onHeaderSearchInput(event: Event): void {
-    const searchTerm = (event.target as HTMLInputElement).value.toLowerCase();
-    this.headerSearchQuery.set(searchTerm);
-    this.filterResults(searchTerm);
-  }
-
-  onInputFocus() {
+    const input = (event.target as HTMLInputElement).value;
+    this.headerSearchQuery.set(input);
+  
+    if (input.trim() === '') {
+      this.filteredChannels = this.activeUserService.activeUserChannels;
+      this.filteredUsers = this.firestoreService.allUsers;
+    } else {
+      this.filteredChannels = this.activeUserService.activeUserChannels.filter(channel =>
+        channel.name.toLowerCase().includes(input.toLowerCase())
+      );
+  
+      this.filteredUsers = this.firestoreService.allUsers.filter(user =>
+        user.name.toLowerCase().includes(input.toLowerCase())
+      );
+    }
+  
     this.searchListOpen = true;
   }
-
-  onInputBlur() {
+  
+  onInputFocus(): void {
+    if (this.headerSearchQuery().trim() === '') {
+      this.filteredChannels = this.activeUserService.activeUserChannels;
+      this.filteredUsers = this.firestoreService.allUsers;
+    }
+    
+    this.searchListOpen = true;
+  }
+  
+  
+  onInputBlur(): void {
     setTimeout(() => {
       this.searchListOpen = false;
-      this.headerSearchQuery.set("");
-    }, 200); // Verzögerung, um sicherzustellen, dass der Klick auf das Ergebnis registriert wird
+    }, 200);
   }
 
   filterResults(searchTerm: string) {
     this.filteredChannels = this.activeUserService.activeUserChannels
-      .filter(channel => channel.name.toLowerCase().includes(searchTerm))
+      .filter((channel) => channel.name.toLowerCase().includes(searchTerm))
       .sort((a, b) => a.name.localeCompare(b.name));
 
     this.filteredUsers = this.firestoreService.allUsers
-      .filter(user => user.name.toLowerCase().includes(searchTerm))
+      .filter((user) => user.name.toLowerCase().includes(searchTerm))
       .sort((a, b) => a.name.localeCompare(b.name));
   }
 
@@ -83,31 +123,16 @@ export class HeaderComponent implements OnInit {
     this.router.navigate([`messenger/channel/${channelID}`]);
   }
 
-  // onHeaderSearchInput(event: Event): void {
-  //   const inputElement = event.target as HTMLInputElement;
-  //   const inputValue = inputElement.value;
-  //   this.dialogOpen = false;
-  //   this.headerSearchQuery.set(inputValue);
-
-  //   if (inputValue.startsWith('@')) {
-  //     this.firstLetter.set('@');
-  //   } else if (inputValue.startsWith('#')) {
-  //     this.firstLetter.set('#');
-  //   } else {
-  //     this.firstLetter.set('');
-  //   }
-  // }
-
   openMenuDialog() {
     this.dialog.open(MenuDialogComponent, {});
   }
 
-  openProfileDialog(user:User) {
+  openProfileDialog(user: User) {
     this.dialog.open(ProfileDialogComponent, {
       data: { userID: user.userID },
     });
     this.dialogOpen = true;
-    this.headerSearchQuery.set("");
+    this.headerSearchQuery.set('');
   }
 
   navigateToStart() {
