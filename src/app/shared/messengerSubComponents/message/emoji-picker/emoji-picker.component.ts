@@ -20,11 +20,11 @@ export class EmojiPickerComponent {
     const userID = this.activeUserService.activeUser?.userID; // User-ID des aktuellen Nutzers
 
     if (userID) {
-      // Emitte ein Objekt mit 'emoji' und 'userID'
-      this.emojiSelect.emit({ emoji: selectedEmoji, userID });
+      this.emojiSelect.emit({ emoji: selectedEmoji, userID });  // Emitte das Emoji mit der UserID
     } else {
       console.error('No active user found.');
     }
   }
+
 
 }

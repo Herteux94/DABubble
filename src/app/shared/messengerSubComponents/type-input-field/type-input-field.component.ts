@@ -4,6 +4,7 @@ import {
   HostListener,
   inject,
   Input,
+  ViewChild
 } from '@angular/core';
 import { Message } from '../../../models/message.model';
 import { FormsModule } from '@angular/forms';
@@ -17,11 +18,12 @@ import { ActiveThreadService } from '../../../services/active-thread-service.ser
 import { NewDirectMessageService } from '../../../services/new-direct-message.service';
 import { Router } from '@angular/router';
 import { serverTimestamp } from '@angular/fire/firestore';
+import { EmojiPickerComponent } from '../message/emoji-picker/emoji-picker.component';
 
 @Component({
   selector: 'app-type-input-field',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, EmojiPickerComponent],
   templateUrl: './type-input-field.component.html',
   styleUrls: ['./type-input-field.component.scss'],
 })
@@ -30,9 +32,12 @@ export class TypeInputFieldComponent {
   @Input() newDirectMessage: boolean = false;
   newDirectMessageService = inject(NewDirectMessageService);
   message = new Message();
+  showEmojiPicker: boolean = false; // Flag zum Anzeigen des Emoji-Pickers
   uploadedFiles: { file: File; url: string }[] = []; // Liste der hochgeladenen Dateien und deren URLs
 
   errorMessageUpload: string = ''; // Variable für die Fehlermeldungen
+
+  @ViewChild('messageInput') messageInput!: ElementRef; // Referenz zum Textarea
 
   constructor(
     private firestoreService: FirestoreService,
@@ -43,7 +48,7 @@ export class TypeInputFieldComponent {
     private activeThreadService: ActiveThreadService,
     private router: Router,
     private el: ElementRef
-  ) {}
+  ) { }
 
   sendMessage() {
     if (this.uploadedFiles.length > 0) {
@@ -278,6 +283,34 @@ export class TypeInputFieldComponent {
       default:
         return 'Schreibe eine Nachricht...';
     }
+  }
+
+  addEmoji(event: { emoji: string }) {
+    const emoji = event.emoji;
+    const inputElement = this.messageInput.nativeElement;
+
+    // Füge das Emoji an der aktuellen Cursor-Position in message.content ein
+    const startPos = inputElement.selectionStart;
+    const endPos = inputElement.selectionEnd;
+
+    // message.content wird modifiziert, um das Emoji hinzuzufügen
+    this.message.content = this.message.content.slice(0, startPos) + emoji + this.message.content.slice(endPos);
+
+    // Den Emoji-Picker schließen
+    this.showEmojiPicker = false;
+
+    // Setze den Fokus zurück auf das Textarea und aktualisiere die Cursor-Position
+    setTimeout(() => {
+      inputElement.focus();
+      inputElement.selectionStart = startPos + emoji.length;
+      inputElement.selectionEnd = startPos + emoji.length;
+    }, 0);
+  }
+
+
+
+  toggleEmojiPicker() {
+    this.showEmojiPicker = !this.showEmojiPicker;
   }
 
   @HostListener('document:keydown.enter', ['$event'])

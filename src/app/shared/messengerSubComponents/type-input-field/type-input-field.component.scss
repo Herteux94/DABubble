@@ -47,6 +47,13 @@
   display: none; /* Versteckt das Element */
 }
 
+.emojiPicker {
+  position: absolute;
+  bottom: 148px;
+  left: 24px;
+  z-index: 100;
+}
+
 .textArea {
   border: 1px solid $outlines;
   border-radius: 20px;

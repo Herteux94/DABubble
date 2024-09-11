@@ -1,7 +1,8 @@
 <div (mouseleave)="this.messageOptionsOpen = false" [ngClass]="ownMessage? 'optionsBubbleOwnMsg' : 'optionsBubble'">
 
-    <app-emoji-picker *ngIf="showEmojis" (emojiSelect)="addEmoji($event)"></app-emoji-picker>
-  <!-- SVG anzeigen, wenn Emojis nicht sichtbar sind -->
+  <div *ngIf="showEmojis" [ngClass]="emojiPickerDirection === 'up' ? 'emojiPickerUp' : 'emojiPickerDown'">
+    <app-emoji-picker (emojiSelect)="onEmojiSelected($event)"></app-emoji-picker>
+  </div>
   <div class="optionsBubbleContent" *ngIf="!showEmojis">
     <div class="svgContainer">
       <svg width="24" height="24" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -55,7 +56,7 @@
           fill="#EBA352" />
       </svg>
     </div>
-    <div class="svgContainer" (click)="showEmojiPicker()">
+    <div class="svgContainer" (click)="toggleEmojiPicker()">
       <svg class="changeColor" width="24" height="24" viewBox="0 0 24 24" fill="none"
         xmlns="http://www.w3.org/2000/svg">
         <mask id="mask0_1823_21631" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
