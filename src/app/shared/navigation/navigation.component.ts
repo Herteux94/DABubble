@@ -9,6 +9,7 @@ import { FirestoreService } from '../../services/firestore.service';
 import { ActiveChannelService } from '../../services/active-channel.service';
 import { ActiveUserService } from '../../services/active-user.service';
 import { ActiveDirectMessageService } from '../../services/active-direct-message-service.service';
+import { ActualTimestampService } from '../../services/actual-timestamp.service';
 
 @Component({
   selector: 'app-navigation',
@@ -26,7 +27,6 @@ import { ActiveDirectMessageService } from '../../services/active-direct-message
 export class NavigationComponent implements OnInit {
   dialog = inject(Dialog);
   mobile!: boolean;
-  actualTimestamp = Date.now();
 
   constructor(
     public screenSizeService: ScreenSizeService,
@@ -34,17 +34,14 @@ export class NavigationComponent implements OnInit {
     public firestoreService: FirestoreService,
     public activeChannelService: ActiveChannelService,
     public activeUserService: ActiveUserService,
-    public activeDirectMessageService: ActiveDirectMessageService
+    public activeDirectMessageService: ActiveDirectMessageService,
+    public actualTimestampService: ActualTimestampService
   ) {}
 
   ngOnInit() {
     this.screenSizeService.isMobile().subscribe((isMobile) => {
       this.mobile = isMobile;
     });
-
-    setInterval(() => {
-      this.actualTimestamp = Date.now();
-    }, 60000);
   }
 
   openNewChannelDialog() {

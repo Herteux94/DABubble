@@ -1,6 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import {
-  ActivatedRoute,
   Router,
   RouterLink,
   RouterLinkActive,
@@ -22,6 +21,7 @@ import {
   trigger,
 } from '@angular/animations';
 import { ActiveChannelService } from '../../services/active-channel.service';
+import { ActualTimestampService } from '../../services/actual-timestamp.service';
 
 @Component({
   selector: 'app-header',
@@ -35,13 +35,12 @@ import { ActiveChannelService } from '../../services/active-channel.service';
       state('*', style({ opacity: 1, transform: 'scaleY(1)' })),
       transition('void => *', [
         style({ opacity: 0, transform: 'scaleY(0)' }),
-        animate('300ms ease-out')
+        animate('300ms ease-out'),
       ]),
       transition('* => void', [
-        animate('300ms ease-in', style({ opacity: 0, transform: 'scaleY(0)' }))
+        animate('300ms ease-in', style({ opacity: 0, transform: 'scaleY(0)' })),
       ]),
     ]),
-    
   ],
 })
 export class HeaderComponent implements OnInit {
@@ -62,7 +61,7 @@ export class HeaderComponent implements OnInit {
   constructor(
     private screenSizeService: ScreenSizeService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    public actualTimestampService: ActualTimestampService
   ) {}
 
   ngOnInit() {
@@ -78,32 +77,32 @@ export class HeaderComponent implements OnInit {
   onHeaderSearchInput(event: Event): void {
     const input = (event.target as HTMLInputElement).value;
     this.headerSearchQuery.set(input);
-  
+
     if (input.trim() === '') {
       this.filteredChannels = this.activeUserService.activeUserChannels;
       this.filteredUsers = this.firestoreService.allUsers;
     } else {
-      this.filteredChannels = this.activeUserService.activeUserChannels.filter(channel =>
-        channel.name.toLowerCase().includes(input.toLowerCase())
+      this.filteredChannels = this.activeUserService.activeUserChannels.filter(
+        (channel) => channel.name.toLowerCase().includes(input.toLowerCase())
       );
-  
-      this.filteredUsers = this.firestoreService.allUsers.filter(user =>
+
+      this.filteredUsers = this.firestoreService.allUsers.filter((user) =>
         user.name.toLowerCase().includes(input.toLowerCase())
       );
     }
-  
+
     this.searchListOpen = true;
   }
-  
+
   onInputFocus(): void {
     if (this.headerSearchQuery().trim() === '') {
       this.filteredChannels = this.activeUserService.activeUserChannels;
       this.filteredUsers = this.firestoreService.allUsers;
     }
-    
+
     this.searchListOpen = true;
   }
-  
+
   onInputBlur(): void {
     setTimeout(() => {
       this.searchListOpen = false;

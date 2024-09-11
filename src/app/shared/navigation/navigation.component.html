@@ -140,7 +140,11 @@
                   ? this.activeUserService.activeUser.profileImg
                   : '../../../assets/img/Profile.svg'
               " alt="hashtag-icon" />
-            <img class="onlineStatusImg" src="../../../assets/img/green-online-circle.svg" alt="online-status" />
+            @if(this.activeUserService.activeUser?.lastOnline) {
+            <img class="onlineStatusImg"
+              [src]="(this.activeUserService.activeUser.lastOnline - this.actualTimestampService.actualTimestamp < 300000) ? '../../../assets/img/green-online-circle.svg' : '../../../assets/img/grey_offline_circle.svg'"
+              alt="online-status" />
+            }
           </div>
           <span>{{ this.activeUserService.activeUser.name }} (Du)</span>
         </a>
@@ -164,9 +168,11 @@
                       ? dm.partnerUser.profileImg
                       : '../../../assets/img/Profile.svg'
                   " alt="hashtag-icon" />
+            @if(dm.partnerUser?.lastOnline) {
             <img class="onlineStatusImg"
-              [src]="((this.actualTimestamp - dm.partnerUser.lastOnline) > 300000) ? '../../../assets/img/green-online-circle.svg' : '../../../assets/img/grey_offline_circle.svg'"
+              [src]="(dm.partnerUser.lastOnline - this.actualTimestampService.actualTimestamp < 300000) ? '../../../assets/img/green-online-circle.svg' : '../../../assets/img/grey_offline_circle.svg'"
               alt="online-status" />
+            }
           </div>
           @if(this.activeUserService.activeUserDirectMessages && this.activeUserService.activeUserDirectMessages.length
           > 0 && dm.partnerUser && dm.partnerUser.name) {
