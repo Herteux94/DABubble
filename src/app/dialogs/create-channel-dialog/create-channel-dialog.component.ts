@@ -67,34 +67,6 @@ export class CreateChannelDialogComponent implements OnInit {
     }
   }
 
-  
-
-  // async onSubmit(form: NgForm) {
-  //   if (form.valid) {
-  //     const newChannel = new Channel();
-  //     newChannel.name = this.createdChannel.name!;
-  //     newChannel.creator = this.activeUserService.activeUser.name;
-  //     newChannel.description = this.createdChannel.description!;
-  //     newChannel.creationTime = Date.now();
-  //     newChannel.member = [this.activeUserService.activeUser.userID];
-
-  //     try {
-  //       this.firestoreService.addChannel(newChannel.toJSON(), this.activeUserService.activeUser.userID);
-
-  //       setTimeout(() => {
-  //         console.log('channel: ', newChannel);
-  //         console.log('active User: ', this.activeUserService.activeUser.userID);
-          
-  //       },1000)
-
-        
-  //       this.dialogRef.close();
-  //     } catch (error) {
-  //       console.error('Fehler beim Erstellen des Channels:', error);
-  //     }
-  //   }
-  // }
-
   @HostListener('document:keydown.enter', ['$event'])
   handleEnterKey(event: KeyboardEvent) {
     const activeElement = document.activeElement;

@@ -1,25 +1,96 @@
 <header>
-  <img (click)="navigateToStart()" class="logo" [src]="this.mobile && !this.navigationCompActive ? '../../../assets/img/header_logo_devspace.svg' : '../../../assets/img/logo-plus-text.svg'" alt="main-logo">
+  <img (click)="navigateToStart()" class="logo"
+    [src]="this.mobile && !this.navigationCompActive ? '../../../assets/img/header_logo_devspace.svg' : '../../../assets/img/logo-plus-text.svg'"
+    alt="main-logo">
   <div class="rightSide">
     <div class="inputContainer">
-      <input placeholder="DevSpace durchsuchen" type="text">
-    </div>
-    <div class="nameAndProfileContainer" (click)="openMenuDialog()">
-        @if(this.activeUserService.activeUser) {
-            <h2 class="name">{{ this.activeUserService.activeUser.name }}</h2>
+      <input [value]="headerSearchQuery()" (input)="onHeaderSearchInput($event)" (focus)="onInputFocus()" (blur)="onInputBlur()" type="text"
+        #headerSearchBar id="headerSearchBar" placeholder="DevSpace durchsuchen" required />
+      @if (searchListOpen && filteredChannels.length) {
+      <div class="searchList">
+        @if (filteredChannels.length > 0) {
+        <h3 class="searchListCategory">Channel</h3>
         }
-        <div class="profileAndOnlineCircleImg">
-            <img class="avatarImg" [src]="getProfileImage()" alt="Profilbild">
-            <img class="onlineStatusImg" src="../../../assets/img/green-online-circle.svg" alt="online-status">
-        </div>
-        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <mask id="mask0_70010_926" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="30" height="30">
-            <rect width="30" height="30" fill="#D9D9D9"/>
+        @for (channel of filteredChannels; track channel) {
+        <div class="channelContainer" (click)="navigateToChannel(channel.channelID)">
+          <svg class="hashtag" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <mask id="mask0_813_12093" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+              <rect width="24" height="24" fill="#D9D9D9" />
             </mask>
-            <g mask="url(#mask0_70010_926)">
-            <path d="M15 18.7188C14.8333 18.7188 14.6721 18.6875 14.5162 18.625C14.3596 18.5625 14.2292 18.4792 14.125 18.375L8.375 12.625C8.14583 12.3958 8.03125 12.1042 8.03125 11.75C8.03125 11.3958 8.14583 11.1042 8.375 10.875C8.60417 10.6458 8.89583 10.5312 9.25 10.5312C9.60417 10.5312 9.89583 10.6458 10.125 10.875L15 15.75L19.875 10.875C20.1042 10.6458 20.3958 10.5312 20.75 10.5312C21.1042 10.5312 21.3958 10.6458 21.625 10.875C21.8542 11.1042 21.9688 11.3958 21.9688 11.75C21.9688 12.1042 21.8542 12.3958 21.625 12.625L15.875 18.375C15.75 18.5 15.6146 18.5883 15.4688 18.64C15.3229 18.6925 15.1667 18.7188 15 18.7188Z" fill="black"/>
+            <g mask="url(#mask0_813_12093)">
+              <path
+                d="M7.24995 20C6.93328 20 6.67495 19.875 6.47495 19.625C6.27495 19.375 6.21662 19.1 6.29995 18.8L6.99995 16H4.77495C4.44162 16 4.17495 15.871 3.97495 15.613C3.77495 15.3543 3.71661 15.0667 3.79995 14.75C3.84995 14.5167 3.96662 14.3333 4.14995 14.2C4.33328 14.0667 4.54162 14 4.77495 14H7.49995L8.49995 10H5.77495C5.44161 10 5.17495 9.871 4.97495 9.613C4.77495 9.35433 4.71662 9.06667 4.79995 8.75C4.84995 8.51667 4.96662 8.33333 5.14995 8.2C5.33328 8.06667 5.54162 8 5.77495 8H8.99995L9.82495 4.725C9.87495 4.50833 9.98328 4.33333 10.1499 4.2C10.3166 4.06667 10.5166 4 10.7499 4C11.0666 4 11.3249 4.125 11.5249 4.375C11.7249 4.625 11.7833 4.9 11.6999 5.2L10.9999 8H14.9999L15.8249 4.725C15.8749 4.50833 15.9833 4.33333 16.1499 4.2C16.3166 4.06667 16.5166 4 16.7499 4C17.0666 4 17.3249 4.125 17.5249 4.375C17.7249 4.625 17.7833 4.9 17.6999 5.2L16.9999 8H19.2249C19.5583 8 19.8249 8.129 20.0249 8.387C20.2249 8.64567 20.2833 8.93333 20.1999 9.25C20.15 9.48333 20.0333 9.66667 19.8499 9.8C19.6666 9.93333 19.4583 10 19.2249 10H16.4999L15.4999 14H18.2249C18.5583 14 18.8249 14.129 19.0249 14.387C19.2249 14.6457 19.2833 14.9333 19.1999 15.25C19.1499 15.4833 19.0333 15.6667 18.8499 15.8C18.6666 15.9333 18.4583 16 18.2249 16H14.9999L14.1749 19.275C14.1249 19.4917 14.0166 19.6667 13.8499 19.8C13.6833 19.9333 13.4833 20 13.2499 20C12.9333 20 12.6749 19.875 12.4749 19.625C12.2749 19.375 12.2166 19.1 12.2999 18.8L12.9999 16H8.99995L8.17495 19.275C8.12495 19.4917 8.01661 19.6667 7.84995 19.8C7.68328 19.9333 7.48328 20 7.24995 20ZM9.49995 14H13.4999L14.4999 10H10.4999L9.49995 14Z"
+                fill="black" />
             </g>
-        </svg>
+          </svg>
+          <span>{{ channel.name }}</span>
+        </div>
+        }
+        @if (filteredUsers.length > 0) {
+        <h3 class="searchListCategory">User</h3>
+        }
+        @for (user of filteredUsers; track user) {
+        <div class="userContainer" (click)="openProfileDialog(user)">
+          <img [src]="user.profileImg || '../../../assets/img/Profile.svg'" alt="{{ user.name }}" />
+          <p>{{ user.name }}</p>
+        </div>
+        }
+      </div>
+
+      }
+    </div>
+
+    <!-- <div class="inputContainer">
+      <input [value]="headerSearchQuery()" (input)="onHeaderSearchInput($event)" type="text" #headerSearchBar id="headerSearchBar" placeholder="DevSpace durchsuchen"
+        required />
+
+      @if(headerSearchQuery() && !dialogOpen) {
+      <div class="searchList">
+        <h3 class="searchListCategory">Channel</h3>
+        @for (channel of this.activeUserService.activeUserChannels; track channel) {
+        <div class="channelContainer">
+          <svg class="hashtag" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <mask id="mask0_813_12093" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+              <rect width="24" height="24" fill="#D9D9D9" />
+            </mask>
+            <g mask="url(#mask0_813_12093)">
+              <path
+                d="M7.24995 20C6.93328 20 6.67495 19.875 6.47495 19.625C6.27495 19.375 6.21662 19.1 6.29995 18.8L6.99995 16H4.77495C4.44162 16 4.17495 15.871 3.97495 15.613C3.77495 15.3543 3.71661 15.0667 3.79995 14.75C3.84995 14.5167 3.96662 14.3333 4.14995 14.2C4.33328 14.0667 4.54162 14 4.77495 14H7.49995L8.49995 10H5.77495C5.44161 10 5.17495 9.871 4.97495 9.613C4.77495 9.35433 4.71662 9.06667 4.79995 8.75C4.84995 8.51667 4.96662 8.33333 5.14995 8.2C5.33328 8.06667 5.54162 8 5.77495 8H8.99995L9.82495 4.725C9.87495 4.50833 9.98328 4.33333 10.1499 4.2C10.3166 4.06667 10.5166 4 10.7499 4C11.0666 4 11.3249 4.125 11.5249 4.375C11.7249 4.625 11.7833 4.9 11.6999 5.2L10.9999 8H14.9999L15.8249 4.725C15.8749 4.50833 15.9833 4.33333 16.1499 4.2C16.3166 4.06667 16.5166 4 16.7499 4C17.0666 4 17.3249 4.125 17.5249 4.375C17.7249 4.625 17.7833 4.9 17.6999 5.2L16.9999 8H19.2249C19.5583 8 19.8249 8.129 20.0249 8.387C20.2249 8.64567 20.2833 8.93333 20.1999 9.25C20.15 9.48333 20.0333 9.66667 19.8499 9.8C19.6666 9.93333 19.4583 10 19.2249 10H16.4999L15.4999 14H18.2249C18.5583 14 18.8249 14.129 19.0249 14.387C19.2249 14.6457 19.2833 14.9333 19.1999 15.25C19.1499 15.4833 19.0333 15.6667 18.8499 15.8C18.6666 15.9333 18.4583 16 18.2249 16H14.9999L14.1749 19.275C14.1249 19.4917 14.0166 19.6667 13.8499 19.8C13.6833 19.9333 13.4833 20 13.2499 20C12.9333 20 12.6749 19.875 12.4749 19.625C12.2749 19.375 12.2166 19.1 12.2999 18.8L12.9999 16H8.99995L8.17495 19.275C8.12495 19.4917 8.01661 19.6667 7.84995 19.8C7.68328 19.9333 7.48328 20 7.24995 20ZM9.49995 14H13.4999L14.4999 10H10.4999L9.49995 14Z"
+                fill="black" />
+            </g>
+          </svg>
+          <span>{{ channel.name }}</span>
+        </div>
+        }
+        <h3 class="searchListCategory">User</h3>
+        @for (user of this.firestoreService.allUsers; track user) {
+        <div class="userContainer" (click)="openProfileDialog(user)">
+          <img [src]="user.profileImg || '../../../assets/img/Profile.svg'" alt="{{ user.name }}">
+          <p>{{ user.name }}</p>
+        </div>
+        }
+      </div>
+      }
+
+    </div> -->
+    <div class="nameAndProfileContainer" (click)="openMenuDialog()">
+      @if(this.activeUserService.activeUser) {
+      <h2 class="name">{{ this.activeUserService.activeUser.name }}</h2>
+      }
+      <div class="profileAndOnlineCircleImg">
+        <img class="avatarImg" [src]="getProfileImage()" alt="Profilbild">
+        <img class="onlineStatusImg" src="../../../assets/img/green-online-circle.svg" alt="online-status">
+      </div>
+      <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <mask id="mask0_70010_926" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="30" height="30">
+          <rect width="30" height="30" fill="#D9D9D9" />
+        </mask>
+        <g mask="url(#mask0_70010_926)">
+          <path
+            d="M15 18.7188C14.8333 18.7188 14.6721 18.6875 14.5162 18.625C14.3596 18.5625 14.2292 18.4792 14.125 18.375L8.375 12.625C8.14583 12.3958 8.03125 12.1042 8.03125 11.75C8.03125 11.3958 8.14583 11.1042 8.375 10.875C8.60417 10.6458 8.89583 10.5312 9.25 10.5312C9.60417 10.5312 9.89583 10.6458 10.125 10.875L15 15.75L19.875 10.875C20.1042 10.6458 20.3958 10.5312 20.75 10.5312C21.1042 10.5312 21.3958 10.6458 21.625 10.875C21.8542 11.1042 21.9688 11.3958 21.9688 11.75C21.9688 12.1042 21.8542 12.3958 21.625 12.625L15.875 18.375C15.75 18.5 15.6146 18.5883 15.4688 18.64C15.3229 18.6925 15.1667 18.7188 15 18.7188Z"
+            fill="black" />
+        </g>
+      </svg>
     </div>
   </div>
 </header>
