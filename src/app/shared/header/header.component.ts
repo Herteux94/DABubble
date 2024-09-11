@@ -21,6 +21,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
+import { ActiveChannelService } from '../../services/active-channel.service';
 
 @Component({
   selector: 'app-header',
@@ -47,6 +48,7 @@ export class HeaderComponent implements OnInit {
   dialog = inject(Dialog);
   activeUserService = inject(ActiveUserService);
   firestoreService = inject(FirestoreService);
+  activeChannelService = inject(ActiveChannelService);
   mobile!: boolean;
   navigationCompActive: boolean = true;
   avatarUrl: string = '../../../assets/img/avatars/avatar-4.svg';
@@ -120,6 +122,7 @@ export class HeaderComponent implements OnInit {
   }
 
   navigateToChannel(channelID: any) {
+    this.activeChannelService.loadActiveChannelAndMessages(channelID);
     this.router.navigate([`messenger/channel/${channelID}`]);
   }
 
