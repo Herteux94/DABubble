@@ -31,14 +31,14 @@ import { ActiveChannelService } from '../../services/active-channel.service';
   styleUrl: './header.component.scss',
   animations: [
     trigger('openSearchList', [
-      state('void', style({ height: '0px', opacity: 0, overflow: 'hidden' })),
-      state('*', style({ height: '*', opacity: 1, overflow: 'hidden' })),
+      state('void', style({ opacity: 0, transform: 'scaleY(0)' })),
+      state('*', style({ opacity: 1, transform: 'scaleY(1)' })),
       transition('void => *', [
-        style({ height: '0px', opacity: 0 }),
-        animate('300ms ease-out', style({ height: '*', opacity: 1 }))
+        style({ opacity: 0, transform: 'scaleY(0)' }),
+        animate('300ms ease-out')
       ]),
       transition('* => void', [
-        animate('300ms ease-in', style({ height: '0px', opacity: 0 }))
+        animate('300ms ease-in', style({ opacity: 0, transform: 'scaleY(0)' }))
       ]),
     ]),
     
@@ -103,7 +103,6 @@ export class HeaderComponent implements OnInit {
     
     this.searchListOpen = true;
   }
-  
   
   onInputBlur(): void {
     setTimeout(() => {
