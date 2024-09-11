@@ -166,6 +166,45 @@ export class MessageComponent {
     }
   }
 
+  removeReaction(emoji: string) {
+    const userID = this.activeUserService.activeUser?.userID;
+
+    if (!this.message.reactions) return;
+
+    const reactionIndex = this.message.reactions.findIndex((r) => r.emoji === emoji);
+
+    if (reactionIndex !== -1) {
+      const reaction = this.message.reactions[reactionIndex];
+
+      // Prüfen, ob der aktuelle User die Reaktion gemacht hat
+      const userIndex = reaction.users.indexOf(userID!);
+
+      if (userIndex !== -1) {
+        // User aus der Reaktion entfernen
+        reaction.users.splice(userIndex, 1);
+
+        // Wenn keine User mehr auf diese Reaktion reagiert haben, Reaktion komplett entfernen
+        if (reaction.users.length === 0) {
+          this.message.reactions.splice(reactionIndex, 1);
+        } else {
+          // Sonst einfach die Anzahl der Reaktionen verringern
+          reaction.count -= 1;
+        }
+
+        // Reaktionen nach Änderung speichern
+        this.saveMessageReactions();
+      }
+    }
+  }
+
+// Sicherstellen, dass die activeUserID immer einen string zurückgibt
+get activeUserID(): string {
+  return this.activeUserService.activeUser?.userID || '';
+}
+
+
+
+
   openProfileDialog() {
     this.dialog.open(ProfileDialogComponent, {
       data: { userID: this.message.senderID },

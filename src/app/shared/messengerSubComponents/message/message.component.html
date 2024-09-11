@@ -56,18 +56,21 @@
     <div *ngFor="let reaction of message.reactions"
          class="reactionContainer"
          (mouseenter)="loadUserNamesForReaction(reaction.users)"
-         (mouseleave)="hoveredReactionUsers = []"> <!-- Namen ausblenden -->
+         (mouseleave)="hoveredReactionUsers = []"
+         (click)="reaction.users.includes(activeUserID) ? removeReaction(reaction.emoji) : null"> <!-- Jetzt wird activeUserID genutzt -->
 
       <span>{{ reaction.emoji }}</span>
       <span class="reactionsCount">{{ reaction.count }}</span>
 
-      <!-- Tooltip für User-Namen anzeigen -->
+      <!-- Tooltip für User-Namen -->
       <div class="reactionTooltip" *ngIf="hoveredReactionUsers.length > 0">
-        {{ hoveredReactionUsers.join(', ') }} <!-- Namen anzeigen -->
+        {{ hoveredReactionUsers.join(', ') }}
       </div>
     </div>
   </div>
 </div>
+
+
 
 
 
