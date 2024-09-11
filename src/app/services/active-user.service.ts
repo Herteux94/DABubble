@@ -60,7 +60,7 @@ export class ActiveUserService implements OnDestroy {
       .subscribe((user: User | undefined) => {
         this.activeUser = user;
         if (this.activeUser) {
-          this.activeUser.lastOnline = Date.now();
+          // this.activeUser.lastOnline = Date.now();
           this.loadConversations();
         }
       });
