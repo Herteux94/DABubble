@@ -1,130 +1,197 @@
-@import '../../../variables.scss';
+@import "../../../variables.scss";
 
 header {
-    height: 80px;
-    background-color: $background-color;
-    padding: 16px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-sizing: border-box;
+  height: 80px;
+  background-color: $background-color;
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
 }
 
 .logo {
-    height: 46px;
-    cursor: pointer;
+  height: 46px;
+  cursor: pointer;
 }
 
 .rightSide {
-    display: flex;
+  display: flex;
 }
 
 .nameAndProfileContainer {
-    display: flex;
-    align-items: center;
-    gap: 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 
 .profileAndOnlineCircleImg {
-    position: relative;
-    height: 50px;
+  position: relative;
+  height: 50px;
 }
 
 .avatarImg {
-    width: 50px;
-    height: 50px;
-    object-fit: cover; 
-    border-radius: 100%;
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 100%;
 }
 
 .onlineStatusImg {
-    position: absolute;
-    bottom: 0px;
-    right: 0px;
-    z-index: 1;
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  z-index: 1;
 }
 
 .name {
-    display: none;
+  display: none;
 }
 
 .arrowDown {
-    display: none;
+  display: none;
 }
 
 .inputContainer {
-    justify-content: center;
-    padding: 24px 0;
-    display: none;
+  justify-content: center;
+  padding: 24px 0;
+  display: none;
+
+  input {
+    border: none;
+    outline: none;
+    border-radius: 42px;
+    width: 100%;
+    max-width: 70%;
+    height: 40px;
+    padding: 8px 24px;
+    font-size: 16px;
+    background-image: url(../../../assets/img/search-glass-icon.svg);
+    background-repeat: no-repeat;
+    background-position: calc(100% - 24px);
+    background-size: 20px;
+    z-index: 2;
+  }
+}
+
+.searchList {
+  width: 100%;
+  max-height: 320px;
+  background-color: white;
+  overflow-y: scroll;
+  padding: 40px 12px 12px 12px;
+  position: relative;
+  top: -49px;
+  z-index: 1;
+  border-radius: 24px;
+  box-shadow: 5px 4px 10px 0px #00000033;
+}
+
+.searchListCategory {
+  margin: 12px 0;
+}
+
+.channelContainer {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  gap: 12px;
+  padding: 4px 20px;
+  cursor: pointer;
+  border-radius: 24px;
+
+  &:hover {
+    background-color: $background-color;
+
+    span {
+        color: $first-color;
+    }
+
+    svg path {
+        fill: $first-color;
+    }
+  }
+}
+
+.userContainer {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  gap: 16px;
+  cursor: pointer;
+  padding: 4px 20px;
+  border-radius: 50px;
+
+  &:hover {
+    background-color: $background-color;
+  }
+
+  img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .removeUserIcon {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+@media (min-width: 650px) {
+  .name {
+    display: block;
+  }
+}
+
+@media (min-width: 1025px) {
+  .arrowDown {
+    display: block;
+  }
+
+  .inputContainer {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    position: absolute;
+    left: 230px;
+    right: 382px;
 
     input {
-        border: none;
-        outline: none;
-        border-radius: 42px;
-        width: 100%;
-        max-width: 70%;
-        height: 40px;
-        padding: 8px 24px;
-        font-size: 16px;
-        background-image: url(../../../assets/img/search-glass-icon.svg);
-        background-repeat: no-repeat;
-        background-position: calc(100% - 24px);
-        background-size: 20px;
+      height: 50px;
+      width: 100%;
+      max-width: 100%;
     }
-}
+  }
 
-@media(min-width: 650px) {
+  .nameAndProfileContainer {
+    max-width: 350px;
+
     .name {
-        display: block;
+      max-width: 234px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
+
+    &:hover {
+      cursor: pointer;
+
+      h2 {
+        color: $second-color;
+      }
+
+      svg path {
+        fill: $first-color;
+      }
+    }
+  }
 }
 
-@media(min-width: 1025px) {
-    .arrowDown {
-        display: block;
-    }
-
-    .inputContainer {
-        display: flex;
-        padding: 0;
-        position: absolute;
-        left: 230px;
-        right: 382px;
-
-        input {
-            height: 50px;
-            width: 100%;
-            max-width: 100%;
-        }
-    }
-
-    .nameAndProfileContainer {
-        max-width: 350px;
-
-        .name {
-            max-width: 234px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        &:hover {
-            cursor: pointer;
-
-            h2 {
-                color: $second-color;
-            }
-
-            svg path {
-                fill: $first-color;
-            }
-        }
-    }
-}
-
-@media(min-width: 1250px) {
-    .inputContainer {
-        left: 382px;
-        right: 382px;
-    }
+@media (min-width: 1250px) {
+  .inputContainer {
+    left: 382px;
+    right: 382px;
+  }
 }
