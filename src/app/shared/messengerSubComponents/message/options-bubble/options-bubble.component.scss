@@ -22,22 +22,6 @@
   gap: 2px;
 }
 
-.options-bubble svg {
-  cursor: pointer;
-  width: 24px;
-  height: 24px;
-}
-
-.options-bubble span {
-  cursor: pointer;
-  font-size: 24px;
-  transition: transform 0.2s ease-in-out;
-}
-
-.options-bubble span:hover {
-  transform: scale(1.2);
-}
-
 .svgContainer {
   padding: 8px;
   display: flex;
@@ -73,4 +57,18 @@
       color: $first-color;
     }
   }
+}
+
+.emojiPickerUp {
+  position: absolute;
+  bottom: -90px;
+  right: -150px;
+  z-index: 999999;
+}
+
+.emojiPickerDown {
+  position: absolute;
+  top: 90px;
+  right: -150px;
+  z-index: 999999;
 }

@@ -197,11 +197,9 @@ export class MessageComponent {
     }
   }
 
-// Sicherstellen, dass die activeUserID immer einen string zurückgibt
-get activeUserID(): string {
-  return this.activeUserService.activeUser?.userID || '';
-}
-
+  get activeUserID(): string | undefined {
+    return this.activeUserService.activeUser?.userID || '';
+  }
 
 
 

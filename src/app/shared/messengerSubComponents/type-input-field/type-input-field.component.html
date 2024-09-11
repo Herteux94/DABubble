@@ -7,7 +7,7 @@
         <img [src]="uploadedFile.url" alt="img upload preview" class="uploadPreview" />
       </div>
     </div>
-    <textarea [(ngModel)]="this.message.content" [placeholder]="getPlaceholder()"></textarea>
+    <textarea #messageInput [(ngModel)]="message.content" [placeholder]="getPlaceholder()"></textarea>
     <span *ngIf="errorMessageUpload" class="errorMessage">{{ errorMessageUpload }}</span>
     <div class="btnArea">
       <div class="leftSide">
@@ -34,7 +34,7 @@
           </svg>
         </div>
         <div class="divider"></div>
-        <div class="svgContainer">
+        <div class="svgContainer" id="emojiPicker" (click)="toggleEmojiPicker()">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <mask id="mask0_70010_4003" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
               height="24">
@@ -47,7 +47,7 @@
             </g>
           </svg>
         </div>
-        <div class="svgContainer">
+        <!-- <div class="svgContainer">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <mask id="mask0_70010_4007" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
               height="24">
@@ -59,7 +59,7 @@
                 fill="#686868" />
             </g>
           </svg>
-        </div>
+        </div> -->
       </div>
       <div (click)="this.sendMessage()" class="svgContainerSendIcon">
         <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -76,4 +76,8 @@
       </div>
     </div>
   </div>
+  <div *ngIf="showEmojiPicker" class="emojiPicker">
+    <app-emoji-picker (emojiSelect)="addEmoji($event)"></app-emoji-picker>
+  </div>
+
 </div>
