@@ -40,7 +40,14 @@
           : '../../../assets/img/Profile.svg'
       " alt="hashtag-icon" />
       }
+      @if(this.activeDirectMessageService.activeDMPartner) {
+      <img class="onlineStatusImg"
+        [src]="this.activeDirectMessageService.activeDMPartner.active ? '../../../assets/img/green-online-circle.svg' : '../../../assets/img/grey_offline_circle.svg'"
+        alt="online-status" />
+      } @else if(this.activeDirectMessageService.activeDM?.directMessageID ==
+      this.activeUserService.activeUser?.userID) {
       <img class="onlineStatusImg" src="../../../assets/img/green-online-circle.svg" alt="online-status" />
+      }
     </div>
     @if(this.activeDirectMessageService.activeDMPartner &&
     this.activeDirectMessageService.activeDMPartner.name) {

@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { AuthenticationComponent } from './authentication/authentication.component';
@@ -19,7 +19,7 @@ import { ActiveUserService } from './services/active-user.service';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'da-bubble';
 
   constructor(
@@ -38,6 +38,22 @@ export class AppComponent {
     }
   }
 
+  ngOnInit(): void {
+    if (this.activeUserService.activeUser) {
+      this.firestoreService.updateUser(
+        { active: true },
+        this.activeUserService.activeUser.userID
+      );
+    } else {
+      setTimeout(() => {
+        this.firestoreService.updateUser(
+          { active: true },
+          this.activeUserService.activeUser.userID
+        );
+      }, 2000);
+    }
+  }
+
   private updateOnlineStatus(isOnline: boolean) {
     const userID = this.activeUserService.activeUser?.userID;
 
@@ -49,9 +65,11 @@ export class AppComponent {
 
   @HostListener('window:beforeunload', ['$event'])
   unloadHandler(event: Event) {
+    console.log('unloadHandler set user offline');
+
     this.firestoreService.updateUser(
       { active: false },
-      this.activeUserService.activeUser?.userID
+      this.activeUserService.activeUser.userID
     );
   }
 }
