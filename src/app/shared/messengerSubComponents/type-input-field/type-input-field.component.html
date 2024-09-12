@@ -76,7 +76,7 @@
       </div>
     </div>
   </div>
-  <div *ngIf="showEmojiPicker" class="emojiPicker">
+  <div *ngIf="showEmojiPicker" class="emojiPicker" #emojiPicker>
     <app-emoji-picker (emojiSelect)="addEmoji($event)"></app-emoji-picker>
   </div>
 

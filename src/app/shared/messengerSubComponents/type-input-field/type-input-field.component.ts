@@ -38,6 +38,8 @@ export class TypeInputFieldComponent {
   errorMessageUpload: string = ''; // Variable für die Fehlermeldungen
 
   @ViewChild('messageInput') messageInput!: ElementRef; // Referenz zum Textarea
+  @ViewChild('emojiPicker') emojiPicker!: ElementRef; // Referenz zum Emoji-Picker
+
 
   constructor(
     private firestoreService: FirestoreService,
@@ -321,4 +323,18 @@ export class TypeInputFieldComponent {
       this.sendMessage();
     }
   }
+
+  @HostListener('document:click', ['$event'])
+  clickOutside(event: MouseEvent) {
+    const clickedInsideEmojiButton = (event.target as HTMLElement).closest('#emojiPicker');
+    const clickedInsideEmojiPicker = this.emojiPicker?.nativeElement.contains(event.target);
+
+    // Schließe den Picker nur, wenn weder der Button noch der Picker selbst angeklickt wurde
+    if (this.showEmojiPicker && !clickedInsideEmojiButton && !clickedInsideEmojiPicker) {
+      this.showEmojiPicker = false;
+    }
+  }
+
+
+
 }
