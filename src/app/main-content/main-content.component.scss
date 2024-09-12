@@ -38,6 +38,18 @@ app-navigation {
   width: 100%;
 }
 
+.getOverContent {
+  position: fixed;
+  top: 80px;
+  right: 16px;
+  bottom: 16px;
+  box-shadow: -10px 0px 15px rgba(0, 0, 0, 0.2),
+    /* Schwacher Schatten */ -30px 0px 20px rgba(0, 0, 0, 0.15),
+    /* Etwas stärkerer Schatten */ -40px 0px 25px rgba(0, 0, 0, 0.1),
+    /* Noch stärkerer Schatten */ -50px 0px 30px rgba(0, 0, 0, 0.05); /* Stärkster Schatten */
+  z-index: 995;
+}
+
 app-thread {
   width: 100%;
 }
