@@ -69,7 +69,26 @@ export class ActiveUserService implements OnDestroy {
     this.loadUserDirectMessages(this.activeUser.directMessages);
   }
 
+  // loadUserChannels(activeUserChannelIDs: string[]) {
+  //   this.firestoreService
+  //     .getChannels(activeUserChannelIDs)
+  //     .pipe(takeUntil(this.destroy$)) // Ensure unsubscription
+  //     .subscribe((channels) => {
+  //       this.activeUserChannels = channels;
+  //       this.activeUserChannelsSubject.next(channels);
+  //     });
+  // }
+
   loadUserChannels(activeUserChannelIDs: string[]) {
+    if (
+      this.activeUserChannels &&
+      JSON.stringify(this.activeUserChannels.map((c) => c.channelID)) ===
+        JSON.stringify(activeUserChannelIDs)
+    ) {
+      // Keine Änderungen, nichts tun
+      return;
+    }
+
     this.firestoreService
       .getChannels(activeUserChannelIDs)
       .pipe(takeUntil(this.destroy$)) // Ensure unsubscription

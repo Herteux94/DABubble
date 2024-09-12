@@ -37,6 +37,29 @@ export class ActiveChannelService implements OnDestroy {
     this.loadChannelMessages(channelID);
   }
 
+  // async loadActiveChannel(channelID: string): Promise<void> {
+  //   this.activeUserService.activeUserChannels$
+  //     .pipe(
+  //       first((channels) => channels.length > 0),
+  //       map((channels) =>
+  //         channels.find((channel) => channel.channelID === channelID)
+  //       ),
+  //       takeUntil(this.destroy$) // Ensure unsubscription
+  //     )
+  //     .subscribe({
+  //       next: (channel) => {
+  //         if (channel) {
+  //           this.activeChannelSubject.next(channel);
+  //         } else {
+  //           console.error('Channel nicht gefunden');
+  //         }
+  //       },
+  //       error: (error) => {
+  //         console.error('Fehler beim Laden des aktiven Channels:', error);
+  //       },
+  //     });
+  // }
+
   async loadActiveChannel(channelID: string): Promise<void> {
     this.activeUserService.activeUserChannels$
       .pipe(
@@ -44,14 +67,12 @@ export class ActiveChannelService implements OnDestroy {
         map((channels) =>
           channels.find((channel) => channel.channelID === channelID)
         ),
-        takeUntil(this.destroy$) // Ensure unsubscription
+        takeUntil(this.destroy$)
       )
       .subscribe({
         next: (channel) => {
-          if (channel) {
+          if (channel && this.activeChannel?.channelID !== channel.channelID) {
             this.activeChannelSubject.next(channel);
-          } else {
-            console.error('Channel nicht gefunden');
           }
         },
         error: (error) => {
@@ -105,6 +126,8 @@ export class ActiveChannelService implements OnDestroy {
 
   loadChannelMessages(channelID: string) {
     if (this.activeChannel && this.activeChannel.channelID === channelID) {
+      console.log('channelID GLEICH aciveChannelID');
+
       this.channelMessages$ = this.firestoreService.getMessages(
         'channels',
         channelID
@@ -125,6 +148,8 @@ export class ActiveChannelService implements OnDestroy {
           console.error('Fehler beim Laden der aktiven Messages:', error);
         },
       });
+    } else {
+      console.log('channelID ungleich activeChannelID');
     }
   }
 
