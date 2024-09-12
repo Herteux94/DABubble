@@ -138,4 +138,13 @@ export class OptionsBubbleComponent implements OnInit {
     this.showEmojis = false;
   }
 
+  onSvgClick(emoji: string) {
+    const userID = this.activeUserService.activeUser?.userID;
+    if (userID) {
+      this.emojiSelected.emit({ emoji, userID });
+    } else {
+      console.error('No active user found.');
+    }
+  }
+
 }
