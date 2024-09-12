@@ -58,7 +58,6 @@ export class ActiveUserService implements OnDestroy {
       .subscribe((user: User | undefined) => {
         this.activeUser = user;
         if (this.activeUser) {
-          // this.activeUser.lastOnline = Date.now();
           this.loadConversations();
         }
       });
@@ -82,9 +81,13 @@ export class ActiveUserService implements OnDestroy {
   loadUserChannels(activeUserChannelIDs: string[]) {
     if (
       this.activeUserChannels &&
-      JSON.stringify(this.activeUserChannels.map((c) => c.channelID)) ===
-        JSON.stringify(activeUserChannelIDs)
+      this.activeUserChannels.length === activeUserChannelIDs.length &&
+      this.activeUserChannels
+        .map((c) => c.channelID)
+        .every((id) => activeUserChannelIDs.includes(id))
     ) {
+      console.log('keine Änderung in den UserChannels');
+
       // Keine Änderungen, nichts tun
       return;
     }
