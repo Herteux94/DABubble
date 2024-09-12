@@ -67,28 +67,31 @@ export class MessageComponent {
       this.mobile = isMobile;
     });
 
-    if (this.message?.attachments) {
+    if (this.message?.attachments && this.message?.senderID && this.message?.content && this.message?.creationTime) {
       this.message.attachments = this.message.attachments.filter(
         (url) => url && url.trim() !== ''
       );
-    }
-
-    if (this.message?.senderID) {
       this.loadSenderInfo(this.message.senderID);
-    }
-
-    if (this.message?.content) {
       this.messageContentSnapshot = this.message.content;
-    }
-
-    if (this.message?.creationTime) {
       this.messageTimestampAsNumber = this.message.creationTime.seconds * 1000;
     }
+
+    // if (this.message?.senderID) {
+    //   this.loadSenderInfo(this.message.senderID);
+    // }
+
+    // if (this.message?.content) {
+    //   this.messageContentSnapshot = this.message.content;
+    // }
+
+    // if (this.message?.creationTime) {
+    //   this.messageTimestampAsNumber = this.message.creationTime.seconds * 1000;
+    // }
   }
 
   loadSenderInfo(senderID: string) {
-    this.firestoreService.allUsers$.subscribe((users) => {
-      const sender = users.find((user) => user.userID === senderID);
+    // this.firestoreService.allUsers$.subscribe((users) => {
+      const sender = this.firestoreService.allUsers.find((user) => user.userID === senderID);
       if (sender) {
         this.senderName = sender.name;
         this.senderAvatar =
@@ -96,8 +99,23 @@ export class MessageComponent {
       } else {
         console.warn('Sender nicht im Channel gefunden.');
       }
-    });
+    // }
+  // );
   }
+
+  // loadSenderInfo(senderID: string) {
+  //   // this.firestoreService.allUsers$.subscribe((users) => {
+  //     const sender = this.firestoreService.allUsers.find((user) => user.userID === senderID);
+  //     if (sender) {
+  //       this.senderName = sender.name;
+  //       this.senderAvatar =
+  //         sender.profileImg || '../../../assets/img/Profile.svg';
+  //     } else {
+  //       console.warn('Sender nicht im Channel gefunden.');
+  //     }
+  //   // }
+  // // );
+  // }
 
   // In der MessageComponent hinzufügen
   loadUserNamesForReaction(reactionUsers: string[]) {
