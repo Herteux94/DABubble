@@ -337,15 +337,8 @@ import {
   query,
   where,
 } from '@angular/fire/firestore';
-import {
-  combineLatest,
-  map,
-  Observable,
-  of,
-  Subject,
-  BehaviorSubject,
-} from 'rxjs';
-import { takeUntil, switchMap, distinctUntilChanged } from 'rxjs/operators';
+import { combineLatest, map, Observable, of, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { Channel } from '../models/channel.model';
 import { User } from '../models/user.model';
 import { Message } from '../models/message.model';

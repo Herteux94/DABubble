@@ -140,8 +140,10 @@
                   ? this.activeUserService.activeUser.profileImg
                   : '../../../assets/img/Profile.svg'
               " alt="hashtag-icon" />
-            @if(this.activeUserService.activeUser?.lastOnline) {
-            <img class="onlineStatusImg" src="../../../assets/img/green-online-circle.svg" alt="online-status" />
+            @if(this.activeUserService.activeUser) {
+            <img class="onlineStatusImg"
+              [src]="this.activeUserService.activeUser.active ? '../../../assets/img/green-online-circle.svg' : '../../../assets/img/grey_offline_circle.svg'"
+              alt="online-status" />
             }
           </div>
           <span>{{ this.activeUserService.activeUser.name }} (Du)</span>
@@ -166,10 +168,10 @@
                       ? dm.partnerUser.profileImg
                       : '../../../assets/img/Profile.svg'
                   " alt="hashtag-icon" />
-            @if(dm.partnerUser?.lastOnline) {
-            <img class="onlineStatusImg" src="../../../assets/img/green-online-circle.svg" alt="online-status" />
-            } @else {
-            <img class="onlineStatusImg" src="../../../assets/img/grey_offline_circle.svg" alt="online-status" />
+            @if(dm.partnerUser) {
+            <img class="onlineStatusImg"
+              [src]="dm.partnerUser.active ? '../../../assets/img/green-online-circle.svg' : '../../../assets/img/grey_offline_circle.svg'"
+              alt="online-status" />
             }
           </div>
           @if(this.activeUserService.activeUserDirectMessages && this.activeUserService.activeUserDirectMessages.length

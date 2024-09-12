@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { AuthenticationComponent } from './authentication/authentication.component';
-import { RoutingThreadOutletService } from './services/routing-thread-outlet.service';
+import { FirestoreService } from './services/firestore.service';
+import { ActiveUserService } from './services/active-user.service';
 
 @Component({
   selector: 'app-root',
@@ -18,13 +19,31 @@ import { RoutingThreadOutletService } from './services/routing-thread-outlet.ser
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'da-bubble';
 
-  constructor(private routingThreadOutletService: RoutingThreadOutletService) {}
-  ngOnInit(): void {
-    // if (!this.routingThreadOutletService.threadOpenDesktop) {
-    //   this.routingThreadOutletService.closeThread();
-    // }
+  constructor(
+    private firestoreService: FirestoreService,
+    private activeUserService: ActiveUserService
+  ) {
+    if (typeof window !== 'undefined' && typeof navigator !== 'undefined') {
+      // Set initial status
+      this.updateOnlineStatus(navigator.onLine);
+
+      // Listen for online and offline events
+      window.addEventListener('online', () => this.updateOnlineStatus(true));
+      window.addEventListener('offline', () => this.updateOnlineStatus(false));
+    } else {
+      console.log('navigator undefined');
+    }
+  }
+
+  private updateOnlineStatus(isOnline: boolean) {
+    const userID = this.activeUserService.activeUser?.userID;
+
+    if (userID) {
+      console.log(`User set ${isOnline ? 'online' : 'offline'}`);
+      this.firestoreService.updateUser({ active: isOnline }, userID);
+    }
   }
 }

@@ -342,6 +342,8 @@ export class ActiveUserService implements OnDestroy {
   logout() {
     localStorage.removeItem('activeUser');
 
+    this.firestoreService.updateUser({ active: false }, this.activeUser.userID);
+
     this.activeUser = null!;
     this.activeUserChannelsSubject.next([]);
     this.activeUserChannels = [];

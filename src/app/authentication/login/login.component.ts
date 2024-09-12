@@ -59,6 +59,7 @@ export class LoginComponent {
         await this.checkOrCreateUserProfile(activeUserID);
         this.errorMessage = '';
         this.errorType = null;
+        this.firestoreService.updateUser({ active: true }, activeUserID);
         this.activeUserService.loadActiveUser(activeUserID); // Setze den aktiven Benutzer
         this.threadRoutingService.closeThread();
         this.router.navigate(['/messenger']);
@@ -86,10 +87,10 @@ export class LoginComponent {
         const displayName = result.user.displayName ?? ''; // Verwende einen leeren String, wenn displayName null oder undefined ist
         const email = result.user.email ?? ''; // Verwende einen leeren String, wenn email null oder undefined ist
         this.activeUserService.setActiveUserToLocalStorage(activeUserID);
-
         await this.checkOrCreateUserProfile(activeUserID, displayName, email);
         this.errorMessage = '';
         this.errorType = null;
+        this.firestoreService.updateUser({ active: true }, activeUserID);
         this.activeUserService.loadActiveUser(activeUserID); // Setze den aktiven Benutzer
         this.threadRoutingService.closeThread();
         if (this.newUser) {
