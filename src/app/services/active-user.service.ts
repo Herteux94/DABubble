@@ -311,8 +311,6 @@ export class ActiveUserService implements OnDestroy {
               }
             }
           }
-        } else {
-          console.log('nur die selfDM vorhanden -> keine iteration');
         }
       });
   }

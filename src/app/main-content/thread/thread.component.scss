@@ -27,17 +27,17 @@ app-sub-header {
   overflow-y: auto;
   display: flex;
   flex-direction: column-reverse;
-  padding-bottom: 16px;
   padding-top: 32px;
   position: relative;
 }
 
 .threadTopicMsgContainer {
   position: fixed;
-  top: 80px;
+  bottom: 160px;
   left: 0;
   right: 0;
   background-color: white;
+  z-index: 1;
 }
 
 .divider {
@@ -55,6 +55,10 @@ app-sub-header {
     flex: 1;
     background-color: $outlines;
   }
+}
+
+.answerMessagesContainer {
+  margin-bottom: 176px;
 }
 
 app-type-input-field {

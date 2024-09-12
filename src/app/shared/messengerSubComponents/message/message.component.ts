@@ -39,7 +39,7 @@ export class MessageComponent {
   @Input() messengerType: string = '';
 
   messageTimestampAsNumber!: number;
-  messageTimestampAsDate!: any;
+  messageLastAnswerAsNumber!: number;
 
   mobile!: boolean;
   dialog = inject(Dialog);
@@ -67,13 +67,16 @@ export class MessageComponent {
       this.mobile = isMobile;
     });
 
-    if (this.message?.attachments && this.message?.senderID && this.message?.content && this.message?.creationTime) {
+    if (
+      this.message?.attachments &&
+      this.message?.senderID &&
+      this.message?.content
+    ) {
       this.message.attachments = this.message.attachments.filter(
         (url) => url && url.trim() !== ''
       );
       this.loadSenderInfo(this.message.senderID);
       this.messageContentSnapshot = this.message.content;
-      this.messageTimestampAsNumber = this.message.creationTime.seconds * 1000;
     }
 
     // if (this.message?.senderID) {
@@ -84,23 +87,29 @@ export class MessageComponent {
     //   this.messageContentSnapshot = this.message.content;
     // }
 
-    // if (this.message?.creationTime) {
-    //   this.messageTimestampAsNumber = this.message.creationTime.seconds * 1000;
-    // }
+    if (this.message?.creationTime) {
+      this.messageTimestampAsNumber = this.message.creationTime.seconds * 1000;
+    }
+
+    if (this.message?.lastAnswer) {
+      this.messageLastAnswerAsNumber = this.message.lastAnswer.seconds * 1000;
+    }
   }
 
   loadSenderInfo(senderID: string) {
     // this.firestoreService.allUsers$.subscribe((users) => {
-      const sender = this.firestoreService.allUsers.find((user) => user.userID === senderID);
-      if (sender) {
-        this.senderName = sender.name;
-        this.senderAvatar =
-          sender.profileImg || '../../../assets/img/Profile.svg';
-      } else {
-        console.warn('Sender nicht im Channel gefunden.');
-      }
+    const sender = this.firestoreService.allUsers.find(
+      (user) => user.userID === senderID
+    );
+    if (sender) {
+      this.senderName = sender.name;
+      this.senderAvatar =
+        sender.profileImg || '../../../assets/img/Profile.svg';
+    } else {
+      console.warn('Sender nicht im Channel gefunden.');
+    }
     // }
-  // );
+    // );
   }
 
   // loadSenderInfo(senderID: string) {
@@ -189,7 +198,9 @@ export class MessageComponent {
 
     if (!this.message.reactions) return;
 
-    const reactionIndex = this.message.reactions.findIndex((r) => r.emoji === emoji);
+    const reactionIndex = this.message.reactions.findIndex(
+      (r) => r.emoji === emoji
+    );
 
     if (reactionIndex !== -1) {
       const reaction = this.message.reactions[reactionIndex];
@@ -218,8 +229,6 @@ export class MessageComponent {
   get activeUserID(): string | undefined {
     return this.activeUserService.activeUser?.userID || '';
   }
-
-
 
   openProfileDialog() {
     this.dialog.open(ProfileDialogComponent, {

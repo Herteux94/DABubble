@@ -7,7 +7,6 @@
     <div [ngClass]="ownMessage ? 'fdRowRev' : ''" class="nameAndTime">
       <span (click)="openProfileDialog()" class="name">{{ senderName }}</span>
       <span class="time subText">{{ this.messageTimestampAsNumber | date: 'HH:mm' }}</span>
-      <!-- | date: 'HH:mm' -->
 
       <!-- Options-Bubble -->
       <app-options-bubble *ngIf="showOptions" (editMessage)="onEditMessageChange($event)"
@@ -65,17 +64,10 @@
       </div>
     </div>
 
-
-
-
-
-
-
-
     <!-- Antworten -->
     <div *ngIf="isChannel && message.threadLength > 0" class="responses">
       <span (click)="navigateToThread()" class="count">{{ message.threadLength }} Antworten</span>
-      <span class="time subText">Letzte Antwort {{ message.lastAnswer }}</span>
+      <span class="time subText">Letzte Antwort {{ this.messageLastAnswerAsNumber | date: 'HH:mm' }}</span>
     </div>
   </div>
 </div>

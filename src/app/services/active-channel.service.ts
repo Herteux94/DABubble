@@ -95,9 +95,6 @@ export class ActiveChannelService implements OnDestroy {
     }
     // Überprüfen, ob der ChannelID gleich ist
     if (this.lastLoadedChannelID === channelID) {
-      console.log(
-        'Channel hat sich nicht geändert, keine neuen Nachrichten werden geladen.'
-      );
       return; // Keine Änderungen, nichts tun
     }
 
@@ -115,9 +112,6 @@ export class ActiveChannelService implements OnDestroy {
             const isMessagesChanged = this.haveMessagesChanged(messages);
 
             if (!isMessagesChanged) {
-              console.log(
-                'Nachrichten haben sich nicht geändert, keine Aktualisierung nötig.'
-              );
               return; // Keine Änderungen, nichts tun
             }
 

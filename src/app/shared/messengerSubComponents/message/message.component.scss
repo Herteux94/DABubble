@@ -75,6 +75,12 @@ app-options-bubble {
   padding: 15px;
   border-radius: 0 30px 30px 30px;
   min-width: 80px;
+  span {
+    color: white;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
 }
 
 .messageTextOwnMsg {
@@ -84,6 +90,9 @@ app-options-bubble {
   min-width: 80px;
   span {
     color: white;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
   }
 }
 
@@ -140,8 +149,6 @@ app-options-bubble {
 .reactionContainer:hover .reactionTooltip {
   opacity: 1;
 }
-
-
 
 .responses {
   display: flex;

@@ -3,24 +3,17 @@
     <app-sub-header [isThread]="true"></app-sub-header>
     <div class="messagesContent">
 
-      @if(this.activeThreadService.threadMessagesGroupedByDate &&
-      this.activeThreadService.threadMessagesGroupedByDate.length > 0 &&
-      this.activeUserService.activeUser?.userID) {
-      @for(messageGroup of this.activeThreadService.threadMessagesGroupedByDate; track messageGroup) {
-      @for(message of messageGroup.messages; track message) {
-      <app-message [messengerType]="'thread'" [ownMessage]="
-          this.activeUserService.activeUser.userID === message.senderID
-          ? true
-          : false
-          " [message]="message" [isChannel]="false"></app-message>
-      }
-      <app-date-divider [date]="messageGroup.date"></app-date-divider>
-      }
-      }
-
-
-
       <div class="threadTopicMsgContainer">
+        <div class="divider">
+          @if(this.activeThreadService.activeThreadMessage &&
+          this.activeThreadService.activeThreadMessage.threadLength) {
+          <span class="subText">{{ this.activeThreadService.activeThreadMessage.threadLength }} Antworten</span>
+          } @else {
+          <span class="subText">jetzt Antworten</span>
+          }
+          <div class="line"></div>
+        </div>
+
         @if(this.activeThreadService.activeThreadMessage &&
         this.activeThreadService.activeThreadMessage.senderID &&
         this.activeUserService.activeUser?.userID) {
@@ -32,16 +25,25 @@
             : false
         "></app-message>
         }
-        <div class="divider">
-          @if(this.activeThreadService.activeThreadMessage &&
-          this.activeThreadService.activeThreadMessage.threadLength) {
-          <span class="subText">{{ this.activeThreadService.activeThreadMessage.threadLength }} Antworten</span>
-          } @else {
-          <span class="subText">jetzt Antworten</span>
-          }
-          <div class="line"></div>
-        </div>
       </div>
+
+      <div class="answerMessagesContainer">
+        @if(this.activeThreadService.threadMessagesGroupedByDate &&
+        this.activeThreadService.threadMessagesGroupedByDate.length > 0 &&
+        this.activeUserService.activeUser?.userID) {
+        @for(messageGroup of this.activeThreadService.threadMessagesGroupedByDate; track messageGroup) {
+        <app-date-divider [date]="messageGroup.date"></app-date-divider>
+        @for(message of messageGroup.messages; track message) {
+        <app-message [messengerType]="'thread'" [ownMessage]="
+          this.activeUserService.activeUser.userID === message.senderID
+          ? true
+          : false
+          " [message]="message" [isChannel]="false"></app-message>
+        }
+        }
+        }
+      </div>
+
     </div>
   </div>
   <app-type-input-field [messengerType]="'thread'"></app-type-input-field>
