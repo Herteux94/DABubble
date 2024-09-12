@@ -18,9 +18,11 @@
       <div class="routerContainer">
         <router-outlet></router-outlet>
       </div>
-      <div [ngClass]="
-          threadRoutingService.threadOpenDesktop ? 'showThread' : 'hideThread'
-        " class="threadRouterContainer">
+      <div [ngClass]="{
+        'showThread': threadRoutingService.threadOpenDesktop,
+        'hideThread': !threadRoutingService.threadOpenDesktop,
+        'getOverContent': isOverContent
+      }" class="threadRouterContainer">
         <router-outlet name="thread"></router-outlet>
       </div>
     </div>

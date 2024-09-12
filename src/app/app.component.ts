@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { AuthenticationComponent } from './authentication/authentication.component';
@@ -45,5 +45,13 @@ export class AppComponent {
       console.log(`User set ${isOnline ? 'online' : 'offline'}`);
       this.firestoreService.updateUser({ active: isOnline }, userID);
     }
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  unloadHandler(event: Event) {
+    this.firestoreService.updateUser(
+      { active: false },
+      this.activeUserService.activeUser?.userID
+    );
   }
 }
