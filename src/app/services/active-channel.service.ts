@@ -4,12 +4,14 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { takeUntil, first, map } from 'rxjs/operators';
 import { ActiveUserService } from './active-user.service';
 import { User } from '../models/user.model';
+import { Subscription } from 'rxjs'; // Importiere Subscription
 
 @Injectable({
   providedIn: 'root',
 })
 export class ActiveChannelService implements OnDestroy {
   private destroy$ = new Subject<void>(); // Used to signal unsubscription
+  private messageSubscription: Subscription | null = null; // Neue Subscription-Variable für Nachrichten
 
   activeChannelSubject = new BehaviorSubject<any>(null); // Initial null value
   activeChannel$ = this.activeChannelSubject.asObservable(); // Expose as observable
@@ -17,6 +19,9 @@ export class ActiveChannelService implements OnDestroy {
   channelMessages$!: Observable<any[]>;
   channelMessagesGroupedByDate: any[] = [];
   channelMember: User[] = [];
+
+  private lastLoadedChannelID: string | null = null;
+  private lastLoadedMessages: any[] = [];
 
   constructor(
     private firestoreService: FirestoreService,
@@ -36,29 +41,6 @@ export class ActiveChannelService implements OnDestroy {
     await this.loadActiveChannel(channelID);
     this.loadChannelMessages(channelID);
   }
-
-  // async loadActiveChannel(channelID: string): Promise<void> {
-  //   this.activeUserService.activeUserChannels$
-  //     .pipe(
-  //       first((channels) => channels.length > 0),
-  //       map((channels) =>
-  //         channels.find((channel) => channel.channelID === channelID)
-  //       ),
-  //       takeUntil(this.destroy$) // Ensure unsubscription
-  //     )
-  //     .subscribe({
-  //       next: (channel) => {
-  //         if (channel) {
-  //           this.activeChannelSubject.next(channel);
-  //         } else {
-  //           console.error('Channel nicht gefunden');
-  //         }
-  //       },
-  //       error: (error) => {
-  //         console.error('Fehler beim Laden des aktiven Channels:', error);
-  //       },
-  //     });
-  // }
 
   async loadActiveChannel(channelID: string): Promise<void> {
     this.activeUserService.activeUserChannels$
@@ -99,54 +81,69 @@ export class ActiveChannelService implements OnDestroy {
     }
   }
 
-  // loadChannelMessages(channelID: string) {
-  //   this.channelMessages$ = this.firestoreService.getMessages(
-  //     'channels',
-  //     channelID
-  //   );
-  //   this.channelMessages$
-  //     .pipe(takeUntil(this.destroy$)) // Ensure unsubscription
-  //     .subscribe({
-  //       next: (messages) => {
-  //         let messagesSorted = [];
-  //         if (messages) {
-  //           messagesSorted = messages.sort(
-  //             (a, b) => b.creationTime - a.creationTime
-  //           );
-  //           this.groupMessagesByDate(messagesSorted);
-  //         } else {
-  //           console.error('Messages nicht gefunden');
-  //         }
-  //       },
-  //       error: (error) => {
-  //         console.error('Fehler beim Laden der aktiven Messages:', error);
-  //       },
-  //     });
-  // }
-
   loadChannelMessages(channelID: string) {
-    // if (this.activeChannel && this.activeChannel.channelID === channelID) {
+    // Bevor neue Nachrichten geladen werden, von vorheriger Subscription unsubscriben
+    if (this.messageSubscription) {
+      this.messageSubscription.unsubscribe();
+      this.messageSubscription = null;
+    }
+    // Überprüfen, ob der ChannelID gleich ist
+    if (this.lastLoadedChannelID === channelID) {
+      console.log(
+        'Channel hat sich nicht geändert, keine neuen Nachrichten werden geladen.'
+      );
+      return; // Keine Änderungen, nichts tun
+    }
+
     this.channelMessages$ = this.firestoreService.getMessages(
       'channels',
       channelID
     );
-    this.channelMessages$.pipe(takeUntil(this.destroy$)).subscribe({
-      next: (messages) => {
-        let messagesSorted = [];
-        if (messages) {
-          messagesSorted = messages.sort(
-            (a, b) => b.creationTime - a.creationTime
-          );
-          this.groupMessagesByDate(messagesSorted);
-        } else {
-          console.error('Messages nicht gefunden');
-        }
-      },
-      error: (error) => {
-        console.error('Fehler beim Laden der aktiven Messages:', error);
-      },
-    });
-    // }
+    this.messageSubscription = this.channelMessages$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (messages) => {
+          let messagesSorted = [];
+          if (messages) {
+            // Überprüfen, ob sich die Nachrichten geändert haben
+            const isMessagesChanged = this.haveMessagesChanged(messages);
+
+            if (!isMessagesChanged) {
+              console.log(
+                'Nachrichten haben sich nicht geändert, keine Aktualisierung nötig.'
+              );
+              return; // Keine Änderungen, nichts tun
+            }
+
+            messagesSorted = messages.sort(
+              (a, b) => b.creationTime - a.creationTime
+            );
+            this.groupMessagesByDate(messagesSorted);
+
+            // ChannelID und Nachrichten speichern
+            this.lastLoadedChannelID = channelID;
+            this.lastLoadedMessages = messages;
+          } else {
+            console.error('Messages nicht gefunden');
+          }
+        },
+        error: (error) => {
+          console.error('Fehler beim Laden der aktiven Messages:', error);
+        },
+      });
+  }
+
+  // Methode zum Überprüfen, ob sich die Nachrichten geändert haben
+  private haveMessagesChanged(newMessages: any[]): boolean {
+    if (newMessages.length !== this.lastLoadedMessages.length) {
+      return true; // Unterschiedliche Anzahl an Nachrichten
+    }
+
+    // Prüfen, ob irgendeine Nachricht sich geändert hat
+    return newMessages.some(
+      (msg, index) =>
+        msg.creationTime !== this.lastLoadedMessages[index].creationTime
+    );
   }
 
   groupMessagesByDate(messages: any[]) {
@@ -174,8 +171,14 @@ export class ActiveChannelService implements OnDestroy {
     );
   }
 
+  // Methode, die beim Verlassen des Channels aufgerufen wird
   clearActiveChannel() {
-    this.activeChannelSubject.next(null);
+    // Unsubscribe von der aktuellen Nachrichten-Subscription, wenn der Channel verlassen wird
+    if (this.messageSubscription) {
+      this.messageSubscription.unsubscribe();
+      this.messageSubscription = null;
+    }
+    this.activeChannelSubject.next(null); // Setzt den aktiven Channel auf null
     this.activeChannel = null;
   }
 
