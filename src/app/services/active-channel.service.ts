@@ -174,6 +174,7 @@ export class ActiveChannelService implements OnDestroy {
   // Methode, die beim Verlassen des Channels aufgerufen wird
   clearActiveChannel() {
     // Unsubscribe von der aktuellen Nachrichten-Subscription, wenn der Channel verlassen wird
+    // this.activeChannelSubject.next(null);
     if (this.messageSubscription) {
       this.messageSubscription.unsubscribe();
       this.messageSubscription = null;
@@ -182,8 +183,8 @@ export class ActiveChannelService implements OnDestroy {
       this.activeChannelSubscription.unsubscribe();
       this.activeChannelSubscription = null;
     }
-    this.activeChannelSubject.next(null); // Setzt den aktiven Channel auf null
-    this.activeChannel = null;
+    // this.activeChannelSubject.next(null); // Setzt den aktiven Channel auf null
+    // this.activeChannel = null;
   }
 
   // Clean up all subscriptions
