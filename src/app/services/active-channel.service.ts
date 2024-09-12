@@ -78,14 +78,38 @@ export class ActiveChannelService implements OnDestroy {
     }
   }
 
+  // loadChannelMessages(channelID: string) {
+  //   this.channelMessages$ = this.firestoreService.getMessages(
+  //     'channels',
+  //     channelID
+  //   );
+  //   this.channelMessages$
+  //     .pipe(takeUntil(this.destroy$)) // Ensure unsubscription
+  //     .subscribe({
+  //       next: (messages) => {
+  //         let messagesSorted = [];
+  //         if (messages) {
+  //           messagesSorted = messages.sort(
+  //             (a, b) => b.creationTime - a.creationTime
+  //           );
+  //           this.groupMessagesByDate(messagesSorted);
+  //         } else {
+  //           console.error('Messages nicht gefunden');
+  //         }
+  //       },
+  //       error: (error) => {
+  //         console.error('Fehler beim Laden der aktiven Messages:', error);
+  //       },
+  //     });
+  // }
+
   loadChannelMessages(channelID: string) {
-    this.channelMessages$ = this.firestoreService.getMessages(
-      'channels',
-      channelID
-    );
-    this.channelMessages$
-      .pipe(takeUntil(this.destroy$)) // Ensure unsubscription
-      .subscribe({
+    if (this.activeChannel && this.activeChannel.channelID === channelID) {
+      this.channelMessages$ = this.firestoreService.getMessages(
+        'channels',
+        channelID
+      );
+      this.channelMessages$.pipe(takeUntil(this.destroy$)).subscribe({
         next: (messages) => {
           let messagesSorted = [];
           if (messages) {
@@ -101,6 +125,7 @@ export class ActiveChannelService implements OnDestroy {
           console.error('Fehler beim Laden der aktiven Messages:', error);
         },
       });
+    }
   }
 
   groupMessagesByDate(messages: any[]) {

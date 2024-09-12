@@ -33,13 +33,13 @@ export class ChannelComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    if (!this.activeChannelService.activeChannel) {
-      let channelID: any;
-      this.route.paramMap.subscribe((paramMap) => {
-        channelID = paramMap.get('id');
-      });
-      this.activeChannelService.loadActiveChannelAndMessages(channelID);
-    }
+    // if (!this.activeChannelService.activeChannel) {
+    //   let channelID: any;
+    //   this.route.paramMap.subscribe((paramMap) => {
+    //     channelID = paramMap.get('id');
+    //   });
+    //   this.activeChannelService.loadActiveChannelAndMessages(channelID);
+    // }
   }
 
   ngOnDestroy(): void {

@@ -4,7 +4,6 @@ import { Channel } from '../models/channel.model';
 import { BehaviorSubject, map, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { User } from '../models/user.model';
-import { FindUserService } from './find-user.service';
 import { Router } from '@angular/router';
 import { DirectMessage } from '../models/directMessages.model';
 
@@ -27,7 +26,6 @@ export class ActiveUserService implements OnDestroy {
 
   constructor(
     private firestoreService: FirestoreService,
-    private findUserService: FindUserService,
     private router: Router
   ) {
     this.loadActiveUser();
