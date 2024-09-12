@@ -200,7 +200,9 @@ export class ActiveUserService implements OnDestroy {
     private firestoreService: FirestoreService,
     private router: Router
   ) {
-    this.loadActiveUser();
+    if (!this.activeUser) {
+      this.loadActiveUser();
+    }
   }
 
   loadActiveUser(activeUserID?: string) {
@@ -249,8 +251,6 @@ export class ActiveUserService implements OnDestroy {
         .map((c) => c.channelID)
         .every((id) => activeUserChannelIDs.includes(id))
     ) {
-      console.log('Keine Änderung in den UserChannels');
-
       // Keine Änderungen, nichts tun
       return;
     }
@@ -274,8 +274,6 @@ export class ActiveUserService implements OnDestroy {
         .map((dm) => dm.directMessageID)
         .every((id) => activeUserDirectMessageIDs.includes(id))
     ) {
-      console.log('Keine Änderung in den DirectMessages');
-
       // Keine Änderungen, nichts tun
       return;
     }
@@ -294,11 +292,11 @@ export class ActiveUserService implements OnDestroy {
     this.firestoreService.allUsers$
       .pipe(takeUntil(this.destroy$)) // Ensure unsubscription
       .subscribe((allUsers) => {
-        if (this.activeUserDirectMessages.length > 1) {
+        if (this.activeUserDirectMessages?.length > 1) {
           for (const directMessage of this.activeUserDirectMessages) {
             if (
-              directMessage.member.length > 1 &&
-              this.activeUser.userID != directMessage.directMessageID
+              directMessage?.member?.length > 1 &&
+              this.activeUser?.userID != directMessage.directMessageID
             ) {
               const partnerUserID = directMessage.member.find(
                 (id: string) => id !== this.activeUser.userID
@@ -313,6 +311,8 @@ export class ActiveUserService implements OnDestroy {
               }
             }
           }
+        } else {
+          console.log('nur die selfDM vorhanden -> keine iteration');
         }
       });
   }

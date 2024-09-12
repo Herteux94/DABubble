@@ -13,6 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { User } from '../../models/user.model';
 import { FirestoreService } from '../../services/firestore.service';
 import { FocusInputDirective } from '../../directives/focus-input.directive';
+import { RoutingThreadOutletService } from '../../services/routing-thread-outlet.service';
 
 @Component({
   selector: 'app-login',
@@ -34,7 +35,8 @@ export class LoginComponent {
     private firestore: Firestore,
     private router: Router,
     public activeUserService: ActiveUserService,
-    private firestoreService: FirestoreService
+    private firestoreService: FirestoreService,
+    private threadRoutingService: RoutingThreadOutletService
   ) {}
 
   // Methode für E-Mail/Passwort-Login
@@ -58,6 +60,7 @@ export class LoginComponent {
         this.errorMessage = '';
         this.errorType = null;
         this.activeUserService.loadActiveUser(activeUserID); // Setze den aktiven Benutzer
+        this.threadRoutingService.closeThread();
         this.router.navigate(['/messenger']);
       })
       .catch((error) => {
@@ -82,11 +85,13 @@ export class LoginComponent {
         const activeUserID = result.user.uid;
         const displayName = result.user.displayName ?? ''; // Verwende einen leeren String, wenn displayName null oder undefined ist
         const email = result.user.email ?? ''; // Verwende einen leeren String, wenn email null oder undefined ist
+        this.activeUserService.setActiveUserToLocalStorage(activeUserID);
 
         await this.checkOrCreateUserProfile(activeUserID, displayName, email);
         this.errorMessage = '';
         this.errorType = null;
         this.activeUserService.loadActiveUser(activeUserID); // Setze den aktiven Benutzer
+        this.threadRoutingService.closeThread();
         if (this.newUser) {
           this.router.navigate(['/createAccount']);
         }

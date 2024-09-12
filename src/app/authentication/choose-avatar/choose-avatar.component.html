@@ -5,7 +5,9 @@
     </a>
     <h1 class="h1Top">Wähle deinen<br> Avatar</h1>
     <img class="profileIcon" [src]="avatarUrl || '../../../assets/img/Profile.svg'" alt="Profile Icon">
+    @if(this.activeUserService.activeUser?.name) {
     <h1 class="h1Name">{{ this.activeUserService.activeUser.name }}</h1>
+    }
     <div class="chooseAvatarContainer">
       <span class="infoText">Choose your avatar....</span>
     </div>
