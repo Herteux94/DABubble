@@ -197,7 +197,7 @@ export class ActiveThreadService implements OnDestroy {
           let messagesSorted = [];
           if (messages) {
             messagesSorted = messages.sort(
-              (a, b) => b.creationTime - a.creationTime
+              (a, b) => a.creationTime - b.creationTime
             );
 
             // Überprüfen, ob sich die Nachrichten wirklich geändert haben

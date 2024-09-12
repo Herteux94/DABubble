@@ -76,7 +76,6 @@ app-options-bubble {
   border-radius: 0 30px 30px 30px;
   min-width: 80px;
   span {
-    color: white;
     word-wrap: break-word;
     overflow-wrap: break-word;
     word-break: break-word;
@@ -172,6 +171,20 @@ app-options-bubble {
   position: absolute;
   top: -40px;
   left: -240px;
+  z-index: 999;
+}
+
+.threadOptionsBubble {
+  position: absolute;
+  top: -40px;
+  right: -20px;
+  z-index: 999;
+}
+
+.threadOptionsBubbleOwnMsg {
+  position: absolute;
+  top: -40px;
+  right: 120px;
   z-index: 999;
 }
 

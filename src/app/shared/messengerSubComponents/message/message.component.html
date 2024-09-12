@@ -9,10 +9,17 @@
       <span class="time subText">{{ this.messageTimestampAsNumber | date: 'HH:mm' }}</span>
 
       <!-- Options-Bubble -->
+      @if(this.messengerType != 'thread') {
       <app-options-bubble *ngIf="showOptions" (editMessage)="onEditMessageChange($event)"
         (emojiSelected)="addReaction($event)" [messengerType]="messengerType" [message]="message"
         [ownMessage]="ownMessage" [ngClass]="ownMessage ? 'optionsBubbleOwnMsg' : 'optionsBubble'">
       </app-options-bubble>
+      } @else {
+      <app-options-bubble *ngIf="showOptions" (editMessage)="onEditMessageChange($event)"
+        (emojiSelected)="addReaction($event)" [messengerType]="messengerType" [message]="message"
+        [ownMessage]="ownMessage" [ngClass]="ownMessage ? 'threadOptionsBubbleOwnMsg' : 'threadOptionsBubble'">
+      </app-options-bubble>
+      }
 
 
 
