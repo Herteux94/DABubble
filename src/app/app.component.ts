@@ -46,10 +46,12 @@ export class AppComponent implements OnInit {
       );
     } else {
       setTimeout(() => {
-        this.firestoreService.updateUser(
-          { active: true },
-          this.activeUserService.activeUser.userID
-        );
+        if (this.activeUserService.activeUser) {
+          this.firestoreService.updateUser(
+            { active: true },
+            this.activeUserService.activeUser.userID
+          );
+        }
       }, 2000);
     }
   }
