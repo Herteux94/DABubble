@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs'; // Importiere Subscription
 export class ActiveChannelService implements OnDestroy {
   private destroy$ = new Subject<void>(); // Used to signal unsubscription
   private messageSubscription: Subscription | null = null; // Neue Subscription-Variable für Nachrichten
+  private activeChannelSubscription: Subscription | null = null; // Subscription für die aktive Direktnachricht
 
   activeChannelSubject = new BehaviorSubject<any>(null); // Initial null value
   activeChannel$ = this.activeChannelSubject.asObservable(); // Expose as observable
@@ -43,7 +44,12 @@ export class ActiveChannelService implements OnDestroy {
   }
 
   async loadActiveChannel(channelID: string): Promise<void> {
-    this.activeUserService.activeUserChannels$
+    // Unsubscribe von der vorherigen aktiven DM Subscription (falls vorhanden)
+    if (this.activeChannelSubscription) {
+      this.activeChannelSubscription.unsubscribe();
+      this.activeChannelSubscription = null;
+    }
+    this.activeChannelSubscription = this.activeUserService.activeUserChannels$
       .pipe(
         first((channels) => channels.length > 0),
         map((channels) =>
@@ -178,6 +184,10 @@ export class ActiveChannelService implements OnDestroy {
       this.messageSubscription.unsubscribe();
       this.messageSubscription = null;
     }
+    if (this.activeChannelSubscription) {
+      this.activeChannelSubscription.unsubscribe();
+      this.activeChannelSubscription = null;
+    }
     this.activeChannelSubject.next(null); // Setzt den aktiven Channel auf null
     this.activeChannel = null;
   }
@@ -186,5 +196,13 @@ export class ActiveChannelService implements OnDestroy {
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+
+    // Unsubscribe von den Subscriptions
+    if (this.messageSubscription) {
+      this.messageSubscription.unsubscribe();
+    }
+    if (this.activeChannelSubscription) {
+      this.activeChannelSubscription.unsubscribe();
+    }
   }
 }
