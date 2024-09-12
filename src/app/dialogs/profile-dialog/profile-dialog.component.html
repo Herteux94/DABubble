@@ -82,8 +82,12 @@
                 </div>
     
                 <div class="statusContainer">
-                    <img src="../../../assets/img/green-online-circle.svg" alt="">
-                    <p class="status">Aktiv</p>
+                    <img  [src]="this.user.active ? '../../../assets/img/green-online-circle.svg' : '../../../assets/img/grey_offline_circle.svg'" alt="">
+                    @if (this.user.active) {
+                        <p class="status">Aktiv</p>
+                    } @else {
+                        <p class="status">Abwesend</p>
+                    }
                 </div>
     
                 <div class="profileContainer">
