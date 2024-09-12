@@ -4,15 +4,6 @@
     <div class="messagesContent">
 
       <div class="threadTopicMsgContainer">
-        <div class="divider">
-          @if(this.activeThreadService.activeThreadMessage &&
-          this.activeThreadService.activeThreadMessage.threadLength) {
-          <span class="subText">{{ this.activeThreadService.activeThreadMessage.threadLength }} Antworten</span>
-          } @else {
-          <span class="subText">jetzt Antworten</span>
-          }
-          <div class="line"></div>
-        </div>
 
         @if(this.activeThreadService.activeThreadMessage &&
         this.activeThreadService.activeThreadMessage.senderID &&
@@ -25,6 +16,17 @@
             : false
         "></app-message>
         }
+
+        <div class="divider">
+          @if(this.activeThreadService.activeThreadMessage &&
+          this.activeThreadService.activeThreadMessage.threadLength) {
+          <span class="subText">{{ this.activeThreadService.activeThreadMessage.threadLength }} Antworten</span>
+          } @else {
+          <span class="subText">jetzt Antworten</span>
+          }
+          <div class="line"></div>
+        </div>
+
       </div>
 
       <div class="answerMessagesContainer">
@@ -43,6 +45,8 @@
         }
         }
       </div>
+
+
 
     </div>
   </div>

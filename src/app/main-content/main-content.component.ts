@@ -94,7 +94,9 @@ export class MainContentComponent implements OnInit {
       this.mobile = isMobile;
     });
 
-    this.onResize({ target: window } as unknown as Event);
+    if (typeof window !== 'undefined') {
+      this.onResize({ target: window } as unknown as Event);
+    }
   }
 
   toggleMenu() {
