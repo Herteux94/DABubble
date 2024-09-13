@@ -16,6 +16,7 @@ import { BubbleComponent } from '../bubble/bubble.component';
   templateUrl: './reset-pw.component.html',
   styleUrls: ['./reset-pw.component.scss']
 })
+
 export class ResetPwComponent implements OnInit {
   inputValue: string = '';
   inputValue2: string = '';
@@ -31,11 +32,8 @@ export class ResetPwComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // OOB-Code aus der URL holen
     this.oobCode = this.route.snapshot.queryParamMap.get('oobCode');
-
     if (!this.oobCode) {
-      // Kein OOB-Code gefunden, zur Fehlerseite weiterleiten
       this.router.navigate(['/error']);
     }
   }
@@ -54,7 +52,7 @@ export class ResetPwComponent implements OnInit {
 
           setTimeout(() => {
             this.router.navigate(['/login']);
-          }, 2000); // Snackbar-Anzeigezeit
+          }, 2000);
         })
         .catch((error) => {
           this.message = 'Fehler: ' + error.message;

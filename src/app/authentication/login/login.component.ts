@@ -1,11 +1,6 @@
 import { Component, HostListener } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import {
-  Auth,
-  signInWithEmailAndPassword,
-  signInWithPopup,
-  GoogleAuthProvider,
-} from '@angular/fire/auth';
+import { Auth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from '@angular/fire/auth';
 import { Firestore, doc, getDoc } from '@angular/fire/firestore';
 import { CommonModule } from '@angular/common';
 import { ActiveUserService } from '../../services/active-user.service';
@@ -22,10 +17,10 @@ import { RoutingThreadOutletService } from '../../services/routing-thread-outlet
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
+
 export class LoginComponent {
   email: string = '';
   password: string = '';
-
   newUser: boolean = false;
   errorMessage: string = '';
   errorType: 'email' | 'password' | null = null;
@@ -37,7 +32,7 @@ export class LoginComponent {
     public activeUserService: ActiveUserService,
     private firestoreService: FirestoreService,
     private threadRoutingService: RoutingThreadOutletService
-  ) {}
+  ) { }
 
   login() {
     if (!this.email) {
@@ -84,7 +79,7 @@ export class LoginComponent {
         }
       });
   }
-  // Methode für Google-Login
+
   loginWithGoogle() {
     const provider = new GoogleAuthProvider();
     signInWithPopup(this.auth, provider)
@@ -111,7 +106,6 @@ export class LoginComponent {
       });
   }
 
-  // Methode für Gäste-Login
   guestLogin() {
     this.email = 'info@herteux-webentwicklung.de';
     this.password = 'Bewerbungen2024';
@@ -125,14 +119,13 @@ export class LoginComponent {
   ) {
     const userRef = doc(this.firestore, `users/${activeUserID}`);
     const userSnap = await getDoc(userRef);
-
     if (!userSnap.exists()) {
       const user = new User();
       user.userID = activeUserID;
       user.directMessages = [activeUserID];
       this.firestoreService.addSelfDirectMessage(activeUserID);
-      user.name = displayName ?? ''; // Verwende einen leeren String, wenn displayName null oder undefined ist
-      user.email = email ?? ''; // Verwende einen leeren String, wenn email null oder undefined ist
+      user.name = displayName ?? '';
+      user.email = email ?? '';
       user.lastOnline = Date.now();
       this.newUser = true;
       try {

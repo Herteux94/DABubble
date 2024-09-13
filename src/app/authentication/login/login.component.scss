@@ -20,7 +20,7 @@
   width: 100%;
 }
 
-.cardWrapper{
+.cardWrapper {
   width: 100%;
   height: 100%;
   display: flex;
@@ -134,10 +134,9 @@ h1 {
   justify-content: center;
 }
 
-.legalContainer{
+.legalContainer {
   display: none;
 }
-
 
 @media (min-width: 1025px) {
   .newMemberContainer {
@@ -157,14 +156,12 @@ h1 {
     }
   }
 
+  .card {
+    position: static;
+    margin: 0px 20px 35px 20px;
+  }
 
-
-.card {
-  position: static;
-  margin: 0px 20px 35px 20px;
-}
-
-  .legalContainer{
+  .legalContainer {
     display: flex;
     font-family: "Figtree";
     .imprint {
@@ -172,13 +169,10 @@ h1 {
       color: rgba(121, 126, 243, 1);
       padding: 10px 15px;
     }
-
     .privacy {
       font-size: 18px;
       color: rgba(121, 126, 243, 1);
       padding: 10px 15px;
     }
-
   }
-
 }

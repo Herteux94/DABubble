@@ -29,7 +29,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
       >img{
       vertical-align: middle;
       margin-right: 10px;
-      height: 40px; /* Optional: Passe die Höhe des Bildes an */
+      height: 40px;
     }}
   `],
   animations: [
@@ -51,8 +51,9 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
     ])
   ]
 })
+
 export class BubbleComponent {
-  @Input() message: string = '';  // Die Nachricht, die im Snackbar angezeigt wird.
+  @Input() message: string = '';
   show = false;
 
   constructor() { }
@@ -61,6 +62,6 @@ export class BubbleComponent {
     this.show = true;
     setTimeout(() => {
       this.show = false;
-    }, 2000); // Das Snackbar bleibt für 2 Sekunden sichtbar
+    }, 2000);
   }
 }

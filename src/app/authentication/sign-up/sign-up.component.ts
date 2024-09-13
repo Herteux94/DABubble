@@ -17,14 +17,13 @@ import { BubbleComponent } from '../bubble/bubble.component';
   styleUrls: ['./sign-up.component.scss'],
 })
 export class SignUpComponent {
-  // Spezifische Fehlermeldungen für jedes Eingabefeld
   errorMessageName: string = '';
   errorMessageEmail: string = '';
   errorMessagePassword: string = '';
 
   password: string = '';
   user = new User();
-  formSubmitted: boolean = false; // Zeigt an, dass das Formular abgesendet wurde
+  formSubmitted: boolean = false; 
 
   @ViewChild(BubbleComponent) bubbleComponent!: BubbleComponent;
 
@@ -39,18 +38,13 @@ export class SignUpComponent {
     history.back();
   }
 
-  // Validierung für alle Felder
   validateAll() {
     this.errorMessageName = '';
     this.errorMessageEmail = '';
     this.errorMessagePassword = '';
-
-    // Validierung für Name
     if (!this.user.name) {
       this.errorMessageName = 'Bitte gib deinen Namen ein.';
     }
-
-    // Validierung für E-Mail
     if (!this.user.email) {
       this.errorMessageEmail = 'Bitte gib deine E-Mail-Adresse ein.';
     } else {
@@ -59,8 +53,6 @@ export class SignUpComponent {
         this.errorMessageEmail = 'Bitte gib eine gültige E-Mail-Adresse ein.';
       }
     }
-
-    // Validierung für Passwort
     if (!this.password) {
       this.errorMessagePassword = 'Bitte gib ein Passwort ein.';
     } else if (this.password.length < 6) {
@@ -70,10 +62,8 @@ export class SignUpComponent {
   }
 
   async signUp() {
-    this.formSubmitted = true; // Setze, dass das Formular abgesendet wurde
+    this.formSubmitted = true;
     this.validateAll();
-
-    // Abbrechen, wenn es Fehler gibt
     if (
       this.errorMessageName ||
       this.errorMessageEmail ||
@@ -81,7 +71,6 @@ export class SignUpComponent {
     ) {
       return;
     }
-
     try {
       this.bubbleComponent.message = 'Konto erfolgreich erstellt!';
       const userCredential = await createUserWithEmailAndPassword(
@@ -90,7 +79,6 @@ export class SignUpComponent {
         this.password
       );
       const activeUserID = userCredential.user.uid;
-
       this.user.userID = activeUserID;
       this.user.lastOnline = Date.now();
       this.user.directMessages = [activeUserID];
@@ -102,16 +90,12 @@ export class SignUpComponent {
       this.firestoreService.addSelfDirectMessage(activeUserID);
       this.firestoreService.updateUser({ active: true }, activeUserID);
       this.activeUserService.loadActiveUser(activeUserID);
-
-      // Snackbar anzeigen
       this.bubbleComponent.showSnackbar();
-
       setTimeout(() => {
         this.router.navigate(['/createAccount']);
       }, 2000);
     } catch (error) {
       console.error('Error during sign-up:', error);
-      // Allgemeine Fehlermeldung, falls etwas schiefgeht
     }
   }
 

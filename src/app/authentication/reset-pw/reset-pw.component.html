@@ -6,7 +6,8 @@
       <input class="inputFieldAuth" type="password" placeholder="Neues Passwort" required [(ngModel)]="inputValue">
     </div>
     <div class="inputContainerAuth" appFocusInput>
-      <input class="inputFieldAuth" type="password" placeholder="Neues Passwort bestätigen" required [(ngModel)]="inputValue2">
+      <input class="inputFieldAuth" type="password" placeholder="Neues Passwort bestätigen" required
+        [(ngModel)]="inputValue2">
     </div>
     <div class="changePWBtnContainer">
       <button class="firstBtn" (click)="handleSubmit()" [disabled]="!inputValuesMatch()">Passwort ändern</button>
