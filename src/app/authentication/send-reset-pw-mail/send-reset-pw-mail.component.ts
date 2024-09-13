@@ -16,39 +16,53 @@ import { BubbleComponent } from '../bubble/bubble.component';
     HttpClientModule,
     FocusInputDirective,
     CommonModule,
-    BubbleComponent
+    BubbleComponent,
   ],
   templateUrl: './send-reset-pw-mail.component.html',
-  styleUrls: ['./send-reset-pw-mail.component.scss']
+  styleUrls: ['./send-reset-pw-mail.component.scss'],
 })
 export class SendResetPwMailComponent {
   email: string = '';
-  errorMessageEmail: string = '';  // Neue Variable für E-Mail-Fehlermeldung
+  errorMessageEmail: string = ''; // Neue Variable für E-Mail-Fehlermeldung
   message: string | null = null;
-  formSubmitted: boolean = false;  // Wird gesetzt, wenn das Formular abgeschickt wird
+  formSubmitted: boolean = false; // Wird gesetzt, wenn das Formular abgeschickt wird
 
   @ViewChild(BubbleComponent) bubbleComponent!: BubbleComponent;
 
-  constructor(private resetPasswordService: ResetPasswordService) { }
+  constructor(private resetPasswordService: ResetPasswordService) {}
 
   onSubmit() {
-    this.formSubmitted = true;  // Formular wurde abgeschickt
+    this.formSubmitted = true; // Formular wurde abgeschickt
+    this.errorMessageEmail = ''; // Fehlernachricht zurücksetzen
 
+    // E-Mail-Validierung
+    if (!this.email) {
+      this.errorMessageEmail = 'Bitte gib deine E-Mail-Adresse ein.';
+      return;
+    } else {
+      const emailPattern = /^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/;
+      if (!emailPattern.test(this.email)) {
+        this.errorMessageEmail = 'Bitte gib eine gültige E-Mail-Adresse ein.';
+        return;
+      }
+    }
 
-    this.resetPasswordService.sendPasswordResetEmail(this.email)
+    this.resetPasswordService
+      .sendPasswordResetEmail(this.email)
       .then(() => {
-        this.message = '<img src="assets/img/send.png" alt="Success Icon" class="sendIcon"/>  E-Mail gesendet';
+        this.message =
+          '<img src="assets/img/send.png" alt="Success Icon" class="sendIcon"/>  E-Mail gesendet';
         this.bubbleComponent.message = this.message;
-        this.bubbleComponent.showSnackbar();  // Snackbar wird nur bei Erfolg aktiviert
+        this.bubbleComponent.showSnackbar(); // Snackbar wird nur bei Erfolg aktiviert
       })
       .catch((error) => {
         // Überprüfen, ob es sich um einen invalid-email Fehler handelt und die Nachricht anpassen
         if (error.code === 'auth/invalid-email') {
-          this.errorMessageEmail = 'Bitte geben Sie eine gültige E-Mail-Adresse ein.';
+          this.errorMessageEmail = 'Bitte gib eine gültige E-Mail-Adresse ein.';
         } else {
           this.errorMessageEmail = 'Fehler: ' + error.message;
         }
-        this.message = '';  // Keine Snackbar bei Fehlern
+        this.message = ''; // Keine Snackbar bei Fehlern
       });
   }
 

@@ -53,6 +53,11 @@ export class SignUpComponent {
     // Validierung für E-Mail
     if (!this.user.email) {
       this.errorMessageEmail = 'Bitte gib deine E-Mail-Adresse ein.';
+    } else {
+      const emailPattern = /^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/;
+      if (!emailPattern.test(this.user.email)) {
+        this.errorMessageEmail = 'Bitte gib eine gültige E-Mail-Adresse ein.';
+      }
     }
 
     // Validierung für Passwort

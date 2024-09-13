@@ -39,12 +39,18 @@ export class LoginComponent {
     private threadRoutingService: RoutingThreadOutletService
   ) {}
 
-  // Methode für E-Mail/Passwort-Login
   login() {
     if (!this.email) {
       this.errorMessage = 'Bitte gib deine E-Mail-Adresse ein.';
       this.errorType = 'email';
       return;
+    } else {
+      const emailPattern = /^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/;
+      if (!emailPattern.test(this.email)) {
+        this.errorMessage = 'Bitte gib eine gültige E-Mail-Adresse ein.';
+        this.errorType = 'email';
+        return;
+      }
     }
     if (!this.password) {
       this.errorMessage = 'Bitte gib dein Passwort ein.';
