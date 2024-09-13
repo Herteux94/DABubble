@@ -45,68 +45,6 @@ import { FindUserService } from '../../services/find-user.service';
       transition('void => *', [animate('300ms ease-out')]),
       transition('* => void', [animate('200ms ease-in')]),
     ]),
-    trigger('dialogAnimationFadeInSlideUp', [
-      state('void', style({ opacity: 0, transform: 'translateY(100px)' })),
-      state('*', style({ opacity: 1, transform: 'translateY(0)' })),
-      transition('void => *', [animate('400ms ease-out')]),
-      transition('* => void', [
-        animate(
-          '300ms ease-in',
-          style({ opacity: 0, transform: 'translateY(100px)' })
-        ),
-      ]),
-    ]),
-    trigger('dialogAnimationZoomInBounce', [
-      state('void', style({ transform: 'scale(0.5)' })),
-      state('*', style({ transform: 'scale(1)' })),
-      transition('void => *', [
-        animate('300ms cubic-bezier(.68,-0.55,.27,1.55)'),
-      ]),
-      transition('* => void', [
-        animate('200ms ease-out', style({ transform: 'scale(0.5)' })),
-      ]),
-    ]),
-    trigger('dialogAnimationSlideInRight', [
-      state('void', style({ transform: 'translateX(100%)', opacity: 0 })),
-      state('*', style({ transform: 'translateX(0)', opacity: 1 })),
-      transition('void => *', [animate('300ms ease-in')]),
-      transition('* => void', [
-        animate(
-          '300ms ease-out',
-          style({ transform: 'translateX(100%)', opacity: 0 })
-        ),
-      ]),
-    ]),
-    trigger('dialogAnimationRotateIn', [
-      state('void', style({ transform: 'rotate(-90deg)', opacity: 0 })),
-      state('*', style({ transform: 'rotate(0)', opacity: 1 })),
-      transition('void => *', [animate('400ms ease-out')]),
-      transition('* => void', [
-        animate(
-          '300ms ease-in',
-          style({ transform: 'rotate(90deg)', opacity: 0 })
-        ),
-      ]),
-    ]),
-    trigger('dialogAnimationFlipIn', [
-      state(
-        'void',
-        style({ transform: 'perspective(600px) rotateX(-90deg)', opacity: 0 })
-      ),
-      state(
-        '*',
-        style({ transform: 'perspective(600px) rotateX(0)', opacity: 1 })
-      ),
-      transition('void => *', [
-        animate('500ms cubic-bezier(0.25, 0.8, 0.25, 1)'),
-      ]),
-      transition('* => void', [
-        animate(
-          '400ms ease-in',
-          style({ transform: 'perspective(600px) rotateX(90deg)', opacity: 0 })
-        ),
-      ]),
-    ]),
   ],
 })
 export class ChannelDialogComponent implements OnInit {
