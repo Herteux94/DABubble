@@ -6,8 +6,6 @@
     </a>
     <h1>Konto erstellen</h1>
     <span class="infoText">Mit deinem Namen und deiner E-Mail-Adresse hast du dein neues DABubble-Konto.</span>
-
-    <!-- Inputfeld für Name -->
     <div class="inputContainerAuth" appFocusInput>
       <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
         <mask id="mask0_69796_4740" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="25">
@@ -20,8 +18,6 @@
       <input class="inputFieldAuth" type="text" placeholder="Name und Nachname" [(ngModel)]="this.user.name" required>
     </div>
     <span *ngIf="errorMessageName && formSubmitted" class="errorMessage">{{ errorMessageName }}</span>
-
-    <!-- Inputfeld für E-Mail -->
     <div class="inputContainerAuth" appFocusInput>
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <mask id="mask0_69757_5585" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
@@ -34,8 +30,6 @@
       <input class="inputFieldAuth" type="email" pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}" placeholder="beispielname@email.com" [(ngModel)]="this.user.email" required>
     </div>
     <span *ngIf="errorMessageEmail && formSubmitted" class="errorMessage">{{ errorMessageEmail }}</span>
-
-    <!-- Inputfeld für Passwort -->
     <div class="inputContainerAuth" appFocusInput>
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <mask id="mask0_69757_5614" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
@@ -48,11 +42,9 @@
       <input class="inputFieldAuth" type="password" placeholder="Passwort" [(ngModel)]="password" required>
     </div>
     <span *ngIf="errorMessagePassword && formSubmitted" class="errorMessage">{{ errorMessagePassword }}</span>
-
     <div class="nextBtnContainer">
       <button class="firstBtn" (click)="signUp()">Konto erstellen</button>
     </div>
-
   </div>
   <app-bubble></app-bubble>
   </div>

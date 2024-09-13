@@ -22,10 +22,9 @@ import { Dialog, DialogRef, DIALOG_DATA } from '@angular/cdk/dialog';
 })
 export class ChooseAvatarComponent {
   @ViewChild('fileInput', { static: true }) fileInput!: ElementRef;
-  avatarUrl: string = '../../../assets/img/Profile.svg'; // Standardbild
+  avatarUrl: string = '../../../assets/img/Profile.svg';
   userID = this.activeUserService.activeUser.userID;
   dialog = inject(Dialog);
-  // dialogRef = inject(DialogRef, { optional: true });
   isDialog = false;
 
   constructor(

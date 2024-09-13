@@ -55,22 +55,22 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
     trigger('slideLogo', [
       state('start', style({
         opacity: 0,
-        transform: 'translateX(0) scale(1.5)' // Für Desktop, bleibt unverändert
+        transform: 'translateX(0) scale(1.5)'
       })),
       state('startMobile', style({
         opacity: 0,
-        transform: 'translateX(0) scale(1)' // Für Desktop, bleibt unverändert
+        transform: 'translateX(0) scale(1)'
       })),
       state('end', style({
         opacity: 1,
-        transform: 'translateX(-50px) scale(1.5)' // Für Desktop, bleibt unverändert
+        transform: 'translateX(-50px) scale(1.5)'
       })),
       state('reset', style({
-        transform: 'translateX(0) scale(1)' // Für Desktop, bleibt unverändert
+        transform: 'translateX(0) scale(1)'
       })),
       state('mobileEnd', style({
         opacity: 1,
-        transform: 'translateX(0) scale(1)' // Für Mobile, Text bleibt neben dem Logo
+        transform: 'translateX(0) scale(1)'
       })),
       transition('start => end', [
         animate('500ms ease-in-out')
@@ -78,33 +78,33 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
       transition('end => reset', [
         animate('800ms ease-in-out')
       ]),
-      transition('startMobile => mobileEnd', [ // Mobile Animation
+      transition('startMobile => mobileEnd', [
         animate('500ms ease-in-out')
       ])
     ]),
     trigger('slideText', [
       state('hidden', style({
         opacity: 0,
-        transform: 'translateX(-100px) scale(1.5)' // Für Desktop, bleibt unverändert
+        transform: 'translateX(-100px) scale(1.5)'
       })),
       state('hiddenMobile', style({
-        transform: 'translateX(-100px) scale(1)', // Abstand für Mobile, nach dem Herausfliegen
+        transform: 'translateX(-100px) scale(1)',
         opacity: 0
       })),
       state('visible', style({
         opacity: 1,
-        transform: 'translateX(0) scale(1.5)' // Für Desktop, bleibt unverändert
+        transform: 'translateX(0) scale(1.5)'
       })),
       state('visibleMobile', style({
         opacity: 1,
-        transform: 'translateX(0) scale(1)' // Für Desktop, bleibt unverändert
+        transform: 'translateX(0) scale(1)'
       })),
       state('reset', style({
-        transform: 'translateX(0) scale(1)', // Für Desktop, bleibt unverändert
+        transform: 'translateX(0) scale(1)',
         opacity: 1
       })),
       state('mobileEnd', style({
-        transform: 'translateX(0) scale(1)', // Abstand für Mobile, nach dem Herausfliegen
+        transform: 'translateX(0) scale(1)',
         opacity: 1
       })),
       transition('hidden => visible', [
@@ -116,7 +116,7 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
       transition('visible => reset', [
         animate('800ms ease-in-out')
       ]),
-      transition('hiddenMobile => mobileEnd', [ // Mobile Animation
+      transition('hiddenMobile => mobileEnd', [
         animate('500ms ease-in-out')
       ])
     ]),
@@ -124,22 +124,22 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
       state('center', style({
         top: '50%',
         left: '50%',
-        transform: 'translate(-50%, -50%) scale(1.5)', // Für Desktop, bleibt unverändert
+        transform: 'translate(-50%, -50%) scale(1.5)',
       })),
       state('centerMobile', style({
         top: '50%',
         left: '50%',
-        transform: 'translate(-50%, -50%) scale(1)', // Für Desktop, bleibt unverändert
+        transform: 'translate(-50%, -50%) scale(1)',
       })),
       state('cornerLarge', style({
         top: '20px',
         left: '60px',
-        transform: 'translate(0, 0) scale(1)', // In die Ecke, bleibt auf scale 1 für Desktop
+        transform: 'translate(0, 0) scale(1)',
       })),
       state('cornerSmall', style({
         top: '20px',
         left: '50%',
-        transform: 'translate(-50%, 0) scale(1)', // Für kleine Bildschirme, bleibt auf scale 1
+        transform: 'translate(-50%, 0) scale(1)',
       })),
       transition('center => cornerLarge', [
         animate('800ms ease-in-out')
@@ -166,33 +166,27 @@ export class AuthenticationComponent implements OnInit {
   textLogoState = 'hidden';
   logoSlideState = 'start';
   containerPosition = 'center';
-  textLogoClass = 'whiteFill'; // Start mit weißer Schrift
-  overlayState = 'visible'; // Startet mit sichtbarem Overlay
-  textLogoInvertState = 'normal'; // Initialzustand des Textlogos
+  textLogoClass = 'whiteFill';
+  overlayState = 'visible';
+  textLogoInvertState = 'normal';
   isSmallScreen = false;
-  animationDuration = '500ms'; // Standard-Animationsdauer
+  animationDuration = '500ms';
 
   constructor(
     private renderer: Renderer2,
     private el: ElementRef,
-    @Inject(PLATFORM_ID) private platformId: Object // PLATFORM_ID wird injiziert
+    @Inject(PLATFORM_ID) private platformId: Object
   ) { }
 
   ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
       this.checkScreenSize();
-
-      // Überprüfen, ob die Animation bereits ausgeführt wurde
       const hasAnimated = sessionStorage.getItem('hasAnimated');
-
       if (hasAnimated) {
-        // Wenn die Animation bereits abgespielt wurde, setze die Animationsdauer auf 1ms
         this.animationDuration = '1ms';
       } else {
-        // Animation das erste Mal abspielen und Zustand speichern
         sessionStorage.setItem('hasAnimated', 'true');
       }
-
       this.startAnimation();
     }
   }
@@ -200,23 +194,21 @@ export class AuthenticationComponent implements OnInit {
   startAnimation() {
     if (isPlatformBrowser(this.platformId)) {
       if (this.isSmallScreen) {
-        // Mobile Version
         this.logoState = 'hiddenMobile';
         this.textLogoState = 'hiddenMobile';
         this.logoSlideState = 'startMobile';
         this.containerPosition = 'centerMobile';
-        this.textLogoClass = 'whiteFill'; // Start mit weißer Schrift
-        this.overlayState = 'visible'; // Startet mit sichtbarem Overlay
-        this.textLogoInvertState = 'normal'; // Initialzustand des Textlogos
+        this.textLogoClass = 'whiteFill';
+        this.overlayState = 'visible';
+        this.textLogoInvertState = 'normal';
       } else {
-        // Desktop Version
         this.logoState = 'hidden';
         this.textLogoState = 'hidden';
         this.logoSlideState = 'start';
         this.containerPosition = 'center';
-        this.textLogoClass = 'whiteFill'; // Start mit weißer Schrift
-        this.overlayState = 'visible'; // Startet mit sichtbarem Overlay
-        this.textLogoInvertState = 'normal'; // Initialzustand des Textlogos
+        this.textLogoClass = 'whiteFill';
+        this.overlayState = 'visible';
+        this.textLogoInvertState = 'normal';
       }
 
       setTimeout(() => {
@@ -224,11 +216,11 @@ export class AuthenticationComponent implements OnInit {
       }, this.animationDuration === '1ms' ? 0.1 : 1000);
 
       setTimeout(() => {
-        this.logoSlideState = this.isSmallScreen ? 'mobileEnd' : 'end'; // Unterschiedliche Animation je nach Bildschirmgröße
+        this.logoSlideState = this.isSmallScreen ? 'mobileEnd' : 'end';
       }, this.animationDuration === '1ms' ? 0.2 : 1500);
 
       setTimeout(() => {
-        this.textLogoState = this.isSmallScreen ? 'mobileEnd' : 'visible'; // Unterschiedliche Animation je nach Bildschirmgröße
+        this.textLogoState = this.isSmallScreen ? 'mobileEnd' : 'visible';
       }, this.animationDuration === '1ms' ? 0.3 : 2000);
 
       setTimeout(() => {
@@ -236,7 +228,6 @@ export class AuthenticationComponent implements OnInit {
         this.logoSlideState = 'reset';
         this.textLogoState = 'reset';
         this.textLogoInvertState = 'inverted';
-
         if (this.isSmallScreen) {
           this.enableScroll();
         }
