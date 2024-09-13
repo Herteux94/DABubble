@@ -68,19 +68,17 @@ export class MessageComponent {
     });
 
     if (
-      this.message?.attachments
+      this.message?.attachments &&
+      this.message?.content
     ) {
       this.message.attachments = this.message.attachments.filter(
         (url) => url && url.trim() !== ''
       );
+      this.messageContentSnapshot = this.message.content;
     }
 
     if (this.message?.senderID) {
       this.loadSenderInfo(this.message.senderID);
-    }
-
-    if (this.message?.content) {
-      this.messageContentSnapshot = this.message.content;
     }
 
     if (this.message?.creationTime) {
