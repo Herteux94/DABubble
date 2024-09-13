@@ -146,10 +146,10 @@
 .floatingMemberList {
   position: absolute;
   top: 44px;
-  left: 60px;
-  width: 300px;
+  left: -160px;
+  width: 280px;
   max-height: 220px;
-  border-radius: 0 30px 30px 30px;
+  border-radius: 30px 0 30px 30px;
   border: 2px solid $outlines;
   background-color: white;
   overflow-y: scroll;
@@ -162,7 +162,6 @@
   padding: 1% 4%;
   max-height: 220px;
   overflow-y: scroll;
-  width: 50%;
 
   :active {
     background-color: $background-color;
@@ -214,6 +213,16 @@
 
   p {
     font-weight: bold;
+  }
+}
+
+@media (min-width: 512px) {
+  .floatingMemberList {
+    top: 44px;
+    left: 34px;
+    width: 280px;
+    max-height: 220px;
+    border-radius: 0 30px 30px 30px;
   }
 }
 
@@ -289,6 +298,13 @@
       }
     }
   }
+
+  .floatingMemberList {
+    top: 44px;
+    left: 60px;
+    width: 300px;
+  }
+  
 
   .personAddImgContainer {
     &:hover {
