@@ -68,24 +68,20 @@ export class MessageComponent {
     });
 
     if (
-      this.message?.attachments &&
-      this.message?.senderID &&
-      this.message?.content
+      this.message?.attachments
     ) {
       this.message.attachments = this.message.attachments.filter(
         (url) => url && url.trim() !== ''
       );
-      this.loadSenderInfo(this.message.senderID);
-      this.messageContentSnapshot = this.message.content;
     }
 
-    // if (this.message?.senderID) {
-    //   this.loadSenderInfo(this.message.senderID);
-    // }
+    if (this.message?.senderID) {
+      this.loadSenderInfo(this.message.senderID);
+    }
 
-    // if (this.message?.content) {
-    //   this.messageContentSnapshot = this.message.content;
-    // }
+    if (this.message?.content) {
+      this.messageContentSnapshot = this.message.content;
+    }
 
     if (this.message?.creationTime) {
       this.messageTimestampAsNumber = this.message.creationTime.seconds * 1000;
@@ -97,7 +93,6 @@ export class MessageComponent {
   }
 
   loadSenderInfo(senderID: string) {
-    // this.firestoreService.allUsers$.subscribe((users) => {
     const sender = this.firestoreService.allUsers.find(
       (user) => user.userID === senderID
     );
@@ -108,8 +103,6 @@ export class MessageComponent {
     } else {
       console.warn('Sender nicht im Channel gefunden.');
     }
-    // }
-    // );
   }
 
   // loadSenderInfo(senderID: string) {
