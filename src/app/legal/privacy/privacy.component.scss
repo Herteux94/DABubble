@@ -75,37 +75,15 @@ a {
 
 h1,
 h2,
-h3,
-p,
-span,
+h3 {
+  color: $first-color;
+}
+
 ul,
 li {
   font-family: Nunito, sans-serif;
-  font-size: 20px;
-  line-height: normal;
-  font-weight: 400;
+  font-size: 16px;
   color: black;
-}
-
-h1 {
-  font-size: 46px;
-  line-height: normal;
-  font-weight: 700;
-  color: $first-color;
-}
-
-h2 {
-  font-size: 32px;
-  line-height: normal;
-  font-weight: 700;
-  color: $first-color;
-}
-
-h3 {
-  font-size: 24px;
-  line-height: normal;
-  font-weight: 700;
-  color: $first-color;
 }
 
 @media (max-width: 1100px) {
