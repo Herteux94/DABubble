@@ -13,6 +13,8 @@ import { NewMessageComponent } from './main-content/new-message/new-message.comp
 import { ThreadComponent } from './main-content/thread/thread.component';
 import { NavigationComponent } from './shared/navigation/navigation.component';
 import { HelloComponent } from './main-content/hello/hello.component';
+import { PrivacyComponent } from './legal/privacy/privacy.component';
+import { ImprintComponent } from './legal/imprint/imprint.component';
 
 export const routes: Routes = [
   {
@@ -37,16 +39,18 @@ export const routes: Routes = [
     component: MainContentComponent,
     data: { animation: 'routerTransitions' },
     children: [
-       { path: '', redirectTo: 'hello', pathMatch: 'full' },
-       { path: 'channel/:id', component: ChannelComponent },
-       { path: 'directMessage/:id', component: DirectMessageComponent },
-       { path: 'newMessage', component: NewMessageComponent },
-       { path: 'channel/:id/threadM/:id', component: ThreadComponent },
-       { path: 'thread/:id', component: ThreadComponent, outlet: 'thread' },
-       { path: 'navigation', component: NavigationComponent },
-       { path: 'hello', component: HelloComponent },
+      { path: '', redirectTo: 'hello', pathMatch: 'full' },
+      { path: 'channel/:id', component: ChannelComponent },
+      { path: 'directMessage/:id', component: DirectMessageComponent },
+      { path: 'newMessage', component: NewMessageComponent },
+      { path: 'channel/:id/threadM/:id', component: ThreadComponent },
+      { path: 'thread/:id', component: ThreadComponent, outlet: 'thread' },
+      { path: 'navigation', component: NavigationComponent },
+      { path: 'hello', component: HelloComponent },
     ],
   },
-   { path: 'dialogs', component: DialogTestComponent },
-   { path: '**', redirectTo: 'login' }, // Fallback-Route: bei nicht gefundenen Routen zur Login-Seite
+  { path: 'privacy', component: PrivacyComponent },
+  { path: 'imprint', component: ImprintComponent },
+  { path: 'dialogs', component: DialogTestComponent },
+  { path: '**', redirectTo: 'login' }, // Fallback-Route: bei nicht gefundenen Routen zur Login-Seite
 ];
