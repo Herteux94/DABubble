@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
 import { MainContentComponent } from './main-content/main-content.component';
 import { AuthenticationComponent } from './authentication/authentication.component';
-import { DialogTestComponent } from './dialog-test/dialog-test.component';
 import { LoginComponent } from './authentication/login/login.component';
 import { SignUpComponent } from './authentication/sign-up/sign-up.component';
 import { ChooseAvatarComponent } from './authentication/choose-avatar/choose-avatar.component';
@@ -19,7 +18,7 @@ import { ImprintComponent } from './legal/imprint/imprint.component';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login', // Standardmäßig zur Login-Seite weiterleiten
+    redirectTo: 'login',
     pathMatch: 'full',
   },
   {
@@ -51,6 +50,5 @@ export const routes: Routes = [
   },
   { path: 'privacy', component: PrivacyComponent },
   { path: 'imprint', component: ImprintComponent },
-  { path: 'dialogs', component: DialogTestComponent },
-  { path: '**', redirectTo: 'login' }, // Fallback-Route: bei nicht gefundenen Routen zur Login-Seite
+  { path: '**', redirectTo: 'login' },
 ];

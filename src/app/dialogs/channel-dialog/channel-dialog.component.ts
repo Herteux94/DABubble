@@ -57,7 +57,6 @@ import { FindUserService } from '../../services/find-user.service';
       ]),
     ]),
     trigger('dialogAnimationZoomInBounce', [
-      //nicht schön
       state('void', style({ transform: 'scale(0.5)' })),
       state('*', style({ transform: 'scale(1)' })),
       transition('void => *', [
@@ -124,7 +123,18 @@ export class ChannelDialogComponent implements OnInit {
   channelCreator: string = this.activeChannelService.activeChannel.creator;
   mobile: boolean = false;
   members: User[] = [];
+  @ViewChild('channelNameInput') channelNameInput!: ElementRef;
+  @ViewChild('channelDescriptionInput') channelDescriptionInput!: ElementRef;
 
+  /**
+   * Constructor for the ChannelDialogComponent.
+   *
+   * @param screenSizeService Injected service to check for screen size.
+   * @param activeChannelService Injected service to get the currently active channel.
+   * @param firestoreService Injected service to interact with Firestore.
+   * @param activeUserService Injected service to get the currently active user.
+   * @param router Injected service to navigate to other routes.
+   */
   constructor(
     private screenSizeService: ScreenSizeService,
     public activeChannelService: ActiveChannelService,
@@ -133,6 +143,10 @@ export class ChannelDialogComponent implements OnInit {
     private router: Router
   ) {}
 
+  /**
+   * Lifecycle hook that is called after the component is initialized.
+   * It checks for the screen size and loads the user data.
+   */
   ngOnInit() {
     this.screenSizeService.isMobile().subscribe((isMobile) => {
       this.mobile = isMobile;
@@ -140,8 +154,12 @@ export class ChannelDialogComponent implements OnInit {
     this.loadUserData();
   }
 
-  @ViewChild('channelNameInput') channelNameInput!: ElementRef;
-  @ViewChild('channelDescriptionInput') channelDescriptionInput!: ElementRef;
+  /**
+   * Toggles the editing of the channel name.
+   *
+   * If the channel name is being edited, it will stop editing and save the new name.
+   * If the channel name is not being edited, it will start editing and focus the input.
+   */
   toggleEditName() {
     this.isEditingName = !this.isEditingName;
     if (this.isEditingName) {
@@ -153,6 +171,19 @@ export class ChannelDialogComponent implements OnInit {
     }
   }
 
+  /**
+   * Toggles the editing of the channel description.
+   *
+   * If the channel description is being edited, it will stop editing and save the new description.
+   * If the channel description is not being edited, it will start editing and focus the input.
+   */
+
+  /**
+   * Toggles the editing of the channel description.
+   *
+   * If the channel description is being edited, it will stop editing and save the new description.
+   * If the channel description is not being edited, it will start editing and focus the input.
+   */
   toggleEditDescription() {
     this.isEditingDescription = !this.isEditingDescription;
     if (this.isEditingDescription) {
@@ -164,28 +195,51 @@ export class ChannelDialogComponent implements OnInit {
     }
   }
 
+  /**
+   * Loads the user data for the members of the active channel.
+   *
+   * It uses the `FindUserService` to find the users in the `member` array of the active channel.
+   */
   loadUserData() {
     this.members = this.findUserService.findUsers(
       this.activeChannelService.activeChannel.member
     );
   }
 
+  /**
+   * Adjusts the number of rows of a textarea element based on its content.
+   *
+   * It sets the rows property of the textarea element to 1, calculates the
+   * current number of rows based on the scrollHeight of the element, and then
+   * sets the rows property to the calculated value if it is less than or equal
+   * to 4. Otherwise, it sets the rows property to 4.
+   * @param textarea The textarea element to adjust.
+   */
   adjustTextareaRows(textarea: HTMLTextAreaElement): void {
-    // Setze die Anzahl der Zeilen zurück, um die korrekte Höhe zu berechnen
     textarea.rows = 1;
-
-    // Berechne die Anzahl der benötigten Zeilen basierend auf der Scrollhöhe
-    const lineHeight = 24; // Die Höhe einer Zeile in px (kann je nach Schriftgröße variieren)
+    const lineHeight = 24;
     const currentRows = Math.floor(textarea.scrollHeight / lineHeight);
-
-    // Setze die Anzahl der Zeilen auf die aktuelle Höhe, begrenzt auf maximal 4 Zeilen
     textarea.rows = currentRows <= 4 ? currentRows : 4;
   }
 
+  /**
+   * Returns the given userID.
+   *
+   * This function is currently only used as a placeholder, because the actual
+   * user data is not yet displayed in the channel dialog.
+   * @param userID The user ID to return.
+   * @returns The given user ID.
+   */
   getUserData(userID: string) {
     return userID;
   }
 
+  /**
+   * Saves the new channel name to the Firestore database.
+   *
+   * Updates the `name` field of the active channel in the Firestore database
+   * with the value of the `channelName` property.
+   */
   saveNewName() {
     this.activeChannelService.activeChannel.name = this.channelName;
     this.firestoreService.updateChannel(
@@ -195,6 +249,12 @@ export class ChannelDialogComponent implements OnInit {
     console.log('Channel name updated successfully');
   }
 
+  /**
+   * Saves the new channel description to the Firestore database.
+   *
+   * Updates the `description` field of the active channel in the Firestore database
+   * with the value of the `channelDescription` property.
+   */
   saveNewDescription() {
     this.activeChannelService.activeChannel.description =
       this.channelDescription;
@@ -205,14 +265,34 @@ export class ChannelDialogComponent implements OnInit {
     console.log('Channel description updated successfully');
   }
 
-  onEvent(event: any) {
+  /**
+   * Stops the propagation of the given event.
+   *
+   * This is necessary to prevent the event from bubbling up to the parent
+   * component and causing unwanted side effects.
+   * @param event The event to stop propagating.
+   */
+  onEvent(event: Event) {
     event.stopPropagation();
   }
 
+  /**
+   * Opens the EditMemberDialogComponent to edit the members of the active
+   * channel.
+   */
   openEditMemberDialog() {
     this.dialog.open(EditMemberDialogComponent);
   }
 
+  /**
+   * Removes the currently active user from the currently active channel.
+   *
+   * Updates the `member` field of the active channel in the Firestore database
+   * to remove the currently active user's ID from the array of member IDs.
+   * Also updates the `channels` field of the active user in the Firestore
+   * database to remove the active channel's ID from the array of channel IDs.
+   * Finally, navigates to the HelloComponent.
+   */
   leaveChannel() {
     const userID = this.activeUserService.activeUser.userID;
     const channel = this.activeChannelService.activeChannel;
@@ -233,6 +313,11 @@ export class ChannelDialogComponent implements OnInit {
     this.navigateToHelloComponent();
   }
 
+  /**
+   * Navigates to the HelloComponent.
+   *
+   * This function is used as a callback after the user has left a channel.
+   */
   navigateToHelloComponent() {
     this.router.navigate(['messenger/hello']);
   }

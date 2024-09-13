@@ -1,13 +1,6 @@
 @import "../../../variables.scss";
 @import "../../../app/shared/dialogs/dialog.component.scss";
 
-// :host {
-//   display: block;
-//   background: none;
-//   border-radius: 30px;
-//   animation: fade-in  0.8s ease-out;
-// }
-
 .channelDialogContainer {
   background-color: rgb(255, 255, 255);
   position: absolute;
@@ -37,9 +30,10 @@
   }
   &.outline {
     outline: 1px solid $outlines;
+    margin: 2px;
   }
   &.noOutline {
-    outline: 1px solid rgba(#ffffff00,0);
+    outline: 1px solid rgba(#ffffff00, 0);
   }
 }
 
@@ -113,6 +107,5 @@
     display: block;
     background: none;
     border-radius: 30px;
-    // animation: scale-up  0.5s ease-out;
   }
 }

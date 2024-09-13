@@ -5,37 +5,42 @@
     </div>
 
     <div class="dialogWrapperBig">
-
         <div [@inputAnimationFadeIn] class="channelContentWrapper" [ngClass]="isEditingName ? 'noOutline' : 'outline'">
             <div class="channelNameContainer">
                 <h3>Channel-Name</h3>
                 @if (mobile) {
                 @if (isEditingName) {
                 <div>
-                    <svg class="editSVG" (click)="saveNewName(); onEvent($event)" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <mask id="mask0_70696_3088" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
-                        <rect width="24" height="24" fill="#D9D9D9"/>
+                    <svg class="editSVG" (click)="saveNewName(); onEvent($event)" width="24" height="24"
+                        viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <mask id="mask0_70696_3088" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                            width="24" height="24">
+                            <rect width="24" height="24" fill="#D9D9D9" />
                         </mask>
                         <g mask="url(#mask0_70696_3088)">
-                        <path d="M10.6 13.8L8.45 11.65C8.26667 11.4667 8.03333 11.375 7.75 11.375C7.46667 11.375 7.23333 11.4667 7.05 11.65C6.86667 11.8333 6.775 12.0667 6.775 12.35C6.775 12.6333 6.86667 12.8667 7.05 13.05L9.9 15.9C10.1 16.1 10.3333 16.2 10.6 16.2C10.8667 16.2 11.1 16.1 11.3 15.9L16.95 10.25C17.1333 10.0667 17.225 9.83333 17.225 9.55C17.225 9.26667 17.1333 9.03333 16.95 8.85C16.7667 8.66667 16.5333 8.575 16.25 8.575C15.9667 8.575 15.7333 8.66667 15.55 8.85L10.6 13.8ZM12 22C10.6167 22 9.31667 21.7375 8.1 21.2125C6.88333 20.6875 5.825 19.975 4.925 19.075C4.025 18.175 3.3125 17.1167 2.7875 15.9C2.2625 14.6833 2 13.3833 2 12C2 10.6167 2.2625 9.31667 2.7875 8.1C3.3125 6.88333 4.025 5.825 4.925 4.925C5.825 4.025 6.88333 3.3125 8.1 2.7875C9.31667 2.2625 10.6167 2 12 2C13.3833 2 14.6833 2.2625 15.9 2.7875C17.1167 3.3125 18.175 4.025 19.075 4.925C19.975 5.825 20.6875 6.88333 21.2125 8.1C21.7375 9.31667 22 10.6167 22 12C22 13.3833 21.7375 14.6833 21.2125 15.9C20.6875 17.1167 19.975 18.175 19.075 19.075C18.175 19.975 17.1167 20.6875 15.9 21.2125C14.6833 21.7375 13.3833 22 12 22ZM12 20C14.2333 20 16.125 19.225 17.675 17.675C19.225 16.125 20 14.2333 20 12C20 9.76667 19.225 7.875 17.675 6.325C16.125 4.775 14.2333 4 12 4C9.76667 4 7.875 4.775 6.325 6.325C4.775 7.875 4 9.76667 4 12C4 14.2333 4.775 16.125 6.325 17.675C7.875 19.225 9.76667 20 12 20Z" fill="black"/>
+                            <path
+                                d="M10.6 13.8L8.45 11.65C8.26667 11.4667 8.03333 11.375 7.75 11.375C7.46667 11.375 7.23333 11.4667 7.05 11.65C6.86667 11.8333 6.775 12.0667 6.775 12.35C6.775 12.6333 6.86667 12.8667 7.05 13.05L9.9 15.9C10.1 16.1 10.3333 16.2 10.6 16.2C10.8667 16.2 11.1 16.1 11.3 15.9L16.95 10.25C17.1333 10.0667 17.225 9.83333 17.225 9.55C17.225 9.26667 17.1333 9.03333 16.95 8.85C16.7667 8.66667 16.5333 8.575 16.25 8.575C15.9667 8.575 15.7333 8.66667 15.55 8.85L10.6 13.8ZM12 22C10.6167 22 9.31667 21.7375 8.1 21.2125C6.88333 20.6875 5.825 19.975 4.925 19.075C4.025 18.175 3.3125 17.1167 2.7875 15.9C2.2625 14.6833 2 13.3833 2 12C2 10.6167 2.2625 9.31667 2.7875 8.1C3.3125 6.88333 4.025 5.825 4.925 4.925C5.825 4.025 6.88333 3.3125 8.1 2.7875C9.31667 2.2625 10.6167 2 12 2C13.3833 2 14.6833 2.2625 15.9 2.7875C17.1167 3.3125 18.175 4.025 19.075 4.925C19.975 5.825 20.6875 6.88333 21.2125 8.1C21.7375 9.31667 22 10.6167 22 12C22 13.3833 21.7375 14.6833 21.2125 15.9C20.6875 17.1167 19.975 18.175 19.075 19.075C18.175 19.975 17.1167 20.6875 15.9 21.2125C14.6833 21.7375 13.3833 22 12 22ZM12 20C14.2333 20 16.125 19.225 17.675 17.675C19.225 16.125 20 14.2333 20 12C20 9.76667 19.225 7.875 17.675 6.325C16.125 4.775 14.2333 4 12 4C9.76667 4 7.875 4.775 6.325 6.325C4.775 7.875 4 9.76667 4 12C4 14.2333 4.775 16.125 6.325 17.675C7.875 19.225 9.76667 20 12 20Z"
+                                fill="black" />
                         </g>
-                        </svg>
+                    </svg>
                 </div>
                 } @else {
                 <div>
-                    <svg class="editSVG" (click)="toggleEditName()" width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="30" height="30" rx="15" fill="#ECEEFE"/>
-                        <mask id="mask0_69747_15286" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="3" y="3" width="24" height="24">
-                        <rect x="3" y="3" width="24" height="24" fill="#D9D9D9"/>
+                    <svg class="editSVG" (click)="toggleEditName()" width="30" height="30" viewBox="0 0 30 30"
+                        fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="30" height="30" rx="15" fill="#ECEEFE" />
+                        <mask id="mask0_69747_15286" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="3" y="3"
+                            width="24" height="24">
+                            <rect x="3" y="3" width="24" height="24" fill="#D9D9D9" />
                         </mask>
                         <g mask="url(#mask0_69747_15286)">
-                        <path d="M8 22H9.4L18.025 13.375L16.625 11.975L8 20.6V22ZM22.3 11.925L18.05 7.725L19.45 6.325C19.8333 5.94167 20.3043 5.75 20.863 5.75C21.421 5.75 21.8917 5.94167 22.275 6.325L23.675 7.725C24.0583 8.10833 24.2583 8.571 24.275 9.113C24.2917 9.65433 24.1083 10.1167 23.725 10.5L22.3 11.925ZM7 24C6.71667 24 6.47933 23.904 6.288 23.712C6.096 23.5207 6 23.2833 6 23V20.175C6 20.0417 6.025 19.9127 6.075 19.788C6.125 19.6627 6.2 19.55 6.3 19.45L16.6 9.15L20.85 13.4L10.55 23.7C10.45 23.8 10.3377 23.875 10.213 23.925C10.0877 23.975 9.95833 24 9.825 24H7Z" fill="#1C1B1F"/>
+                            <path
+                                d="M8 22H9.4L18.025 13.375L16.625 11.975L8 20.6V22ZM22.3 11.925L18.05 7.725L19.45 6.325C19.8333 5.94167 20.3043 5.75 20.863 5.75C21.421 5.75 21.8917 5.94167 22.275 6.325L23.675 7.725C24.0583 8.10833 24.2583 8.571 24.275 9.113C24.2917 9.65433 24.1083 10.1167 23.725 10.5L22.3 11.925ZM7 24C6.71667 24 6.47933 23.904 6.288 23.712C6.096 23.5207 6 23.2833 6 23V20.175C6 20.0417 6.025 19.9127 6.075 19.788C6.125 19.6627 6.2 19.55 6.3 19.45L16.6 9.15L20.85 13.4L10.55 23.7C10.45 23.8 10.3377 23.875 10.213 23.925C10.0877 23.975 9.95833 24 9.825 24H7Z"
+                                fill="#1C1B1F" />
                         </g>
-                        </svg>
-                        
+                    </svg>
                 </div>
                 }
-
                 } @else {
                 @if (isEditingName) {
                 <div>
@@ -48,7 +53,6 @@
                 }
                 }
             </div>
-
             @if (!isEditingName) {
             <div>
                 <span class="trigger">
@@ -57,41 +61,46 @@
             </div>
             } @else if (isEditingName) {
             <div class="inputContainer">
-                <input #channelNameInput [ngClass]="isEditingName ? 'noOutline' : 'outline'" class="input inputBackground" type="text"
-                    [(ngModel)]="channelName" (blur)="toggleEditName()">
+                <input #channelNameInput [ngClass]="isEditingName ? 'noOutline' : 'outline'"
+                    class="input inputBackground" type="text" [(ngModel)]="channelName" (blur)="toggleEditName()">
             </div>}
         </div>
-
         <div class="channelContentWrapper" [ngClass]="isEditingDescription ? 'noOutline' : 'outline'">
             <div class="channelNameContainer">
                 <h3>Beschreibung</h3>
-
                 @if (mobile) {
                 @if (isEditingDescription) {
                 <div>
-                    <svg class="editSVG" (click)="saveNewDescription(); onEvent($event)" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <mask id="mask0_70696_3088" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
-                        <rect width="24" height="24" fill="#D9D9D9"/>
+                    <svg class="editSVG" (click)="saveNewDescription(); onEvent($event)" width="24" height="24"
+                        viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <mask id="mask0_70696_3088" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+                            width="24" height="24">
+                            <rect width="24" height="24" fill="#D9D9D9" />
                         </mask>
                         <g mask="url(#mask0_70696_3088)">
-                        <path d="M10.6 13.8L8.45 11.65C8.26667 11.4667 8.03333 11.375 7.75 11.375C7.46667 11.375 7.23333 11.4667 7.05 11.65C6.86667 11.8333 6.775 12.0667 6.775 12.35C6.775 12.6333 6.86667 12.8667 7.05 13.05L9.9 15.9C10.1 16.1 10.3333 16.2 10.6 16.2C10.8667 16.2 11.1 16.1 11.3 15.9L16.95 10.25C17.1333 10.0667 17.225 9.83333 17.225 9.55C17.225 9.26667 17.1333 9.03333 16.95 8.85C16.7667 8.66667 16.5333 8.575 16.25 8.575C15.9667 8.575 15.7333 8.66667 15.55 8.85L10.6 13.8ZM12 22C10.6167 22 9.31667 21.7375 8.1 21.2125C6.88333 20.6875 5.825 19.975 4.925 19.075C4.025 18.175 3.3125 17.1167 2.7875 15.9C2.2625 14.6833 2 13.3833 2 12C2 10.6167 2.2625 9.31667 2.7875 8.1C3.3125 6.88333 4.025 5.825 4.925 4.925C5.825 4.025 6.88333 3.3125 8.1 2.7875C9.31667 2.2625 10.6167 2 12 2C13.3833 2 14.6833 2.2625 15.9 2.7875C17.1167 3.3125 18.175 4.025 19.075 4.925C19.975 5.825 20.6875 6.88333 21.2125 8.1C21.7375 9.31667 22 10.6167 22 12C22 13.3833 21.7375 14.6833 21.2125 15.9C20.6875 17.1167 19.975 18.175 19.075 19.075C18.175 19.975 17.1167 20.6875 15.9 21.2125C14.6833 21.7375 13.3833 22 12 22ZM12 20C14.2333 20 16.125 19.225 17.675 17.675C19.225 16.125 20 14.2333 20 12C20 9.76667 19.225 7.875 17.675 6.325C16.125 4.775 14.2333 4 12 4C9.76667 4 7.875 4.775 6.325 6.325C4.775 7.875 4 9.76667 4 12C4 14.2333 4.775 16.125 6.325 17.675C7.875 19.225 9.76667 20 12 20Z" fill="black"/>
+                            <path
+                                d="M10.6 13.8L8.45 11.65C8.26667 11.4667 8.03333 11.375 7.75 11.375C7.46667 11.375 7.23333 11.4667 7.05 11.65C6.86667 11.8333 6.775 12.0667 6.775 12.35C6.775 12.6333 6.86667 12.8667 7.05 13.05L9.9 15.9C10.1 16.1 10.3333 16.2 10.6 16.2C10.8667 16.2 11.1 16.1 11.3 15.9L16.95 10.25C17.1333 10.0667 17.225 9.83333 17.225 9.55C17.225 9.26667 17.1333 9.03333 16.95 8.85C16.7667 8.66667 16.5333 8.575 16.25 8.575C15.9667 8.575 15.7333 8.66667 15.55 8.85L10.6 13.8ZM12 22C10.6167 22 9.31667 21.7375 8.1 21.2125C6.88333 20.6875 5.825 19.975 4.925 19.075C4.025 18.175 3.3125 17.1167 2.7875 15.9C2.2625 14.6833 2 13.3833 2 12C2 10.6167 2.2625 9.31667 2.7875 8.1C3.3125 6.88333 4.025 5.825 4.925 4.925C5.825 4.025 6.88333 3.3125 8.1 2.7875C9.31667 2.2625 10.6167 2 12 2C13.3833 2 14.6833 2.2625 15.9 2.7875C17.1167 3.3125 18.175 4.025 19.075 4.925C19.975 5.825 20.6875 6.88333 21.2125 8.1C21.7375 9.31667 22 10.6167 22 12C22 13.3833 21.7375 14.6833 21.2125 15.9C20.6875 17.1167 19.975 18.175 19.075 19.075C18.175 19.975 17.1167 20.6875 15.9 21.2125C14.6833 21.7375 13.3833 22 12 22ZM12 20C14.2333 20 16.125 19.225 17.675 17.675C19.225 16.125 20 14.2333 20 12C20 9.76667 19.225 7.875 17.675 6.325C16.125 4.775 14.2333 4 12 4C9.76667 4 7.875 4.775 6.325 6.325C4.775 7.875 4 9.76667 4 12C4 14.2333 4.775 16.125 6.325 17.675C7.875 19.225 9.76667 20 12 20Z"
+                                fill="black" />
                         </g>
-                        </svg>
+                    </svg>
                 </div>
                 } @else {
                 <div>
-                    <svg class="editSVG" (click)="toggleEditDescription()" width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="30" height="30" rx="15" fill="#ECEEFE"/>
-                        <mask id="mask0_69747_15286" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="3" y="3" width="24" height="24">
-                        <rect x="3" y="3" width="24" height="24" fill="#D9D9D9"/>
+                    <svg class="editSVG" (click)="toggleEditDescription()" width="30" height="30" viewBox="0 0 30 30"
+                        fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="30" height="30" rx="15" fill="#ECEEFE" />
+                        <mask id="mask0_69747_15286" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="3" y="3"
+                            width="24" height="24">
+                            <rect x="3" y="3" width="24" height="24" fill="#D9D9D9" />
                         </mask>
                         <g mask="url(#mask0_69747_15286)">
-                        <path d="M8 22H9.4L18.025 13.375L16.625 11.975L8 20.6V22ZM22.3 11.925L18.05 7.725L19.45 6.325C19.8333 5.94167 20.3043 5.75 20.863 5.75C21.421 5.75 21.8917 5.94167 22.275 6.325L23.675 7.725C24.0583 8.10833 24.2583 8.571 24.275 9.113C24.2917 9.65433 24.1083 10.1167 23.725 10.5L22.3 11.925ZM7 24C6.71667 24 6.47933 23.904 6.288 23.712C6.096 23.5207 6 23.2833 6 23V20.175C6 20.0417 6.025 19.9127 6.075 19.788C6.125 19.6627 6.2 19.55 6.3 19.45L16.6 9.15L20.85 13.4L10.55 23.7C10.45 23.8 10.3377 23.875 10.213 23.925C10.0877 23.975 9.95833 24 9.825 24H7Z" fill="#1C1B1F"/>
+                            <path
+                                d="M8 22H9.4L18.025 13.375L16.625 11.975L8 20.6V22ZM22.3 11.925L18.05 7.725L19.45 6.325C19.8333 5.94167 20.3043 5.75 20.863 5.75C21.421 5.75 21.8917 5.94167 22.275 6.325L23.675 7.725C24.0583 8.10833 24.2583 8.571 24.275 9.113C24.2917 9.65433 24.1083 10.1167 23.725 10.5L22.3 11.925ZM7 24C6.71667 24 6.47933 23.904 6.288 23.712C6.096 23.5207 6 23.2833 6 23V20.175C6 20.0417 6.025 19.9127 6.075 19.788C6.125 19.6627 6.2 19.55 6.3 19.45L16.6 9.15L20.85 13.4L10.55 23.7C10.45 23.8 10.3377 23.875 10.213 23.925C10.0877 23.975 9.95833 24 9.825 24H7Z"
+                                fill="#1C1B1F" />
                         </g>
-                        </svg>
+                    </svg>
                 </div>
                 }
-
                 } @else {
                 @if (isEditingDescription) {
                 <div>
@@ -104,7 +113,6 @@
                 }
                 }
             </div>
-
             @if (!isEditingDescription) {
             <div>
                 <span class="trigger">
@@ -113,43 +121,33 @@
             </div>
             } @else if (isEditingDescription) {
             <div class="inputContainer">
-                <textarea class="input" #channelDescriptionInput rows="1" type="text" (input)="adjustTextareaRows(channelDescriptionInput)"
-                    [(ngModel)]="channelDescription" (blur)="toggleEditDescription()"></textarea>
+                <textarea class="input" #channelDescriptionInput rows="1" type="text"
+                    (input)="adjustTextareaRows(channelDescriptionInput)" [(ngModel)]="channelDescription"
+                    (blur)="toggleEditDescription()"></textarea>
             </div>
             }
-
             <div class="divider"></div>
-
             <div class="channelNameContainer">
                 <h3>Erstellt von</h3>
             </div>
-
             <div>
                 <span class="coloredText" href="">{{ channelCreator }}</span>
             </div>
         </div>
-
-
         @if (mobile) {
         <div class="channelContentWrapper outline">
-
             <div class="channelNameContainer">
                 <h3>Mitglieder</h3>
             </div>
-
             <div class="memberList">
-
                 @for (member of members; track member) {
-
                 <div class="member" [ngClass]="{'hover': !mobile, 'active': mobile}">
                     <img [src]="member.profileImg || '../../../assets/img/Profile.svg'" alt="Schließen">
                     <p>{{ member.name }}</p>
                 </div>
                 }
             </div>
-
             <div class="addMemberContainer" [ngClass]="{'hover': !mobile, 'active': mobile}">
-
                 <div (click)="openEditMemberDialog()">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"
                         xmlns="http://www.w3.org/2000/svg">
@@ -168,8 +166,6 @@
             </div>
         </div>
         }
-
-
         <div class="btnWrapper">
             <button (click)="leaveChannel(); dialogRef.close()" class="firstBtn">Channel verlassen</button>
         </div>
