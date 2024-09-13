@@ -11,6 +11,7 @@ import { ActiveUserService } from '../../services/active-user.service';
 import { ActiveDirectMessageService } from '../../services/active-direct-message-service.service';
 import { ProfileDialogComponent } from '../../dialogs/profile-dialog/profile-dialog.component';
 import { User } from '../../models/user.model';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-navigation',
@@ -24,6 +25,19 @@ import { User } from '../../models/user.model';
   ],
   templateUrl: './navigation.component.html',
   styleUrl: './navigation.component.scss',
+  animations: [
+    trigger('openSearchList', [
+      state('void', style({ opacity: 0, transform: 'scaleY(0)' })),
+      state('*', style({ opacity: 1, transform: 'scaleY(1)' })),
+      transition('void => *', [
+        style({ opacity: 0, transform: 'scaleY(0)' }),
+        animate('300ms ease-out'),
+      ]),
+      transition('* => void', [
+        animate('300ms ease-in', style({ opacity: 0, transform: 'scaleY(0)' })),
+      ]),
+    ]),
+  ]
 })
 export class NavigationComponent implements OnInit {
   dialog = inject(Dialog);
