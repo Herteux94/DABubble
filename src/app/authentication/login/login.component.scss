@@ -5,11 +5,15 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: absolute;
+  top: 140px;
+  left: 0;
+  right: 0;
 }
 
 .card {
   position: static;
-  margin: 360px 20px 35px 20px;
+  margin: 0px 20px 35px 20px;
 }
 
 .inputContainerAuth {
