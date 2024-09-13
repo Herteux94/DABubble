@@ -10,6 +10,14 @@
   top: 100px;
 }
 
+.cardWrapper{
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .arrowBackIcon {
   left: 10px;
   cursor: pointer;
@@ -43,7 +51,7 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
-    position: relative;
+
     min-height: none;
     top: 0;
   }
