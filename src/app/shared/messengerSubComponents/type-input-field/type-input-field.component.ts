@@ -51,20 +51,6 @@ export class TypeInputFieldComponent {
     private el: ElementRef
   ) {}
 
-  // sendMessage() {
-  //   if (this.uploadedFiles.length > 0) {
-  //     this.uploadFilesAndSendMessage();
-  //   } else {
-  //     this.sendMessageBasedOnType();
-  //   }
-  //   if (this.activeUserService.activeUser?.userID) {
-  //     this.firestoreService.updateUser(
-  //       { lastOnline: Date.now() },
-  //       this.activeUserService.activeUser.userID
-  //     );
-  //   }
-  // }
-
   sendMessage() {
     const hasText = this.message.content.trim().length > 0;
     const hasFiles = this.uploadedFiles.length > 0;
@@ -98,15 +84,13 @@ export class TypeInputFieldComponent {
           this.activeThreadService.activeThreadMessage;
         const channelID = this.activeChannelService.activeChannel.channelID;
 
-        // Füge die Nachricht zum Thread hinzu
         await this.firestoreService.addThreadMessage(
           this.message.toJSON(),
           channelID,
           activeThreadMessage.messageID
         );
 
-        // Aktualisiere die ursprüngliche Nachricht, zu der der Thread gehört
-        const updatedThreadLength = (activeThreadMessage.threadLength || 0) + 1; // Falls threadLength undefined ist, setze es auf 0
+        const updatedThreadLength = (activeThreadMessage.threadLength || 0) + 1; 
         const messagePayload = {
           lastAnswer: this.message.creationTime,
           threadLength: updatedThreadLength,
@@ -156,7 +140,7 @@ export class TypeInputFieldComponent {
       }
     } catch (error) {
       console.error('Error sending message:', error);
-      this.errorMessageUpload = 'Error sending message. Please try again.'; // Fehlernachricht speichern
+      this.errorMessageUpload = 'Error sending message. Please try again.';
     } finally {
       this.resetMessage();
     }
@@ -176,22 +160,21 @@ export class TypeInputFieldComponent {
 
   private resetMessage() {
     this.message.content = '';
-    this.uploadedFiles = []; // Reset der Liste nach dem Hochladen
+    this.uploadedFiles = []; 
   }
 
-  // Methode zum Hochladen der Dateien und anschließendem Senden der Nachricht
   private uploadFilesAndSendMessage() {
     const uploadPromises = this.uploadedFiles.map((uploadedFile) => {
       return this.uploadFile(uploadedFile);
     });
     Promise.all(uploadPromises)
       .then(() => {
-        this.errorMessageUpload = ''; // Fehler zurücksetzen, wenn der Upload erfolgreich ist
+        this.errorMessageUpload = '';
         this.sendMessageBasedOnType();
       })
       .catch((error) => {
         console.error('Error uploading files:', error);
-        this.errorMessageUpload = error; // Fehlernachricht speichern
+        this.errorMessageUpload = error;
       });
   }
 
@@ -244,7 +227,7 @@ export class TypeInputFieldComponent {
     return uploadMethod
       .call(this.storageService, id, uploadedFile.file)
       .then((downloadURL) => {
-        uploadedFile.url = downloadURL; // Speichere die tatsächliche URL
+        uploadedFile.url = downloadURL;
       })
       .catch((error) => {
         console.error(`Error uploading file to ${this.messengerType}:`, error);
@@ -260,7 +243,7 @@ export class TypeInputFieldComponent {
       if (!allowedTypes.includes(file.type)) {
         const errorMessage = `Ungültiger Dateityp:${file.name} - Es sind nur jpg-, jpeg-, png- und pdf-Dateien erlaubt.`;
         console.error(errorMessage);
-        this.errorMessageUpload = errorMessage; // Fehlernachricht speichern
+        this.errorMessageUpload = errorMessage;
         return;
       }
 
@@ -312,20 +295,16 @@ export class TypeInputFieldComponent {
     const emoji = event.emoji;
     const inputElement = this.messageInput.nativeElement;
 
-    // Füge das Emoji an der aktuellen Cursor-Position in message.content ein
     const startPos = inputElement.selectionStart;
     const endPos = inputElement.selectionEnd;
 
-    // message.content wird modifiziert, um das Emoji hinzuzufügen
     this.message.content =
       this.message.content.slice(0, startPos) +
       emoji +
       this.message.content.slice(endPos);
 
-    // Den Emoji-Picker schließen
     this.showEmojiPicker = false;
 
-    // Setze den Fokus zurück auf das Textarea und aktualisiere die Cursor-Position
     setTimeout(() => {
       inputElement.focus();
       inputElement.selectionStart = startPos + emoji.length;
@@ -355,7 +334,6 @@ export class TypeInputFieldComponent {
       event.target
     );
 
-    // Schließe den Picker nur, wenn weder der Button noch der Picker selbst angeklickt wurde
     if (
       this.showEmojiPicker &&
       !clickedInsideEmojiButton &&
