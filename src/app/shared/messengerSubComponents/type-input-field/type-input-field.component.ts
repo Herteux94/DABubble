@@ -4,7 +4,7 @@ import {
   HostListener,
   inject,
   Input,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { Message } from '../../../models/message.model';
 import { FormsModule } from '@angular/forms';
@@ -34,12 +34,11 @@ export class TypeInputFieldComponent {
   message = new Message();
   showEmojiPicker: boolean = false; // Flag zum Anzeigen des Emoji-Pickers
   uploadedFiles: { file: File; url: string }[] = []; // Liste der hochgeladenen Dateien und deren URLs
-
+  showError= false;
   errorMessageUpload: string = ''; // Variable für die Fehlermeldungen
 
   @ViewChild('messageInput') messageInput!: ElementRef; // Referenz zum Textarea
   @ViewChild('emojiPicker') emojiPicker!: ElementRef; // Referenz zum Emoji-Picker
-
 
   constructor(
     private firestoreService: FirestoreService,
@@ -50,14 +49,37 @@ export class TypeInputFieldComponent {
     private activeThreadService: ActiveThreadService,
     private router: Router,
     private el: ElementRef
-  ) { }
+  ) {}
+
+  // sendMessage() {
+  //   if (this.uploadedFiles.length > 0) {
+  //     this.uploadFilesAndSendMessage();
+  //   } else {
+  //     this.sendMessageBasedOnType();
+  //   }
+  //   if (this.activeUserService.activeUser?.userID) {
+  //     this.firestoreService.updateUser(
+  //       { lastOnline: Date.now() },
+  //       this.activeUserService.activeUser.userID
+  //     );
+  //   }
+  // }
 
   sendMessage() {
-    if (this.uploadedFiles.length > 0) {
+    const hasText = this.message.content.trim().length > 0;
+    const hasFiles = this.uploadedFiles.length > 0;
+  
+    if (!hasText && !hasFiles) {
+      this.errorMessageUpload = 'Bitte geben Sie eine Nachricht ein oder fügen Sie eine Datei hinzu.';
+      return;
+    }
+  
+    if (hasFiles) {
       this.uploadFilesAndSendMessage();
     } else {
       this.sendMessageBasedOnType();
     }
+  
     if (this.activeUserService.activeUser?.userID) {
       this.firestoreService.updateUser(
         { lastOnline: Date.now() },
@@ -65,6 +87,7 @@ export class TypeInputFieldComponent {
       );
     }
   }
+  
 
   private async sendMessageBasedOnType() {
     this.prepareMessage();
@@ -96,9 +119,7 @@ export class TypeInputFieldComponent {
           activeThreadMessage.messageID
         );
 
-        // Update local activeThreadMessage to reflect the new threadLength
-        this.activeThreadService.activeThreadMessage.threadLength =
-          updatedThreadLength;
+        this.activeThreadService.activeThreadMessage.threadLength = updatedThreadLength;
       } else if (this.messengerType === 'channels') {
         await this.firestoreService.addMessage(
           this.message.toJSON(),
@@ -296,7 +317,10 @@ export class TypeInputFieldComponent {
     const endPos = inputElement.selectionEnd;
 
     // message.content wird modifiziert, um das Emoji hinzuzufügen
-    this.message.content = this.message.content.slice(0, startPos) + emoji + this.message.content.slice(endPos);
+    this.message.content =
+      this.message.content.slice(0, startPos) +
+      emoji +
+      this.message.content.slice(endPos);
 
     // Den Emoji-Picker schließen
     this.showEmojiPicker = false;
@@ -308,8 +332,6 @@ export class TypeInputFieldComponent {
       inputElement.selectionEnd = startPos + emoji.length;
     }, 0);
   }
-
-
 
   toggleEmojiPicker() {
     this.showEmojiPicker = !this.showEmojiPicker;
@@ -326,15 +348,20 @@ export class TypeInputFieldComponent {
 
   @HostListener('document:click', ['$event'])
   clickOutside(event: MouseEvent) {
-    const clickedInsideEmojiButton = (event.target as HTMLElement).closest('#emojiPicker');
-    const clickedInsideEmojiPicker = this.emojiPicker?.nativeElement.contains(event.target);
+    const clickedInsideEmojiButton = (event.target as HTMLElement).closest(
+      '#emojiPicker'
+    );
+    const clickedInsideEmojiPicker = this.emojiPicker?.nativeElement.contains(
+      event.target
+    );
 
     // Schließe den Picker nur, wenn weder der Button noch der Picker selbst angeklickt wurde
-    if (this.showEmojiPicker && !clickedInsideEmojiButton && !clickedInsideEmojiPicker) {
+    if (
+      this.showEmojiPicker &&
+      !clickedInsideEmojiButton &&
+      !clickedInsideEmojiPicker
+    ) {
       this.showEmojiPicker = false;
     }
   }
-
-
-
 }
