@@ -24,7 +24,7 @@ export class SignUpComponent {
 
   password: string = '';
   user = new User();
-  formSubmitted: boolean = false;  // Zeigt an, dass das Formular abgesendet wurde
+  formSubmitted: boolean = false; // Zeigt an, dass das Formular abgesendet wurde
 
   @ViewChild(BubbleComponent) bubbleComponent!: BubbleComponent;
 
@@ -59,16 +59,21 @@ export class SignUpComponent {
     if (!this.password) {
       this.errorMessagePassword = 'Bitte gib ein Passwort ein.';
     } else if (this.password.length < 6) {
-      this.errorMessagePassword = 'Das Passwort muss mindestens 6 Zeichen lang sein.';
+      this.errorMessagePassword =
+        'Das Passwort muss mindestens 6 Zeichen lang sein.';
     }
   }
 
   async signUp() {
-    this.formSubmitted = true;  // Setze, dass das Formular abgesendet wurde
+    this.formSubmitted = true; // Setze, dass das Formular abgesendet wurde
     this.validateAll();
 
     // Abbrechen, wenn es Fehler gibt
-    if (this.errorMessageName || this.errorMessageEmail || this.errorMessagePassword) {
+    if (
+      this.errorMessageName ||
+      this.errorMessageEmail ||
+      this.errorMessagePassword
+    ) {
       return;
     }
 
@@ -90,6 +95,7 @@ export class SignUpComponent {
       this.errorMessageEmail = '';
       this.errorMessagePassword = '';
       this.firestoreService.addSelfDirectMessage(activeUserID);
+      this.firestoreService.updateUser({ active: true }, activeUserID);
       this.activeUserService.loadActiveUser(activeUserID);
 
       // Snackbar anzeigen
