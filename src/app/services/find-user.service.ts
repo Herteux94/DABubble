@@ -22,7 +22,6 @@ export class FindUserService {
   findUsers(userIDs: string[] | null) {
     if (!userIDs) return [];
 
-    // Verwende filter(), um alle passenden Nutzer basierend auf den userIDs zu finden
     const users = this.firestoreService.allUsers.filter((user) =>
       userIDs.includes(user.userID)
     );

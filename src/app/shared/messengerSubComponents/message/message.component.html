@@ -8,7 +8,6 @@
       <span (click)="openProfileDialog()" class="name">{{ senderName }}</span>
       <span class="time subText">{{ this.messageTimestampAsNumber | date: 'HH:mm' }}</span>
 
-      <!-- Options-Bubble -->
       @if(this.messengerType != 'thread') {
       <app-options-bubble *ngIf="showOptions" (editMessage)="onEditMessageChange($event)"
         (emojiSelected)="addReaction($event)" [messengerType]="messengerType" [message]="message"
@@ -26,7 +25,6 @@
     </div>
 
     <div [ngClass]="ownMessage ? 'messageTextOwnMsg' : 'messageText'">
-      <!-- Anhänge -->
       <div *ngIf="message.attachments && message.attachments.length > 0" class="fileContainer">
         <div class="filePreviewContainer">
           @for(attachment of this.message.attachments; track attachment) {
@@ -39,10 +37,8 @@
         </div>
       </div>
 
-      <!-- Nachrichteninhalt -->
       <span *ngIf="message.content && !editMessage">{{ message.content }}</span>
 
-      <!-- Nachricht bearbeiten -->
       <div *ngIf="editMessage">
         <textarea #editMsgTxtArea [(ngModel)]="messageContentSnapshot" class="editMsgTxtArea"></textarea>
         <div class="saveOrDiscardBtns">
@@ -52,18 +48,15 @@
       </div>
     </div>
 
-    <!-- Reaktionen -->
     <div *ngIf="message.reactions && message.reactions.length > 0" class="reactionsArea">
       <div class="reactions">
         <div *ngFor="let reaction of message.reactions" class="reactionContainer"
           (mouseenter)="loadUserNamesForReaction(reaction.users)" (mouseleave)="hoveredReactionUsers = []"
           (click)="reaction.users.includes(activeUserID || '') ? removeReaction(reaction.emoji) : null">
-          <!-- Jetzt wird activeUserID genutzt -->
 
           <span>{{ reaction.emoji }}</span>
           <span class="reactionsCount">{{ reaction.count }}</span>
 
-          <!-- Tooltip für User-Namen -->
           <div class="reactionTooltip" *ngIf="hoveredReactionUsers.length > 0">
             {{ hoveredReactionUsers.join(', ') }}
           </div>
@@ -71,7 +64,6 @@
       </div>
     </div>
 
-    <!-- Antworten -->
     <div *ngIf="isChannel && message.threadLength > 0" class="responses">
       <span (click)="navigateToThread()" class="count">{{ message.threadLength }} Antworten</span>
       <span class="time subText">Letzte Antwort {{ this.messageLastAnswerAsNumber | date: 'HH:mm' }}</span>

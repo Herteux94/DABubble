@@ -61,7 +61,7 @@ export class HeaderComponent implements OnInit {
   constructor(
     private screenSizeService: ScreenSizeService,
     private router: Router
-  ) // public actualTimestampService: ActualTimestampService
+  )
   {}
 
   ngOnInit() {

@@ -69,23 +69,17 @@ export class MessageComponent {
 
     if (
       this.message?.attachments &&
-      this.message?.senderID &&
       this.message?.content
     ) {
       this.message.attachments = this.message.attachments.filter(
         (url) => url && url.trim() !== ''
       );
-      this.loadSenderInfo(this.message.senderID);
       this.messageContentSnapshot = this.message.content;
     }
 
-    // if (this.message?.senderID) {
-    //   this.loadSenderInfo(this.message.senderID);
-    // }
-
-    // if (this.message?.content) {
-    //   this.messageContentSnapshot = this.message.content;
-    // }
+    if (this.message?.senderID) {
+      this.loadSenderInfo(this.message.senderID);
+    }
 
     if (this.message?.creationTime) {
       this.messageTimestampAsNumber = this.message.creationTime.seconds * 1000;
@@ -97,7 +91,6 @@ export class MessageComponent {
   }
 
   loadSenderInfo(senderID: string) {
-    // this.firestoreService.allUsers$.subscribe((users) => {
     const sender = this.firestoreService.allUsers.find(
       (user) => user.userID === senderID
     );
@@ -108,43 +101,26 @@ export class MessageComponent {
     } else {
       console.warn('Sender nicht im Channel gefunden.');
     }
-    // }
-    // );
   }
 
-  // loadSenderInfo(senderID: string) {
-  //   // this.firestoreService.allUsers$.subscribe((users) => {
-  //     const sender = this.firestoreService.allUsers.find((user) => user.userID === senderID);
-  //     if (sender) {
-  //       this.senderName = sender.name;
-  //       this.senderAvatar =
-  //         sender.profileImg || '../../../assets/img/Profile.svg';
-  //     } else {
-  //       console.warn('Sender nicht im Channel gefunden.');
-  //     }
-  //   // }
-  // // );
-  // }
 
-  // In der MessageComponent hinzufügen
   loadUserNamesForReaction(reactionUsers: string[]) {
-    this.hoveredReactionUsers = []; // Leere die Liste, bevor neue Namen geladen werden
+    this.hoveredReactionUsers = []; 
 
     this.firestoreService.allUsers$.subscribe((users) => {
-      // Für jede User-ID den entsprechenden User finden und den Namen speichern
       reactionUsers.forEach((userID) => {
         const user = users.find((u) => u.userID === userID);
         if (user) {
-          this.hoveredReactionUsers.push(user.name); // Füge den Namen zur Liste hinzu
+          this.hoveredReactionUsers.push(user.name); 
         } else {
-          this.hoveredReactionUsers.push('Unbekannt'); // Falls der User nicht gefunden wird
+          this.hoveredReactionUsers.push('Unbekannt');
         }
       });
     });
   }
 
   addReaction(event: { emoji: string; userID: string }) {
-    const { emoji, userID } = event; // Extrahiere Emoji und User-ID aus dem Event
+    const { emoji, userID } = event;
 
     if (!this.message.reactions) {
       this.message.reactions = [];
@@ -205,22 +181,17 @@ export class MessageComponent {
     if (reactionIndex !== -1) {
       const reaction = this.message.reactions[reactionIndex];
 
-      // Prüfen, ob der aktuelle User die Reaktion gemacht hat
       const userIndex = reaction.users.indexOf(userID!);
 
       if (userIndex !== -1) {
-        // User aus der Reaktion entfernen
         reaction.users.splice(userIndex, 1);
 
-        // Wenn keine User mehr auf diese Reaktion reagiert haben, Reaktion komplett entfernen
         if (reaction.users.length === 0) {
           this.message.reactions.splice(reactionIndex, 1);
         } else {
-          // Sonst einfach die Anzahl der Reaktionen verringern
           reaction.count -= 1;
         }
 
-        // Reaktionen nach Änderung speichern
         this.saveMessageReactions();
       }
     }
