@@ -31,7 +31,7 @@ nav {
   align-items: center;
   justify-content: center;
   padding: 24px 0;
-  
+
   input {
     border: none;
     border-radius: 42px;
@@ -63,7 +63,7 @@ nav {
   top: 66px;
   left: 40px;
   z-index: 1;
-  border-radius:0 24px 24px 24px;
+  border-radius: 0 24px 24px 24px;
   box-shadow: 3px 4px 10px 0px #00000033;
   transform-origin: top;
 }
@@ -85,11 +85,11 @@ nav {
     background-color: $background-color;
 
     span {
-        color: $first-color;
+      color: $first-color;
     }
 
     svg path {
-        fill: $first-color;
+      fill: $first-color;
     }
   }
 }
@@ -227,6 +227,10 @@ nav {
   right: 16px;
   filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.2));
   z-index: 99;
+}
+
+.maxW {
+  max-width: 140px;
 }
 
 @media (min-width: 1025px) {

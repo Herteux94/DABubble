@@ -2,8 +2,9 @@
   <div class="wrapper">
 
     <div class="inputContainer">
-      <input [value]="navigationSearchQuery()" (input)="onNavigationSearchInput($event)" (focus)="onInputFocus()" (blur)="onInputBlur()" type="text"
-        #navigationSearchBar id="navigationSearchBar" placeholder="DevSpace durchsuchen" required />
+      <input [value]="navigationSearchQuery()" (input)="onNavigationSearchInput($event)" (focus)="onInputFocus()"
+        (blur)="onInputBlur()" type="text" #navigationSearchBar id="navigationSearchBar"
+        placeholder="DevSpace durchsuchen" required />
 
       @if (searchListOpen) {
       <div class="searchList" [@openSearchList]>
@@ -12,8 +13,10 @@
         @if (filteredChannels.length > 0) {
         @for (channel of filteredChannels; track channel) {
         <div class="channelContainer" (click)="navigateToChannel(channel.channelID)">
-          <svg class="hashtag" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <mask id="mask0_813_12093" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+          <svg class="hashtag" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <mask id="mask0_813_12093" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
+              height="24">
               <rect width="24" height="24" fill="#D9D9D9" />
             </mask>
             <g mask="url(#mask0_813_12093)">
@@ -50,7 +53,8 @@
       </div>
       <div [routerLink]="['/messenger/newMessage']" class="editSquareContainer">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <mask id="mask0_70273_4893" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+          <mask id="mask0_70273_4893" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
+            height="24">
             <rect width="24" height="24" fill="#D9D9D9" />
           </mask>
           <g mask="url(#mask0_70273_4893)">
@@ -72,7 +76,8 @@
           </svg>
           <div class="iconAndH3">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <mask id="mask0_69754_2508" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+              <mask id="mask0_69754_2508" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
+                height="24">
                 <rect width="24" height="24" fill="#D9D9D9" />
               </mask>
               <g mask="url(#mask0_69754_2508)">
@@ -87,7 +92,8 @@
         <div class="addChannelBtnContainer" (click)="openNewChannelDialog()">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g clip-path="url(#clip0_235_338)">
-              <mask id="mask0_235_338" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+              <mask id="mask0_235_338" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
+                height="24">
                 <rect width="24" height="24" fill="#D9D9D9" />
               </mask>
               <g mask="url(#mask0_235_338)">
@@ -111,10 +117,12 @@
         this.activeUserService.activeUserChannels; track channel){
         <a class="listElement"
           [class.active]="this.activeChannelService.activeChannel && this.activeChannelService.activeChannel.channelID && this.activeChannelService.activeChannel.channelID == channel.channelID"
-          [routerLink]="['/messenger/channel', channel.channelID]" (click)="
+          [routerLink]="['/messenger/channel', channel.channelID]"
+          (click)="
             this.activeChannelService.loadActiveChannelAndMessages(channel.channelID); this.threadRoutingService.closeThread()">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <mask id="mask0_813_12093" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+            <mask id="mask0_813_12093" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
+              height="24">
               <rect width="24" height="24" fill="#D9D9D9" />
             </mask>
             <g mask="url(#mask0_813_12093)">
@@ -123,15 +131,16 @@
                 fill="black" />
             </g>
           </svg>
-          <span>{{ channel.name }}</span>
+          <span class="overflowEllipsis maxW">{{ channel.name }}</span>
         </a>
         } } @else {
-        <span>Du bist noch in keinem Channel</span>
+        <span>Erstelle einen Channel oder lasse dich einladen :)</span>
         }
       </div>
       <div class="addChannel" (click)="openNewChannelDialog()">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <mask id="mask0_235_367" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+          <mask id="mask0_235_367" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
+            height="24">
             <rect width="24" height="24" fill="#D9D9D9" />
           </mask>
           <g mask="url(#mask0_235_367)">
@@ -179,7 +188,7 @@
               alt="online-status" />
             }
           </div>
-          <span>{{ this.activeUserService.activeUser.name }} (Du)</span>
+          <span class="overflowEllipsis maxW">{{ this.activeUserService.activeUser.name }} (Du)</span>
         </a>
         }
         @if(this.activeUserService.activeUser &&
@@ -209,7 +218,7 @@
           </div>
           @if(this.activeUserService.activeUserDirectMessages && this.activeUserService.activeUserDirectMessages.length
           > 0 && dm.partnerUser && dm.partnerUser.name) {
-          <span>{{ dm.partnerUser.name }}</span>
+          <span class="overflowEllipsis maxW">{{ dm.partnerUser.name }}</span>
           }
         </a>
         }
@@ -217,6 +226,7 @@
       </div>
     </div>
 
-    <img [routerLink]="['/messenger/newMessage']" class="editFAB" src="../../../assets/img/new_msg_fab.svg" alt="edit-button" />
+    <img [routerLink]="['/messenger/newMessage']" class="editFAB" src="../../../assets/img/new_msg_fab.svg"
+      alt="edit-button" />
   </div>
 </nav>

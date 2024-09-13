@@ -5,7 +5,7 @@
 
   <div class="text" [ngClass]="ownMessage ? 'alignFlexEnd' : ''">
     <div [ngClass]="ownMessage ? 'fdRowRev' : ''" class="nameAndTime">
-      <span (click)="openProfileDialog()" class="name">{{ senderName }}</span>
+      <span (click)="openProfileDialog()" class="name overflowEllipsis">{{ senderName }}</span>
       <span class="time subText">{{ this.messageTimestampAsNumber | date: 'HH:mm' }}</span>
 
       @if(this.messengerType != 'thread') {
@@ -19,9 +19,6 @@
         [ownMessage]="ownMessage" [ngClass]="ownMessage ? 'threadOptionsBubbleOwnMsg' : 'threadOptionsBubble'">
       </app-options-bubble>
       }
-
-
-
     </div>
 
     <div [ngClass]="ownMessage ? 'messageTextOwnMsg' : 'messageText'">

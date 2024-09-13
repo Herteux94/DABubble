@@ -15,7 +15,7 @@
         </g>
       </svg>
       @if(this.activeChannelService.activeChannel && this.activeChannelService.activeChannel.name) {
-      <span class="threadName">{{
+      <span class="threadName overflowEllipsis">{{
         this.activeChannelService.activeChannel.name
         }}</span>
       }
@@ -51,9 +51,9 @@
     </div>
     @if(this.activeDirectMessageService.activeDMPartner &&
     this.activeDirectMessageService.activeDMPartner.name) {
-    <h3>{{ this.activeDirectMessageService.activeDMPartner.name }}</h3>
+    <h3 class="overflowEllipsis">{{ this.activeDirectMessageService.activeDMPartner.name }}</h3>
     } @else if (this.activeUserService.activeUser?.name) {
-    <h3>{{ this.activeUserService.activeUser.name }}</h3>
+    <h3 class="overflowEllipsis">{{ this.activeUserService.activeUser.name }}</h3>
     }
   </div>
   } @else if(isNewMsg) {
@@ -73,7 +73,7 @@
       </g>
     </svg>
     @if(this.activeChannelService.activeChannel) {
-    <h3>{{ this.activeChannelService.activeChannel.name }}</h3>
+    <h3 class="overflowEllipsis">{{ this.activeChannelService.activeChannel.name }}</h3>
     }
     <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
       <mask id="mask0_70010_926" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="30" height="30">

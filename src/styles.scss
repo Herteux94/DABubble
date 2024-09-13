@@ -50,6 +50,12 @@ a {
   max-width: 1920px;
 }
 
+.overflowEllipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .errorMessage {
   color: red;
 }
@@ -228,8 +234,6 @@ body {
 
 /////////////////////////////////////////// emoji Picker manupilation ////////////////////////////////////
 
-
 .emoji-mart-preview {
   display: none !important;
 }
-
