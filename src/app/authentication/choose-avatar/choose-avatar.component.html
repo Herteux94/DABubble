@@ -1,38 +1,40 @@
 <section class="wrapper">
-  <div class="card">
-    <a class="backButton" (click)="isDialog ? dialogRef.close() : goBack()">
-      <img class="arrowBackIcon" src="../../../assets/img/arrow_back.svg" alt="arrow back icon">
-    </a>
-    <h1 class="h1Top">Wähle deinen<br> Avatar</h1>
-    <img class="profileIcon" [src]="avatarUrl || '../../../assets/img/Profile.svg'" alt="Profile Icon">
-    @if(this.activeUserService.activeUser?.name) {
-    <h1 class="h1Name">{{ this.activeUserService.activeUser.name }}</h1>
-    }
-    <div class="chooseAvatarContainer">
-      <span class="infoText">Choose your avatar....</span>
-    </div>
-    <div class="profileImgContainer">
-      <img src="../../../assets/img/avatars/avatar-1.svg" alt="Avatar 1" class="profileImg"
-        (click)="selectAvatar('../../../assets/img/avatars/avatar-1.svg')">
-      <img src="../../../assets/img/avatars/avatar-2.svg" alt="Avatar 2" class="profileImg"
-        (click)="selectAvatar('../../../assets/img/avatars/avatar-2.svg')">
-      <img src="../../../assets/img/avatars/avatar-3.svg" alt="Avatar 3" class="profileImg"
-        (click)="selectAvatar('../../../assets/img/avatars/avatar-3.svg')">
-      <img src="../../../assets/img/avatars/avatar-4.svg" alt="Avatar 4" class="profileImg"
-        (click)="selectAvatar('../../../assets/img/avatars/avatar-4.svg')">
-      <img src="../../../assets/img/avatars/avatar-5.svg" alt="Avatar 5" class="profileImg"
-        (click)="selectAvatar('../../../assets/img/avatars/avatar-5.svg')">
-      <img src="../../../assets/img/avatars/avatar-6.svg" alt="Avatar 6" class="profileImg"
-        (click)="selectAvatar('../../../assets/img/avatars/avatar-6.svg')">
-    </div>
-    <div class="uploadContainer">
-      <span class="infoTextUpload">Or you can</span>
-      <input type="file" (change)="uploadAvatar($event)" accept="image/*" hidden #fileInput>
-      <button class="thirdBtn" (click)="triggerFileInput()">Upload foto</button>
-    </div>
+  <div class="cardWrapper">
+    <div class="card">
+      <a class="backButton" (click)="isDialog ? dialogRef.close() : goBack()">
+        <img class="arrowBackIcon" src="../../../assets/img/arrow_back.svg" alt="arrow back icon">
+      </a>
+      <h1 class="h1Top">Wähle deinen<br> Avatar</h1>
+      <img class="profileIcon" [src]="avatarUrl || '../../../assets/img/Profile.svg'" alt="Profile Icon">
+      @if(this.activeUserService.activeUser?.name) {
+      <h1 class="h1Name">{{ this.activeUserService.activeUser.name }}</h1>
+      }
+      <div class="chooseAvatarContainer">
+        <span class="infoText">Choose your avatar....</span>
+      </div>
+      <div class="profileImgContainer">
+        <img src="../../../assets/img/avatars/avatar-1.svg" alt="Avatar 1" class="profileImg"
+          (click)="selectAvatar('../../../assets/img/avatars/avatar-1.svg')">
+        <img src="../../../assets/img/avatars/avatar-2.svg" alt="Avatar 2" class="profileImg"
+          (click)="selectAvatar('../../../assets/img/avatars/avatar-2.svg')">
+        <img src="../../../assets/img/avatars/avatar-3.svg" alt="Avatar 3" class="profileImg"
+          (click)="selectAvatar('../../../assets/img/avatars/avatar-3.svg')">
+        <img src="../../../assets/img/avatars/avatar-4.svg" alt="Avatar 4" class="profileImg"
+          (click)="selectAvatar('../../../assets/img/avatars/avatar-4.svg')">
+        <img src="../../../assets/img/avatars/avatar-5.svg" alt="Avatar 5" class="profileImg"
+          (click)="selectAvatar('../../../assets/img/avatars/avatar-5.svg')">
+        <img src="../../../assets/img/avatars/avatar-6.svg" alt="Avatar 6" class="profileImg"
+          (click)="selectAvatar('../../../assets/img/avatars/avatar-6.svg')">
+      </div>
+      <div class="uploadContainer">
+        <span class="infoTextUpload">Or you can</span>
+        <input type="file" (change)="uploadAvatar($event)" accept="image/*" hidden #fileInput>
+        <button class="thirdBtn" (click)="triggerFileInput()">Upload foto</button>
+      </div>
 
-    <div class="nextBtnContainer">
-      <button (click)="safeAndExit()" class="firstBtn">Weiter</button>
+      <div class="nextBtnContainer">
+        <button (click)="safeAndExit()" class="firstBtn">Weiter</button>
+      </div>
     </div>
   </div>
 </section>

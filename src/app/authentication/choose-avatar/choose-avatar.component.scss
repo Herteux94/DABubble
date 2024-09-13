@@ -2,8 +2,15 @@
 
 .wrapper {
   max-width: 100vw;
+  position: absolute;
+  right: 0;
+  left: 0;
+  top: 100px;
+}
+
+.cardWrapper {
+  width: 100%;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
