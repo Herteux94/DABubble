@@ -17,8 +17,11 @@
     "moduleResolution": "node",
     "importHelpers": true,
     "target": "ES2022",
-    "module": "ES2022",
+    "module": "ESNext",
     "useDefineForClassFields": false,
+    "paths": {
+      "@angular/fire/*": ["/node_modules/@angular/fire/*"]
+    },
     "lib": [
       "ES2022",
       "dom"
