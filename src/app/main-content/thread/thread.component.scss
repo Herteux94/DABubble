@@ -34,7 +34,7 @@ app-sub-header {
 
 .threadTopicMsgContainer {
   position: fixed;
-  top: 80px;
+  top: 160px;
   left: 0;
   right: 0;
   background-color: white;
@@ -72,5 +72,9 @@ app-type-input-field {
 @media (min-width: 1025px) {
   section {
     border-radius: 30px;
+  }
+
+  .threadTopicMsgContainer {
+    top: 80px;
   }
 }
