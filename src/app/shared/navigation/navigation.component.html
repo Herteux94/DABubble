@@ -28,6 +28,17 @@
         } @else {
         <span>Kein Channel gefunden</span>
         }
+        <h3 class="searchListCategory">User</h3>
+        @if (filteredUsers.length > 0) {
+        @for (user of filteredUsers; track user) {
+        <div class="userContainer" (click)="openProfileDialog(user)">
+          <img [src]="user.profileImg || '../../../assets/img/Profile.svg'" alt="{{ user.name }}" />
+          <p>{{ user.name }}</p>
+        </div>
+        }
+        } @else {
+        <span>Kein Benutzer gefunden</span>
+        }
       </div>
       }
     </div>

@@ -9,7 +9,8 @@ import { FirestoreService } from '../../services/firestore.service';
 import { ActiveChannelService } from '../../services/active-channel.service';
 import { ActiveUserService } from '../../services/active-user.service';
 import { ActiveDirectMessageService } from '../../services/active-direct-message-service.service';
-// import { ActualTimestampService } from '../../services/actual-timestamp.service';
+import { ProfileDialogComponent } from '../../dialogs/profile-dialog/profile-dialog.component';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-navigation',
@@ -40,7 +41,8 @@ export class NavigationComponent implements OnInit {
     public activeUserService: ActiveUserService,
     public activeDirectMessageService: ActiveDirectMessageService,
     private router: Router
-  ) {}
+  )
+  {}
 
   ngOnInit() {
     this.screenSizeService.isMobile().subscribe((isMobile) => {
@@ -48,15 +50,20 @@ export class NavigationComponent implements OnInit {
     });
   }
 
-  onNavigationSearchInput(event: Event): void {
+   onNavigationSearchInput(event: Event): void {
     const input = (event.target as HTMLInputElement).value;
     this.navigationSearchQuery.set(input);
 
     if (input.trim() === '') {
       this.filteredChannels = this.activeUserService.activeUserChannels;
+      this.filteredUsers = this.firestoreService.allUsers;
     } else {
       this.filteredChannels = this.activeUserService.activeUserChannels.filter(
         (channel) => channel.name.toLowerCase().includes(input.toLowerCase())
+      );
+
+      this.filteredUsers = this.firestoreService.allUsers.filter((user) =>
+        user.name.toLowerCase().includes(input.toLowerCase())
       );
     }
 
@@ -82,11 +89,21 @@ export class NavigationComponent implements OnInit {
     this.filteredChannels = this.activeUserService.activeUserChannels
       .filter((channel) => channel.name.toLowerCase().includes(searchTerm))
       .sort((a, b) => a.name.localeCompare(b.name));
+
+    this.filteredUsers = this.firestoreService.allUsers
+      .filter((user) => user.name.toLowerCase().includes(searchTerm))
+      .sort((a, b) => a.name.localeCompare(b.name));
   }
 
   navigateToChannel(channelID: any) {
     this.activeChannelService.loadActiveChannelAndMessages(channelID);
     this.router.navigate([`messenger/channel/${channelID}`]);
+  }
+
+  openProfileDialog(user: User) {
+    this.dialog.open(ProfileDialogComponent, {
+      data: { userID: user.userID },
+    });
   }
 
   openNewChannelDialog() {
