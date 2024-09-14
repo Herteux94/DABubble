@@ -8,12 +8,25 @@ import { ActiveChannelService } from './active-channel.service';
 export class RoutingThreadOutletService {
   threadOpenDesktop!: boolean;
 
+  /**
+   * Constructor for the RoutingThreadOutletService.
+   *
+   * @param router Injected service to navigate within the app.
+   * @param route Injected service to get the active route.
+   * @param activeChannelService Injected service to get the active channel.
+   */
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private activeChannelService: ActiveChannelService
   ) {}
 
+  /**
+   * Closes the thread view on the desktop.
+   *
+   * When called, it sets the threadOpenDesktop flag to false and
+   * navigates to the main messenger view after a 350ms delay.
+   */
   closeThread() {
     this.threadOpenDesktop = false;
     setTimeout(() => {
@@ -23,10 +36,22 @@ export class RoutingThreadOutletService {
     }, 350);
   }
 
+  /**
+   * Opens the thread view on the desktop.
+   *
+   * When called, it sets the threadOpenDesktop flag to true.
+   */
   openThread() {
     this.threadOpenDesktop = true;
   }
 
+  /**
+   * Navigates to the thread view on mobile devices.
+   *
+   * When called, it navigates to the thread view with the given messageID
+   * and the active channel ID.
+   * @param messageID The ID of the message to navigate to.
+   */
   navigateToThreadMobile(messageID: string) {
     this.router.navigate([
       `/messenger/channel/${this.activeChannelService.activeChannel.channelID}/threadM`,
@@ -34,6 +59,13 @@ export class RoutingThreadOutletService {
     ]);
   }
 
+  /**
+   * Navigates to the thread view on desktop devices.
+   *
+   * When called, it navigates to the thread view with the given messageID
+   * and the active channel ID.
+   * @param messageID The ID of the message to navigate to.
+   */
   navigateToThreadDesktop(messageID: string) {
     this.router.navigate([
       '/messenger',

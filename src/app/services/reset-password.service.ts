@@ -1,19 +1,32 @@
 import { Injectable } from '@angular/core';
-import { getAuth, sendPasswordResetEmail, confirmPasswordReset } from 'firebase/auth';
+import {
+  getAuth,
+  sendPasswordResetEmail,
+  confirmPasswordReset,
+} from 'firebase/auth';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ResetPasswordService {
   private auth = getAuth();
 
   constructor() {}
 
-  // E-Mail zum Zurücksetzen des Passworts versenden
+  /**
+   * Sends a password reset email to the given email address.
+   *
+   * Tries to send a password reset email to the given email address. If the email
+   * is sent successfully, it logs a success message. If an error occurs, it logs the
+   * error and re-throws it.
+   * @param email The email address to which the password reset email should be sent.
+   * @returns A promise that resolves if the email was sent successfully, or rejects
+   * if an error occurs.
+   */
   sendPasswordResetEmail(email: string): Promise<void> {
     const actionCodeSettings = {
-      url: 'https://herteux-webentwicklung.de/resetPassword', // Eigene Seite zum Zurücksetzen des Passworts
-      handleCodeInApp: true // Ermöglicht es, den Link in der App zu handhaben
+      url: 'https://herteux-webentwicklung.de/resetPassword',
+      handleCodeInApp: true,
     };
 
     return sendPasswordResetEmail(this.auth, email, actionCodeSettings)
@@ -26,7 +39,18 @@ export class ResetPasswordService {
       });
   }
 
-  // Passwort mithilfe des oobCode zurücksetzen
+  /**
+   * Resets the user's password using the given one-time password code and new
+   * password.
+   *
+   * Tries to reset the user's password using the given one-time password code and
+   * new password. If the password is reset successfully, it logs a success message.
+   * If an error occurs, it logs the error and re-throws it.
+   * @param oobCode The one-time password code from the password reset email.
+   * @param newPassword The new password that the user wants to use.
+   * @returns A promise that resolves if the password was reset successfully, or
+   * rejects if an error occurs.
+   */
   confirmPasswordReset(oobCode: string, newPassword: string): Promise<void> {
     return confirmPasswordReset(this.auth, oobCode, newPassword)
       .then(() => {

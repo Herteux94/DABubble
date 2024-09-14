@@ -4,51 +4,68 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { takeUntil, first, map } from 'rxjs/operators';
 import { ActiveUserService } from './active-user.service';
 import { User } from '../models/user.model';
-import { Subscription } from 'rxjs'; // Importiere Subscription
+import { Subscription } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ActiveChannelService implements OnDestroy {
-  private destroy$ = new Subject<void>(); // Used to signal unsubscription
-  private messageSubscription: Subscription | null = null; // Neue Subscription-Variable für Nachrichten
-  private activeChannelSubscription: Subscription | null = null; // Subscription für die aktive Direktnachricht
+  private destroy$ = new Subject<void>();
+  private messageSubscription: Subscription | null = null;
+  private activeChannelSubscription: Subscription | null = null;
+  private lastLoadedChannelID: string | null = null;
+  private lastLoadedMessages: any[] = [];
 
-  activeChannelSubject = new BehaviorSubject<any>(null); // Initial null value
-  activeChannel$ = this.activeChannelSubject.asObservable(); // Expose as observable
-  activeChannel: any = null; // Maintain the latest channel as a plain object
+  activeChannelSubject = new BehaviorSubject<any>(null);
+  activeChannel$ = this.activeChannelSubject.asObservable();
+  activeChannel: any = null;
   channelMessages$!: Observable<any[]>;
   channelMessagesGroupedByDate: any[] = [];
   channelMember: User[] = [];
 
-  private lastLoadedChannelID: string | null = null;
-  private lastLoadedMessages: any[] = [];
-
+  /**
+   * Constructor for the ActiveChannelService.
+   *
+   * Subscribes to the activeChannel$ and loads the channel members when a new channel is selected.
+   * @param firestoreService Injected service to interact with Firestore.
+   * @param activeUserService Injected service to get the currently active user.
+   */
   constructor(
     private firestoreService: FirestoreService,
     private activeUserService: ActiveUserService
   ) {
-    this.activeChannel$
-      .pipe(takeUntil(this.destroy$)) // Unsubscribe when destroy$ emits
-      .subscribe((channel) => {
-        this.activeChannel = channel;
-        if (channel) {
-          this.loadChannelMember();
-        }
-      });
+    this.activeChannel$.pipe(takeUntil(this.destroy$)).subscribe((channel) => {
+      this.activeChannel = channel;
+      if (channel) {
+        this.loadChannelMember();
+      }
+    });
   }
 
+  /**
+   * Loads the active channel with the given channelID and its messages.
+   *
+   * First, it calls loadActiveChannel to load the channel and then it calls
+   * loadChannelMessages to load the messages of the channel.
+   * @param channelID The ID of the channel to be loaded.
+   */
   async loadActiveChannelAndMessages(channelID: string) {
     await this.loadActiveChannel(channelID);
     this.loadChannelMessages(channelID);
   }
 
+  /**
+   * Loads the active channel with the given channelID.
+   *
+   * Subscribes to the activeUserChannels$ observable and waits until the active user
+   * has at least one channel. Then, it maps the channels array to the channel with
+   * the given channelID and unsubscribes the previous active channel subscription.
+   * Finally, it subscribes to the mapped observable and updates the activeChannelSubject
+   * with the new channel when it is received.
+   * @param channelID The ID of the channel to be loaded.
+   */
   async loadActiveChannel(channelID: string): Promise<void> {
-    // Unsubscribe von der vorherigen aktiven DM Subscription (falls vorhanden)
-    if (this.activeChannelSubscription) {
-      this.activeChannelSubscription.unsubscribe();
-      this.activeChannelSubscription = null;
-    }
+    this.unsubPreviousActiveChannel();
     this.activeChannelSubscription = this.activeUserService.activeUserChannels$
       .pipe(
         first((channels) => channels.length > 0),
@@ -64,105 +81,164 @@ export class ActiveChannelService implements OnDestroy {
           }
         },
         error: (error) => {
-          console.error('Fehler beim Laden des aktiven Channels:', error);
+          console.error('Unable to load active Channel:', error);
         },
       });
   }
 
+  /**
+   * Unsubscribes from the previous active channel subscription if it exists.
+   *
+   * This is necessary to prevent multiple subscriptions to the same observable
+   * when the active channel changes.
+   */
+  unsubPreviousActiveChannel() {
+    if (this.activeChannelSubscription) {
+      this.activeChannelSubscription.unsubscribe();
+      this.activeChannelSubscription = null;
+    }
+  }
+
+  /**
+   * Loads the members of the currently active channel into the channelMember property.
+   *
+   * Subscribes to the allUsers$ observable and filters the users by the member IDs
+   * of the active channel. The subscription is unsubscribed when the component is destroyed.
+   */
   loadChannelMember() {
     if (this.activeChannel && this.activeChannel.member) {
       const userIDs = this.activeChannel.member;
       this.firestoreService.allUsers$
         .pipe(
           map((users) => users.filter((user) => userIDs.includes(user.userID))),
-          takeUntil(this.destroy$) // Ensure unsubscription
+          takeUntil(this.destroy$)
         )
         .subscribe((channelMember) => {
           this.channelMember = channelMember;
         });
-    } else {
-      console.warn(
-        'Keine Mitglieder im Channel gefunden oder activeChannel ist null.'
-      );
     }
   }
 
+  /**
+   * Loads the messages of the given channel ID.
+   *
+   * Unsubscribes from the previous channel messages subscription if it exists,
+   * sets the channel messages observable to the given channel ID,
+   * and subscribes to it.
+   * When the subscription emits a new value, it sorts the messages by date
+   * and sets the grouped messages by date.
+   * If the same channel ID is loaded again, it does nothing.
+   * @param channelID The ID of the channel to load its messages.
+   */
   loadChannelMessages(channelID: string) {
-    // Bevor neue Nachrichten geladen werden, von vorheriger Subscription unsubscriben
-    if (this.messageSubscription) {
-      this.messageSubscription.unsubscribe();
-      this.messageSubscription = null;
-    }
-    // Überprüfen, ob der ChannelID gleich ist
+    this.unsubPreviousChannelMessages();
     if (this.lastLoadedChannelID === channelID) {
-      return; // Keine Änderungen, nichts tun
+      return;
     }
-
-    this.channelMessages$ = this.firestoreService.getMessages(
-      'channels',
-      channelID
-    );
+    this.setChannelMessagesObservable(channelID);
     this.messageSubscription = this.channelMessages$
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (messages) => {
-          let messagesSorted = [];
-          if (messages) {
-            // Überprüfen, ob sich die Nachrichten geändert haben
-            const isMessagesChanged = this.haveMessagesChanged(messages);
-
-            if (!isMessagesChanged) {
-              return; // Keine Änderungen, nichts tun
-            }
-
-            messagesSorted = messages.sort(
-              (a, b) => b.creationTime - a.creationTime
-            );
-            this.groupMessagesByDate(messagesSorted);
-
-            // ChannelID und Nachrichten speichern
-            this.lastLoadedChannelID = channelID;
-            this.lastLoadedMessages = messages;
-          } else {
-            console.error('Messages nicht gefunden');
-          }
+          this.sortMessagesAndSetGroupMessagesByDate(messages, channelID);
         },
         error: (error) => {
-          console.error('Fehler beim Laden der aktiven Messages:', error);
+          console.error('Unable to load active channel messages:', error);
         },
       });
   }
 
-  // Methode zum Überprüfen, ob sich die Nachrichten geändert haben
-  private haveMessagesChanged(newMessages: any[]): boolean {
+  /**
+   * Unsubscribes from the previous channel messages subscription if it exists.
+   *
+   * This is necessary to prevent multiple subscriptions to the same observable
+   * when the active channel changes.
+   */
+  unsubPreviousChannelMessages() {
+    if (this.messageSubscription) {
+      this.messageSubscription.unsubscribe();
+      this.messageSubscription = null;
+    }
+  }
+
+  /**
+   * Sets the channelMessages$ observable to the messages of the channel with the given ID.
+   *
+   * This is used to load the messages of the active channel.
+   * @param channelID The ID of the channel to load the messages from.
+   */
+  setChannelMessagesObservable(channelID: string) {
+    this.channelMessages$ = this.firestoreService.getMessages(
+      'channels',
+      channelID
+    );
+  }
+
+  /**
+   * Sorts the given messages by their creation time in descending order and
+   * groups them by date. It also checks if the messages have changed and only
+   * updates the grouped messages if they have. If the messages are the same, it
+   * does nothing.
+   *
+   * @param messages The messages to sort and group.
+   * @param channelID The ID of the channel to load the messages from.
+   */
+  sortMessagesAndSetGroupMessagesByDate(messages: any[], channelID: string) {
+    let messagesSorted = [];
+    if (messages) {
+      const isMessagesChanged = this.haveMessagesChanged(messages);
+      if (!isMessagesChanged) {
+        return;
+      }
+      messagesSorted = messages.sort((a, b) => b.creationTime - a.creationTime);
+      this.groupMessagesByDate(messagesSorted);
+      this.lastLoadedChannelID = channelID;
+      this.lastLoadedMessages = messages;
+    }
+  }
+
+  /**
+   * Checks if the given array of messages is different from the last loaded messages.
+   *
+   * It compares the length of the arrays first and returns true if they differ.
+   * If the lengths are equal, it checks if at least one message has a different creation time.
+   * @param newMessages The new messages to compare with the last loaded messages.
+   * @returns True if the messages have changed, false otherwise.
+   */
+  haveMessagesChanged(newMessages: any[]): boolean {
     if (newMessages.length !== this.lastLoadedMessages.length) {
-      return true; // Unterschiedliche Anzahl an Nachrichten
+      return true;
     }
 
-    // Prüfen, ob irgendeine Nachricht sich geändert hat
     return newMessages.some(
       (msg, index) =>
         msg.creationTime !== this.lastLoadedMessages[index].creationTime
     );
   }
 
+  /**
+   * Groups the given messages by their date and sets the channelMessagesGroupedByDate property.
+   *
+   * It iterates over the messages and creates a new property in the groupedMessages object
+   * for each unique date. The value of this property is an array of messages with that date.
+   * Then it sets the channelMessagesGroupedByDate property to an array of objects with a date
+   * and an array of messages for that date.
+   * @param messages The messages to group by date.
+   */
   groupMessagesByDate(messages: any[]) {
     const groupedMessages: { [key: string]: any[] } = {};
     let date: any;
-
     messages.forEach((message) => {
       if (message?.creationTime?.seconds) {
         date = new Date(
           message.creationTime.seconds * 1000
-        ).toLocaleDateString(); // Datum aus dem Timestamp extrahieren
+        ).toLocaleDateString();
       }
-
       if (!groupedMessages[date]) {
         groupedMessages[date] = [];
       }
-      groupedMessages[date].push(message); // Nachricht zum richtigen Datum hinzufügen
+      groupedMessages[date].push(message);
     });
-
     this.channelMessagesGroupedByDate = Object.keys(groupedMessages).map(
       (date) => ({
         date,
@@ -171,10 +247,13 @@ export class ActiveChannelService implements OnDestroy {
     );
   }
 
-  // Methode, die beim Verlassen des Channels aufgerufen wird
+  /**
+   * Unsubscribes from the active channel messages subscription and from the active channel subscription.
+   *
+   * This is necessary to prevent multiple subscriptions to the same observable
+   * when the active channel changes.
+   */
   clearActiveChannel() {
-    // Unsubscribe von der aktuellen Nachrichten-Subscription, wenn der Channel verlassen wird
-    // this.activeChannelSubject.next(null);
     if (this.messageSubscription) {
       this.messageSubscription.unsubscribe();
       this.messageSubscription = null;
@@ -183,16 +262,18 @@ export class ActiveChannelService implements OnDestroy {
       this.activeChannelSubscription.unsubscribe();
       this.activeChannelSubscription = null;
     }
-    // this.activeChannelSubject.next(null); // Setzt den aktiven Channel auf null
-    // this.activeChannel = null;
   }
 
-  // Clean up all subscriptions
+  /**
+   * Cleanup method to unsubscribe from all observables
+   *
+   * This method is called automatically when the component is destroyed.
+   * It unsubscribes from the active channel subscription and the channel messages subscription
+   * to prevent memory leaks.
+   */
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
-
-    // Unsubscribe von den Subscriptions
     if (this.messageSubscription) {
       this.messageSubscription.unsubscribe();
     }
