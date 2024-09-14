@@ -199,10 +199,12 @@ export class FirestoreService implements OnDestroy {
    * @param userData The data to add to the user document.
    * @returns A Promise that resolves to the newly added user document's ID.
    */
-  async addUser(userData: any): Promise<any> {
+  async addUser(userData: any, userID: string): Promise<any> {
     try {
       const userRef = doc(this.firestore, `users/${userData.userID}`);
-      setDoc(userRef, userData);
+      setDoc(userRef, userData).then(() => {
+        this.addSelfDirectMessage(userID);
+      });
     } catch (err) {
       console.log(err);
     }

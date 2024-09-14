@@ -1,6 +1,11 @@
 import { Component, HostListener } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { Auth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from '@angular/fire/auth';
+import {
+  Auth,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+} from '@angular/fire/auth';
 import { Firestore, doc, getDoc } from '@angular/fire/firestore';
 import { CommonModule } from '@angular/common';
 import { ActiveUserService } from '../../services/active-user.service';
@@ -17,7 +22,6 @@ import { RoutingThreadOutletService } from '../../services/routing-thread-outlet
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-
 export class LoginComponent {
   email: string = '';
   password: string = '';
@@ -32,7 +36,7 @@ export class LoginComponent {
     public activeUserService: ActiveUserService,
     private firestoreService: FirestoreService,
     private threadRoutingService: RoutingThreadOutletService
-  ) { }
+  ) {}
 
   login() {
     if (!this.email) {
@@ -123,13 +127,12 @@ export class LoginComponent {
       const user = new User();
       user.userID = activeUserID;
       user.directMessages = [activeUserID];
-      this.firestoreService.addSelfDirectMessage(activeUserID);
       user.name = displayName ?? '';
       user.email = email ?? '';
       user.lastOnline = Date.now();
       this.newUser = true;
       try {
-        await this.firestoreService.addUser(user.toJSON());
+        await this.firestoreService.addUser(user.toJSON(), activeUserID);
         console.log('Neues Benutzerprofil in Firestore erstellt:', user);
       } catch (error) {
         console.error(

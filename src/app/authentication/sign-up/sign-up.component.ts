@@ -23,7 +23,7 @@ export class SignUpComponent {
 
   password: string = '';
   user = new User();
-  formSubmitted: boolean = false; 
+  formSubmitted: boolean = false;
 
   @ViewChild(BubbleComponent) bubbleComponent!: BubbleComponent;
 
@@ -83,11 +83,10 @@ export class SignUpComponent {
       this.user.lastOnline = Date.now();
       this.user.directMessages = [activeUserID];
       this.activeUserService.setActiveUserToLocalStorage(activeUserID);
-      await this.firestoreService.addUser(this.user.toJSON());
+      await this.firestoreService.addUser(this.user.toJSON(), activeUserID);
       this.errorMessageName = '';
       this.errorMessageEmail = '';
       this.errorMessagePassword = '';
-      this.firestoreService.addSelfDirectMessage(activeUserID);
       this.firestoreService.updateUser({ active: true }, activeUserID);
       this.activeUserService.loadActiveUser(activeUserID);
       this.bubbleComponent.showSnackbar();
