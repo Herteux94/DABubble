@@ -86,6 +86,13 @@
   }
 }
 
+.errorMessage {
+  color: red;
+  font-size: 12px;
+  margin: -12px 0 2px 0;
+}
+
+
 @media (max-width: 390px) {
   .profileImgContainer {
     display: grid;

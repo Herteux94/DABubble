@@ -18,6 +18,14 @@ export class StorageService {
     this.auth = getAuth(app);
   }
 
+  // **Hilfsfunktion zur Überprüfung der Dateigröße**
+  private checkFileSize(file: File, maxSizeInMB: number): void {
+    const maxSizeInBytes = maxSizeInMB * 1024 * 1024; // Konvertiere MB in Bytes
+    if (file.size > maxSizeInBytes) {
+      throw new Error(`Die Dateigröße überschreitet das Limit von ${maxSizeInMB} MB.`);
+    }
+  }
+
   uploadAvatar(file: File): Promise<string> {
     return new Promise((resolve, reject) => {
       // Erlaubte Dateitypen
@@ -25,7 +33,15 @@ export class StorageService {
 
       // Überprüfe den Dateityp
       if (!allowedTypes.includes(file.type)) {
-        reject('Invalid file type. Only jpg, jpeg, png, and pdf files are allowed.');
+        reject('Ungültiger Dateityp. Nur jpg, jpeg, png und pdf Dateien sind erlaubt.');
+        return;
+      }
+
+      // **Überprüfe die Dateigröße mit der Hilfsfunktion**
+      try {
+        this.checkFileSize(file, 1); // 1 MB Limit
+      } catch (error: any) {
+        reject(error.message);
         return;
       }
 
@@ -37,10 +53,10 @@ export class StorageService {
         uploadTask.on('state_changed',
           (snapshot: any) => {
             const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            console.log('Upload is ' + progress + '% done');
+            console.log('Upload ist ' + progress + '% abgeschlossen');
           },
           (error: any) => {
-            console.error("Upload failed", error);
+            console.error("Upload fehlgeschlagen", error);
             reject(error);
           },
           () => {
@@ -50,11 +66,10 @@ export class StorageService {
           }
         );
       } else {
-        reject("No user is signed in.");
+        reject("Kein Benutzer ist angemeldet.");
       }
     });
   }
-
 
   async deleteOldAvatars(excludeUrl: string): Promise<void> {
     const user = this.auth.currentUser;
@@ -69,13 +84,21 @@ export class StorageService {
         }
       }
     } else {
-      return Promise.reject("No user is signed in.");
+      return Promise.reject("Kein Benutzer ist angemeldet.");
     }
   }
 
-  // Neue Methode zum Hochladen von Dateien in einen Channel
+  // Methode zum Hochladen von Dateien in einen Channel
   uploadFileToChannel(channelId: string, file: File): Promise<string> {
     return new Promise((resolve, reject) => {
+      // **Überprüfe die Dateigröße mit der Hilfsfunktion**
+      try {
+        this.checkFileSize(file, 1); // 1 MB Limit
+      } catch (error: any) {
+        reject(error.message);
+        return;
+      }
+
       const user = this.auth.currentUser;
       if (user) {
         const storageRef = ref(this.storage, `channels/${channelId}/${file.name}`);
@@ -84,10 +107,10 @@ export class StorageService {
         uploadTask.on('state_changed',
           (snapshot: any) => {
             const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            console.log('Upload is ' + progress + '% done');
+            console.log('Upload ist ' + progress + '% abgeschlossen');
           },
           (error: any) => {
-            console.error("Upload failed", error);
+            console.error("Upload fehlgeschlagen", error);
             reject(error);
           },
           () => {
@@ -97,13 +120,22 @@ export class StorageService {
           }
         );
       } else {
-        reject("No user is signed in.");
+        reject("Kein Benutzer ist angemeldet.");
       }
     });
   }
 
+  // Methode zum Hochladen von Dateien in eine Direktnachricht
   uploadFileToDirectMessage(conversationId: string, file: File): Promise<string> {
     return new Promise((resolve, reject) => {
+      // **Überprüfe die Dateigröße mit der Hilfsfunktion**
+      try {
+        this.checkFileSize(file, 1); // 1 MB Limit
+      } catch (error: any) {
+        reject(error.message);
+        return;
+      }
+
       const user = this.auth.currentUser;
       if (user) {
         const storageRef = ref(this.storage, `direct_messages/${conversationId}/${file.name}`);
@@ -112,10 +144,10 @@ export class StorageService {
         uploadTask.on('state_changed',
           (snapshot: any) => {
             const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            console.log('Upload is ' + progress + '% done');
+            console.log('Upload ist ' + progress + '% abgeschlossen');
           },
           (error: any) => {
-            console.error("Upload failed", error);
+            console.error("Upload fehlgeschlagen", error);
             reject(error);
           },
           () => {
@@ -125,7 +157,7 @@ export class StorageService {
           }
         );
       } else {
-        reject("No user is signed in.");
+        reject("Kein Benutzer ist angemeldet.");
       }
     });
   }

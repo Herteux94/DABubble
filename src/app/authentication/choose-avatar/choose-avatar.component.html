@@ -6,9 +6,7 @@
       </a>
       <h1 class="h1Top">Wähle deinen<br> Avatar</h1>
       <img class="profileIcon" [src]="avatarUrl || '../../../assets/img/Profile.svg'" alt="Profile Icon">
-      @if(this.activeUserService.activeUser?.name) {
-      <h1 class="h1Name">{{ this.activeUserService.activeUser.name }}</h1>
-      }
+      <h1 class="h1Name">{{ activeUserService.activeUser?.name }}</h1>
       <div class="chooseAvatarContainer">
         <span class="infoText">Choose your avatar....</span>
       </div>
@@ -31,6 +29,10 @@
         <input type="file" (change)="uploadAvatar($event)" accept="image/*" hidden #fileInput>
         <button class="thirdBtn" (click)="triggerFileInput()">Upload foto</button>
       </div>
+
+      <!-- Fehlermeldung anzeigen, falls vorhanden -->
+      <div *ngIf="errorMessage" class="errorMessage">{{ errorMessage }}</div>
+
       <div class="nextBtnContainer">
         <button (click)="safeAndExit()" class="firstBtn">Weiter</button>
       </div>
