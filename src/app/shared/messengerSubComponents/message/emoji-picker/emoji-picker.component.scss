@@ -1,0 +1,12 @@
+.emojiPickerContainer {
+  position: fixed;
+  bottom: 130px;
+  left: 10px;
+}
+
+@media (min-width: 1025px) {
+  .emojiPickerContainer {
+    position: static;
+
+  }
+}
