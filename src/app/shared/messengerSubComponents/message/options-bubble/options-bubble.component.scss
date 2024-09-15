@@ -59,6 +59,8 @@
   }
 }
 
+
+@media(min-width: 1025px){
 .emojiPickerUp {
   position: absolute;
   bottom: -122px;
@@ -71,4 +73,5 @@
   top: 0px;
   right: -150px;
   z-index: 999999;
+}
 }

@@ -163,15 +163,15 @@ app-options-bubble {
 
 .optionsBubble {
   position: absolute;
-  top: -40px;
-  right: -200px;
+  top: 0px;
+  right: -10px;
   z-index: 999;
 }
 
 .optionsBubbleOwnMsg {
   position: absolute;
-  top: -40px;
-  left: -240px;
+  top: 0px;
+  left: -48px;
   z-index: 999;
 }
 
@@ -199,6 +199,34 @@ app-options-bubble {
         background-color: white;
       }
     }
+  }
+
+  .optionsBubble {
+    position: absolute;
+    top: -40px;
+    right: -200px;
+    z-index: 999;
+  }
+
+  .optionsBubbleOwnMsg {
+    position: absolute;
+    top: -40px;
+    left: -240px;
+    z-index: 999;
+  }
+
+  .threadOptionsBubble {
+    position: absolute;
+    top: -40px;
+    right: -20px;
+    z-index: 999;
+  }
+
+  .threadOptionsBubbleOwnMsg {
+    position: absolute;
+    top: -40px;
+    right: 120px;
+    z-index: 999;
   }
 
   .count {
