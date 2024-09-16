@@ -32,6 +32,12 @@ export class ChannelComponent implements OnInit, OnDestroy {
     public firestoreService: FirestoreService
   ) {}
 
+  /**
+   * Loads the active channel and its messages if the active channel is not set.
+   *
+   * It waits for the route parameter to be set and then calls
+   * loadActiveChannelAndMessages with the channelID from the URL.
+   */
   ngOnInit() {
     if (!this.activeChannelService.activeChannel) {
       let channelID: any;
@@ -42,6 +48,12 @@ export class ChannelComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Clears the active channel when the component is destroyed.
+   *
+   * This is necessary to prevent the channel from being displayed after the
+   * user navigates away from the channel page.
+   */
   ngOnDestroy(): void {
     this.activeChannelService.clearActiveChannel();
   }

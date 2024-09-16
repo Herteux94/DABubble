@@ -20,12 +20,25 @@ import { ActiveUserService } from '../../services/active-user.service';
   styleUrl: './direct-message.component.scss',
 })
 export class DirectMessageComponent implements OnInit, OnDestroy {
+  /**
+   * Constructor for the DirectMessageComponent.
+   *
+   * @param activeDirectMessageService A service that provides the active direct message and its messages.
+   * @param route The current route.
+   * @param activeUserService A service that provides the active user.
+   */
   constructor(
     public activeDirectMessageService: ActiveDirectMessageService,
     private route: ActivatedRoute,
     public activeUserService: ActiveUserService
   ) {}
 
+  /**
+   * Lifecycle hook that is called after Angular has initialized all data-bound properties of a directive.
+   *
+   * If the active direct message is not set, it loads the active direct message and its messages and partner
+   * based on the parameter 'id' of the current route.
+   */
   ngOnInit() {
     if (!this.activeDirectMessageService.activeDM) {
       let directMessageID: any;
@@ -38,6 +51,11 @@ export class DirectMessageComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Lifecycle hook that is called when the component is about to be destroyed.
+   *
+   * Clears the active direct message by calling the clearActiveDM method of the ActiveDirectMessageService.
+   */
   ngOnDestroy(): void {
     this.activeDirectMessageService.clearActiveDM();
   }
