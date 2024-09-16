@@ -105,13 +105,13 @@ export class MessageComponent {
 
 
   loadUserNamesForReaction(reactionUsers: string[]) {
-    this.hoveredReactionUsers = []; 
+    this.hoveredReactionUsers = [];
 
     this.firestoreService.allUsers$.subscribe((users) => {
       reactionUsers.forEach((userID) => {
         const user = users.find((u) => u.userID === userID);
         if (user) {
-          this.hoveredReactionUsers.push(user.name); 
+          this.hoveredReactionUsers.push(user.name);
         } else {
           this.hoveredReactionUsers.push('Unbekannt');
         }
@@ -266,4 +266,33 @@ export class MessageComponent {
       console.error('No Messenger Type found');
     }
   }
+
+// Prüfe, ob der Anhang eine PDF-Datei ist
+isPdf(url: string): boolean {
+  const cleanUrl = url.split('?')[0];
+  console.log('Checking if PDF:', cleanUrl);
+  return cleanUrl.toLowerCase().endsWith('.pdf');
+}
+
+getShortenedFileName(url: string): string {
+  const fileName = this.getFileName(url); // Nutze bereits vorhandene Methode, um den Dateinamen zu bekommen
+  if (fileName.length > 20) {
+    return fileName.substring(0, 20) + '...';
+  }
+  return fileName;
+}
+
+
+
+// Extrahiere den Dateinamen aus der URL
+getFileName(url: string): string {
+  return url.substring(url.lastIndexOf('/') + 1);
+}
+
+// TrackBy-Funktion für die Liste der Anhänge
+trackByIndex(index: number, item: any): number {
+  return index;
+}
+
+
 }

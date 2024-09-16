@@ -53,10 +53,14 @@
 
   &.pdfCloseBtn {
     top: 0px;
-    right: 10px;
+    right: 0px;
   }
 }
 
+.pdfIcon {
+  max-width: 120px;
+  max-height: 120px;
+}
 
 .hidden {
   display: none; /* Versteckt das Element */

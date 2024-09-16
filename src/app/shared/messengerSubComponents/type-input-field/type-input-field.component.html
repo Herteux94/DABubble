@@ -8,8 +8,8 @@
           (click)="closePreview(uploadedFile)" />
 
         <!-- Bildvorschau oder PDF-Icon -->
-        <img [src]="uploadedFile.url" alt="img upload preview" class="uploadPreview" />
-
+        <img [src]="uploadedFile.url" alt="img upload preview"
+        [ngClass]="{ 'pdfIcon': isPdf(uploadedFile) }" class="uploadPreview" />
         <!-- Dateiname anzeigen, wenn es sich um eine PDF handelt -->
         <div *ngIf="isPdf(uploadedFile)" class="fileName">{{ uploadedFile.file.name }}</div>
       </div>
