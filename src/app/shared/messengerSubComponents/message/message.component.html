@@ -1,3 +1,5 @@
+<!-- message.component.html -->
+
 <div [ngClass]="ownMessage ? 'fdRowRev' : ''" class="wrapper"
   (mouseenter)="this.messengerType != 'threadTopicMessage' ? this.showOptions = true : ''"
   (mouseleave)="this.messengerType != 'threadTopicMessage' ? this.showOptions = false : ''">
@@ -19,22 +21,19 @@
         <div class="filePreviewContainer">
           <!-- Vorschau für jede Datei -->
           <div *ngFor="let attachment of message.attachments; trackBy: trackByIndex" class="fileItem">
-            <div (click)="openFullscreenPreview(attachment)">
+            <a [href]="attachment" download [target]="'_blank'"> <!-- Link zum Download -->
               <!-- Zeige PDF-Icon für PDF-Dateien an, sonst das Bild -->
               <img [src]="isPdf(attachment) ? 'assets/img/pdf-icon.png' : attachment" alt="file preview" [ngClass]="{
                 filePreview: !isPdf(attachment),
                 pdfIcon: isPdf(attachment),
                 multipleFiles: message.attachments.length > 1
               }" />
-
-              <!-- Test PDF URL -->
-
-
-            </div>
+            </a>
             <!-- Zeige den Dateinamen unter dem PDF-Icon -->
             <div *ngIf="isPdf(attachment)" class="fileName" [title]="getFileName(attachment)">
               {{ getShortenedFileName(attachment) }}
-            </div>          </div>
+            </div>
+          </div>
         </div>
       </div>
 

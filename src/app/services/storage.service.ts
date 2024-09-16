@@ -89,76 +89,95 @@ export class StorageService {
   }
 
   // Methode zum Hochladen von Dateien in einen Channel
-  uploadFileToChannel(channelId: string, file: File): Promise<string> {
-    return new Promise((resolve, reject) => {
-      // **Überprüfe die Dateigröße mit der Hilfsfunktion**
-      try {
-        this.checkFileSize(file, 1); // 1 MB Limit
-      } catch (error: any) {
-        reject(error.message);
-        return;
-      }
+  // storage.service.ts
 
-      const user = this.auth.currentUser;
-      if (user) {
-        const storageRef = ref(this.storage, `channels/${channelId}/${file.name}`);
-        const uploadTask = uploadBytesResumable(storageRef, file);
+uploadFileToChannel(channelId: string, file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    // Überprüfen der Dateigröße
+    try {
+      this.checkFileSize(file, 1); // 1 MB Limit
+    } catch (error: any) {
+      reject(error.message);
+      return;
+    }
 
-        uploadTask.on('state_changed',
-          (snapshot: any) => {
-            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            console.log('Upload ist ' + progress + '% abgeschlossen');
-          },
-          (error: any) => {
-            console.error("Upload fehlgeschlagen", error);
-            reject(error);
-          },
-          () => {
-            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL: string) => {
-              resolve(downloadURL);
-            }).catch(reject);
-          }
-        );
-      } else {
-        reject("Kein Benutzer ist angemeldet.");
-      }
-    });
-  }
+    const user = this.auth.currentUser;
+    if (user) {
+      const storageRef = ref(this.storage, `channels/${channelId}/${file.name}`);
 
-  // Methode zum Hochladen von Dateien in eine Direktnachricht
-  uploadFileToDirectMessage(conversationId: string, file: File): Promise<string> {
-    return new Promise((resolve, reject) => {
-      // **Überprüfe die Dateigröße mit der Hilfsfunktion**
-      try {
-        this.checkFileSize(file, 1); // 1 MB Limit
-      } catch (error: any) {
-        reject(error.message);
-        return;
-      }
+      // Setzen der Metadaten
+      const metadata = {
+        contentDisposition: 'attachment', // Erzwingt den Download
+        contentType: file.type
+      };
 
-      const user = this.auth.currentUser;
-      if (user) {
-        const storageRef = ref(this.storage, `direct_messages/${conversationId}/${file.name}`);
-        const uploadTask = uploadBytesResumable(storageRef, file);
+      const uploadTask = uploadBytesResumable(storageRef, file, metadata);
 
-        uploadTask.on('state_changed',
-          (snapshot: any) => {
-            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            console.log('Upload ist ' + progress + '% abgeschlossen');
-          },
-          (error: any) => {
-            console.error("Upload fehlgeschlagen", error);
-            reject(error);
-          },
-          () => {
-            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL: string) => {
-              resolve(downloadURL);
-            }).catch(reject);
-          }
-        );
-      } else {
-        reject("Kein Benutzer ist angemeldet.");
-      }
-    });
-  }
+      uploadTask.on('state_changed',
+        (snapshot: any) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log('Upload ist ' + progress + '% abgeschlossen');
+        },
+        (error: any) => {
+          console.error("Upload fehlgeschlagen", error);
+          reject(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL: string) => {
+            resolve(downloadURL);
+          }).catch(reject);
+        }
+      );
+    } else {
+      reject("Kein Benutzer ist angemeldet.");
+    }
+  });
+}
+
+
+ // storage.service.ts
+
+uploadFileToDirectMessage(conversationId: string, file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    // Überprüfen der Dateigröße
+    try {
+      this.checkFileSize(file, 1); // 1 MB Limit
+    } catch (error: any) {
+      reject(error.message);
+      return;
+    }
+
+    const user = this.auth.currentUser;
+    if (user) {
+      const storageRef = ref(this.storage, `direct_messages/${conversationId}/${file.name}`);
+
+      // Setzen der Metadaten
+      const metadata = {
+        contentDisposition: 'attachment', // Erzwingt den Download
+        contentType: file.type
+      };
+
+      const uploadTask = uploadBytesResumable(storageRef, file, metadata);
+
+      uploadTask.on('state_changed',
+        (snapshot: any) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log('Upload ist ' + progress + '% abgeschlossen');
+        },
+        (error: any) => {
+          console.error("Upload fehlgeschlagen", error);
+          reject(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL: string) => {
+            resolve(downloadURL);
+          }).catch(reject);
+        }
+      );
+    } else {
+      reject("Kein Benutzer ist angemeldet.");
+    }
+  });
+}
+
 }

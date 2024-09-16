@@ -103,7 +103,6 @@ export class MessageComponent {
     }
   }
 
-
   loadUserNamesForReaction(reactionUsers: string[]) {
     this.hoveredReactionUsers = [];
 
@@ -146,26 +145,26 @@ export class MessageComponent {
     if (this.messengerType === 'channels') {
       this.firestoreService.updateMessage(
         messageData,
-        'channels',
+        this.messengerType,
         this.activeChannelService.activeChannel.channelID,
         this.message.messageID
       );
     } else if (this.messengerType === 'directMessages') {
       this.firestoreService.updateMessage(
         messageData,
-        'directMessages',
+        this.messengerType,
         this.activeDirectMessageService.activeDM.directMessageID,
         this.message.messageID
       );
     } else if (this.messengerType === 'thread') {
       this.firestoreService.updateThreadMessage(
         messageData,
-        this.activeChannelService.activeChannel.channelID,
-        this.activeThreadService.activeThreadMessage.messageID,
-        this.message.messageID
+        this.activeChannelService.activeChannel.channelID, // channelID
+        this.message.messageID, // messageID (übergeordnete Nachricht)
+        this.activeThreadService.activeThreadMessage.messageID // threadID
       );
     } else {
-      console.error('Messenger Type not found.');
+      console.error('No Messenger Type found.');
     }
   }
 
@@ -241,58 +240,64 @@ export class MessageComponent {
   saveChanges() {
     this.editMessage = false;
     this.message.content = this.messageContentSnapshot;
-    if (this.messengerType == 'channels') {
+    if (this.messengerType === 'channels') {
       this.firestoreService.updateMessage(
         { content: this.message.content },
         this.messengerType,
         this.activeChannelService.activeChannel.channelID,
         this.message.messageID
       );
-    } else if (this.messengerType == 'directMessages') {
+    } else if (this.messengerType === 'directMessages') {
       this.firestoreService.updateMessage(
         { content: this.message.content },
         this.messengerType,
         this.activeDirectMessageService.activeDM.directMessageID,
         this.message.messageID
       );
-    } else if (this.messengerType == 'thread') {
+    } else if (this.messengerType === 'thread') {
       this.firestoreService.updateThreadMessage(
         { content: this.message.content },
-        this.activeChannelService.activeChannel.channelID,
-        this.activeThreadService.activeThreadMessage.messageID,
-        this.message.messageID
+        this.activeChannelService.activeChannel.channelID, // channelID
+        this.message.messageID, // messageID (übergeordnete Nachricht)
+        this.activeThreadService.activeThreadMessage.messageID // threadID
       );
     } else {
       console.error('No Messenger Type found');
     }
   }
 
-// Prüfe, ob der Anhang eine PDF-Datei ist
-isPdf(url: string): boolean {
-  const cleanUrl = url.split('?')[0];
-  console.log('Checking if PDF:', cleanUrl);
-  return cleanUrl.toLowerCase().endsWith('.pdf');
-}
-
-getShortenedFileName(url: string): string {
-  const fileName = this.getFileName(url); // Nutze bereits vorhandene Methode, um den Dateinamen zu bekommen
-  if (fileName.length > 20) {
-    return fileName.substring(0, 20) + '...';
+  // Prüfe, ob der Anhang eine PDF-Datei ist
+  isPdf(url: string): boolean {
+    const cleanUrl = url.split('?')[0];
+    console.log('Checking if PDF:', cleanUrl);
+    return cleanUrl.toLowerCase().endsWith('.pdf');
   }
-  return fileName;
-}
 
+  getShortenedFileName(url: string): string {
+    const fileName = this.getFileName(url); // Nutze bereits vorhandene Methode, um den Dateinamen zu bekommen
+    if (fileName.length > 20) {
+      return fileName.substring(0, 20) + '...';
+    }
+    return fileName;
+  }
 
+  // Extrahiere den Dateinamen aus der URL
+  getFileName(url: string): string {
+    return url.substring(url.lastIndexOf('/') + 1);
+  }
 
-// Extrahiere den Dateinamen aus der URL
-getFileName(url: string): string {
-  return url.substring(url.lastIndexOf('/') + 1);
-}
+  // TrackBy-Funktion für die Liste der Anhänge
+  trackByIndex(index: number, item: any): number {
+    return index;
+  }
 
-// TrackBy-Funktion für die Liste der Anhänge
-trackByIndex(index: number, item: any): number {
-  return index;
-}
-
-
+  // Neue Methode zum Herunterladen von Dateien
+  downloadFile(url: string) {
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = this.getFileName(url); // Setzt den vorgeschlagenen Dateinamen
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
 }
