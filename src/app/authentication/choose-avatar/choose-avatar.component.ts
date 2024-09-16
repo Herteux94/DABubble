@@ -19,7 +19,7 @@ export class ChooseAvatarComponent {
   userID = this.activeUserService.activeUser.userID;
   dialog = inject(Dialog);
   isDialog = false;
-  errorMessage: string | null = null; // Variable für Fehlermeldung
+  errorMessage: string | null = null;
 
   constructor(
     private storageService: StorageService,
@@ -40,17 +40,17 @@ export class ChooseAvatarComponent {
       this.storageService
         .uploadAvatar(file)
         .then((downloadURL) => {
-          this.avatarUrl = downloadURL; // Lokale Variable aktualisieren
-          this.errorMessage = null; // Fehlermeldung zurücksetzen, wenn erfolgreich
+          this.avatarUrl = downloadURL;
+          this.errorMessage = null;
         })
         .catch((error) => {
-          this.errorMessage = error; // Fehlermeldung setzen
+          this.errorMessage = error;
         });
     }
   }
 
   selectAvatar(url: string) {
-    this.avatarUrl = url; // Lokale Variable aktualisieren
+    this.avatarUrl = url;
   }
 
   saveAvatar() {
@@ -61,7 +61,7 @@ export class ChooseAvatarComponent {
         return this.firestoreService.updateUser(
           { profileImg: this.avatarUrl },
           userID
-        ); // Nur das Profilbild aktualisieren
+        ); 
       })
       .then(() => {
         console.log('Avatar updated and old avatars deleted');
