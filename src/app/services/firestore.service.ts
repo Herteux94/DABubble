@@ -211,16 +211,23 @@ export class FirestoreService implements OnDestroy {
   }
 
   /**
-   * Adds a new channel document to the Firestore database, and updates the given user's document to include the newly added channel.
+   * Adds a new channel document to the Firestore database and updates the given user's document to include the newly added channel.
    * @param channelData The data to add to the channel document.
-   * @param userID The ID of the user who is adding the channel.
+   * @param userID The ID of the user who adds the channel.
+   * @returns A Promise that resolves to the newly added channel document's ID.
    */
-  addChannel(channelData: any, userID: string) {
-    addDoc(this.channelCol, channelData).then((docRef) => {
-      updateDoc(doc(this.channelCol, docRef.id), {
+  addChannel(channelData: any, userID: string): Promise<string> {
+    return addDoc(this.channelCol, channelData).then((docRef) => {
+      return updateDoc(doc(this.channelCol, docRef.id), {
         channelID: docRef.id,
+      }).then(() => {
+        this.updateUserWithChannelOrDirectMessage(
+          userID,
+          'channels',
+          docRef.id
+        );
+        return docRef.id;
       });
-      this.updateUserWithChannelOrDirectMessage(userID, 'channels', docRef.id);
     });
   }
 

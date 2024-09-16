@@ -8,15 +8,15 @@
 
         <div class="dialogHeader">
             <h2>Leute hinzufügen</h2>
-            <img src="../../../assets/img/close.svg" alt="Schließen">
+            <img src="../../../assets/img/close.svg" alt="Schließen" (click)="dialogRef.close()">
         </div>
 
-        <form (ngSubmit)="onSubmit(contactForm)" autocomplete="off" #contactForm="ngForm">
+        <form (ngSubmit)="submitCreateChannel()" autocomplete="off" #contactForm="ngForm">
             <div class="inputContainer">
 
                 <div class="radioField">
-                    <input type="radio" id="allMemberRadio" name="memberType" value="allMember" ngModel
-                        [(ngModel)]="selectedMemberType" checked>
+                    <input type="radio" id="allMemberRadio" name="memberType" value="allMember" ngModel [(ngModel)]="selectedMemberType"
+                        checked>
                     <label for="allMemberRadio">
                         Alle Mitglieder von <a href="#">OfficeTeam</a> hinzufügen
                     </label>
@@ -30,11 +30,33 @@
                     </label>
                 </div>
 
+                @if (selectedMemberType === 'specificMember') {
                 <div class="inputContainer">
-                    @if (selectedMemberType === 'specificMember') {
-                        <input type="text" placeholder="Namen eingeben" ngModel name="specificMembers" class="input">
-                    }
+                    <input [value]="searchQuery()" (input)="onSearchInput($event)" type="text" placeholder="Namen eingeben" ngModel
+                        name="specificMembers" id="createChannelInput" class="input">
                 </div>
+
+                @if (foundUsers().length > 0 && searchQuery()) {
+                <div class="searchUserContainer">
+                    <div class="memberList floatingMemberList">
+                        <div *ngFor="let user of foundUsers()" class="member" (click)="selectUser(user)">
+                            <img [src]="user.profileImg || '../../../assets/img/dummyAvatar.svg'" alt="{{ user.name }}">
+                            <p>{{ user.name }}</p>
+                        </div>
+                    </div>
+                </div>
+                }
+
+                @if (showSelectedUsers()) {
+                <div class="memberList">
+                    <div *ngFor="let user of showSelectedUsers()" class="member">
+                        <img [src]="user.profileImg || '../../../assets/img/dummyAvatar.svg'" alt="{{ user.name }}">
+                        <p>{{ user.name }}</p>
+                        <img class="removeUserIcon" (click)="removeUser(user)" src="../../../assets/img/close.svg" alt="delete">
+                    </div>
+                </div>
+                }
+                }
 
             </div>
 
