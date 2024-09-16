@@ -22,6 +22,15 @@ import { DateDividerComponent } from '../../shared/messengerSubComponents/date-d
   styleUrl: './thread.component.scss',
 })
 export class ThreadComponent implements OnInit {
+  /**
+   * Constructor for the ThreadComponent.
+   *
+   * @param activeChannelService Injected service to get the active channel.
+   * @param activeThreadService Injected service to get the active thread.
+   * @param activeUserService Injected service to get the active user.
+   * @param threadRoutingService Injected service to navigate to the thread view.
+   * @param route Injected service to get the active route.
+   */
   constructor(
     public activeChannelService: ActiveChannelService,
     public activeThreadService: ActiveThreadService,
@@ -30,6 +39,13 @@ export class ThreadComponent implements OnInit {
     private route: ActivatedRoute
   ) {}
 
+  /**
+   * Lifecycle hook that is called after the component's view has been initialized.
+   *
+   * If the active thread message is not set, it loads the active thread message
+   * and its messages by calling the loadActiveThreadAndMessages method.
+   * Additionally, it sets the threadOpenDesktop flag to true.
+   */
   ngOnInit() {
     if (!this.activeThreadService.activeThreadMessage) {
       let threadID: any;

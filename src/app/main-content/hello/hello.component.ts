@@ -20,6 +20,13 @@ export class HelloComponent implements OnInit {
    * @param router Injected service to navigate to other routes.
    * @param activeUserService Injected service to get the currently active user.
    */
+  /**
+   * Constructor for the HelloComponent.
+   *
+   * @param screenSizeService Injected service to check for screen size.
+   * @param router Injected service to navigate to other routes.
+   * @param activeUserService Injected service to get the currently active user.
+   */
   constructor(
     private screenSizeService: ScreenSizeService,
     private router: Router,

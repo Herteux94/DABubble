@@ -29,10 +29,7 @@
         <input type="file" (change)="uploadAvatar($event)" accept="image/*" hidden #fileInput>
         <button class="thirdBtn" (click)="triggerFileInput()">Upload foto</button>
       </div>
-
-      <!-- Fehlermeldung anzeigen, falls vorhanden -->
       <div *ngIf="errorMessage" class="errorMessage">{{ errorMessage }}</div>
-
       <div class="nextBtnContainer">
         <button (click)="safeAndExit()" class="firstBtn">Weiter</button>
       </div>

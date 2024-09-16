@@ -34,7 +34,7 @@ export class TypeInputFieldComponent {
   message = new Message();
   showEmojiPicker: boolean = false; // Flag zum Anzeigen des Emoji-Pickers
   uploadedFiles: { file: File; url: string }[] = []; // Liste der hochgeladenen Dateien und deren URLs
-  showError= false;
+  showError = false;
   errorMessageUpload: string = ''; // Variable für die Fehlermeldungen
 
   @ViewChild('messageInput') messageInput!: ElementRef; // Referenz zum Textarea
@@ -49,23 +49,23 @@ export class TypeInputFieldComponent {
     private activeThreadService: ActiveThreadService,
     private router: Router,
     private el: ElementRef
-  ) {}
+  ) { }
 
   sendMessage() {
     const hasText = this.message.content.trim().length > 0;
     const hasFiles = this.uploadedFiles.length > 0;
-  
+
     if (!hasText && !hasFiles) {
       this.errorMessageUpload = 'Bitte geben Sie eine Nachricht ein oder fügen Sie eine Datei hinzu.';
       return;
     }
-  
+
     if (hasFiles) {
       this.uploadFilesAndSendMessage();
     } else {
       this.sendMessageBasedOnType();
     }
-  
+
     if (this.activeUserService.activeUser?.userID) {
       this.firestoreService.updateUser(
         { lastOnline: Date.now() },
@@ -73,7 +73,7 @@ export class TypeInputFieldComponent {
       );
     }
   }
-  
+
 
   private async sendMessageBasedOnType() {
     this.prepareMessage();
@@ -90,7 +90,7 @@ export class TypeInputFieldComponent {
           activeThreadMessage.messageID
         );
 
-        const updatedThreadLength = (activeThreadMessage.threadLength || 0) + 1; 
+        const updatedThreadLength = (activeThreadMessage.threadLength || 0) + 1;
         const messagePayload = {
           lastAnswer: this.message.creationTime,
           threadLength: updatedThreadLength,
@@ -160,7 +160,7 @@ export class TypeInputFieldComponent {
 
   private resetMessage() {
     this.message.content = '';
-    this.uploadedFiles = []; 
+    this.uploadedFiles = [];
   }
 
   private uploadFilesAndSendMessage() {
@@ -247,13 +247,24 @@ export class TypeInputFieldComponent {
         return;
       }
 
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.uploadedFiles.push({ file, url: reader.result as string });
-      };
-      reader.readAsDataURL(file);
+      if (file.type === 'application/pdf') {
+        // Verwende statisches Bild für PDFs
+        this.uploadedFiles.push({ file, url: 'assets/img/pdf-icon.png' });
+      } else {
+        const reader = new FileReader();
+        reader.onload = () => {
+          this.uploadedFiles.push({ file, url: reader.result as string });
+        };
+        reader.readAsDataURL(file);
+      }
     });
   }
+
+  // Prüfe, ob die Datei eine PDF ist
+  isPdf(file: { file: File; url: string }): boolean {
+    return file.file.type === 'application/pdf';
+  }
+
 
   triggerFileInput() {
     const fileInput = document.getElementById('fileInput') as HTMLInputElement;

@@ -2,13 +2,22 @@
   <div class="textArea">
     <div *ngIf="uploadedFiles.length > 0" class="uploadContainer">
       <div class="uploadPreviewContainer" *ngFor="let uploadedFile of uploadedFiles">
+        <!-- closeBtn mit dynamischer Klasse basierend auf dem Dateityp -->
         <img class="closeBtn" src="../../../assets/img/close.svg" alt="close btn"
+          [ngClass]="{ 'pdf-close-btn': isPdf(uploadedFile) }"
           (click)="closePreview(uploadedFile)" />
-        <img [src]="uploadedFile.url" alt="img upload preview" class="uploadPreview" />
+
+        <!-- Bildvorschau oder PDF-Icon -->
+        <img [src]="uploadedFile.url" alt="img upload preview"
+        [ngClass]="{ 'pdfIcon': isPdf(uploadedFile) }" class="uploadPreview" />
+        <!-- Dateiname anzeigen, wenn es sich um eine PDF handelt -->
+        <div *ngIf="isPdf(uploadedFile)" class="fileName">{{ uploadedFile.file.name }}</div>
       </div>
     </div>
+
     <textarea #messageInput [(ngModel)]="message.content" [placeholder]="getPlaceholder()"></textarea>
     <span *ngIf="errorMessageUpload" class="errorMessage">{{ errorMessageUpload }}</span>
+
     <div class="btnArea">
       <div class="leftSide">
         <div class="svgContainer">
@@ -66,5 +75,4 @@
   <div *ngIf="showEmojiPicker" class="emojiPicker" #emojiPicker>
     <app-emoji-picker (emojiSelect)="addEmoji($event)"></app-emoji-picker>
   </div>
-
 </div>

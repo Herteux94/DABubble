@@ -180,67 +180,63 @@ export class AuthenticationComponent implements OnInit {
 
   ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
-      this.checkScreenSize();
-      const hasAnimated = sessionStorage.getItem('hasAnimated');
-      if (hasAnimated) {
-        this.animationDuration = '1ms';
-      } else {
-        sessionStorage.setItem('hasAnimated', 'true');
-      }
-      this.startAnimation();
+      this.handlePlatform();
     }
   }
 
+  handlePlatform() {
+    this.checkScreenSize();
+    const hasAnimated = sessionStorage.getItem('hasAnimated');
+    this.animationDuration = hasAnimated ? '1ms' : this.animationDuration;
+    if (!hasAnimated) {
+      sessionStorage.setItem('hasAnimated', 'true');
+    }
+    this.startAnimation();
+  }
+
   startAnimation() {
-    if (isPlatformBrowser(this.platformId)) {
-      if (this.isSmallScreen) {
-        this.logoState = 'hiddenMobile';
-        this.textLogoState = 'hiddenMobile';
-        this.logoSlideState = 'startMobile';
-        this.containerPosition = 'centerMobile';
-        this.textLogoClass = 'whiteFill';
-        this.overlayState = 'visible';
-        this.textLogoInvertState = 'normal';
-      } else {
-        this.logoState = 'hidden';
-        this.textLogoState = 'hidden';
-        this.logoSlideState = 'start';
-        this.containerPosition = 'center';
-        this.textLogoClass = 'whiteFill';
-        this.overlayState = 'visible';
-        this.textLogoInvertState = 'normal';
-      }
+    this.initializeAnimationStates();
+    this.scheduleAnimationUpdates();
+  }
 
-      setTimeout(() => {
-        this.logoState = this.isSmallScreen ? 'visibleMobile' : 'visible';
-      }, this.animationDuration === '1ms' ? 0.1 : 1000);
+  private initializeAnimationStates() {
+    this.logoState = this.isSmallScreen ? 'hiddenMobile' : 'hidden';
+    this.textLogoState = this.isSmallScreen ? 'hiddenMobile' : 'hidden';
+    this.logoSlideState = this.isSmallScreen ? 'startMobile' : 'start';
+    this.containerPosition = this.isSmallScreen ? 'centerMobile' : 'center';
+    this.textLogoClass = 'whiteFill';
+    this.overlayState = 'visible';
+    this.textLogoInvertState = 'normal';
+  }
 
-      setTimeout(() => {
-        this.logoSlideState = this.isSmallScreen ? 'mobileEnd' : 'end';
-      }, this.animationDuration === '1ms' ? 0.2 : 1500);
+  private scheduleAnimationUpdates() {
+    setTimeout(() => this.logoState = this.isSmallScreen ? 'visibleMobile' : 'visible', this.getTimeoutDelay(1000));
+    setTimeout(() => this.logoSlideState = this.isSmallScreen ? 'mobileEnd' : 'end', this.getTimeoutDelay(1500));
+    setTimeout(() => this.textLogoState = this.isSmallScreen ? 'mobileEnd' : 'visible', this.getTimeoutDelay(2000));
+    setTimeout(() => this.finishAnimation(), this.getTimeoutDelay(3000));
+  }
 
-      setTimeout(() => {
-        this.textLogoState = this.isSmallScreen ? 'mobileEnd' : 'visible';
-      }, this.animationDuration === '1ms' ? 0.3 : 2000);
+  private finishAnimation() {
+    this.containerPosition = this.isSmallScreen ? 'cornerSmall' : 'cornerLarge';
+    this.logoSlideState = 'reset';
+    this.textLogoState = 'reset';
+    this.textLogoInvertState = 'inverted';
+    if (this.isSmallScreen) {
+      this.enableScroll();
+    }
+    this.updateWrapperStyles();
+  }
 
-      setTimeout(() => {
-        this.containerPosition = this.isSmallScreen ? 'cornerSmall' : 'cornerLarge';
-        this.logoSlideState = 'reset';
-        this.textLogoState = 'reset';
-        this.textLogoInvertState = 'inverted';
-        if (this.isSmallScreen) {
-          this.enableScroll();
-        }
-      }, this.animationDuration === '1ms' ? 0.4 : 3000);
+  private getTimeoutDelay(duration: number) {
+    return this.animationDuration === '1ms' ? duration * 0.001 : duration;
+  }
 
-      setTimeout(() => {
-        const wrapperElement = this.el.nativeElement.querySelector('.wrapper');
-        if (wrapperElement) {
-          this.renderer.setStyle(wrapperElement, 'height', '100%');
-          this.renderer.setStyle(wrapperElement, 'overflow', 'auto');
-          this.renderer.addClass(this.el.nativeElement.querySelector('.overlay'), 'hiddenOverlay');
-        }
-      }, this.animationDuration === '1ms' ? 0.5 : 3700);
+  private updateWrapperStyles() {
+    const wrapperElement = this.el.nativeElement.querySelector('.wrapper');
+    if (wrapperElement) {
+      this.renderer.setStyle(wrapperElement, 'height', '100%');
+      this.renderer.setStyle(wrapperElement, 'overflow', 'auto');
+      this.renderer.addClass(this.el.nativeElement.querySelector('.overlay'), 'hiddenOverlay');
     }
   }
 

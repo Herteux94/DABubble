@@ -25,7 +25,7 @@ export class SendResetPwMailComponent {
   email: string = '';
   errorMessageEmail: string = '';
   message: string | null = null;
-  formSubmitted: boolean = false; 
+  formSubmitted: boolean = false;
 
   @ViewChild(BubbleComponent) bubbleComponent!: BubbleComponent;
 
@@ -34,7 +34,6 @@ export class SendResetPwMailComponent {
   onSubmit() {
     this.formSubmitted = true;
     this.errorMessageEmail = '';
-
     if (!this.email) {
       this.errorMessageEmail = 'Bitte gib deine E-Mail-Adresse ein.';
       return;

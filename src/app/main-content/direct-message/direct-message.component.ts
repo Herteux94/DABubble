@@ -23,6 +23,13 @@ export class DirectMessageComponent implements OnInit, OnDestroy {
   /**
    * Constructor for the DirectMessageComponent.
    *
+   * @param activeDirectMessageService A service that provides the active direct message.
+   * @param route The route that led to this component.
+   * @param activeUserService A service that provides information about the active user.
+   */
+  /**
+   * Constructor for the DirectMessageComponent.
+   *
    * @param activeDirectMessageService A service that provides the active direct message and its messages.
    * @param route The current route.
    * @param activeUserService A service that provides the active user.

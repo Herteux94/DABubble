@@ -14,6 +14,14 @@
   }
 }
 
+::ng-deep .mat-tooltip {
+  background-color: #333; // Dunkler Hintergrund
+  color: #fff; // Weiße Schrift
+  font-size: 12px;
+  border-radius: 4px;
+}
+
+
 app-options-bubble {
   display: flex;
 }
@@ -24,6 +32,7 @@ app-options-bubble {
 
 .fileContainer {
   display: flex;
+  flex-direction: column;
 }
 
 .filePreview {
@@ -42,6 +51,22 @@ app-options-bubble {
 .multipleFiles {
   min-width: 80px;
   min-height: 80px;
+}
+
+/* Für PDF-Icon */
+.pdfIcon {
+  max-width: 120px;
+  max-height: 120px;
+  padding: 8px;
+  object-fit: contain;
+}
+
+/* Dateiname unter der PDF-Vorschau */
+.fileName {
+  font-size: 12px;
+  color: #333;
+  margin-top: 5px;
+  text-align: center;
 }
 
 .text {
