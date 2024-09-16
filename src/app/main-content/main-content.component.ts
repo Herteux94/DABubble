@@ -69,38 +69,48 @@ export class MainContentComponent implements OnInit {
     const element = document.querySelector('.threadRouterContainer');
     if (element) {
       if (width < this.ADDITIONAL_THRESHOLD) {
-        // Entferne die Klasse getOverContent, wenn die Breite unter 1025px liegt
         if (this.isOverContent) {
-          this.isOverContent = false;
-          this.renderer.removeClass(
-            document.querySelector('.threadRouterContainer'),
-            'getOverContent'
-          );
+          this.removeGetOverContent();
         }
       } else if (width >= this.ADDITIONAL_THRESHOLD && !this.isOverContent) {
-        // Füge die Klasse getOverContent hinzu, wenn die Breite 1025px oder mehr beträgt
-        this.isOverContent = true;
-        this.renderer.addClass(
-          document.querySelector('.threadRouterContainer'),
-          'getOverContent'
-        );
+        this.addGetOverContent();
       }
 
       // Weiterhin die ursprüngliche Logik für die Breite von 1350px anwenden
       if (width < this.RESIZE_THRESHOLD && !this.isOverContent) {
-        this.isOverContent = true;
-        this.renderer.addClass(
-          document.querySelector('.threadRouterContainer'),
-          'getOverContent'
-        );
+        this.addGetOverContent();
       } else if (width >= this.RESIZE_THRESHOLD && this.isOverContent) {
-        this.isOverContent = false;
-        this.renderer.removeClass(
-          document.querySelector('.threadRouterContainer'),
-          'getOverContent'
-        );
+        this.removeGetOverContent();
       }
     }
+  }
+
+  /**
+   * Removes the getOverContent class from the .threadRouterContainer element, so it is
+   * no longer positioned fixed on the right side of the screen.
+   * This is called when the window is resized to a smaller width and the thread should
+   * be displayed below the channel list again.
+   */
+  removeGetOverContent() {
+    this.isOverContent = false;
+    this.renderer.removeClass(
+      document.querySelector('.threadRouterContainer'),
+      'getOverContent'
+    );
+  }
+
+  /**
+   * Adds the getOverContent class to the .threadRouterContainer element, so it is
+   * positioned fixed on the right side of the screen.
+   * This is called when the window is resized to a larger width and the thread should
+   * be displayed on the right side of the screen.
+   */
+  addGetOverContent() {
+    this.isOverContent = true;
+    this.renderer.addClass(
+      document.querySelector('.threadRouterContainer'),
+      'getOverContent'
+    );
   }
 
   /**
