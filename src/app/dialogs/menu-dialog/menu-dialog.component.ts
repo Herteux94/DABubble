@@ -5,8 +5,6 @@ import { Dialog, DialogRef, DIALOG_DATA, DialogModule } from '@angular/cdk/dialo
 import { ProfileDialogComponent } from '../profile-dialog/profile-dialog.component';
 import { User } from '../../models/user.model';
 import { ActiveUserService } from '../../services/active-user.service';
-import { MatDialogModule } from '@angular/material/dialog';
-
 
 @Component({
   selector: 'app-menu-dialog',
@@ -23,18 +21,30 @@ export class MenuDialogComponent implements OnInit {
 
   constructor(private screenSizeService: ScreenSizeService, private activeUserService: ActiveUserService) {}
 
+  /**
+   * Lifecycle hook that is called after the component is initialized.
+   * It checks for the screen size and stores the result in the mobile variable.
+   */
   ngOnInit() {
     this.screenSizeService.isMobile().subscribe(isMobile => {
       this.mobile = isMobile;
     });
   }
 
+  /**
+   * Opens the profile dialog for the currently active user.
+   * It opens a new dialog with the active user as the user to show in the dialog.
+   */
   openOwnProfileDialog() {
     this.dialog.open(ProfileDialogComponent, {
       data: { userID: this.activeUserService.activeUser.userID  }
     });
   }
 
+  /**
+   * Logs out the current user and closes the dialog.
+   * It calls the logout function of the activeUserService and then closes the dialog.
+   */
   onLogout() {
     this.activeUserService.logout();
     this.dialogRef.close();
