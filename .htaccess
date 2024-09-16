@@ -1,0 +1,16 @@
+# Aktivierung des RewriteEngines
+RewriteEngine On
+RewriteBase /
+
+# Bedingungen, um bestehende Dateien, Links oder Verzeichnisse nicht umzuleiten
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Umleitung aller anderen Anfragen an index.html
+RewriteRule ^ index.html [L]
+
+# Setzen des Cross-Origin-Opener-Policy Headers
+<IfModule mod_headers.c>
+    Header set Cross-Origin-Opener-Policy "same-origin-allow-popups"
+</IfModule>
