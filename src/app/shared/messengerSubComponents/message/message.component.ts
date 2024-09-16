@@ -17,6 +17,8 @@ import { FirestoreService } from '../../../services/firestore.service';
 import { FormsModule } from '@angular/forms';
 import { ActiveChannelService } from '../../../services/active-channel.service';
 import { ActiveDirectMessageService } from '../../../services/active-direct-message-service.service';
+import { MatTooltipModule } from '@angular/material/tooltip'; // Importieren des Tooltip-Moduls
+
 
 @Component({
   selector: 'app-message',
@@ -30,6 +32,7 @@ import { ActiveDirectMessageService } from '../../../services/active-direct-mess
     DialogModule,
     OptionsBubbleComponent,
     FormsModule,
+    MatTooltipModule
   ],
   templateUrl: './message.component.html',
   styleUrls: ['./message.component.scss'],
