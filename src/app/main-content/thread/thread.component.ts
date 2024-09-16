@@ -52,11 +52,10 @@ export class ThreadComponent implements OnInit {
       this.route.paramMap.subscribe((paramMap) => {
         threadID = paramMap.get('id');
       });
-
+      this.activeThreadService.loadActiveThreadAndMessages(threadID);
       setTimeout(() => {
-        this.threadRoutingService.threadOpenDesktop = true; // if-Abfrage wegen doppelter Animation
-        this.activeThreadService.loadActiveThreadAndMessages(threadID);
-      }, 0); // Delay für die nächste Change Detection
+        this.threadRoutingService.openThread();
+      }, 600);
     }
   }
 }

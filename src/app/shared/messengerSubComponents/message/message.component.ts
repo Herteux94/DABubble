@@ -104,6 +104,8 @@ export class MessageComponent implements OnDestroy {
       (user) => user.userID === senderID
     );
     if (sender) {
+      console.log(sender);
+
       this.senderName = sender.name;
       this.senderAvatar =
         sender.profileImg || '../../../assets/img/Profile.svg';

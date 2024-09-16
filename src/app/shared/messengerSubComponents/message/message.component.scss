@@ -21,7 +21,6 @@
   border-radius: 4px;
 }
 
-
 app-options-bubble {
   display: flex;
 }
@@ -188,14 +187,14 @@ app-options-bubble {
 
 .optionsBubble {
   position: absolute;
-  top: 0px;
+  top: -40px;
   right: -10px;
   z-index: 999;
 }
 
 .optionsBubbleOwnMsg {
   position: absolute;
-  top: 0px;
+  top: -40px;
   left: -48px;
   z-index: 999;
 }
