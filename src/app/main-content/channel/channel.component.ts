@@ -25,6 +25,14 @@ import { CommonModule } from '@angular/common';
   styleUrl: './channel.component.scss',
 })
 export class ChannelComponent implements OnInit, OnDestroy {
+  /**
+   * Constructor for the ChannelComponent.
+   *
+   * @param route Injected service to get the currently active channel.
+   * @param activeChannelService Injected service to get the currently active channel.
+   * @param activeUserService Injected service to get the currently active user.
+   * @param firestoreService Injected service to interact with Firestore.
+   */
   constructor(
     private route: ActivatedRoute,
     public activeChannelService: ActiveChannelService,
@@ -32,6 +40,16 @@ export class ChannelComponent implements OnInit, OnDestroy {
     public firestoreService: FirestoreService
   ) {}
 
+  /**
+   * Lifecycle hook that is called after the component is initialized.
+   *
+   * It loads the active channel with the given channelID and its messages if
+   * the active channel is not already loaded.
+   *
+   * @remarks
+   * This is necessary to prevent the channel from being loaded multiple times
+   * when the user navigates to the channel page.
+   */
   ngOnInit() {
     if (!this.activeChannelService.activeChannel) {
       let channelID: any;
@@ -42,6 +60,11 @@ export class ChannelComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Lifecycle hook that is called when the component is destroyed.
+   *
+   * Clears the currently active channel to prevent memory leaks.
+   */
   ngOnDestroy(): void {
     this.activeChannelService.clearActiveChannel();
   }

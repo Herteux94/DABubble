@@ -42,6 +42,14 @@ export class MainContentComponent implements OnInit {
   private readonly ADDITIONAL_THRESHOLD = 1025;
   isOverContent = false;
 
+  /**
+   * Constructor for the MainContentComponent.
+   *
+   * @param screenSizeService Injected service to get the current screen size.
+   * @param threadRoutingService Injected service to navigate to the thread view.
+   * @param route Injected service to get the active route.
+   * @param renderer Injected service to render the HTML elements.
+   */
   constructor(
     private screenSizeService: ScreenSizeService,
     public threadRoutingService: RoutingThreadOutletService,
@@ -50,6 +58,12 @@ export class MainContentComponent implements OnInit {
   ) {}
 
   @HostListener('window:resize', ['$event'])
+  /**
+   * Handles the window resize event and adds or removes the getOverContent class from the
+   * .threadRouterContainer element based on the current screen width.
+   *
+   * @param event The event object passed from the window.resize event.
+   */
   onResize(event: Event) {
     const width = (event.target as Window).innerWidth;
     const element = document.querySelector('.threadRouterContainer');
@@ -89,6 +103,12 @@ export class MainContentComponent implements OnInit {
     }
   }
 
+  /**
+   * Lifecycle hook that is called after the component is initialized.
+   * It checks for the screen size and stores the result in the mobile variable.
+   * Additionally, it calls the onResize method with the window as the target,
+   * if the window is not undefined.
+   */
   ngOnInit() {
     this.screenSizeService.isMobile().subscribe((isMobile) => {
       this.mobile = isMobile;
@@ -99,6 +119,10 @@ export class MainContentComponent implements OnInit {
     }
   }
 
+  /**
+   * Toggles the navOpenDesktop variable, which determines whether the desktop navigation is visible or not.
+   * This function is called when the user clicks on the navigation toggle button.
+   */
   toggleMenu() {
     this.navOpenDesktop = !this.navOpenDesktop;
   }
