@@ -21,7 +21,7 @@
         <div class="filePreviewContainer">
           <!-- Vorschau für jede Datei -->
           <div *ngFor="let attachment of message.attachments; trackBy: trackByIndex" class="fileItem">
-            <a [href]="attachment" download [target]="'_blank'"> <!-- Link zum Download -->
+            <a [href]="attachment" download [target]="'_blank'"> <!-- Direktlink zum Download -->
               <!-- Zeige PDF-Icon für PDF-Dateien an, sonst das Bild -->
               <img [src]="isPdf(attachment) ? 'assets/img/pdf-icon.png' : attachment" alt="file preview" [ngClass]="{
                 filePreview: !isPdf(attachment),

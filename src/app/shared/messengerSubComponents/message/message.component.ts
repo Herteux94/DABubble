@@ -1,3 +1,5 @@
+// message.component.ts
+
 import { ActiveUserService } from './../../../services/active-user.service';
 import { Component, ElementRef, inject, Input, ViewChild } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
@@ -289,15 +291,5 @@ export class MessageComponent {
   // TrackBy-Funktion für die Liste der Anhänge
   trackByIndex(index: number, item: any): number {
     return index;
-  }
-
-  // Neue Methode zum Herunterladen von Dateien
-  downloadFile(url: string) {
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = this.getFileName(url); // Setzt den vorgeschlagenen Dateinamen
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
   }
 }

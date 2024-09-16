@@ -88,8 +88,7 @@ export class StorageService {
     }
   }
 
-  // Methode zum Hochladen von Dateien in einen Channel
-  // storage.service.ts
+// storage.service.ts
 
 uploadFileToChannel(channelId: string, file: File): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -134,8 +133,7 @@ uploadFileToChannel(channelId: string, file: File): Promise<string> {
   });
 }
 
-
- // storage.service.ts
+// storage.service.ts
 
 uploadFileToDirectMessage(conversationId: string, file: File): Promise<string> {
   return new Promise((resolve, reject) => {
