@@ -22,15 +22,28 @@ import { ActiveUserService } from './services/active-user.service';
 export class AppComponent implements OnInit {
   title = 'da-bubble';
 
+  /**
+   * Constructor for the AppComponent.
+   *
+   * Injects the FirestoreService and ActiveUserService.
+   *
+   * If the browser is online, it sets the online status to true.
+   * If the browser is offline, it sets the online status to false.
+   *
+   * It also sets up event listeners for the online and offline events.
+   * When the online event is triggered, it sets the online status to true.
+   * When the offline event is triggered, it sets the online status to false.
+   *
+   * @param firestoreService Injected service to interact with Firestore.
+   * @param activeUserService Injected service to get the currently active user.
+   */
   constructor(
     private firestoreService: FirestoreService,
     private activeUserService: ActiveUserService
   ) {
     if (typeof window !== 'undefined' && typeof navigator !== 'undefined') {
-      // Set initial status
       this.updateOnlineStatus(navigator.onLine);
 
-      // Listen for online and offline events
       window.addEventListener('online', () => this.updateOnlineStatus(true));
       window.addEventListener('offline', () => this.updateOnlineStatus(false));
     } else {
@@ -38,6 +51,16 @@ export class AppComponent implements OnInit {
     }
   }
 
+  /**
+   * Lifecycle hook that is called after the component is initialized.
+   *
+   * If there is an active user, it updates the user's document in Firestore
+   * to set the active field to true.
+   *
+   * If there is no active user, it waits for 2 seconds and then checks again
+   * whether there is an active user. If there is one, it updates the user's
+   * document in Firestore to set the active field to true.
+   */
   ngOnInit(): void {
     if (this.activeUserService.activeUser) {
       this.firestoreService.updateUser(
@@ -56,6 +79,13 @@ export class AppComponent implements OnInit {
     }
   }
 
+  /**
+   * Updates the user's document in Firestore to set the active field to
+   * the given boolean value. This is used to set the user's online status
+   * in Firestore when the user's online status changes.
+   *
+   * @param isOnline Whether the user is online or not.
+   */
   private updateOnlineStatus(isOnline: boolean) {
     const userID = this.activeUserService.activeUser?.userID;
 
@@ -66,6 +96,11 @@ export class AppComponent implements OnInit {
   }
 
   @HostListener('window:beforeunload', ['$event'])
+  /**
+   * This function is called when the user closes the browser window or navigates
+   * away from the app. It sets the user's online status in Firestore to false.
+   * @param event The event object that triggered this function.
+   */
   unloadHandler(event: Event) {
     console.log('unloadHandler set user offline');
 

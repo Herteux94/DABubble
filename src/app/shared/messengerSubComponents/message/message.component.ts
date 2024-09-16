@@ -1,7 +1,12 @@
-// message.component.ts
-
 import { ActiveUserService } from './../../../services/active-user.service';
-import { Component, ElementRef, inject, Input, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  inject,
+  Input,
+  OnDestroy,
+  ViewChild,
+} from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
 import { ProfileDialogComponent } from '../../../dialogs/profile-dialog/profile-dialog.component';
 import { Dialog, DialogModule } from '@angular/cdk/dialog';
@@ -17,8 +22,8 @@ import { FirestoreService } from '../../../services/firestore.service';
 import { FormsModule } from '@angular/forms';
 import { ActiveChannelService } from '../../../services/active-channel.service';
 import { ActiveDirectMessageService } from '../../../services/active-direct-message-service.service';
-import { MatTooltipModule } from '@angular/material/tooltip'; // Importieren des Tooltip-Moduls
-
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-message',
@@ -32,12 +37,12 @@ import { MatTooltipModule } from '@angular/material/tooltip'; // Importieren des
     DialogModule,
     OptionsBubbleComponent,
     FormsModule,
-    MatTooltipModule
+    MatTooltipModule,
   ],
   templateUrl: './message.component.html',
   styleUrls: ['./message.component.scss'],
 })
-export class MessageComponent {
+export class MessageComponent implements OnDestroy {
   @Input() ownMessage!: boolean;
   @Input() isChannel!: boolean;
   @Input() message!: Message;
@@ -45,15 +50,15 @@ export class MessageComponent {
 
   messageTimestampAsNumber!: number;
   messageLastAnswerAsNumber!: number;
-
   mobile!: boolean;
   dialog = inject(Dialog);
-  showOptions: boolean = false; // Flag zur Steuerung der Options-Bubble
+  showOptions: boolean = false;
   senderName!: string;
   senderAvatar!: string;
   editMessage: boolean = false;
   messageContentSnapshot = '';
   hoveredReactionUsers: string[] = [];
+  private screenSizeSubscription: Subscription | null = null;
 
   @ViewChild('editMsgTxtArea') editMsgTxtArea!: ElementRef;
 
@@ -64,18 +69,17 @@ export class MessageComponent {
     private activeThreadService: ActiveThreadService,
     public threadRoutingService: RoutingThreadOutletService,
     private screenSizeService: ScreenSizeService,
-    private activeUserService: ActiveUserService // ActiveUserService im Konstruktor injizieren
+    private activeUserService: ActiveUserService
   ) {}
 
   ngOnInit() {
-    this.screenSizeService.isMobile().subscribe((isMobile) => {
-      this.mobile = isMobile;
-    });
+    this.screenSizeSubscription = this.screenSizeService
+      .isMobile()
+      .subscribe((isMobile) => {
+        this.mobile = isMobile;
+      });
 
-    if (
-      this.message?.attachments &&
-      this.message?.content
-    ) {
+    if (this.message?.attachments && this.message?.content) {
       this.message.attachments = this.message.attachments.filter(
         (url) => url && url.trim() !== ''
       );
@@ -103,8 +107,6 @@ export class MessageComponent {
       this.senderName = sender.name;
       this.senderAvatar =
         sender.profileImg || '../../../assets/img/Profile.svg';
-    } else {
-      console.warn('Sender nicht im Channel gefunden.');
     }
   }
 
@@ -294,5 +296,11 @@ export class MessageComponent {
   // TrackBy-Funktion für die Liste der Anhänge
   trackByIndex(index: number, item: any): number {
     return index;
+  }
+
+  ngOnDestroy(): void {
+    if (this.screenSizeSubscription) {
+      this.screenSizeSubscription.unsubscribe();
+    }
   }
 }

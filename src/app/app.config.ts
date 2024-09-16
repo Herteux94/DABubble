@@ -1,6 +1,6 @@
 import { ApplicationConfig, importProvidersFrom } from '@angular/core';
 import { provideRouter, withViewTransitions } from '@angular/router';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // Hier hinzufügen
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
@@ -10,15 +10,13 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getDatabase, provideDatabase } from '@angular/fire/database';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 import { provideHttpClient, withFetch } from '@angular/common/http';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async'; // Importiere provideHttpClient
-
-
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes, withViewTransitions()),
     provideClientHydration(),
-    provideHttpClient(withFetch()), // Füge provideHttpClient hinzu
+    provideHttpClient(withFetch()),
     importProvidersFrom(BrowserAnimationsModule),
     importProvidersFrom(
       provideFirebaseApp(() =>
@@ -35,6 +33,7 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(provideAuth(() => getAuth())),
     importProvidersFrom(provideFirestore(() => getFirestore())),
     importProvidersFrom(provideDatabase(() => getDatabase())),
-    importProvidersFrom(provideStorage(() => getStorage())), provideAnimationsAsync(),
+    importProvidersFrom(provideStorage(() => getStorage())),
+    provideAnimationsAsync(),
   ],
 };

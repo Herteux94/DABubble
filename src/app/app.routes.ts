@@ -25,8 +25,8 @@ export const routes: Routes = [
     path: '',
     component: AuthenticationComponent,
     children: [
-      { path: '', redirectTo: 'login', pathMatch: 'full' }, // Redirect to login
-      { path: 'login', component: LoginComponent }, // Explicit login route
+      { path: '', redirectTo: 'login', pathMatch: 'full' },
+      { path: 'login', component: LoginComponent },
       { path: 'signUp', component: SignUpComponent },
       { path: 'createAccount', component: ChooseAvatarComponent },
       { path: 'sendResetPWMail', component: SendResetPwMailComponent },

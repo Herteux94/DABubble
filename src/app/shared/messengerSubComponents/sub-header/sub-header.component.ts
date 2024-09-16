@@ -23,10 +23,6 @@ import { ActiveUserService } from '../../../services/active-user.service';
 import { Router } from '@angular/router';
 import { NewDirectMessageService } from '../../../services/new-direct-message.service';
 
-export interface DialogData {
-  animal: 'panda' | 'unicorn' | 'lion'; // Natürlich noch brauchbare daten anlegen
-}
-
 @Component({
   selector: 'app-sub-header',
   standalone: true,
@@ -131,13 +127,7 @@ export class SubHeaderComponent implements OnInit {
   }
 
   openMemberDialog() {
-    this.dialog.open(ChannelMemberDialogComponent, {
-      // minWidth: '300px',
-      // data: {
-      //   animal: 'panda',
-      //  panelClass: 'custom-dialog-container'
-      // },
-    });
+    this.dialog.open(ChannelMemberDialogComponent, {});
   }
 
   openInviteDialog() {

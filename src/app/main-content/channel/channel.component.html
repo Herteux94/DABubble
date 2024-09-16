@@ -6,7 +6,7 @@
       this.activeChannelService.channelMessagesGroupedByDate.length > 0 &&
       this.activeUserService.activeUser?.userID) {
       @for(messageGroup of this.activeChannelService.channelMessagesGroupedByDate; track messageGroup) {
-      @for(message of messageGroup.messages; track message) {
+      @for(message of messageGroup.messages; track message.messageID) {
       <app-message [messengerType]="'channels'" [ownMessage]="
                 this.activeUserService.activeUser.userID === message.senderID
                 ? true

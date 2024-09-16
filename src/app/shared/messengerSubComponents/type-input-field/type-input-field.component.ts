@@ -49,14 +49,15 @@ export class TypeInputFieldComponent {
     private activeThreadService: ActiveThreadService,
     private router: Router,
     private el: ElementRef
-  ) { }
+  ) {}
 
   sendMessage() {
     const hasText = this.message.content.trim().length > 0;
     const hasFiles = this.uploadedFiles.length > 0;
 
     if (!hasText && !hasFiles) {
-      this.errorMessageUpload = 'Bitte geben Sie eine Nachricht ein oder fügen Sie eine Datei hinzu.';
+      this.errorMessageUpload =
+        'Bitte geben Sie eine Nachricht ein oder fügen Sie eine Datei hinzu.';
       return;
     }
 
@@ -73,7 +74,6 @@ export class TypeInputFieldComponent {
       );
     }
   }
-
 
   private async sendMessageBasedOnType() {
     this.prepareMessage();
@@ -103,7 +103,8 @@ export class TypeInputFieldComponent {
           activeThreadMessage.messageID
         );
 
-        this.activeThreadService.activeThreadMessage.threadLength = updatedThreadLength;
+        this.activeThreadService.activeThreadMessage.threadLength =
+          updatedThreadLength;
       } else if (this.messengerType === 'channels') {
         await this.firestoreService.addMessage(
           this.message.toJSON(),
@@ -264,7 +265,6 @@ export class TypeInputFieldComponent {
   isPdf(file: { file: File; url: string }): boolean {
     return file.file.type === 'application/pdf';
   }
-
 
   triggerFileInput() {
     const fileInput = document.getElementById('fileInput') as HTMLInputElement;

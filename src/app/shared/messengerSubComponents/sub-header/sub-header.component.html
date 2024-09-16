@@ -157,7 +157,7 @@
     <div class="memberSubHeader" (click)="openMemberDialog()">
       <div class="memberImages">
         @if(this.activeChannelService.activeChannel) {
-        @for(member of this.activeChannelService.channelMember | slice:0:4; track member) {
+        @for(member of this.activeChannelService.channelMember | slice:0:4; track member.userID) {
         <div class="profileImgContainer">
           <img [src]="member.profileImg || '../../../assets/img/Profile.svg'" alt="{{ member.name }}">
         </div>
