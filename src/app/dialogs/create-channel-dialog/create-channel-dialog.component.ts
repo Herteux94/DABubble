@@ -39,12 +39,26 @@ export class CreateChannelDialogComponent implements OnInit {
 
   constructor(private el: ElementRef, private screenSizeService: ScreenSizeService, private activeUserService: ActiveUserService, private firestoreService: FirestoreService) {}
  
+  /**
+   * Lifecycle hook that is called after the component is initialized.
+   * It checks for the screen size and stores the result in the mobile variable.
+   */
   ngOnInit() {
     this.screenSizeService.isMobile().subscribe(isMobile => {
       this.mobile = isMobile;
     });
   }
 
+  /**
+   * Submits the form and creates a new channel in the Firestore database.
+   *
+   * Checks if the form is valid and creates a new channel with the given name and description.
+   * The creator of the channel is the currently active user.
+   * The creation time of the channel is set to the current time.
+   * The member array of the channel is set to an array containing the user ID of the active user.
+   * If the form is invalid, a message is logged to the console and the dialog is not closed.
+   * If the creation of the channel is successful, the dialog is closed.
+   */
   async onSubmit() {
     if (this.contactForm.valid) {
       const newChannel = new Channel();
@@ -68,6 +82,13 @@ export class CreateChannelDialogComponent implements OnInit {
   }
 
   @HostListener('document:keydown.enter', ['$event'])
+  /**
+   * Handles the enter key being pressed when the user is inside this dialog.
+   *
+   * Prevents the default behavior of the enter key and calls the `onSubmit`
+   * method to create a new channel if the form is valid.
+   * @param event The KeyboardEvent that triggered this function.
+   */
   handleEnterKey(event: KeyboardEvent) {
     const activeElement = document.activeElement;
     if (this.el.nativeElement.contains(activeElement)) {
