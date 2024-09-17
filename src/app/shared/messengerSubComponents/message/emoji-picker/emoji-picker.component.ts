@@ -16,6 +16,13 @@ export class EmojiPickerComponent {
     private activeUserService: ActiveUserService,
   ) {}
 
+  /**
+   * Handles emoji selection and emits the selected emoji and the ID of the
+   * active user as an object.
+   *
+   * If no active user is found, a console error is logged.
+   * @param event The event containing the selected emoji.
+   */
   addEmoji(event: any) {
     const selectedEmoji = event.emoji.native;
     const userID = this.activeUserService.activeUser?.userID;

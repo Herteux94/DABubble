@@ -69,6 +69,14 @@ export class SubHeaderComponent implements OnInit {
     return [];
   });
 
+  /**
+   * Constructor for the SubHeaderComponent.
+   *
+   * @param screenSizeService Injected service to check for screen size.
+   * @param threadRoutingService Injected service to navigate to a thread.
+   * @param activeDirectMessageService Injected service to get the active direct message.
+   * @param router Injected service to navigate to other routes.
+   */
   constructor(
     public screenSizeService: ScreenSizeService,
     public threadRoutingService: RoutingThreadOutletService,
@@ -76,12 +84,25 @@ export class SubHeaderComponent implements OnInit {
     private router: Router
   ) {}
 
+  /**
+   * Lifecycle hook that is called after data-bound properties of a directive are initialized.
+   * Subscribes to the isMobile observable of the ScreenSizeService and sets the mobile property of the component
+   * to the value received from the observable.
+   */
   ngOnInit() {
     this.screenSizeService.isMobile().subscribe((isMobile) => {
       this.mobile = isMobile;
     });
   }
 
+  /**
+   * Updates the searchQuery signal with the current value of the
+   * input field, whenever the user types something in the input field.
+   * If the input is empty, it resets the firstLetter signal to an empty string.
+   * If the input starts with '@', it sets the firstLetter signal to '@'.
+   * If the input starts with '#', it sets the firstLetter signal to '#'.
+   * @param event The input event from the input field.
+   */
   onSearchInput(event: Event): void {
     const inputElement = event.target as HTMLInputElement;
     const inputValue = inputElement.value;
@@ -97,6 +118,13 @@ export class SubHeaderComponent implements OnInit {
     }
   }
 
+  /**
+   * Selects a user to start a direct message with.
+   * If a direct message with the user already exists, it navigates to the direct message.
+   * If it doesn't, it sets the message receiver of the NewDirectMessageService to the user,
+   * and sets the search query to the user's name preceded by '@'.
+   * @param user The user to select.
+   */
   selectUser(user: User): void {
     const directMessages =
       this.activeUserService.activeUserDirectMessages || [];
@@ -115,25 +143,53 @@ export class SubHeaderComponent implements OnInit {
     }
   }
 
+  /**
+   * Selects a channel to navigate to.
+   * Loads the active channel with the given channelID and its messages by calling
+   * loadActiveChannelAndMessages on the ActiveChannelService. Then, it navigates to the
+   * messenger/channel/:channelID route with the given channelID.
+   * @param channel The channel to select.
+   */
   selectChannel(channel: Channel) {
     this.activeChannelService.loadActiveChannelAndMessages(channel.channelID);
     this.router.navigate([`messenger/channel/${channel.channelID}`]);
   }
 
+  /**
+   * Finds all channels in the active user's channels array with a name that includes the given name (case insensitive).
+   * @param name The name to search for.
+   * @returns An array of channels with the given name.
+   */
   findUserChannelWithName(name: string) {
     return this.activeUserService.activeUserChannels.filter((channel) =>
       channel.name.toLowerCase().includes(name.toLowerCase())
     );
   }
 
+  /**
+   * Opens the ChannelMemberDialogComponent to view the members of the active channel.
+   *
+   * The dialog is opened with an empty object as data, which is not used in the dialog.
+   */
   openMemberDialog() {
     this.dialog.open(ChannelMemberDialogComponent, {});
   }
 
+  /**
+   * Opens the InviteMemberDialogComponent to invite members to the active channel.
+   *
+   * The dialog is opened with an empty object as data, which is not used in the dialog.
+   */
   openInviteDialog() {
     this.dialog.open(InviteMemberDialogComponent, {});
   }
 
+  /**
+   * Opens the ProfileDialogComponent to view the profile of the active direct message partner.
+   *
+   * If the active direct message has a partner, it opens the dialog with the partner's user ID as data.
+   * If the active direct message does not have a partner, it opens the dialog with the active user's user ID as data.
+   */
   openProfileDialog() {
     if (this.activeDirectMessageService.activeDMPartner?.userID) {
       this.dialog.open(ProfileDialogComponent, {
@@ -148,10 +204,22 @@ export class SubHeaderComponent implements OnInit {
     }
   }
 
+  /**
+   * Opens the ChannelDialogComponent to edit the channel settings of the active channel.
+   *
+   * The dialog is opened with an empty object as data, which is not used in the dialog.
+   */
   openChannelDialog() {
     this.dialog.open(ChannelDialogComponent, {});
   }
 
+  /**
+   * Closes the thread view.
+   *
+   * If the client is a mobile device, it goes back in the history.
+   * If the client is not a mobile device, it calls the closeThread method of the
+   * RoutingThreadOutletService to close the thread view.
+   */
   closeThread() {
     if (this.mobile) {
       history.back();

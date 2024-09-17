@@ -40,6 +40,18 @@ export class TypeInputFieldComponent {
   @ViewChild('messageInput') messageInput!: ElementRef; // Referenz zum Textarea
   @ViewChild('emojiPicker') emojiPicker!: ElementRef; // Referenz zum Emoji-Picker
 
+  /**
+   * Constructor for the TypeInputFieldComponent.
+   *
+   * @param firestoreService An instance of the FirestoreService, used to interact with Firestore.
+   * @param activeUserService An instance of the ActiveUserService, used to get the active user.
+   * @param activeChannelService An instance of the ActiveChannelService, used to get the active channel.
+   * @param storageService An instance of the StorageService, used to upload files.
+   * @param activeDirectMessageService An instance of the ActiveDirectMessageService, used to get the active direct message.
+   * @param activeThreadService An instance of the ActiveThreadService, used to get the active thread.
+   * @param router An instance of the Router, used to navigate to a thread.
+   * @param el The ElementRef of the component, used to get the element.
+   */
   constructor(
     private firestoreService: FirestoreService,
     private activeUserService: ActiveUserService,
@@ -51,6 +63,14 @@ export class TypeInputFieldComponent {
     private el: ElementRef
   ) {}
 
+  /**
+   * Sends a message to the Firestore database based on the messenger type.
+   *
+   * @remarks
+   * If the message contains text and/or files, it will be sent to the Firestore database.
+   * If no text or file is provided, an error message will be displayed.
+   * After sending the message, it will update the user's last online timestamp.
+   */
   sendMessage() {
     const hasText = this.message.content.trim().length > 0;
     const hasFiles = this.uploadedFiles.length > 0;
@@ -75,6 +95,17 @@ export class TypeInputFieldComponent {
     }
   }
 
+
+  /**
+   * Sends a message to the Firestore database based on the messenger type.
+   *
+   * @remarks
+   * If the message contains text and/or files, it will be sent to the Firestore database.
+   * If no text or file is provided, an error message will be displayed.
+   * After sending the message, it will update the user's last online timestamp.
+   *
+   * @throws {Error} If the message could not be sent to the Firestore database.
+   */
   private async sendMessageBasedOnType() {
     this.prepareMessage();
 
@@ -147,6 +178,14 @@ export class TypeInputFieldComponent {
     }
   }
 
+  /**
+   * Prepares the message to be sent by resetting the attachments array and
+   * setting the creation time and the sender ID.
+   *
+   * It also loops over the uploaded files and adds their URLs to the
+   * attachments array.
+   */
+  //
   private prepareMessage() {
     this.message.attachments = [];
     this.message.creationTime = serverTimestamp();
@@ -159,11 +198,27 @@ export class TypeInputFieldComponent {
     });
   }
 
+  /**
+   * Resets the message content and uploaded files to their initial state.
+   * Called after sending a message.
+   */
   private resetMessage() {
     this.message.content = '';
     this.uploadedFiles = [];
   }
 
+  /**
+   * Uploads all the files in the uploadedFiles array and sends a message after
+   * all files have been uploaded. If any of the uploads fail, an error message
+   * is displayed and the message is not sent.
+   *
+   * @remarks
+   * This function is called when the user clicks the "Send" button and there
+   * are files to be uploaded. It loops over the uploaded files and calls
+   * {@link uploadFile} for each file. If all uploads are successful, it then
+   * calls {@link sendMessageBasedOnType} to send the message. If any of the
+   * uploads fail, it displays an error message and does not send the message.
+   */
   private uploadFilesAndSendMessage() {
     const uploadPromises = this.uploadedFiles.map((uploadedFile) => {
       return this.uploadFile(uploadedFile);
@@ -179,6 +234,23 @@ export class TypeInputFieldComponent {
       });
   }
 
+  /**
+   * Uploads a single file to the Firestore storage and returns a promise that
+   * resolves with the download URL of the uploaded file.
+   *
+   * @remarks
+   * This function is called by {@link uploadFilesAndSendMessage} for each file
+   * in the `uploadedFiles` array. It first checks if the file is of an allowed
+   * type (jpg, jpeg, png, pdf). If not, it rejects the promise with an error
+   * message. Then it calls {@link getUploadMethod} to get the upload method
+   * based on the `messengerType`. If the upload method is not supported, it
+   * rejects the promise with an error message. Finally, it calls
+   * {@link performUpload} to upload the file and returns the promise returned
+   * by {@link performUpload}.
+   *
+   * @param uploadedFile The file to be uploaded.
+   * @returns A promise that resolves with the download URL of the uploaded file.
+   */
   private uploadFile(uploadedFile: { file: File; url: string }) {
     const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf'];
 
@@ -198,6 +270,13 @@ export class TypeInputFieldComponent {
     }
   }
 
+  /**
+   * Returns the upload method based on the `messengerType`.
+   *
+   * @returns A function that takes three arguments: `id`, `file`, and `metadata`.
+   *          The function returns a promise that resolves with the download URL
+   *          of the uploaded file.
+   */
   private getUploadMethod() {
     if (this.messengerType === 'channels') {
       return this.storageService.uploadFileToChannel;
@@ -209,6 +288,13 @@ export class TypeInputFieldComponent {
     }
   }
 
+  /**
+   * Returns the ID of the channel or direct message where the file is being
+   * uploaded to, based on the value of `messengerType`.
+   *
+   * @returns The ID of the channel or direct message, or null if the
+   *          `messengerType` is unknown or unsupported.
+   */
   private getIdForUpload() {
     if (this.messengerType === 'channels') {
       return this.activeChannelService.activeChannel.channelID;
@@ -220,6 +306,20 @@ export class TypeInputFieldComponent {
     }
   }
 
+  /**
+   * Uploads a single file to the Firestore storage and returns a promise that
+   * resolves with the download URL of the uploaded file.
+   *
+   * @param uploadMethod A function that takes three arguments: `id`, `file`, and
+   *                     `metadata`. The function returns a promise that resolves
+   *                     with the download URL of the uploaded file.
+   * @param id The ID of the channel or direct message where the file is being
+   *           uploaded to, based on the value of `messengerType`.
+   * @param uploadedFile The file to be uploaded, along with its URL.
+   *
+   * @returns A promise that resolves with the download URL of the uploaded file,
+   *          or rejects with an error message if the upload fails.
+   */
   private performUpload(
     uploadMethod: (id: string, file: File) => Promise<string>,
     id: string,
@@ -236,6 +336,17 @@ export class TypeInputFieldComponent {
       });
   }
 
+  /**
+   * Preview files that are selected by the user. The method first checks if the
+   * selected files are of the allowed types (jpg, jpeg, png, pdf). If not, it
+   * displays an error message and doesn't add the file to the list of uploaded
+   * files. If the file is a pdf, it uses a static image for the preview. For all
+   * other files, it reads the file as a data URL and adds it to the list of
+   * uploaded files.
+   *
+   * @param event The event that is triggered when the user selects files to
+   *              upload.
+   */
   previewFiles(event: any) {
     const files: File[] = Array.from(event.target.files);
     const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf'];
@@ -261,11 +372,24 @@ export class TypeInputFieldComponent {
     });
   }
 
-  // Prüfe, ob die Datei eine PDF ist
+  /**
+   * Checks if a given file is a PDF file.
+   *
+   * A file is considered a PDF file if its type is 'application/pdf'.
+   * @param file The file to check.
+   * @returns True if the file is a PDF file, false otherwise.
+   */
   isPdf(file: { file: File; url: string }): boolean {
     return file.file.type === 'application/pdf';
   }
 
+  /**
+   * Triggers the click event on the file input element.
+   *
+   * This function is called when the user clicks on the "Add file" button.
+   * It triggers the click event on the file input element, which allows the
+   * user to select a file to upload.
+   */
   triggerFileInput() {
     const fileInput = document.getElementById('fileInput') as HTMLInputElement;
     if (fileInput) {
@@ -273,12 +397,30 @@ export class TypeInputFieldComponent {
     }
   }
 
+  /**
+   * Removes a given file from the list of uploaded files.
+   *
+   * This function is called when the user clicks on the "X" button next to
+   * a file preview.
+   * @param fileToRemove The file to remove from the list of uploaded files.
+   */
   closePreview(fileToRemove: { file: File; url: string }) {
     this.uploadedFiles = this.uploadedFiles.filter(
       (file) => file !== fileToRemove
     );
   }
 
+  /**
+   * Returns the placeholder text for the text input field, based on the
+   * current messenger type.
+   *
+   * If the messenger type is 'channels', the placeholder text is
+   * 'Nachricht an #<channel name>...'. If the messenger type is
+   * 'directMessages', the placeholder text is 'Nachricht an <partner name>...'.
+   * If the messenger type is 'thread', the placeholder text is 'Antworten...'.
+   * Otherwise, the placeholder text is 'Schreibe eine Nachricht...'.
+   * @returns The placeholder text for the text input field.
+   */
   getPlaceholder() {
     switch (this.messengerType) {
       case 'channels': {
@@ -302,6 +444,16 @@ export class TypeInputFieldComponent {
     }
   }
 
+  /**
+   * Handles emoji selection and adds the selected emoji to the message content
+   * at the current cursor position.
+   *
+   * The emoji is inserted at the current selection start position, and the
+   * selection is then moved to the end of the inserted emoji.
+   *
+   * @param event The event containing the selected emoji.
+   */
+
   addEmoji(event: { emoji: string }) {
     const emoji = event.emoji;
     const inputElement = this.messageInput.nativeElement;
@@ -323,11 +475,23 @@ export class TypeInputFieldComponent {
     }, 0);
   }
 
+  /**
+   * Toggles the emoji picker.
+   * If the emoji picker is currently shown, it will be hidden.
+   * If the emoji picker is currently hidden, it will be shown.
+   */
   toggleEmojiPicker() {
     this.showEmojiPicker = !this.showEmojiPicker;
   }
 
   @HostListener('document:keydown.enter', ['$event'])
+  /**
+   * Handles the enter key being pressed when the user is inside this component.
+   *
+   * Prevents the default behavior of the enter key and calls the `sendMessage`
+   * method to send the message if the user is currently inside this component.
+   * @param event The KeyboardEvent that triggered this function.
+   */
   handleEnterKey(event: KeyboardEvent) {
     const activeElement = document.activeElement;
     if (this.el.nativeElement.contains(activeElement)) {
@@ -337,6 +501,14 @@ export class TypeInputFieldComponent {
   }
 
   @HostListener('document:click', ['$event'])
+  /**
+   * Handles a click outside of the emoji picker.
+   *
+   * If the emoji picker is currently shown and the user clicks outside of it
+   * (i.e., not on the emoji picker button nor inside the emoji picker), this
+   * function will hide the emoji picker.
+   * @param event The MouseEvent that triggered this function.
+   */
   clickOutside(event: MouseEvent) {
     const clickedInsideEmojiButton = (event.target as HTMLElement).closest(
       '#emojiPicker'
