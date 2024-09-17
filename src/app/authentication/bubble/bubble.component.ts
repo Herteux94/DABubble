@@ -8,14 +8,28 @@ import {
   animate,
 } from '@angular/animations';
 
+/**
+ * **BubbleComponent**
+ *
+ * This component displays a snackbar-style notification with a slide-in and slide-out animation.
+ * It can be used to show temporary messages or alerts to users within the application.
+ *
+ * @component
+ * @selector app-bubble
+ * @standalone
+ * @imports CommonModule
+ *
+ * @example
+ * ```html
+ * <app-bubble [message]="'This is a notification message!'"></app-bubble>
+ * ```
+ */
 @Component({
   selector: 'app-bubble',
   standalone: true,
   imports: [CommonModule],
   template: `
-    @if(show) {
-    <div @slideInOut class="snackbar" [innerHTML]="message"></div>
-    }
+    <div *ngIf="show" @slideInOut class="snackbar" [innerHTML]="message"></div>
   `,
   styles: [
     `
@@ -34,12 +48,10 @@ import {
         border-radius: 30px 30px 0 30px;
         box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2);
       }
-      .snackbar {
-        > img {
-          vertical-align: middle;
-          margin-right: 10px;
-          height: 40px;
-        }
+      .snackbar > img {
+        vertical-align: middle;
+        margin-right: 10px;
+        height: 40px;
       }
     `,
   ],
@@ -65,12 +77,34 @@ import {
   ],
 })
 export class BubbleComponent {
+  /**
+   * The message to be displayed inside the snackbar.
+   *
+   * @type {string}
+   * @default ''
+   */
   @Input() message: string = '';
+
+  /**
+   * Controls the visibility of the snackbar.
+   *
+   * @type {boolean}
+   * @default false
+   */
   show = false;
 
+  /**
+   * Creates an instance of BubbleComponent.
+   */
   constructor() {}
 
-  public showSnackbar() {
+  /**
+   * Displays the snackbar by setting `show` to `true`.
+   * The snackbar will automatically hide after 2 seconds.
+   *
+   * @returns {void}
+   */
+  public showSnackbar(): void {
     this.show = true;
     setTimeout(() => {
       this.show = false;
