@@ -22,7 +22,7 @@ import { Directive, ElementRef, HostListener } from '@angular/core';
  */
 @Directive({
   selector: '[appFocusInput]',
-  standalone: true  // Hier die Direktive als standalone deklarieren
+  standalone: true  
 })
 export class FocusInputDirective {
   /**

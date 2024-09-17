@@ -76,7 +76,7 @@ export class Channel {
     this.name = '';
     this.creator = '';
     this.description = '';
-    this.creationTime; // Note: This property is declared but not initialized.
+    this.creationTime; 
     this.member = [];
     this.channelID = '';
   }
