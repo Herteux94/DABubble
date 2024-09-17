@@ -131,9 +131,17 @@ export class LoginComponent {
         const activeUserID = result.user.uid;
         const displayName = result.user.displayName ?? '';
         const email = result.user.email ?? '';
+        console.log('Handling successful login for user:', activeUserID);
         await this.handleSuccessfulLogin(activeUserID, displayName, email);
+
+        console.log('Wert von this.newUser:', this.newUser);
+
         if (this.newUser) {
+          console.log('Neuer Benutzer, Navigiere zu /createAccount');
           this.router.navigate(['/createAccount']);
+        } else {
+          console.log('Bestehender Benutzer, Navigiere zu /messenger');
+          this.router.navigate(['/messenger']);
         }
       })
       .catch((error) => {
@@ -167,8 +175,10 @@ export class LoginComponent {
     const userRef = doc(this.firestore, `users/${activeUserID}`);
     const userSnap = await getDoc(userRef);
     if (!userSnap.exists()) {
+      console.log('Benutzerprofil existiert nicht, erstelle neues Profil.');
       await this.createNewUserProfile(activeUserID, displayName, email);
     } else {
+      console.log('Benutzerprofil existiert bereits, aktualisiere vorhandenes Profil.');
       this.updateExistingUserProfile(activeUserID);
     }
   }
@@ -206,8 +216,10 @@ export class LoginComponent {
    */
   private updateExistingUserProfile(activeUserID: string): void {
     this.firestoreService.updateUser({ lastOnline: Date.now() }, activeUserID);
-    this.router.navigate(['/messenger']);
+    // Entfernen Sie die Navigation hier:
+    // this.router.navigate(['/messenger']);
   }
+
 
   /**
    * Listens for the Enter key press on the document and triggers the login process.
@@ -282,8 +294,6 @@ export class LoginComponent {
     this.errorType = null;
     this.firestoreService.updateUser({ active: true }, activeUserID);
     this.activeUserService.loadActiveUser(activeUserID);
-    this.threadRoutingService.closeThread();
-    this.router.navigate(['/messenger']);
   }
 
   /**
