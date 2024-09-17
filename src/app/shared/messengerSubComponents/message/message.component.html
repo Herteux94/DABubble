@@ -2,16 +2,21 @@
   (mouseenter)="this.messengerType != 'threadTopicMessage' ? this.showOptions = true : ''"
   (mouseleave)="this.messengerType != 'threadTopicMessage' ? this.showOptions = false : ''">
 
-  <img class="avatar" (click)="openProfileDialog()" [src]="senderAvatar" alt="Avatar" />
+  @if(this.senderAvatar && this.message.senderID) {
+  <img class="avatar" (click)="openProfileDialog()" [src]="this.senderAvatar" alt="Avatar" />
+  }
 
   <div class="text" [ngClass]="ownMessage ? 'alignFlexEnd' : ''">
     <div [ngClass]="ownMessage ? 'fdRowRev' : ''" class="nameAndTime">
-      <span (click)="openProfileDialog()" class="name overflowEllipsis">{{ senderName }}</span>
+      @if(this.senderName && this.message.senderID) {
+      <span (click)="openProfileDialog()" class="name overflowEllipsis">{{ this.senderName }}</span>
+      }
       <span class="time subText">{{ messageTimestampAsNumber | date: 'HH:mm' }}</span>
 
       <app-options-bubble *ngIf="showOptions" (editMessage)="onEditMessageChange($event)"
-        (emojiSelected)="addReaction($event)" [messengerType]="messengerType" [message]="message"
-        [ownMessage]="ownMessage" [ngClass]="ownMessage ? 'optionsBubbleOwnMsg' : 'optionsBubble'">
+        (emojiSelected)="addReaction($event)" (senderInfoRequested)="loadSenderInfo($event)"
+        [messengerType]="messengerType" [message]="message" [ownMessage]="ownMessage"
+        [ngClass]="ownMessage ? 'optionsBubbleOwnMsg' : 'optionsBubble'">
       </app-options-bubble>
     </div>
     <div [ngClass]="ownMessage ? 'messageTextOwnMsg' : 'messageText'">

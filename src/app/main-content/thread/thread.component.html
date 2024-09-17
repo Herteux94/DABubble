@@ -5,8 +5,7 @@
 
       <div class="threadTopicMsgContainer">
 
-        @if(this.activeThreadService.activeThreadMessage &&
-        this.activeThreadService.activeThreadMessage.senderID &&
+        @if(this.activeThreadService.activeThreadMessage?.senderID &&
         this.activeUserService.activeUser?.userID) {
         <app-message [messengerType]="'threadTopicMessage'" [isChannel]="false"
           [message]="this.activeThreadService.activeThreadMessage" [ownMessage]="

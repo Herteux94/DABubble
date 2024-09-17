@@ -31,6 +31,8 @@ export class OptionsBubbleComponent implements OnInit {
     userID: string;
   }>(); // Emit an object containing emoji and userID
   @Output() editMessage = new EventEmitter<boolean>();
+  @Output() senderInfoRequested: EventEmitter<string> =
+    new EventEmitter<string>();
   @Input() ownMessage!: boolean;
   @Input() message!: Message;
   @Input() messengerType: string = '';
@@ -137,6 +139,7 @@ export class OptionsBubbleComponent implements OnInit {
       this.threadRoutingService.openThread();
       this.threadRoutingService.navigateToThreadDesktop(this.message.messageID);
     }
+    this.senderInfoRequested.emit(this.message.senderID);
   }
 
   onEmojiSelected(event: { emoji: string }) {
