@@ -216,8 +216,7 @@ export class LoginComponent {
    */
   private updateExistingUserProfile(activeUserID: string): void {
     this.firestoreService.updateUser({ lastOnline: Date.now() }, activeUserID);
-    // Entfernen Sie die Navigation hier:
-    // this.router.navigate(['/messenger']);
+    this.router.navigate(['/messenger']);
   }
 
 
