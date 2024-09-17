@@ -232,6 +232,7 @@ export class SignUpComponent {
     this.user.userID = activeUserID;
     this.user.lastOnline = Date.now();
     this.user.directMessages = [activeUserID];
+    this.user.profileImg = "../../assets/img/Profile.svg";
     this.activeUserService.setActiveUserToLocalStorage(activeUserID);
     await this.firestoreService.addUser(this.user.toJSON(), activeUserID);
   }
