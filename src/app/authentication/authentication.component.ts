@@ -8,7 +8,17 @@ import { ResetPwComponent } from './reset-pw/reset-pw.component';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { trigger, state, style, animate, transition } from '@angular/animations';
+/**
+ * **AuthenticationComponent**
+ * This component serves as the main authentication hub, managing various authentication-related sub-components
+ * such as login, sign-up, avatar selection, and password reset functionalities. It includes animations for visual
+ * enhancements during user interactions and handles responsiveness for different screen sizes.
+ * @component
+ * @selector app-authentication
+ * @standalone
+ * @imports LoginComponent, SignUpComponent, ChooseAvatarComponent, SendResetPwMailComponent, ResetPwComponent, RouterModule, CommonModule
 
+ */
 @Component({
   selector: 'app-authentication',
   standalone: true,
@@ -162,29 +172,110 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
   ]
 })
 export class AuthenticationComponent implements OnInit {
+  /**
+   * Current state of the logo appearance animation.
+   *
+   * @type {string}
+   * @default 'hidden'
+   */
   logoState = 'hidden';
+
+  /**
+   * Current state of the text logo appearance animation.
+   *
+   * @type {string}
+   * @default 'hidden'
+   */
   textLogoState = 'hidden';
+
+  /**
+   * Current state of the logo slide animation.
+   *
+   * @type {string}
+   * @default 'start'
+   */
   logoSlideState = 'start';
+
+  /**
+   * Current position state of the container.
+   *
+   * @type {string}
+   * @default 'center'
+   */
   containerPosition = 'center';
+
+  /**
+   * CSS class applied to the text logo for styling purposes.
+   *
+   * @type {string}
+   * @default 'whiteFill'
+   */
   textLogoClass = 'whiteFill';
+
+  /**
+   * Current state of the overlay visibility.
+   *
+   * @type {string}
+   * @default 'visible'
+   */
   overlayState = 'visible';
+
+  /**
+   * Current state of the text logo inversion.
+   *
+   * @type {string}
+   * @default 'normal'
+   */
   textLogoInvertState = 'normal';
+
+  /**
+   * Flag indicating whether the screen size is considered small (e.g., mobile devices).
+   *
+   * @type {boolean}
+   * @default false
+   */
   isSmallScreen = false;
+
+  /**
+   * Duration of animations applied to the component.
+   *
+   * @type {string}
+   * @default '500ms'
+   */
   animationDuration = '500ms';
 
+  /**
+   * Creates an instance of AuthenticationComponent.
+   *
+   * @param {Renderer2} renderer - Angular Renderer2 service for manipulating DOM elements.
+   * @param {ElementRef} el - Reference to the host DOM element.
+   * @param {Object} platformId - Identifier for the current platform (browser or server).
+   */
   constructor(
     private renderer: Renderer2,
     private el: ElementRef,
     @Inject(PLATFORM_ID) private platformId: Object
   ) { }
 
-  ngOnInit() {
+  /**
+   * Lifecycle hook that is called after data-bound properties are initialized.
+   * Determines if the platform is a browser and initiates platform-specific handling.
+   *
+   * @returns {void}
+   */
+  ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
       this.handlePlatform();
     }
   }
 
-  handlePlatform() {
+  /**
+   * Handles platform-specific logic, such as checking screen size,
+   * managing session storage for animation states, and initiating animations.
+   *
+   * @returns {void}
+   */
+  handlePlatform(): void {
     this.checkScreenSize();
     const hasAnimated = sessionStorage.getItem('hasAnimated');
     this.animationDuration = hasAnimated ? '1ms' : this.animationDuration;
@@ -194,12 +285,22 @@ export class AuthenticationComponent implements OnInit {
     this.startAnimation();
   }
 
-  startAnimation() {
+  /**
+   * Initiates the animation sequence by setting initial states and scheduling updates.
+   *
+   * @returns {void}
+   */
+  startAnimation(): void {
     this.initializeAnimationStates();
     this.scheduleAnimationUpdates();
   }
 
-  private initializeAnimationStates() {
+  /**
+   * Initializes the animation states based on the current screen size.
+   *
+   * @returns {void}
+   */
+  private initializeAnimationStates(): void {
     this.logoState = this.isSmallScreen ? 'hiddenMobile' : 'hidden';
     this.textLogoState = this.isSmallScreen ? 'hiddenMobile' : 'hidden';
     this.logoSlideState = this.isSmallScreen ? 'startMobile' : 'start';
@@ -209,14 +310,24 @@ export class AuthenticationComponent implements OnInit {
     this.textLogoInvertState = 'normal';
   }
 
-  private scheduleAnimationUpdates() {
+  /**
+   * Schedules the timing of animation state updates using timeouts.
+   *
+   * @returns {void}
+   */
+  private scheduleAnimationUpdates(): void {
     setTimeout(() => this.logoState = this.isSmallScreen ? 'visibleMobile' : 'visible', this.getTimeoutDelay(1000));
     setTimeout(() => this.logoSlideState = this.isSmallScreen ? 'mobileEnd' : 'end', this.getTimeoutDelay(1500));
     setTimeout(() => this.textLogoState = this.isSmallScreen ? 'mobileEnd' : 'visible', this.getTimeoutDelay(2000));
     setTimeout(() => this.finishAnimation(), this.getTimeoutDelay(3000));
   }
 
-  private finishAnimation() {
+  /**
+   * Finalizes the animation by updating positions, resetting states, and enabling scroll if necessary.
+   *
+   * @returns {void}
+   */
+  private finishAnimation(): void {
     this.containerPosition = this.isSmallScreen ? 'cornerSmall' : 'cornerLarge';
     this.logoSlideState = 'reset';
     this.textLogoState = 'reset';
@@ -227,11 +338,23 @@ export class AuthenticationComponent implements OnInit {
     this.updateWrapperStyles();
   }
 
-  private getTimeoutDelay(duration: number) {
+  /**
+   * Calculates the timeout delay based on the current animation duration.
+   * If the animation duration is set to '1ms', returns a scaled-down delay.
+   *
+   * @param {number} duration - The base duration in milliseconds.
+   * @returns {number} - The calculated timeout delay.
+   */
+  private getTimeoutDelay(duration: number): number {
     return this.animationDuration === '1ms' ? duration * 0.001 : duration;
   }
 
-  private updateWrapperStyles() {
+  /**
+   * Updates the styles of the wrapper element to ensure proper layout after animations.
+   *
+   * @returns {void}
+   */
+  private updateWrapperStyles(): void {
     const wrapperElement = this.el.nativeElement.querySelector('.wrapper');
     if (wrapperElement) {
       this.renderer.setStyle(wrapperElement, 'height', '100%');
@@ -240,20 +363,36 @@ export class AuthenticationComponent implements OnInit {
     }
   }
 
+  /**
+   * Listens for window resize events and checks the screen size to adjust component behavior accordingly.
+   *
+   * @param {any} event - The resize event object.
+   * @returns {void}
+   */
   @HostListener('window:resize', ['$event'])
-  onResize(event: any) {
+  onResize(event: any): void {
     if (isPlatformBrowser(this.platformId)) {
       this.checkScreenSize();
     }
   }
 
-  checkScreenSize() {
+  /**
+   * Checks the current screen size and updates the `isSmallScreen` flag based on the window width.
+   *
+   * @returns {void}
+   */
+  checkScreenSize(): void {
     if (isPlatformBrowser(this.platformId)) {
       this.isSmallScreen = window.innerWidth < 1025;
     }
   }
 
-  enableScroll() {
+  /**
+   * Enables scrolling on the document body by setting the `overflow` style to `auto`.
+   *
+   * @returns {void}
+   */
+  enableScroll(): void {
     if (isPlatformBrowser(this.platformId)) {
       this.renderer.setStyle(document.body, 'overflow', 'auto');
     }
