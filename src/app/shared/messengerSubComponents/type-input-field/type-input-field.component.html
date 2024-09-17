@@ -72,7 +72,9 @@
       </div>
     </div>
   </div>
-  <div *ngIf="showEmojiPicker" class="emojiPicker" #emojiPicker>
-    <app-emoji-picker (emojiSelect)="addEmoji($event)"></app-emoji-picker>
-  </div>
+<!-- type-input-field.component.html -->
+<div [hidden]="!showEmojiPicker" class="emojiPicker" #emojiPicker>
+  <app-emoji-picker (emojiSelect)="addEmoji($event)"></app-emoji-picker>
+</div>
+
 </div>

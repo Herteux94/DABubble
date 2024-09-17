@@ -1,3 +1,4 @@
+import { EmojiPreloadService } from './../../../../services/emoji-preload.service';
 import { ActiveUserService } from './../../../../services/active-user.service';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
@@ -10,21 +11,21 @@ import { PickerModule } from '@ctrl/ngx-emoji-mart';
   styleUrls: ['./emoji-picker.component.scss'],
 })
 export class EmojiPickerComponent {
-  // Hier klarstellen, dass wir ein Objekt mit 'emoji' und 'userID' erwarten
   @Output() emojiSelect = new EventEmitter<{ emoji: string; userID: string }>();
 
-  constructor(private activeUserService: ActiveUserService) {}
+  constructor(
+    private activeUserService: ActiveUserService,
+    private emojiPreloadService: EmojiPreloadService // Fügen Sie den Service hier hinzu
+  ) {}
 
   addEmoji(event: any) {
-    const selectedEmoji = event.emoji.native; // Das ausgewählte Emoji
-    const userID = this.activeUserService.activeUser?.userID; // User-ID des aktuellen Nutzers
+    const selectedEmoji = event.emoji.native;
+    const userID = this.activeUserService.activeUser?.userID;
 
     if (userID) {
-      this.emojiSelect.emit({ emoji: selectedEmoji, userID });  // Emitte das Emoji mit der UserID
+      this.emojiSelect.emit({ emoji: selectedEmoji, userID });
     } else {
       console.error('No active user found.');
     }
   }
-
-
 }
