@@ -41,6 +41,13 @@ export class ImageFullscreenDialogComponent {
   imageUrl!: string;
   url = '../../../assets/img/close.svg';
 
+  /**
+   * Constructor for the ImageFullscreenDialogComponent.
+   *
+   * @param data The URL of the image to be displayed. This is injected by the Angular CDK Dialog service.
+   * @param screenSizeService The ScreenSizeService, which provides information about the current screen size.
+   * @param storageService The StorageService, which provides methods for storing and retrieving data from the browser's local storage.
+   */
   constructor(
     @Inject(DIALOG_DATA) public data: any,
     public screenSizeService: ScreenSizeService,
@@ -51,6 +58,10 @@ export class ImageFullscreenDialogComponent {
     console.log(this.url);
   }
 
+  /**
+   * Sets the imageLoaded flag to true when the image is loaded.
+   * This flag is used to control the animation of the image.
+   */
   onImageLoad() {
     this.imageLoaded = true;
   }
