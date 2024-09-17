@@ -6,6 +6,8 @@ import {
   Input,
   OnDestroy,
   ViewChild,
+  OnChanges,
+  SimpleChanges
 } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
 import { ProfileDialogComponent } from '../../../dialogs/profile-dialog/profile-dialog.component';
@@ -42,7 +44,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './message.component.html',
   styleUrls: ['./message.component.scss'],
 })
-export class MessageComponent implements OnDestroy {
+export class MessageComponent implements OnDestroy, OnChanges {
   @Input() ownMessage!: boolean;
   @Input() isChannel!: boolean;
   @Input() message!: Message;
@@ -85,19 +87,22 @@ export class MessageComponent implements OnDestroy {
       );
       this.messageContentSnapshot = this.message.content;
     }
+  }
 
-    if (this.message?.senderID) {
-      this.loadSenderInfo(this.message.senderID);
-    }
-
-    if (this.message?.creationTime) {
-      this.messageTimestampAsNumber = this.message.creationTime.seconds * 1000;
-    }
-
-    if (this.message?.lastAnswer) {
-      this.messageLastAnswerAsNumber = this.message.lastAnswer.seconds * 1000;
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['message']) {
+      if (this.message?.senderID) {
+        this.loadSenderInfo(this.message.senderID);
+      }
+      if (this.message?.creationTime) {
+        this.messageTimestampAsNumber = this.message.creationTime.seconds * 1000;
+      }
+      if (this.message?.lastAnswer) {
+        this.messageLastAnswerAsNumber = this.message.lastAnswer.seconds * 1000;
+      }
     }
   }
+
 
   loadSenderInfo(senderID: string) {
     const sender = this.firestoreService.allUsers.find(
