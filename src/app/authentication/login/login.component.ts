@@ -188,6 +188,7 @@ export class LoginComponent {
     user.name = displayName ?? '';
     user.email = email ?? '';
     user.lastOnline = Date.now();
+    user.profileImg = "../../assets/img/Profile.svg";
     this.newUser = true;
     try {
       await this.firestoreService.addUser(user.toJSON(), activeUserID);
