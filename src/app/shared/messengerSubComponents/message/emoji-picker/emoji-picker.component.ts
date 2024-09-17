@@ -1,4 +1,3 @@
-import { EmojiPreloadService } from './../../../../services/emoji-preload.service';
 import { ActiveUserService } from './../../../../services/active-user.service';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
@@ -15,7 +14,6 @@ export class EmojiPickerComponent {
 
   constructor(
     private activeUserService: ActiveUserService,
-    private emojiPreloadService: EmojiPreloadService // Fügen Sie den Service hier hinzu
   ) {}
 
   addEmoji(event: any) {

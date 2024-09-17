@@ -1,6 +1,6 @@
 <div (mouseleave)="this.messageOptionsOpen = false" [ngClass]="ownMessage? 'optionsBubbleOwnMsg' : 'optionsBubble'">
 
-  <div [hidden]="!showEmojis" [ngClass]="emojiPickerDirection === 'up' ? 'emojiPickerUp' : 'emojiPickerDown'">
+  <div *ngIf="showEmojis" [ngClass]="emojiPickerDirection === 'up' ? 'emojiPickerUp' : 'emojiPickerDown'">
     <app-emoji-picker (emojiSelect)="onEmojiSelected($event)"></app-emoji-picker>
   </div>
   <div class="optionsBubbleContent" *ngIf="!showEmojis">

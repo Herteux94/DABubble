@@ -14,7 +14,7 @@ import { ActiveUserService } from './services/active-user.service';
     AuthenticationComponent,
     RouterOutlet,
     RouterLink,
-    RouterLinkActive,
+    RouterLinkActive
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
