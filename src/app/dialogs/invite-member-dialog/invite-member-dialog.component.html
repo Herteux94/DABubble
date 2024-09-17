@@ -20,7 +20,7 @@
             <div class="searchUserContainer">
                 <div class="memberList floatingMemberList">
                     <div *ngFor="let user of foundUsers()" class="member" (click)="selectUser(user)">
-                        <img [src]="user.profileImg || '../../../assets/img/dummyAvatar.svg'" alt="{{ user.name }}">
+                        <img [src]="user.profileImg || '../../../assets/img/Profile.svg'" alt="{{ user.name }}">
                         <p>{{ user.name }}</p>
                     </div>
                 </div>
@@ -30,7 +30,7 @@
             @if (showSelectedUsers()) {
             <div class="memberList">
                 <div *ngFor="let user of showSelectedUsers()" class="member">
-                    <img [src]="user.profileImg || '../../../assets/img/dummyAvatar.svg'" alt="{{ user.name }}">
+                    <img [src]="user.profileImg || '../../../assets/img/Profile.svg'" alt="{{ user.name }}">
                     <p>{{ user.name }}</p>
                     <img class="removeUserIcon" (click)="removeUser(user)" src="../../../assets/img/close.svg" alt="delete">
                 </div>

@@ -63,7 +63,7 @@
                 <div class="searchUserContainer">
                     <div class="memberList floatingMemberList">
                         <div *ngFor="let user of foundUsers()" class="member" (click)="selectUser(user)">
-                            <img [src]="user.profileImg || '../../../assets/img/dummyAvatar.svg'" alt="{{ user.name }}">
+                            <img [src]="user.profileImg || '../../../assets/img/Profile.svg'" alt="{{ user.name }}">
                             <p>{{ user.name }}</p>
                         </div>
                     </div>
