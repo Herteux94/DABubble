@@ -1,6 +1,24 @@
 @import "../../../variables.scss";
 @import "../../../app/shared/dialogs/dialog.component.scss";
 
+:host {
+  display: block;
+  background: none;
+  border-radius: 30px;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  animation: slide-from-bottom 0.3s ease-in-out;
+}
+
+.floatingMemberList {
+  top: unset;
+  bottom: 92px;
+  left: 31px;
+  border-radius: 30px 30px 30px 0;
+}
+
 .inputContainer {
   align-items: flex-start;
   gap: 10px;
@@ -21,7 +39,7 @@
     label {
       cursor: pointer;
     }
-    
+
     a {
       color: $second-color;
     }
@@ -38,6 +56,10 @@
 }
 
 @media screen and (min-width: 1025px) {
+  :host {
+    position: unset;
+  }
+
   .profileDialogContainer {
     width: 500px;
   }
