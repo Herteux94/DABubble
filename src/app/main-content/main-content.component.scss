@@ -61,18 +61,16 @@ app-nav-toggle-btn {
 
 @keyframes showNav {
   from {
-    // transform: translateY(100%);
     opacity: 0;
     width: 0px;
-    display: none;
     transform: scale(0.8);
+    visibility: hidden;
   }
   to {
-    // transform: translateY(0);
     opacity: 1;
     width: 350px;
-    display: block;
     transform: scale(1);
+    visibility: visible;
   }
 }
 
@@ -80,39 +78,44 @@ app-nav-toggle-btn {
   0% {
     opacity: 1;
     width: 350px;
-    display: block;
     transform: scale(1);
   }
 
   100% {
     opacity: 0;
     width: 0;
-    display: none;
     transform: scale(0.8);
   }
 }
 
 @keyframes slideFromRight {
   0% {
-    display: none;
+    opacity: 0;
     transform: scale(0.8) translateX(600px);
+    visibility: hidden;
   }
-
   100% {
-    display: block;
+    opacity: 1;
     transform: scale(1) translateX(0);
+    visibility: visible;
   }
 }
 
 @keyframes slideToRight {
   0% {
-    display: block;
+    opacity: 1;
     transform: scale(1) translateX(0);
+    visibility: visible;
   }
-
+  99% {
+    opacity: 1;
+    transform: scale(1) translateX(0);
+    visibility: visible;
+  }
   100% {
-    display: none;
+    opacity: 0;
     transform: scale(0.8) translateX(600px);
+    visibility: hidden;
   }
 }
 
@@ -146,22 +149,18 @@ app-nav-toggle-btn {
   }
 
   .showNav {
-    animation: showNav 250ms linear;
-    animation-fill-mode: forwards;
+    animation: showNav 250ms linear forwards;
   }
 
   .hideNav {
-    animation: hideNav 250ms linear;
-    animation-fill-mode: forwards;
+    animation: hideNav 250ms linear forwards;
   }
 
   .showThread {
-    animation: slideFromRight 250ms linear;
-    animation-fill-mode: forwards;
+    animation: slideFromRight 250ms linear forwards;
   }
 
   .hideThread {
-    animation: slideToRight 250ms linear;
-    animation-fill-mode: forwards;
+    animation: slideToRight 250ms linear forwards;
   }
 }

@@ -29,11 +29,9 @@ export class RoutingThreadOutletService {
    */
   closeThread() {
     this.threadOpenDesktop = false;
-    setTimeout(() => {
-      this.router.navigate(['/messenger', { outlets: { thread: null } }], {
-        relativeTo: this.route.parent,
-      });
-    }, 350);
+    this.router.navigate(['/messenger', { outlets: { thread: null } }], {
+      relativeTo: this.route.parent,
+    });
   }
 
   /**
