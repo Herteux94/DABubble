@@ -14,17 +14,19 @@
   <div class="wrapper contentLimit">
     <app-header></app-header>
     <div [ngStyle]="{ margin: this.navOpenDesktop ? '0 16px' : '0 32px' }" class="bodyArea">
-      <app-navigation [ngClass]="navOpenDesktop ? 'showNav' : 'hideNav'"></app-navigation>
+      @if (this.navOpenDesktop) {
+      <app-navigation [@navAnimation]="animateNavDesktop ? 'open' : 'closed'"></app-navigation>
+      }
       <div class="routerContainer">
         <router-outlet></router-outlet>
       </div>
-      <div [ngClass]="{
-        'showThread': threadRoutingService.threadOpenDesktop,
-        'hideThread': !threadRoutingService.threadOpenDesktop,
-        'getOverContent': isOverContent
-      }" class="threadRouterContainer">
+      @if(this.threadRoutingService.threadOpenDesktop) {
+      <div [@threadAnimation]="this.threadRoutingService.animateThreadDesktop ? 'open' : 'closed'"
+        class="threadRouterContainer">
         <router-outlet name="thread"></router-outlet>
       </div>
+
+      }
     </div>
   </div>
   <app-nav-toggle-btn [menuOpen]="navOpenDesktop" (click)="toggleMenu()"></app-nav-toggle-btn>
