@@ -131,23 +131,19 @@ export class LoginComponent {
         const activeUserID = result.user.uid;
         const displayName = result.user.displayName ?? '';
         const email = result.user.email ?? '';
-        console.log('Handling successful login for user:', activeUserID);
         await this.handleSuccessfulLogin(activeUserID, displayName, email);
 
-        console.log('Wert von this.newUser:', this.newUser);
 
         if (this.newUser) {
-          console.log('Neuer Benutzer, Navigiere zu /createAccount');
           this.router.navigate(['/createAccount']);
         } else {
-          console.log('Bestehender Benutzer, Navigiere zu /messenger');
           this.router.navigate(['/messenger']);
         }
       })
       .catch((error) => {
         this.handleLoginError(
           error,
-          'Error signing in with Google. Please try again.'
+          'Fehler beim Login mit Google. Bitte versuchen Sie es erneut.'
         );
       });
   }
@@ -175,10 +171,8 @@ export class LoginComponent {
     const userRef = doc(this.firestore, `users/${activeUserID}`);
     const userSnap = await getDoc(userRef);
     if (!userSnap.exists()) {
-      console.log('Benutzerprofil existiert nicht, erstelle neues Profil.');
       await this.createNewUserProfile(activeUserID, displayName, email);
     } else {
-      console.log('Benutzerprofil existiert bereits, aktualisiere vorhandenes Profil.');
       this.updateExistingUserProfile(activeUserID);
     }
   }
@@ -202,9 +196,8 @@ export class LoginComponent {
     this.newUser = true;
     try {
       await this.firestoreService.addUser(user.toJSON(), activeUserID);
-      console.log('New user profile created in Firestore:', user);
     } catch (error) {
-      console.error('Error creating user profile in Firestore:', error);
+      console.error('Fehler beim Erstellen des Benutzerpforils', error);
     }
   }
 
@@ -240,12 +233,12 @@ export class LoginComponent {
    */
   private isEmailInvalid(): boolean {
     if (!this.email) {
-      this.setError('Please enter your email address.', 'email');
+      this.setError('Bitte geben Sie Ihre Emailadresse ein.', 'email');
       return true;
     }
     const emailPattern = /^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/;
     if (!emailPattern.test(this.email)) {
-      this.setError('Please enter a valid email address.', 'email');
+      this.setError('Bitte geben Sie eine gültige Emailadresse ein.', 'email');
       return true;
     }
     return false;
@@ -259,7 +252,7 @@ export class LoginComponent {
    */
   private isPasswordInvalid(): boolean {
     if (!this.password) {
-      this.setError('Please enter your password.', 'password');
+      this.setError('Bitte geben Sie Ihr Passwort ein.', 'password');
       return true;
     }
     return false;
@@ -303,15 +296,15 @@ export class LoginComponent {
    * @returns {void}
    */
   private handleLoginError(error: any, customMessage?: string): void {
-    console.error('Error logging in:', error);
+    console.error('Fehler beim Einloggen:', error);
     if (error.code === 'auth/invalid-credential') {
       this.setError(
-        'Email address and password do not match.',
+        'Emailadresse und Passwort stimmen nicht überein.',
         'password'
       );
     } else {
       this.setError(
-        customMessage || 'Error logging in. Please try again.',
+        customMessage || 'Fehler beim Einloggen. Bitte versuchen Sie es erneut',
         null
       );
     }

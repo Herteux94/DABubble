@@ -138,7 +138,7 @@ export class ResetPwComponent implements OnInit {
    * @returns {void}
    */
   private handleSuccessfulReset(): void {
-    this.setMessage('Password successfully changed.');
+    this.setMessage('Password erfolgreich geändert.');
     this.showBubbleMessage();
     this.redirectToLogin();
   }

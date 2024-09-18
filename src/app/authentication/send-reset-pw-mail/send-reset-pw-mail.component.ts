@@ -95,12 +95,12 @@ export class SendResetPwMailComponent {
     this.formSubmitted = true;
     this.errorMessageEmail = '';
     if (!this.email) {
-      this.errorMessageEmail = 'Please enter your email address.';
+      this.errorMessageEmail = 'Bitte geben Sie Ihre Emailadresse ein.';
       return;
     } else {
       const emailPattern = /^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/;
       if (!emailPattern.test(this.email)) {
-        this.errorMessageEmail = 'Please enter a valid email address.';
+        this.errorMessageEmail = 'Bitte geben Sie eine gültige Emailadresse ein.';
         return;
       }
     }
@@ -115,7 +115,7 @@ export class SendResetPwMailComponent {
       })
       .catch((error) => {
         if (error.code === 'auth/invalid-email') {
-          this.errorMessageEmail = 'Please enter a valid email address.';
+          this.errorMessageEmail = 'Bitte geben Sie eine gültige Emailadresse ein.';
         } else {
           this.errorMessageEmail = 'Error: ' + error.message;
         }

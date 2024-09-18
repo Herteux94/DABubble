@@ -143,7 +143,7 @@ export class SignUpComponent {
    */
   private validateName(): void {
     if (!this.user.name) {
-      this.errorMessageName = 'Please enter your name.';
+      this.errorMessageName = 'Bitte geben Sie Ihren Namen ein.';
     }
   }
 
@@ -155,9 +155,9 @@ export class SignUpComponent {
    */
   private validateEmail(): void {
     if (!this.user.email) {
-      this.errorMessageEmail = 'Please enter your email address.';
+      this.errorMessageEmail = 'Bitte geben Sie Ihre Emailadresse ein.';
     } else if (!this.isValidEmail(this.user.email)) {
-      this.errorMessageEmail = 'Please enter a valid email address.';
+      this.errorMessageEmail = 'Bitte geben Sie eine gültige Emailadresse ein';
     }
   }
 
@@ -180,9 +180,9 @@ export class SignUpComponent {
    */
   private validatePassword(): void {
     if (!this.password) {
-      this.errorMessagePassword = 'Please enter a password.';
+      this.errorMessagePassword = 'Bitte geben Sie Ihr Passwort ein';
     } else if (this.password.length < 6) {
-      this.errorMessagePassword = 'The password must be at least 6 characters long.';
+      this.errorMessagePassword = 'TDas Passwort muss mindestens 6 Zeichen lang sein';
     }
   }
 
@@ -202,7 +202,7 @@ export class SignUpComponent {
       await this.createUserAccount();
       this.handleSuccessfulSignUp();
     } catch (error) {
-      console.error('Error during sign-up:', error);
+      console.error('Fehler beim Einloggen', error);
     }
   }
 
@@ -259,7 +259,7 @@ export class SignUpComponent {
    * @returns {void}
    */
   private showSuccessMessage(): void {
-    this.bubbleComponent.message = 'Account successfully created!';
+    this.bubbleComponent.message = 'Account erfolgreich erstellt';
     this.bubbleComponent.showSnackbar();
   }
 

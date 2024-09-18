@@ -148,10 +148,9 @@ export class ChooseAvatarComponent {
         );
       })
       .then(() => {
-        console.log('Avatar updated and old avatars deleted');
       })
       .catch((error) => {
-        console.error('Error saving avatar', error);
+        console.error('Fehler beim Speichern des Avatars', error);
       });
   }
 
