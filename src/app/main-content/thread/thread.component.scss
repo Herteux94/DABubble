@@ -42,11 +42,11 @@ app-sub-header {
   align-items: center;
   gap: 16px;
   padding: 12px 16px;
-  
+
   span {
     color: $text-grey;
   }
-  
+
   .line {
     height: 1px;
     flex: 1;
@@ -72,7 +72,6 @@ app-type-input-field {
   }
 
   .threadTopicMsgContainer {
-    position: absolute;
     left: 0;
     right: 0;
     top: 80px;
