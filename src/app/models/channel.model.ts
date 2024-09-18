@@ -17,7 +17,6 @@
  * newChannel.channelID = 'channel_001';
  *
  * const channelJSON = newChannel.toJSON();
- * console.log(channelJSON);
  * ```
  *
  * In the above example, a new `Channel` instance is created, its properties are set,
@@ -76,7 +75,7 @@ export class Channel {
     this.name = '';
     this.creator = '';
     this.description = '';
-    this.creationTime; 
+    this.creationTime;
     this.member = [];
     this.channelID = '';
   }

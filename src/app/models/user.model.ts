@@ -18,7 +18,6 @@
  * newUser.userID = 'user_789';
  *
  * const userJSON = newUser.toJSON();
- * console.log(userJSON);
  * ```
  *
  * In the above example, a new `User` instance is created, its properties are set, and then it is converted

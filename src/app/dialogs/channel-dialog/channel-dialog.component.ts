@@ -184,7 +184,6 @@ export class ChannelDialogComponent implements OnInit {
       { name: this.channelName },
       this.activeChannelService.activeChannel.channelID
     );
-    console.log('Channel name updated successfully');
   }
 
   /**
@@ -200,7 +199,6 @@ export class ChannelDialogComponent implements OnInit {
       { description: this.channelDescription },
       this.activeChannelService.activeChannel.channelID
     );
-    console.log('Channel description updated successfully');
   }
 
   /**

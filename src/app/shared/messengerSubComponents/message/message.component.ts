@@ -132,8 +132,6 @@ export class MessageComponent implements OnDestroy, OnChanges {
       (user) => user.userID === senderID
     );
     if (sender) {
-      console.log(sender);
-
       this.senderName = sender.name;
       this.senderAvatar =
         sender.profileImg || '../../../assets/img/Profile.svg';
@@ -312,7 +310,7 @@ export class MessageComponent implements OnDestroy, OnChanges {
       this.message.messageID
     );
     this.loadSenderInfo(this.message.senderID);
-    
+
     if (this.mobile) {
       this.threadRoutingService.navigateToThreadMobile(this.message.messageID);
     } else {
@@ -457,7 +455,6 @@ export class MessageComponent implements OnDestroy, OnChanges {
    */
   isPdf(url: string): boolean {
     const cleanUrl = url.split('?')[0];
-    console.log('Checking if PDF:', cleanUrl);
     return cleanUrl.toLowerCase().endsWith('.pdf');
   }
 

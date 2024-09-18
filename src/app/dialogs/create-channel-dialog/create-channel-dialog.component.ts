@@ -87,9 +87,7 @@ async onSubmit() {
     // }
 
     this.openCreateMemberDialog(newChannel);
-  } else {
-    console.log('Formular ist ungültig, wird nicht gesendet.');
-  }
+  } 
 }
 
   @HostListener('document:keydown.enter', ['$event'])

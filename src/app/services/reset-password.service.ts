@@ -31,10 +31,9 @@ export class ResetPasswordService {
 
     return sendPasswordResetEmail(this.auth, email, actionCodeSettings)
       .then(() => {
-        console.log('Password reset email sent successfully');
       })
       .catch((error) => {
-        console.error('Error sending password reset email', error);
+        console.error('Fehler beim Versenden der Email zur Passwortrücksetzung', error);
         throw error;
       });
   }
@@ -54,10 +53,9 @@ export class ResetPasswordService {
   confirmPasswordReset(oobCode: string, newPassword: string): Promise<void> {
     return confirmPasswordReset(this.auth, oobCode, newPassword)
       .then(() => {
-        console.log('Password has been reset successfully');
       })
       .catch((error) => {
-        console.error('Error resetting password', error);
+        console.error('Fehler beim Passwort zurücksetzen', error);
         throw error;
       });
   }

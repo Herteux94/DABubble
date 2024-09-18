@@ -46,8 +46,6 @@ export class AppComponent implements OnInit {
 
       window.addEventListener('online', () => this.updateOnlineStatus(true));
       window.addEventListener('offline', () => this.updateOnlineStatus(false));
-    } else {
-      console.log('navigator undefined');
     }
   }
 
@@ -90,7 +88,6 @@ export class AppComponent implements OnInit {
     const userID = this.activeUserService.activeUser?.userID;
 
     if (userID) {
-      console.log(`User set ${isOnline ? 'online' : 'offline'}`);
       this.firestoreService.updateUser({ active: isOnline }, userID);
     }
   }
@@ -102,7 +99,6 @@ export class AppComponent implements OnInit {
    * @param event The event object that triggered this function.
    */
   unloadHandler(event: Event) {
-    console.log('unloadHandler set user offline');
 
     this.firestoreService.updateUser(
       { active: false },

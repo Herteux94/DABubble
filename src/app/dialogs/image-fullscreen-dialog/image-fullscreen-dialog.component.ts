@@ -54,8 +54,6 @@ export class ImageFullscreenDialogComponent {
     public storageService: StorageService
   ) {
     this.URL = data.URL;
-    console.log(this.URL);
-    console.log(this.url);
   }
 
   /**

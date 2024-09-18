@@ -56,7 +56,7 @@ export class ProfileDialogComponent {
   @ViewChild('profileContainer') profileContainer!: ElementRef;
   @ViewChild('userNameInput') userNameInput!: ElementRef;
   @ViewChild('userMail') userMailInput!: ElementRef;
-  
+
   /**
    * Constructor for the ProfileDialogComponent.
    *
@@ -84,10 +84,6 @@ export class ProfileDialogComponent {
     this.user = this.findUserService.findUser(this.data.userID);
     this.ownProfile =
       this.activeUserService.activeUser.userID === this.data.userID;
-
-    if (this.ownProfile) {
-      console.log('This is the own profile view');
-    }
   }
 
   /**

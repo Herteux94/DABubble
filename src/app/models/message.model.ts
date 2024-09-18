@@ -25,7 +25,6 @@ import { serverTimestamp } from '@angular/fire/firestore';
  * newMessage.lastAnswer = serverTimestamp();
  *
  * const messageJSON = newMessage.toJSON();
- * console.log(messageJSON);
  * ```
  *
  * In the above example, a new `Message` instance is created, its properties are set, and then it is converted

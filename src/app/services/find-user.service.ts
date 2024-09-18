@@ -20,7 +20,6 @@ export class FindUserService {
       );
       return user;
     } catch (err) {
-      console.log('no User found: ', err);
       return err;
     }
   }

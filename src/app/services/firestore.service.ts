@@ -351,7 +351,6 @@ export class FirestoreService implements OnDestroy {
       await updateDoc(doc(this.userCol, userID), {
         [messengerType]: arrayUnion(messengerID),
       });
-      console.log('Channel successfully added');
     } catch (error) {
       console.error(
         'Error updating channel: ',
