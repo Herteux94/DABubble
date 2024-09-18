@@ -14,13 +14,6 @@ import { ScreenSizeService } from '../services/screen-size-service.service';
 import { NewMessageComponent } from './new-message/new-message.component';
 import { ThreadComponent } from './thread/thread.component';
 import { RoutingThreadOutletService } from '../services/routing-thread-outlet.service';
-import {
-  trigger,
-  state,
-  style,
-  transition,
-  animate,
-} from '@angular/animations';
 
 @Component({
   selector: 'app-main-content',
@@ -40,31 +33,11 @@ import {
   ],
   templateUrl: './main-content.component.html',
   styleUrl: './main-content.component.scss',
-  // animations: [
-  //   trigger('threadAnimation', [
-  //     state(
-  //       'open',
-  //       style({
-  //         opacity: 1,
-  //         transform: 'scale(1) translateX(0)',
-  //         visibility: 'visible',
-  //       })
-  //     ),
-  //     state(
-  //       'closed',
-  //       style({
-  //         opacity: 0,
-  //         transform: 'scale(0.8) translateX(600px)',
-  //         visibility: 'hidden',
-  //       })
-  //     ),
-  //     transition('open <=> closed', [animate('250ms linear')]),
-  //   ]),
-  // ],
 })
 export class MainContentComponent implements OnInit {
   mobile!: boolean;
   navOpenDesktop: boolean = true;
+  animateNavDesktop: boolean = true;
 
   private readonly RESIZE_THRESHOLD = 1350;
   private readonly ADDITIONAL_THRESHOLD = 1025;
@@ -162,6 +135,14 @@ export class MainContentComponent implements OnInit {
    * This function is called when the user clicks on the navigation toggle button.
    */
   toggleMenu() {
-    this.navOpenDesktop = !this.navOpenDesktop;
+    if (this.navOpenDesktop) {
+      this.animateNavDesktop = false;
+      setTimeout(() => {
+        this.navOpenDesktop = !this.navOpenDesktop;
+      }, 350);
+    } else {
+      this.navOpenDesktop = !this.navOpenDesktop;
+      this.animateNavDesktop = true;
+    }
   }
 }

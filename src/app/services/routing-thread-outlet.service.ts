@@ -7,6 +7,7 @@ import { ActiveChannelService } from './active-channel.service';
 })
 export class RoutingThreadOutletService {
   threadOpenDesktop!: boolean;
+  animateThreadDesktop!: boolean;
 
   /**
    * Constructor for the RoutingThreadOutletService.
@@ -28,10 +29,13 @@ export class RoutingThreadOutletService {
    * navigates to the main messenger view after a 350ms delay.
    */
   closeThread() {
-    this.threadOpenDesktop = false;
-    this.router.navigate(['/messenger', { outlets: { thread: null } }], {
-      relativeTo: this.route.parent,
-    });
+    this.animateThreadDesktop = false;
+    setTimeout(() => {
+      this.threadOpenDesktop = false;
+      this.router.navigate(['/messenger', { outlets: { thread: null } }], {
+        relativeTo: this.route.parent,
+      });
+    }, 350);
   }
 
   /**
@@ -41,6 +45,7 @@ export class RoutingThreadOutletService {
    */
   openThread() {
     this.threadOpenDesktop = true;
+    this.animateThreadDesktop = true;
   }
 
   /**
