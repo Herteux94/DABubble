@@ -15,17 +15,14 @@
     <app-header></app-header>
     <div [ngStyle]="{ margin: this.navOpenDesktop ? '0 16px' : '0 32px' }" class="bodyArea">
       @if (this.navOpenDesktop) {
-      <app-navigation [ngClass]="animateNavDesktop ? 'showNav' : 'hideNav'"></app-navigation>
+      <app-navigation [@navAnimation]="animateNavDesktop ? 'open' : 'closed'"></app-navigation>
       }
       <div class="routerContainer">
         <router-outlet></router-outlet>
       </div>
       @if(this.threadRoutingService.threadOpenDesktop) {
-      <div [ngClass]="{
-          'showThread': threadRoutingService.animateThreadDesktop,
-          'hideThread': !threadRoutingService.animateThreadDesktop,
-          'getOverContent': isOverContent
-        }" class="threadRouterContainer">
+      <div [@threadAnimation]="this.threadRoutingService.animateThreadDesktop ? 'open' : 'closed'"
+        class="threadRouterContainer">
         <router-outlet name="thread"></router-outlet>
       </div>
 

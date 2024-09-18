@@ -14,6 +14,13 @@ import { ScreenSizeService } from '../services/screen-size-service.service';
 import { NewMessageComponent } from './new-message/new-message.component';
 import { ThreadComponent } from './thread/thread.component';
 import { RoutingThreadOutletService } from '../services/routing-thread-outlet.service';
+import {
+  trigger,
+  state,
+  style,
+  transition,
+  animate,
+} from '@angular/animations';
 
 @Component({
   selector: 'app-main-content',
@@ -33,6 +40,48 @@ import { RoutingThreadOutletService } from '../services/routing-thread-outlet.se
   ],
   templateUrl: './main-content.component.html',
   styleUrl: './main-content.component.scss',
+  animations: [
+    trigger('navAnimation', [
+      state(
+        'open',
+        style({
+          opacity: 1,
+          width: '350px',
+          transform: 'scale(1)',
+        })
+      ),
+      state(
+        'closed',
+        style({
+          opacity: 0,
+          width: '0',
+          transform: 'scale(0.8)',
+        })
+      ),
+      transition('open  <=> closed', [
+        animate('350ms ease-in-out'), // Dauer und Timing
+      ]),
+    ]),
+    trigger('threadAnimation', [
+      state(
+        'open',
+        style({
+          opacity: 1,
+          transform: 'scale(1) translateX(0)',
+          visibility: 'visible',
+        })
+      ),
+      state(
+        'closed',
+        style({
+          opacity: 0,
+          transform: 'scale(0.8) translateX(600px)',
+          visibility: 'hidden',
+        })
+      ),
+      transition('open <=> closed', [animate('350ms linear')]),
+    ]),
+  ],
 })
 export class MainContentComponent implements OnInit {
   mobile!: boolean;
@@ -138,11 +187,15 @@ export class MainContentComponent implements OnInit {
     if (this.navOpenDesktop) {
       this.animateNavDesktop = false;
       setTimeout(() => {
-        this.navOpenDesktop = !this.navOpenDesktop;
+        this.navOpenDesktop = false;
       }, 350);
     } else {
-      this.navOpenDesktop = !this.navOpenDesktop;
-      this.animateNavDesktop = true;
+      this.animateNavDesktop = true; // Animation aktivieren
+
+      // Hier wird eine kurze Verzögerung hinzugefügt, um sicherzustellen, dass die Animation greift
+      setTimeout(() => {
+        this.navOpenDesktop = true; // Jetzt das Element im DOM sichtbar machen
+      }, 0); // Sofort, aber nach dem aktuellen Callstack
     }
   }
 }
