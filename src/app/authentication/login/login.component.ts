@@ -97,7 +97,7 @@ export class LoginComponent {
     public activeUserService: ActiveUserService,
     private firestoreService: FirestoreService,
     private threadRoutingService: RoutingThreadOutletService
-  ) { }
+  ) {}
 
   /**
    * Handles the login process using email and password.
@@ -133,7 +133,6 @@ export class LoginComponent {
         const email = result.user.email ?? '';
         await this.handleSuccessfulLogin(activeUserID, displayName, email);
 
-
         if (this.newUser) {
           this.router.navigate(['/createAccount']);
         } else {
@@ -167,7 +166,11 @@ export class LoginComponent {
    * @param {string} [email] - The email address of the user (optional).
    * @returns {Promise<void>}
    */
-  async checkOrCreateUserProfile(activeUserID: string, displayName?: string, email?: string): Promise<void> {
+  async checkOrCreateUserProfile(
+    activeUserID: string,
+    displayName?: string,
+    email?: string
+  ): Promise<void> {
     const userRef = doc(this.firestore, `users/${activeUserID}`);
     const userSnap = await getDoc(userRef);
     if (!userSnap.exists()) {
@@ -185,14 +188,18 @@ export class LoginComponent {
    * @param {string} [email] - The email address of the user (optional).
    * @returns {Promise<void>}
    */
-  private async createNewUserProfile(activeUserID: string, displayName?: string, email?: string): Promise<void> {
+  private async createNewUserProfile(
+    activeUserID: string,
+    displayName?: string,
+    email?: string
+  ): Promise<void> {
     const user = new User();
     user.userID = activeUserID;
     user.directMessages = [activeUserID];
     user.name = displayName ?? '';
     user.email = email ?? '';
     user.lastOnline = Date.now();
-    user.profileImg = "../../assets/img/Profile.svg";
+    user.profileImg = '../../assets/img/Profile.svg';
     this.newUser = true;
     try {
       await this.firestoreService.addUser(user.toJSON(), activeUserID);
@@ -211,7 +218,6 @@ export class LoginComponent {
     this.firestoreService.updateUser({ lastOnline: Date.now() }, activeUserID);
     this.router.navigate(['/messenger']);
   }
-
 
   /**
    * Listens for the Enter key press on the document and triggers the login process.
@@ -279,7 +285,12 @@ export class LoginComponent {
    * @param {string} [email] - The email address of the user (optional).
    * @returns {Promise<void>}
    */
-  private async handleSuccessfulLogin(activeUserID: string, displayName?: string, email?: string): Promise<void> {
+  private async handleSuccessfulLogin(
+    activeUserID: string,
+    displayName?: string,
+    email?: string
+  ): Promise<void> {
+    this.threadRoutingService.threadOpenDesktop = false;
     this.activeUserService.setActiveUserToLocalStorage(activeUserID);
     await this.checkOrCreateUserProfile(activeUserID, displayName, email);
     this.errorMessage = '';

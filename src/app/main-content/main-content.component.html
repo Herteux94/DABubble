@@ -21,9 +21,9 @@
         <router-outlet></router-outlet>
       </div>
       @if(this.threadRoutingService.threadOpenDesktop) {
-      <div [@mainContentAnimation] [ngClass]="{
-          'getOverContent': isOverContent
-        }" class="threadRouterContainer">
+      <div [ngClass]="{
+        'getOverContent': isOverContent
+      }" [@mainContentAnimation] class="threadRouterContainer">
         <router-outlet name="thread"></router-outlet>
       </div>
 
