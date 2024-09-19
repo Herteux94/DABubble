@@ -22,7 +22,6 @@ import {
   transition,
   animate,
 } from '@angular/animations';
-import { ActiveThreadService } from '../services/active-thread-service.service';
 
 @Component({
   selector: 'app-main-content',
@@ -72,8 +71,7 @@ export class MainContentComponent implements OnInit {
     public threadRoutingService: RoutingThreadOutletService,
     protected route: ActivatedRoute,
     private renderer: Renderer2,
-    private router: Router,
-    private activeThreadService: ActiveThreadService
+    private router: Router
   ) {}
 
   @HostListener('window:resize', ['$event'])
