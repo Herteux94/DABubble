@@ -6,7 +6,7 @@ import { ActiveChannelService } from './active-channel.service';
   providedIn: 'root',
 })
 export class RoutingThreadOutletService {
-  threadOpenDesktop!: boolean;
+  threadOpenDesktop: boolean = false;
 
   /**
    * Constructor for the RoutingThreadOutletService.

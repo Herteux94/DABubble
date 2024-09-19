@@ -53,9 +53,6 @@ export class ThreadComponent implements OnInit {
         threadID = paramMap.get('id');
       });
       this.activeThreadService.loadActiveThreadAndMessages(threadID);
-      setTimeout(() => {
-        this.threadRoutingService.openThread();
-      }, 600);
     }
   }
 }
