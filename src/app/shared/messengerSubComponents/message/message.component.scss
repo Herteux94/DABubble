@@ -4,7 +4,7 @@
   padding: 8px 32px;
   display: flex;
   gap: 16px;
-  position: relative; // Wichtig für die absolute Positionierung der Options-Bubble
+  position: relative;
 
   .avatar {
     width: 50px;
@@ -15,8 +15,8 @@
 }
 
 ::ng-deep .mat-tooltip {
-  background-color: #333; // Dunkler Hintergrund
-  color: #fff; // Weiße Schrift
+  background-color: #333;
+  color: #fff;
   font-size: 12px;
   border-radius: 4px;
 }
@@ -52,7 +52,6 @@ app-options-bubble {
   min-height: 80px;
 }
 
-/* Für PDF-Icon */
 .pdfIcon {
   max-width: 120px;
   max-height: 120px;
@@ -60,7 +59,6 @@ app-options-bubble {
   object-fit: contain;
 }
 
-/* Dateiname unter der PDF-Vorschau */
 .fileName {
   font-size: 12px;
   color: #333;
@@ -162,7 +160,7 @@ app-options-bubble {
   padding: 5px;
   position: absolute;
   z-index: 1;
-  bottom: 125%; /* Tooltip über dem Element anzeigen */
+  bottom: 125%;
   left: 50%;
   transform: translateX(-50%);
   white-space: nowrap;
@@ -179,7 +177,6 @@ app-options-bubble {
   align-items: center;
   justify-content: flex-end;
   gap: 8px;
-
   .count {
     color: $first-color;
   }
@@ -187,30 +184,46 @@ app-options-bubble {
 
 .optionsBubble {
   position: absolute;
-  top: -40px;
+  top: -8px;
   right: -10px;
   z-index: 999;
 }
 
 .optionsBubbleOwnMsg {
   position: absolute;
-  top: -40px;
-  left: -48px;
+  top: -8px;
+  left: -32px;
   z-index: 999;
 }
 
 .threadOptionsBubble {
   position: absolute;
-  top: -40px;
+  top: -8px;
   right: -20px;
   z-index: 999;
 }
 
 .threadOptionsBubbleOwnMsg {
   position: absolute;
-  top: -40px;
+  top: -8px;
   right: 120px;
   z-index: 999;
+}
+
+@media (min-width: 380px) {
+  .optionsBubbleOwnMsg {
+    position: absolute;
+    top: -8px;
+    left: -100px;
+    z-index: 999;
+  }
+
+  .optionsBubble {
+    position: absolute;
+    top: -8px;
+    left: 40px;
+    z-index: 999;
+  }
 }
 
 @media (min-width: 1025px) {
@@ -218,7 +231,6 @@ app-options-bubble {
     &:hover {
       cursor: pointer;
       background-color: $background-color;
-
       .messageText {
         background-color: white;
       }
@@ -227,28 +239,26 @@ app-options-bubble {
 
   .optionsBubble {
     position: absolute;
-    top: -40px;
-    // right: -200px;
+    top: -8px;
     z-index: 999;
   }
 
   .optionsBubbleOwnMsg {
     position: absolute;
-    top: -40px;
-    // left: -240px;
+    top: -8px;
     z-index: 999;
   }
 
   .threadOptionsBubble {
     position: absolute;
-    top: -40px;
+    top: -8px;
     right: -20px;
     z-index: 999;
   }
 
   .threadOptionsBubbleOwnMsg {
     position: absolute;
-    top: -40px;
+    top: -8px;
     right: 120px;
     z-index: 999;
   }
