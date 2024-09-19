@@ -43,32 +43,6 @@ import { ActiveThreadService } from '../services/active-thread-service.service';
   templateUrl: './main-content.component.html',
   styleUrl: './main-content.component.scss',
   animations: [
-    trigger('navigationAnimation', [
-      state(
-        'void',
-        style({
-          opacity: 0,
-          transform: 'scale(0.8) translateX(-600px)',
-          visibility: 'hidden',
-        })
-      ),
-      state(
-        '*',
-        style({
-          opacity: 1,
-          transform: 'scale(1) translateX(0)',
-          visibility: 'visible',
-        })
-      ),
-      transition('void => *', [animate('300ms ease-out')]),
-      transition('* => void', [animate('200ms ease-in')]),
-    ]),
-    trigger('threadAnimation', [
-      state('void', style({ opacity: 0, transform: 'scale(0.3)' })),
-      state('*', style({ opacity: 1, transform: 'scale(1)' })),
-      transition('void => *', [animate('300ms ease-out')]),
-      transition('* => void', [animate('200ms ease-in')]),
-    ]),
     trigger('mainContentAnimation', [
       state('void', style({ opacity: 0, transform: 'scale(0.7)', width: '0' })),
       state('*', style({ opacity: 1, transform: 'scale(1)' })),
