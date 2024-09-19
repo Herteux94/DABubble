@@ -54,16 +54,6 @@ export class TypeInputFieldComponent {
     return [];
   });
 
-  // foundUsers = computed(() => {
-  //   if (this.firstLetter() === '@') {
-  //     return this.findUserService.findUsersWithName(
-  //       this.searchQuery().substring(1)
-  //     );
-  //   }
-  //   return [];
-  // });
-
-
   @ViewChild('messageInput') messageInput!: ElementRef; // Referenz zum Textarea
   @ViewChild('emojiPicker') emojiPicker!: ElementRef; // Referenz zum Emoji-Picker
 
@@ -88,10 +78,15 @@ export class TypeInputFieldComponent {
     private activeThreadService: ActiveThreadService,
     private router: Router,
     private el: ElementRef,
-    private findUserService: FindUserService
   ) {}
 
 
+  /**
+   * Updates the search query signal with the current value of the
+   * input field, whenever the user types something in the input field.
+   * If the input starts with '@', it sets the firstLetter signal to '@'.
+   * @param event The input event from the input field.
+   */
   onSearchInput(event: Event): void {
     const inputElement = event.target as HTMLInputElement;
     const inputValue = inputElement.value;
@@ -103,27 +98,14 @@ export class TypeInputFieldComponent {
     }
   }
 
+  /**
+   * Selects a user to mention in the message.
+   * Sets the search query to the user's name preceded by '@'.
+   * @param user The user to select.
+   */
   selectUser(user: User): void {
-    // const directMessages =
-    //   this.activeUserService.activeUserDirectMessages || [];
-
-    // const existingDM = directMessages.find((dm) =>
-    //   dm.member.includes(user.userID)
-    // );
-
-    // if (existingDM) {
-    //   this.router.navigate([
-    //     `messenger/directMessage/${existingDM.directMessageID}`,
-    //   ]);
-    // } else {
       this.searchQuery.set(`@${user.name}`);
-    //   this.newDirectMessageService.messageReceiver = user;
-    // }
   }
-
-
-
-
 
   /**
    * Sends a message to the Firestore database based on the messenger type.
