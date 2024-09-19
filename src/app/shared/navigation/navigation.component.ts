@@ -1,6 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
+import {
+  Router,
+  RouterLink,
+  RouterLinkActive,
+  RouterModule,
+} from '@angular/router';
 import { ScreenSizeService } from '../../services/screen-size-service.service';
 import { CreateChannelDialogComponent } from '../../dialogs/create-channel-dialog/create-channel-dialog.component';
 import { Dialog } from '@angular/cdk/dialog';
@@ -11,7 +16,13 @@ import { ActiveUserService } from '../../services/active-user.service';
 import { ActiveDirectMessageService } from '../../services/active-direct-message-service.service';
 import { ProfileDialogComponent } from '../../dialogs/profile-dialog/profile-dialog.component';
 import { User } from '../../models/user.model';
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 
 @Component({
   selector: 'app-navigation',
@@ -37,7 +48,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
         animate('300ms ease-in', style({ opacity: 0, transform: 'scaleY(0)' })),
       ]),
     ]),
-  ]
+  ],
 })
 export class NavigationComponent implements OnInit {
   dialog = inject(Dialog);
@@ -46,6 +57,7 @@ export class NavigationComponent implements OnInit {
   filteredChannels: any[] = [];
   filteredUsers: any[] = [];
   searchListOpen = false;
+  activeURLType!: string;
 
   /**
    * Constructor for the NavigationComponent.
@@ -65,9 +77,8 @@ export class NavigationComponent implements OnInit {
     public activeChannelService: ActiveChannelService,
     public activeUserService: ActiveUserService,
     public activeDirectMessageService: ActiveDirectMessageService,
-    private router: Router
-  )
-  {}
+    public router: Router
+  ) {}
 
   /**
    * Lifecycle hook that is called after the component is initialized.
@@ -87,7 +98,7 @@ export class NavigationComponent implements OnInit {
    * users by their names and sets the search list open to true.
    * @param event The input event from the input field.
    */
-   onNavigationSearchInput(event: Event): void {
+  onNavigationSearchInput(event: Event): void {
     const input = (event.target as HTMLInputElement).value;
     this.navigationSearchQuery.set(input);
 
@@ -185,5 +196,9 @@ export class NavigationComponent implements OnInit {
    */
   openNewChannelDialog() {
     this.dialog.open(CreateChannelDialogComponent, {});
+  }
+
+  setURLTypes(type: string) {
+    this.activeURLType = type;
   }
 }
