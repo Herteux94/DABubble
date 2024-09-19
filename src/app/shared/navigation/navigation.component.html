@@ -116,10 +116,10 @@
         this.activeUserService.activeUserChannels.length > 0) { @for (channel of
         this.activeUserService.activeUserChannels; track channel){
         <a class="listElement"
-          [class.active]="this.activeChannelService.activeChannel && this.activeChannelService.activeChannel.channelID && this.activeChannelService.activeChannel.channelID == channel.channelID"
+          [class.active]="this.activeChannelService.activeChannel?.channelID && this.activeChannelService.activeChannel.channelID == channel.channelID && this.activeURLType == 'channel'"
           [routerLink]="['/messenger/channel', channel.channelID]"
           (click)="
-            this.activeChannelService.loadActiveChannelAndMessages(channel.channelID); this.threadRoutingService.closeThread()">
+            this.activeChannelService.loadActiveChannelAndMessages(channel.channelID); this.threadRoutingService.closeThread(); this.setURLTypes('channel')">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <mask id="mask0_813_12093" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
               height="24">
@@ -172,7 +172,8 @@
       <div class="contentList">
         @if(this.activeUserService.activeUser && this.activeUserService.activeUser.name) {
         <a class="listElement"
-          (click)="this.activeDirectMessageService.loadActiveDMAndMessagesAndPartner( this.activeUserService.activeUser.userID ); this.threadRoutingService.closeThread()"
+          [class.active]="this.activeDirectMessageService.activeDM?.directMessageID && this.activeDirectMessageService.activeDM.directMessageID == this.activeUserService.activeUser.userID && this.activeURLType == 'directMessage'"
+          (click)="this.activeDirectMessageService.loadActiveDMAndMessagesAndPartner( this.activeUserService.activeUser.userID ); this.threadRoutingService.closeThread(); this.setURLTypes('directMessage')"
           [routerLink]="['/messenger/directMessage', this.activeUserService.activeUser.userID]">
           <div class="profileAndOnlineCircleImg">
             <img class="avatarImg" [src]="
@@ -197,8 +198,8 @@
         @for (dm of this.activeUserService.activeUserDirectMessages; track dm){
         @if(dm.member.length > 1 && dm.directMessageID != this.activeUserService.activeUser.userID) {
         <a class="listElement"
-          [class.active]="this.activeDirectMessageService.activeDM && this.activeDirectMessageService.activeDM.directMessageID && this.activeDirectMessageService.activeDM.directMessageID == dm.directMessageID"
-          (click)="this.activeDirectMessageService.loadActiveDMAndMessagesAndPartner( dm.directMessageID ); this.threadRoutingService.closeThread()"
+          [class.active]="this.activeDirectMessageService.activeDM?.directMessageID && this.activeDirectMessageService.activeDM.directMessageID == dm.directMessageID && this.activeURLType == 'directMessage'"
+          (click)="this.activeDirectMessageService.loadActiveDMAndMessagesAndPartner( dm.directMessageID ); this.threadRoutingService.closeThread(); this.setURLTypes('directMessage')"
           [routerLink]="['/messenger/directMessage', dm.directMessageID]">
           <div class="profileAndOnlineCircleImg">
             <img class="avatarImg" [src]="
