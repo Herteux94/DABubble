@@ -2,31 +2,36 @@
   <div class="textArea">
     <div *ngIf="uploadedFiles.length > 0" class="uploadContainer">
       <div class="uploadPreviewContainer" *ngFor="let uploadedFile of uploadedFiles">
-        <!-- closeBtn mit dynamischer Klasse basierend auf dem Dateityp -->
-        <img class="closeBtn" src="../../../assets/img/close.svg" alt="close btn"
-          [ngClass]="{ 'pdf-close-btn': isPdf(uploadedFile) }"
+        <img class="closeBtn" src="../../../assets/img/close.svg" alt="close btn" [ngClass]="{ 'pdf-close-btn': isPdf(uploadedFile) }"
           (click)="closePreview(uploadedFile)" />
 
-        <!-- Bildvorschau oder PDF-Icon -->
-        <img [src]="uploadedFile.url" alt="img upload preview"
-        [ngClass]="{ 'pdfIcon': isPdf(uploadedFile) }" class="uploadPreview" />
-        <!-- Dateiname anzeigen, wenn es sich um eine PDF handelt -->
+        <img [src]="uploadedFile.url" alt="img upload preview" [ngClass]="{ 'pdfIcon': isPdf(uploadedFile) }" class="uploadPreview" />
         <div *ngIf="isPdf(uploadedFile)" class="fileName">{{ uploadedFile.file.name }}</div>
       </div>
     </div>
 
-    <textarea #messageInput [(ngModel)]="message.content" [placeholder]="getPlaceholder()"></textarea>
+    <form autocomplete="off" class="inputContainer">
+    <textarea #messageInput [value]="searchQuery()" (input)="onSearchInput($event)" [(ngModel)]="message.content" [placeholder]="getPlaceholder()" [ngModelOptions]="{standalone: true}"></textarea>
+
+      <div *ngIf="foundUsers().length > 0 && firstLetter() === '@' && searchQuery() && messengerType === 'channels'"
+        class="memberList floatingMemberList">
+        <div *ngFor="let user of foundUsers()" class="member" (click)="selectUser(user)">
+          <img [src]="user.profileImg || '../../../assets/img/Profile.svg'" alt="{{ user.name }}">
+          <p>{{ user.name }}</p>
+        </div>
+      </div>
+    </form>
+
+
     <span *ngIf="errorMessageUpload" class="errorMessage">{{ errorMessageUpload }}</span>
 
     <div class="btnArea">
       <div class="leftSide">
         <div class="svgContainer">
           <input type="file" id="fileInput" style="display: none" (change)="previewFiles($event)" multiple />
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-            (click)="triggerFileInput()">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" (click)="triggerFileInput()">
             <g clip-path="url(#clip0_70010_3998)">
-              <mask id="mask0_70010_3998" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
-                height="24">
+              <mask id="mask0_70010_3998" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
                 <rect width="24" height="24" fill="#D9D9D9" />
               </mask>
               <g mask="url(#mask0_70010_3998)">
@@ -45,8 +50,7 @@
         <div class="divider"></div>
         <div class="svgContainer" id="emojiPicker" (click)="toggleEmojiPicker()">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <mask id="mask0_70010_4003" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24"
-              height="24">
+            <mask id="mask0_70010_4003" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
               <rect width="24" height="24" fill="#D9D9D9" />
             </mask>
             <g mask="url(#mask0_70010_4003)">
@@ -59,8 +63,7 @@
       </div>
       <div (click)="this.sendMessage()" class="svgContainerSendIcon">
         <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <mask id="mask0_70010_4011" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="30"
-            height="30">
+          <mask id="mask0_70010_4011" style="mask-type: alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="30" height="30">
             <rect width="30" height="30" fill="#D9D9D9" />
           </mask>
           <g mask="url(#mask0_70010_4011)">
@@ -72,9 +75,8 @@
       </div>
     </div>
   </div>
-<!-- type-input-field.component.html -->
-<div *ngIf="showEmojiPicker" class="emojiPicker" #emojiPicker>
-  <app-emoji-picker (emojiSelect)="addEmoji($event)"></app-emoji-picker>
-</div>
+  <div *ngIf="showEmojiPicker" class="emojiPicker" #emojiPicker>
+    <app-emoji-picker (emojiSelect)="addEmoji($event)"></app-emoji-picker>
+  </div>
 
 </div>
