@@ -437,9 +437,9 @@ export class FirestoreService implements OnDestroy {
       doc(
         collection(
           this.firestore,
-          `channels/${channelID}/messages/${messageID}/threadMessages`
+          `channels/${channelID}/messages/${threadID}/threadMessages`
         ),
-        threadID
+        messageID
       ),
       messageData
     );
