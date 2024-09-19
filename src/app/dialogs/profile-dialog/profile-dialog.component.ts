@@ -23,7 +23,7 @@ import { FindUserService } from '../../services/find-user.service';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { FirestoreService } from '../../services/firestore.service';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { User } from '../../models/user.model';
 import { NewDirectMessageService } from '../../services/new-direct-message.service';
 import { ChooseAvatarComponent } from '../../authentication/choose-avatar/choose-avatar.component';
@@ -108,6 +108,25 @@ export class ProfileDialogComponent {
     this.editingProfile = !this.editingProfile;
     this.userName = this.activeUserService.activeUser.name;
     this.userMail = this.activeUserService.activeUser.email;
+  }
+
+  /**
+   * Submits the profile dialog form if it is valid.
+   *
+   * It prevents the default form submission behavior, checks if the form is
+   * valid, and if so, calls the saveChanges method. If the form is not valid,
+   * it logs a message to the console.
+   * @param event The form submission event.
+   * @param form The form to check for validity.
+   */
+  onSubmit(event: Event, form: NgForm) {
+    event.preventDefault();
+
+    if (form.valid) {
+      this.saveChanges();
+    } else {
+      console.log('Formular ist ungültig.');
+    }
   }
 
   /**

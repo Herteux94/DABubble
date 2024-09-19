@@ -9,118 +9,126 @@
         <div class="profileContainer" #profileContainer tabindex="-1">
 
             <div class="imgContainer">
-                <img [class.editingProfileImg]="editingProfile" 
-                (click)="editingProfile ? openAvatarDialog() : ''" class="profileImg" 
-                [src]="ownProfile ? activeUserService.activeUser.profileImg : (user.profileImg || '../../assets/img/Profile.svg')" alt="Profilbild">
+                <img [class.editingProfileImg]="editingProfile" (click)="editingProfile ? openAvatarDialog() : ''" class="profileImg"
+                    [src]="ownProfile ? activeUserService.activeUser.profileImg : (user.profileImg || '../../assets/img/Profile.svg')"
+                    alt="Profilbild">
             </div>
 
             @if (editingProfile) {
+
+            <form #profileForm="ngForm" (ngSubmit)="onSubmit($event, profileForm)" autocomplete="off">
                 <div class="profileContainer">
                     <div class="profileWrapper">
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
-                              d="M3.85 15.1C4.7 14.45 5.65 13.9373 6.7 13.562C7.75 13.1873 8.85 13 10 13C11.15 13 12.25 13.1873 13.3 13.562C14.35 13.9373 15.3 14.45 16.15 15.1C16.7333 14.4167 17.1877 13.6417 17.513 12.775C17.8377 11.9083 18 10.9833 18 10C18 7.78333 17.221 5.89567 15.663 4.337C14.1043 2.779 12.2167 2 10 2C7.78333 2 5.896 2.779 4.338 4.337C2.77933 5.89567 2 7.78333 2 10C2 10.9833 2.16267 11.9083 2.488 12.775C2.81267 13.6417 3.26667 14.4167 3.85 15.1ZM10 11C9.01667 11 8.18733 10.6627 7.512 9.988C6.83733 9.31267 6.5 8.48333 6.5 7.5C6.5 6.51667 6.83733 5.68733 7.512 5.012C8.18733 4.33733 9.01667 4 10 4C10.9833 4 11.8127 4.33733 12.488 5.012C13.1627 5.68733 13.5 6.51667 13.5 7.5C13.5 8.48333 13.1627 9.31267 12.488 9.988C11.8127 10.6627 10.9833 11 10 11ZM10 20C8.61667 20 7.31667 19.7373 6.1 19.212C4.88333 18.6873 3.825 17.975 2.925 17.075C2.025 16.175 1.31267 15.1167 0.788 13.9C0.262667 12.6833 0 11.3833 0 10C0 8.61667 0.262667 7.31667 0.788 6.1C1.31267 4.88333 2.025 3.825 2.925 2.925C3.825 2.025 4.88333 1.31233 6.1 0.787C7.31667 0.262333 8.61667 0 10 0C11.3833 0 12.6833 0.262333 13.9 0.787C15.1167 1.31233 16.175 2.025 17.075 2.925C17.975 3.825 18.6873 4.88333 19.212 6.1C19.7373 7.31667 20 8.61667 20 10C20 11.3833 19.7373 12.6833 19.212 13.9C18.6873 15.1167 17.975 16.175 17.075 17.075C16.175 17.975 15.1167 18.6873 13.9 19.212C12.6833 19.7373 11.3833 20 10 20ZM10 18C10.8833 18 11.7167 17.871 12.5 17.613C13.2833 17.3543 14 16.9833 14.65 16.5C14 16.0167 13.2833 15.6457 12.5 15.387C11.7167 15.129 10.8833 15 10 15C9.11667 15 8.28333 15.129 7.5 15.387C6.71667 15.6457 6 16.0167 5.35 16.5C6 16.9833 6.71667 17.3543 7.5 17.613C8.28333 17.871 9.11667 18 10 18ZM10 9C10.4333 9 10.7917 8.85833 11.075 8.575C11.3583 8.29167 11.5 7.93333 11.5 7.5C11.5 7.06667 11.3583 6.70833 11.075 6.425C10.7917 6.14167 10.4333 6 10 6C9.56667 6 9.20833 6.14167 8.925 6.425C8.64167 6.70833 8.5 7.06667 8.5 7.5C8.5 7.93333 8.64167 8.29167 8.925 8.575C9.20833 8.85833 9.56667 9 10 9Z"
-                              fill="black" />
-                          </svg>
+                                d="M3.85 15.1C4.7 14.45 5.65 13.9373 6.7 13.562C7.75 13.1873 8.85 13 10 13C11.15 13 12.25 13.1873 13.3 13.562C14.35 13.9373 15.3 14.45 16.15 15.1C16.7333 14.4167 17.1877 13.6417 17.513 12.775C17.8377 11.9083 18 10.9833 18 10C18 7.78333 17.221 5.89567 15.663 4.337C14.1043 2.779 12.2167 2 10 2C7.78333 2 5.896 2.779 4.338 4.337C2.77933 5.89567 2 7.78333 2 10C2 10.9833 2.16267 11.9083 2.488 12.775C2.81267 13.6417 3.26667 14.4167 3.85 15.1ZM10 11C9.01667 11 8.18733 10.6627 7.512 9.988C6.83733 9.31267 6.5 8.48333 6.5 7.5C6.5 6.51667 6.83733 5.68733 7.512 5.012C8.18733 4.33733 9.01667 4 10 4C10.9833 4 11.8127 4.33733 12.488 5.012C13.1627 5.68733 13.5 6.51667 13.5 7.5C13.5 8.48333 13.1627 9.31267 12.488 9.988C11.8127 10.6627 10.9833 11 10 11ZM10 20C8.61667 20 7.31667 19.7373 6.1 19.212C4.88333 18.6873 3.825 17.975 2.925 17.075C2.025 16.175 1.31267 15.1167 0.788 13.9C0.262667 12.6833 0 11.3833 0 10C0 8.61667 0.262667 7.31667 0.788 6.1C1.31267 4.88333 2.025 3.825 2.925 2.925C3.825 2.025 4.88333 1.31233 6.1 0.787C7.31667 0.262333 8.61667 0 10 0C11.3833 0 12.6833 0.262333 13.9 0.787C15.1167 1.31233 16.175 2.025 17.075 2.925C17.975 3.825 18.6873 4.88333 19.212 6.1C19.7373 7.31667 20 8.61667 20 10C20 11.3833 19.7373 12.6833 19.212 13.9C18.6873 15.1167 17.975 16.175 17.075 17.075C16.175 17.975 15.1167 18.6873 13.9 19.212C12.6833 19.7373 11.3833 20 10 20ZM10 18C10.8833 18 11.7167 17.871 12.5 17.613C13.2833 17.3543 14 16.9833 14.65 16.5C14 16.0167 13.2833 15.6457 12.5 15.387C11.7167 15.129 10.8833 15 10 15C9.11667 15 8.28333 15.129 7.5 15.387C6.71667 15.6457 6 16.0167 5.35 16.5C6 16.9833 6.71667 17.3543 7.5 17.613C8.28333 17.871 9.11667 18 10 18ZM10 9C10.4333 9 10.7917 8.85833 11.075 8.575C11.3583 8.29167 11.5 7.93333 11.5 7.5C11.5 7.06667 11.3583 6.70833 11.075 6.425C10.7917 6.14167 10.4333 6 10 6C9.56667 6 9.20833 6.14167 8.925 6.425C8.64167 6.70833 8.5 7.06667 8.5 7.5C8.5 7.93333 8.64167 8.29167 8.925 8.575C9.20833 8.85833 9.56667 9 10 9Z"
+                                fill="black" />
+                        </svg>
                         <p>Vollständiger Name</p>
                     </div>
 
                     <div class="inputContainer">
-                        <input #userNameInput class="input" type="text"
-                            [(ngModel)]="userName">
+                        <input #userNameInput="ngModel" class="input" type="text" minlength="2" required [(ngModel)]="userName"
+                            name="userName">
+                        <div *ngIf="userNameInput.invalid && userNameInput.touched">
+                            <span class="errorMessage" *ngIf="userNameInput.errors?.['required']">Name ist erforderlich.</span>
+                            <span class="errorMessage" *ngIf="userNameInput.errors?.['pattern']">Name muss mindestens 2 Zeichen lang sein.</span>
+                        </div>
                     </div>
                 </div>
 
                 <div class="profileContainer">
                     <div class="profileWrapper">
                         <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <mask id="mask0_69747_15296" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="30" height="30">
-                                <rect width="30" height="30" fill="#D9D9D9" />
-                            </mask>
-                            <g mask="url(#mask0_69747_15296)">
-                                <path
-                                    d="M5 25C4.3125 25 3.72417 24.7554 3.235 24.2663C2.745 23.7763 2.5 23.1875 2.5 22.5V7.5C2.5 6.8125 2.745 6.22417 3.235 5.735C3.72417 5.245 4.3125 5 5 5H25C25.6875 5 26.2763 5.245 26.7663 5.735C27.2554 6.22417 27.5 6.8125 27.5 7.5V22.5C27.5 23.1875 27.2554 23.7763 26.7663 24.2663C26.2763 24.7554 25.6875 25 25 25H5ZM25 10L15.6562 15.8438C15.5521 15.9062 15.4425 15.9529 15.3275 15.9837C15.2133 16.0154 15.1042 16.0312 15 16.0312C14.8958 16.0312 14.7867 16.0154 14.6725 15.9837C14.5575 15.9529 14.4479 15.9062 14.3438 15.8438L5 10V22.5H25V10ZM15 13.75L25 7.5H5L15 13.75ZM5 10.3125V8.46875V8.5V8.48375V10.3125Z"
-                                    fill="black" />
-                            </g>
+                            <path
+                                d="M5 25C4.3125 25 3.72417 24.7554 3.235 24.2663C2.745 23.7763 2.5 23.1875 2.5 22.5V7.5C2.5 6.8125 2.745 6.22417 3.235 5.735C3.72417 5.245 4.3125 5 5 5H25C25.6875 5 26.2763 5.245 26.7663 5.735C27.2554 6.22417 27.5 6.8125 27.5 7.5V22.5C27.5 23.1875 27.2554 23.7763 26.7663 24.2663C26.2763 24.7554 25.6875 25 25 25H5ZM25 10L15.6562 15.8438C15.5521 15.9062 15.4425 15.9529 15.3275 15.9837C15.2133 16.0154 15.1042 16.0312 15 16.0312C14.8958 16.0312 14.7867 16.0154 14.6725 15.9837C14.5575 15.9529 14.4479 15.9062 14.3438 15.8438L5 10V22.5H25V10ZM15 13.75L25 7.5H5L15 13.75ZM5 10.3125V8.46875V8.5V8.48375V10.3125Z"
+                                fill="black" />
                         </svg>
                         <p>E-Mail-Adresse</p>
                     </div>
+
                     <div class="inputContainer">
-                        <input #userMailInput class="input" type="text"
-                            [(ngModel)]="userMail">
+                        <input #userMailInput="ngModel" class="input" type="email" pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}"
+                        required [(ngModel)]="userMail" name="userMail">
+                        <div *ngIf="userMailInput.invalid && userMailInput.touched">
+                            <span class="errorMessage" *ngIf="userMailInput.errors?.['required']">E-Mail ist erforderlich.</span>
+                            <span class="errorMessage" *ngIf="userMailInput.errors?.['pattern']">Ungültiges E-Mail-Format.</span>
+                        </div>
                     </div>
                 </div>
-    
-
 
                 <div class="messageBtnWrapper">
                     <button (click)="toggleEditProfile()" class="secondBtn">
                         Abbrechen
                     </button>
 
-                    <button (click)="saveChanges()" class="firstBtn">
+                    <button type="submit" class="firstBtn">
                         Speichern
                     </button>
-                </div>
-
+                </div> 
+            </form>
 
             } @else {
-                <div class="nameContainer">
-                    <h1>{{ this.user.name }}</h1>
-                    @if (ownProfile) {
-                    <svg class="editSVG" (click)="toggleEditProfile()" width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="30" height="30" rx="15" fill="#ECEEFE"/>
-                        <mask id="mask0_69747_15286" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="3" y="3" width="24" height="24">
-                        <rect x="3" y="3" width="24" height="24" fill="#D9D9D9"/>
+            <div class="nameContainer">
+                <h1>{{ this.user.name }}</h1>
+                @if (ownProfile) {
+                <svg class="editSVG" (click)="toggleEditProfile()" width="30" height="30" viewBox="0 0 30 30" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <rect width="30" height="30" rx="15" fill="#ECEEFE" />
+                    <mask id="mask0_69747_15286" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="3" y="3" width="24" height="24">
+                        <rect x="3" y="3" width="24" height="24" fill="#D9D9D9" />
+                    </mask>
+                    <g mask="url(#mask0_69747_15286)">
+                        <path
+                            d="M8 22H9.4L18.025 13.375L16.625 11.975L8 20.6V22ZM22.3 11.925L18.05 7.725L19.45 6.325C19.8333 5.94167 20.3043 5.75 20.863 5.75C21.421 5.75 21.8917 5.94167 22.275 6.325L23.675 7.725C24.0583 8.10833 24.2583 8.571 24.275 9.113C24.2917 9.65433 24.1083 10.1167 23.725 10.5L22.3 11.925ZM7 24C6.71667 24 6.47933 23.904 6.288 23.712C6.096 23.5207 6 23.2833 6 23V20.175C6 20.0417 6.025 19.9127 6.075 19.788C6.125 19.6627 6.2 19.55 6.3 19.45L16.6 9.15L20.85 13.4L10.55 23.7C10.45 23.8 10.3377 23.875 10.213 23.925C10.0877 23.975 9.95833 24 9.825 24H7Z"
+                            fill="#1C1B1F" />
+                    </g>
+                </svg>
+                }
+            </div>
+
+            <div class="statusContainer">
+                <img [src]="this.user.active ? '../../../assets/img/green-online-circle.svg' : '../../../assets/img/grey_offline_circle.svg'"
+                    alt="">
+                @if (this.user.active) {
+                <p class="status">Aktiv</p>
+                } @else {
+                <p class="status">Abwesend</p>
+                }
+            </div>
+
+            <div class="profileContainer">
+                <div class="profileWrapper">
+                    <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <mask id="mask0_69747_15296" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="30" height="30">
+                            <rect width="30" height="30" fill="#D9D9D9" />
                         </mask>
-                        <g mask="url(#mask0_69747_15286)">
-                        <path d="M8 22H9.4L18.025 13.375L16.625 11.975L8 20.6V22ZM22.3 11.925L18.05 7.725L19.45 6.325C19.8333 5.94167 20.3043 5.75 20.863 5.75C21.421 5.75 21.8917 5.94167 22.275 6.325L23.675 7.725C24.0583 8.10833 24.2583 8.571 24.275 9.113C24.2917 9.65433 24.1083 10.1167 23.725 10.5L22.3 11.925ZM7 24C6.71667 24 6.47933 23.904 6.288 23.712C6.096 23.5207 6 23.2833 6 23V20.175C6 20.0417 6.025 19.9127 6.075 19.788C6.125 19.6627 6.2 19.55 6.3 19.45L16.6 9.15L20.85 13.4L10.55 23.7C10.45 23.8 10.3377 23.875 10.213 23.925C10.0877 23.975 9.95833 24 9.825 24H7Z" fill="#1C1B1F"/>
+                        <g mask="url(#mask0_69747_15296)">
+                            <path
+                                d="M5 25C4.3125 25 3.72417 24.7554 3.235 24.2663C2.745 23.7763 2.5 23.1875 2.5 22.5V7.5C2.5 6.8125 2.745 6.22417 3.235 5.735C3.72417 5.245 4.3125 5 5 5H25C25.6875 5 26.2763 5.245 26.7663 5.735C27.2554 6.22417 27.5 6.8125 27.5 7.5V22.5C27.5 23.1875 27.2554 23.7763 26.7663 24.2663C26.2763 24.7554 25.6875 25 25 25H5ZM25 10L15.6562 15.8438C15.5521 15.9062 15.4425 15.9529 15.3275 15.9837C15.2133 16.0154 15.1042 16.0312 15 16.0312C14.8958 16.0312 14.7867 16.0154 14.6725 15.9837C14.5575 15.9529 14.4479 15.9062 14.3438 15.8438L5 10V22.5H25V10ZM15 13.75L25 7.5H5L15 13.75ZM5 10.3125V8.46875V8.5V8.48375V10.3125Z"
+                                fill="black" />
                         </g>
-                        </svg>      
-                    }
+                    </svg>
+                    <p>E-Mail-Adresse</p>
                 </div>
-    
-                <div class="statusContainer">
-                    <img  [src]="this.user.active ? '../../../assets/img/green-online-circle.svg' : '../../../assets/img/grey_offline_circle.svg'" alt="">
-                    @if (this.user.active) {
-                        <p class="status">Aktiv</p>
-                    } @else {
-                        <p class="status">Abwesend</p>
-                    }
-                </div>
-    
-                <div class="profileContainer">
-                    <div class="profileWrapper">
-                        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <mask id="mask0_69747_15296" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="30" height="30">
-                                <rect width="30" height="30" fill="#D9D9D9" />
-                            </mask>
-                            <g mask="url(#mask0_69747_15296)">
-                                <path
-                                    d="M5 25C4.3125 25 3.72417 24.7554 3.235 24.2663C2.745 23.7763 2.5 23.1875 2.5 22.5V7.5C2.5 6.8125 2.745 6.22417 3.235 5.735C3.72417 5.245 4.3125 5 5 5H25C25.6875 5 26.2763 5.245 26.7663 5.735C27.2554 6.22417 27.5 6.8125 27.5 7.5V22.5C27.5 23.1875 27.2554 23.7763 26.7663 24.2663C26.2763 24.7554 25.6875 25 25 25H5ZM25 10L15.6562 15.8438C15.5521 15.9062 15.4425 15.9529 15.3275 15.9837C15.2133 16.0154 15.1042 16.0312 15 16.0312C14.8958 16.0312 14.7867 16.0154 14.6725 15.9837C14.5575 15.9529 14.4479 15.9062 14.3438 15.8438L5 10V22.5H25V10ZM15 13.75L25 7.5H5L15 13.75ZM5 10.3125V8.46875V8.5V8.48375V10.3125Z"
-                                    fill="black" />
-                            </g>
-                        </svg>
-                        <p>E-Mail-Adresse</p>
-                    </div>
-                    <p class="emailAddress">{{ this.user.email }}</p>
-                </div>
-    
-                <div class="messageBtnWrapper">
-                    <button (click)="openDM(user)" class="firstBtn messageBtn">
-                        <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <mask id="mask0_69747_15303" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="25">
-                                <rect y="0.5" width="24" height="24" fill="#D9D9D9" />
-                            </mask>
-                            <g mask="url(#mask0_69747_15303)">
-                                <path
-                                    d="M20.3 20.8L18 18.5H4C3.45 18.5 2.97933 18.3043 2.588 17.913C2.196 17.521 2 17.05 2 16.5V4.5C2 3.95 2.196 3.479 2.588 3.087C2.97933 2.69567 3.45 2.5 4 2.5H20C20.55 2.5 21.021 2.69567 21.413 3.087C21.8043 3.479 22 3.95 22 4.5V20.075C22 20.525 21.796 20.8373 21.388 21.012C20.9793 21.1873 20.6167 21.1167 20.3 20.8ZM4 4.5V16.5H18.825L20 17.675V4.5H4Z"
-                                    fill="white" />
-                            </g>
-                        </svg>
-                        Nachricht
-                    </button>
-                </div>
+                <p class="emailAddress">{{ this.user.email }}</p>
+            </div>
+
+            <div class="messageBtnWrapper">
+                <button (click)="openDM(user)" class="firstBtn messageBtn">
+                    <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <mask id="mask0_69747_15303" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="25">
+                            <rect y="0.5" width="24" height="24" fill="#D9D9D9" />
+                        </mask>
+                        <g mask="url(#mask0_69747_15303)">
+                            <path
+                                d="M20.3 20.8L18 18.5H4C3.45 18.5 2.97933 18.3043 2.588 17.913C2.196 17.521 2 17.05 2 16.5V4.5C2 3.95 2.196 3.479 2.588 3.087C2.97933 2.69567 3.45 2.5 4 2.5H20C20.55 2.5 21.021 2.69567 21.413 3.087C21.8043 3.479 22 3.95 22 4.5V20.075C22 20.525 21.796 20.8373 21.388 21.012C20.9793 21.1873 20.6167 21.1167 20.3 20.8ZM4 4.5V16.5H18.825L20 17.675V4.5H4Z"
+                                fill="white" />
+                        </g>
+                    </svg>
+                    Nachricht
+                </button>
+            </div>
             }
         </div>
 
