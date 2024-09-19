@@ -1,9 +1,11 @@
 import {
   Component,
+  computed,
   ElementRef,
   HostListener,
   inject,
   Input,
+  signal,
   ViewChild,
 } from '@angular/core';
 import { Message } from '../../../models/message.model';
@@ -19,6 +21,8 @@ import { NewDirectMessageService } from '../../../services/new-direct-message.se
 import { Router } from '@angular/router';
 import { serverTimestamp } from '@angular/fire/firestore';
 import { EmojiPickerComponent } from '../message/emoji-picker/emoji-picker.component';
+import { User } from '../../../models/user.model';
+import { FindUserService } from '../../../services/find-user.service';
 
 @Component({
   selector: 'app-type-input-field',
@@ -36,6 +40,29 @@ export class TypeInputFieldComponent {
   uploadedFiles: { file: File; url: string }[] = []; // Liste der hochgeladenen Dateien und deren URLs
   showError = false;
   errorMessageUpload: string = ''; // Variable für die Fehlermeldungen
+
+  searchQuery = signal('');
+  firstLetter = signal('');
+
+  foundUsers = computed(() => {
+    if (this.firstLetter() === '@') {
+      const searchQuery = this.searchQuery().substring(1).toLowerCase();
+      return this.activeChannelService.channelMember.filter(member => 
+        member.name.toLowerCase().includes(searchQuery)
+      );
+    }
+    return [];
+  });
+
+  // foundUsers = computed(() => {
+  //   if (this.firstLetter() === '@') {
+  //     return this.findUserService.findUsersWithName(
+  //       this.searchQuery().substring(1)
+  //     );
+  //   }
+  //   return [];
+  // });
+
 
   @ViewChild('messageInput') messageInput!: ElementRef; // Referenz zum Textarea
   @ViewChild('emojiPicker') emojiPicker!: ElementRef; // Referenz zum Emoji-Picker
@@ -60,8 +87,43 @@ export class TypeInputFieldComponent {
     public activeDirectMessageService: ActiveDirectMessageService,
     private activeThreadService: ActiveThreadService,
     private router: Router,
-    private el: ElementRef
+    private el: ElementRef,
+    private findUserService: FindUserService
   ) {}
+
+
+  onSearchInput(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    const inputValue = inputElement.value;
+
+    this.searchQuery.set(inputValue);
+
+    if (inputValue.startsWith('@')) {
+      this.firstLetter.set('@');
+    }
+  }
+
+  selectUser(user: User): void {
+    // const directMessages =
+    //   this.activeUserService.activeUserDirectMessages || [];
+
+    // const existingDM = directMessages.find((dm) =>
+    //   dm.member.includes(user.userID)
+    // );
+
+    // if (existingDM) {
+    //   this.router.navigate([
+    //     `messenger/directMessage/${existingDM.directMessageID}`,
+    //   ]);
+    // } else {
+      this.searchQuery.set(`@${user.name}`);
+    //   this.newDirectMessageService.messageReceiver = user;
+    // }
+  }
+
+
+
+
 
   /**
    * Sends a message to the Firestore database based on the messenger type.
