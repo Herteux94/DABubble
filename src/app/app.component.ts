@@ -14,7 +14,7 @@ import { ActiveUserService } from './services/active-user.service';
     AuthenticationComponent,
     RouterOutlet,
     RouterLink,
-    RouterLinkActive
+    RouterLinkActive,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
@@ -73,7 +73,7 @@ export class AppComponent implements OnInit {
             this.activeUserService.activeUser.userID
           );
         }
-      }, 2000);
+      }, 1000);
     }
   }
 
@@ -99,7 +99,6 @@ export class AppComponent implements OnInit {
    * @param event The event object that triggered this function.
    */
   unloadHandler(event: Event) {
-
     this.firestoreService.updateUser(
       { active: false },
       this.activeUserService.activeUser.userID
