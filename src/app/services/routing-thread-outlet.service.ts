@@ -28,10 +28,12 @@ export class RoutingThreadOutletService {
    * navigates to the main messenger view after a 350ms delay.
    */
   closeThread() {
-    this.threadOpenDesktop = false;
-    this.router.navigate(['/messenger', { outlets: { thread: null } }], {
-      relativeTo: this.route.parent,
-    });
+    if (this.threadOpenDesktop) {
+      this.threadOpenDesktop = false;
+      this.router.navigate(['/messenger', { outlets: { thread: null } }], {
+        relativeTo: this.route.parent,
+      });
+    }
   }
 
   /**

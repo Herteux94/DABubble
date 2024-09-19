@@ -61,34 +61,13 @@ import {
       transition('void => *', [animate('300ms ease-out')]),
       transition('* => void', [animate('200ms ease-in')]),
     ]),
-    trigger('dialogAnimationFadeIn', [
-      state('void', style({ opacity: 0, transform: 'scale(0.3)' })),
+    trigger('mainContentAnimation', [
+      state('void', style({ opacity: 0, transform: 'scale(0.3)', width: '0' })),
       state('*', style({ opacity: 1, transform: 'scale(1)' })),
       transition('void => *', [animate('300ms ease-out')]),
       transition('* => void', [animate('200ms ease-in')]),
     ]),
   ],
-  // animations: [
-  //   trigger('threadAnimation', [
-  //     state(
-  //       'open',
-  //       style({
-  //         opacity: 1,
-  //         transform: 'scale(1) translateX(0)',
-  //         visibility: 'visible',
-  //       })
-  //     ),
-  //     state(
-  //       'closed',
-  //       style({
-  //         opacity: 0,
-  //         transform: 'scale(0.8) translateX(600px)',
-  //         visibility: 'hidden',
-  //       })
-  //     ),
-  //     transition('open <=> closed', [animate('250ms linear')]),
-  //   ]),
-  // ],
 })
 export class MainContentComponent implements OnInit {
   mobile!: boolean;
