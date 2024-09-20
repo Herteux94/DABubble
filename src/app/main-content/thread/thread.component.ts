@@ -6,7 +6,6 @@ import { ActiveChannelService } from '../../services/active-channel.service';
 import { ActiveThreadService } from '../../services/active-thread-service.service';
 import { ActivatedRoute } from '@angular/router';
 import { ActiveUserService } from '../../services/active-user.service';
-import { RoutingThreadOutletService } from '../../services/routing-thread-outlet.service';
 import { DateDividerComponent } from '../../shared/messengerSubComponents/date-divider/date-divider.component';
 
 @Component({
@@ -28,14 +27,12 @@ export class ThreadComponent implements OnInit {
    * @param activeChannelService Injected service to get the active channel.
    * @param activeThreadService Injected service to get the active thread.
    * @param activeUserService Injected service to get the active user.
-   * @param threadRoutingService Injected service to navigate to the thread view.
    * @param route Injected service to get the active route.
    */
   constructor(
     public activeChannelService: ActiveChannelService,
     public activeThreadService: ActiveThreadService,
     public activeUserService: ActiveUserService,
-    private threadRoutingService: RoutingThreadOutletService,
     private route: ActivatedRoute
   ) {}
 
