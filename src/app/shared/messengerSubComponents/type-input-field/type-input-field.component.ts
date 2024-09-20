@@ -104,7 +104,19 @@ export class TypeInputFieldComponent {
    * @param user The user to select.
    */
   selectUser(user: User): void {
-      this.searchQuery.set(`@${user.name}`);
+      this.searchQuery.set(`@${user.name} `);
+      this.focusTextarea();
+  }
+
+  /**
+   * Sets the focus to the text area after a short delay.
+   * This is necessary because the focus method is called after the DOM is updated.
+   * Without the delay, the focus would not be set.
+   */
+  private focusTextarea(): void {
+    setTimeout(() => {
+      this.messageInput.nativeElement.focus();
+    }, 0);  // Verwende setTimeout, um sicherzustellen, dass der Fokus nach dem DOM-Update gesetzt wird
   }
 
   /**
